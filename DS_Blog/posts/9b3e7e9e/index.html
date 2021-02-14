@@ -1,20 +1,6 @@
 
 <!DOCTYPE html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html class="theme-next mist use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
 <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
@@ -29,66 +15,17 @@ history.back();
 }
 })();
 </script>
-
-
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
-
-
-
-
-
-
-
-
-
+<link rel="stylesheet" href="/DS_Blog/lib/Han/dist/han.min.css?v=3.3">
+<link rel="stylesheet" href="/DS_Blog/lib/fancybox/source/jquery.fancybox.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
-
-
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
-
-
-<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
-
-
-<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
-
-
-<link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
-
-
-
-
-
-
+<link rel="stylesheet" href="/DS_Blog/css//main.css?v=7.1.2">
+<link rel="apple-touch-icon" sizes="180x180" href="/DS_Blog/images/apple-touch-icon-next.png?v=7.1.2">
+<link rel="icon" type="image/png" sizes="32x32" href="/DS_Blog/images/favicon-32x32-next.png?v=7.1.2">
+<link rel="icon" type="image/png" sizes="16x16" href="/DS_Blog/images/favicon-16x16-next.png?v=7.1.2">
+<link rel="mask-icon" href="/DS_Blog/images/logo.svg?v=7.1.2" color="#222">
 
 <script id="hexo.configurations">
 var NexT = window.NexT || {};
@@ -114,12 +51,6 @@ labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any
 };
 </script>
 
-
-
-
-
-
-
 <meta name="description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
 <meta name="keywords" content="Linear Regression,Logistic Regression,Regression">
 <meta property="og:type" content="article">
@@ -136,17 +67,9 @@ labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any
 <meta name="twitter:description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
 <meta name="twitter:image" content="https://kdsmel.github.io/posts/9b3e7e9e/sigmoid.png">
 
-
-
 <link rel="alternate" href="/atom.xml" title="Kamel's Notes" type="application/atom+xml">
 
-
-
-
-
 <link rel="canonical" href="https://kdsmel.github.io/posts/9b3e7e9e/">
-
-
 
 <script id="page.configurations">
 CONFIG.page = {
@@ -155,18 +78,6 @@ sidebar: "",
 </script>
 
 <title>CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models | Kamel's Notes</title>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <noscript>
 <style>
@@ -196,11 +107,6 @@ top: initial;
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="default">
-
-
-
-
-
 
 <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
 <div class="headband"></div>
@@ -234,76 +140,31 @@ top: initial;
 </div>
 </div>
 
-
-
 <nav class="site-nav">
 
 <ul id="menu" class="menu">
 
-
-
-
-
 <li class="menu-item menu-item-home">
-
-
-
-
-
-
-
 
 
 <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
 
 </li>
 
-
-
-
 <li class="menu-item menu-item-ml">
-
-
-
-
-
-
-
-
 
 <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
 
 </li>
 
-
-
-
 <li class="menu-item menu-item-big-data">
-
-
-
-
-
-
-
-
 
 <a href="/DS_Blog/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
 
 </li>
 
 
-
-
 <li class="menu-item menu-item-journal">
-
-
-
-
-
-
-
-
 
 <a href="/DS_Blog/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
 
@@ -313,26 +174,10 @@ top: initial;
 
 </ul>
 
-
-
-
-
-
-
-
 </nav>
-
-
-
-
-
-
 
 </div>
 </header>
-
-
-
 
 <main id="main" class="main">
 <div class="main-inner">
@@ -342,15 +187,6 @@ top: initial;
 
 
 <div id="posts" class="posts-expand">
-
-
-
-
-
-
-
-
-
 
 <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
 
@@ -384,29 +220,13 @@ top: initial;
 <div class="post-meta">
 <span class="post-time">
 
-
-
-
-
-
 <span class="post-meta-item-icon">
 <i class="fa fa-calendar-o"></i>
 </span>
 
 <span class="post-meta-item-text">Posted on</span>
 
-
-
-
-
-
 <time title="Created: 2019-10-20 16:50:20" itemprop="dateCreated datePublished" datetime="2019-10-20T16:50:20-05:00">2019-10-20</time>
-
-
-
-
-
-
 
 <span class="post-meta-divider">|</span>
 
@@ -435,35 +255,10 @@ top: initial;
 
 
 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/DS_Blog/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
-
-
-
-, 
-
-
 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/DS_Blog/categories/Machine-Learning/CS229/" itemprop="url" rel="index"><span itemprop="name">CS229</span></a></span>
-
-
-
-
 </span>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post-symbolscount">
-
-
-
 <span class="post-meta-item-icon">
 <i class="fa fa-file-word-o"></i>
 </span>
@@ -471,39 +266,17 @@ top: initial;
 <span class="post-meta-item-text">Symbols count in article: </span>
 
 <span title="Symbols count in article">21k</span>
-
-
-
 <span class="post-meta-divider">|</span>
-
-
-
 <span class="post-meta-item-icon">
 <i class="fa fa-clock-o"></i>
 </span>
-
 <span class="post-meta-item-text">Reading time &asymp;</span>
-
 <span title="Reading time">19 mins.</span>
 
 </div>
-
-
-
-
 </div>
 </header>
-
-
-
-
-
 <div class="post-body han-init-context" itemprop="articleBody">
-
-
-
-
-
 <p><strong>linear function</strong>: <span class="math inline">\(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\)</span></p>
 <p><strong>cost function</strong>: <span class="math inline">\(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)</span></p>
 <a id="more"></a>
@@ -819,27 +592,7 @@ h_\theta(x) = E[T(y)|x; θ]\\
 
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <footer class="post-footer">
-
-
-
-
 <div class="post-tags">
 
 <a href="/DS_Blog/tags/Linear-Regression/" rel="tag"># Linear Regression</a>
@@ -849,12 +602,6 @@ h_\theta(x) = E[T(y)|x; θ]\\
 <a href="/DS_Blog/tags/Regression/" rel="tag"># Regression</a>
 
 </div>
-
-
-
-
-
-
 
 <div class="post-nav">
 <div class="post-nav-next post-nav-item">
@@ -875,39 +622,17 @@ CS229 Note: Generative Learning <i class="fa fa-chevron-right"></i>
 
 </div>
 </div>
-
-
-
-
 </footer>
 </div>
-
-
-
 </article>
-
-
 </div>
-
-
 </div>
-
-
-
 <div class="comments" id="comments">
 
 <div id="gitment-container"></div>
 
 </div>
-
-
-
-
-
 </div>
-
-
-
 <div class="sidebar-toggle">
 <div class="sidebar-toggle-line-wrap">
 <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
@@ -918,10 +643,6 @@ CS229 Note: Generative Learning <i class="fa fa-chevron-right"></i>
 
 <aside id="sidebar" class="sidebar">
 <div class="sidebar-inner">
-
-
-
-
 <ul class="sidebar-nav motion-element">
 <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
 Table of Contents
@@ -952,33 +673,10 @@ Overview
 </a>
 </div>
 
-
-
-
-
 <div class="site-state-item site-state-categories">
 
 
 <a href="/DS_Blog/categories/">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <span class="site-state-item-count">8</span>
 <span class="site-state-item-name">categories</span>
@@ -993,77 +691,6 @@ Overview
 
 
 <a href="/DS_Blog/tags/">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <span class="site-state-item-count">34</span>
 <span class="site-state-item-name">tags</span>
@@ -1097,18 +724,6 @@ RSS
 </span>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
 </div>
 
@@ -1116,12 +731,6 @@ RSS
 <!--noindex-->
 <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
 <div class="post-toc">
-
-
-
-
-
-
 
 <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-regression"><span class="nav-number">1.</span> <span class="nav-text">Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#least-mean-square-algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Least Mean Square Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-normal-equations"><span class="nav-number">1.2.</span> <span class="nav-text">The normal equations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#matrix-derivatives"><span class="nav-number">1.2.1.</span> <span class="nav-text">Matrix derivatives</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#least-squares-revisited"><span class="nav-number">1.2.2.</span> <span class="nav-text">Least squares revisited</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#probabilistic-interpretation"><span class="nav-number">1.3.</span> <span class="nav-text">Probabilistic interpretation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locally-weighted-linear-regression"><span class="nav-number">1.4.</span> <span class="nav-text">Locally weighted linear regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#non-parametric-v.s.-parametric"><span class="nav-number">1.4.1.</span> <span class="nav-text">Non-parametric V.S. Parametric</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#logistic-regression"><span class="nav-number">2.</span> <span class="nav-text">Logistic regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#how-do-we-fit-θ-for-it"><span class="nav-number">2.1.</span> <span class="nav-text">How do we fit \(θ\) for it?**</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#digression-the-perceptron-learning-algorithm"><span class="nav-number">2.2.</span> <span class="nav-text">Digression: The perceptron learning algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fisher-scoring-algorithm-for-maximizing-ℓθ"><span class="nav-number">2.3.</span> <span class="nav-text">Fisher scoring algorithm for maximizing ℓ(θ)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#generalized-linear-models"><span class="nav-number">3.</span> <span class="nav-text">Generalized Linear Models</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#the-exponential-family"><span class="nav-number">3.1.</span> <span class="nav-text">The exponential family</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bernoulliphi"><span class="nav-number">3.1.1.</span> <span class="nav-text">Bernoulli(\(\phi\))</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gaussian-distribution-mathcalnmusigma2"><span class="nav-number">3.1.2.</span> <span class="nav-text">Gaussian distribution \(\mathcal{N}(\mu,\sigma^2)\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multinomial-distribution"><span class="nav-number">3.1.3.</span> <span class="nav-text">Multinomial distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#other-members-of-the-exponential-family"><span class="nav-number">3.1.4.</span> <span class="nav-text">Other Members of the Exponential Family</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#constructing-glms"><span class="nav-number">3.2.</span> <span class="nav-text">Constructing GLMs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ordinary-least-squares"><span class="nav-number">3.2.1.</span> <span class="nav-text">Ordinary Least Squares</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logistic-regression-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">Logistic Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#softmax-regression"><span class="nav-number">3.2.3.</span> <span class="nav-text">Softmax Regression</span></a></li></ol></li></ol></li></ol></div>
 
@@ -1204,60 +813,9 @@ if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
 window.Promise = null;
 }
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
-
-
-
-
-
-
 <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
 
@@ -1287,48 +845,16 @@ window.Promise = null;
 
 <script src="/lib/three/canvas_sphere.min.js"></script>
 
-
-
-
-
 <script src="/js/utils.js?v=7.1.2"></script>
 
 <script src="/js/motion.js?v=7.1.2"></script>
 
-
-
-
-
-
-
 <script src="/js/schemes/muse.js?v=7.1.2"></script>
-
-
-
-
 
 <script src="/js/scrollspy.js?v=7.1.2"></script>
 <script src="/js/post-details.js?v=7.1.2"></script>
 
-
-
-
-
-
 <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- LOCAL: You can save these files to your site and update links -->
 
 
@@ -1360,29 +886,6 @@ gitment.render('gitment-container');
 renderGitment();
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script type="text/x-mathjax-config">
 
 
@@ -1436,35 +939,7 @@ all[i].SourceElement().parentNode.className += ' has-jax';
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
 
 <script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
-
