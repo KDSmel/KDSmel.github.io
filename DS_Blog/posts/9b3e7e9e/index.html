@@ -647,7 +647,50 @@ h_\theta(x) = E[T(y)|x; θ]\\
   <script src="/DS_Blog/js/utils.js?v=7.1.2"></script>
   <script src="/DS_Blog/js/motion.js?v=7.1.2"></script>
   <script src="/DS_Blog/js/schemes/muse.js?v=7.1.2"></script>
-  <script src="/DS_Blog/js/next-boot.js?v=7.1.2"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  <script src="/DS_Blog/js/next-boot.js?v=7.1.2"></script>
+
+
+####################################################################################
+####################################################################################
+####################################################################################
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -665,9 +708,9 @@ h_\theta(x) = E[T(y)|x; θ]\\
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
 </body>
 </html>
 
-<script type="text/javascript" src="/DS_Blog/js/src/dynamic_bg.js"></script>
         
   
