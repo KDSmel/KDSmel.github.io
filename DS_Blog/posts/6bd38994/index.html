@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Learning Theory 1. Describe bias and variance with examples. Variance: refers to the amount by which \(\hat{f}\) would change if we estimated it using a different training data set. more flexible stat">
+<meta name="keywords" content="Interview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning Q&amp;A Part I: Learning Theory &amp; Model Selection">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/6bd38994/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Learning Theory 1. Describe bias and variance with examples. Variance: refers to the amount by which \(\hat{f}\) would change if we estimated it using a different training data set. more flexible stat">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6bd38994/2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6bd38994/1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6bd38994/3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6bd38994/5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6bd38994/6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6bd38994/7.png">
+<meta property="og:updated_time" content="2019-10-19T23:13:38.877Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Machine Learning Q&amp;A Part I: Learning Theory &amp; Model Selection">
+<meta name="twitter:description" content="Learning Theory 1. Describe bias and variance with examples. Variance: refers to the amount by which \(\hat{f}\) would change if we estimated it using a different training data set. more flexible stat">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/6bd38994/2.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/6bd38994/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Machine Learning Q&A Part I: Learning Theory & Model Selection | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/6bd38994/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Machine Learning Q&A Part I: Learning Theory & Model Selection
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-14 22:57:50" itemprop="dateCreated datePublished" datetime="2019-06-14T22:57:50-05:00">2019-06-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-10-19 18:13:38" itemprop="dateModified" datetime="2019-10-19T18:13:38-05:00">2019-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">21k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">19 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="learning-theory">Learning Theory</h2>
+<h3 id="describe-bias-and-variance-with-examples.">1. Describe bias and variance with examples.</h3>
+<p><strong><em>Variance</em></strong>: refers to the amount by which <span class="math inline">\(\hat{f}\)</span> would change if we estimated it using a different training data set. <strong><em>more flexible statistical methods have higher variance</em></strong></p>
+<ul>
+<li>Explanation: different training data sets will result in a different <span class="math inline">\(\hat{f}\)</span>. But ideally the estimate for f should not vary too much between training sets. However, if a method has high variance then small changes in the training data can result in large changes in <span class="math inline">\(\hat{f}\)</span></li>
+</ul>
+<p><strong><em>Bias</em></strong>: refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model.</p>
+<ul>
+<li>Explanation: As we increase the flexibility of a class of methods, the bias tends to initially decrease faster than the variance increases. Consequently, the expected test MSE declines. However, at some point increasing flexibility has little impact on the bias but starts to significantly increase the variance. When this happens the test MSE increases.</li>
+</ul>
+<p><strong><em>Decomposition</em></strong>：The expected test MSE, for a given value <span class="math inline">\(x_0\)</span> can always be decomposed into the sum of three fundamental quantities: <strong>the variance of <span class="math inline">\(\hat{f}(x_0)\)</span>, the squared bias of <span class="math inline">\(\hat{f}(x_0)\)</span>, and the variance of the error variance terms <span class="math inline">\(\epsilon\)</span>.</strong> <span class="math display">\[
+\begin{align}
+E(y_0-\hat{f}(x_0))^2=Var(\hat{f}(x_0))+[Bias(\hat{f}(x_0))]^2+Var(\epsilon)
+\end{align}
+\]</span> The overall expected test MSE can be computed by averaging <span class="math inline">\(E(y_0-\hat{f}(x_0))^2\)</span> over all possible values of <span class="math inline">\(x_0\)</span> in the test set.</p>
+<a id="more"></a>
+<p><img src="./2.png" width="600"></p>
+<h3 id="what-is-empirical-risk-minimization">2. What is Empirical Risk Minimization?</h3>
+<p><strong><em>ERM</em></strong>: the function that minimizes loss on the training set.</p>
+<p>In many machine learning task, we have data <span class="math inline">\(Z\)</span> from some distribution <span class="math inline">\(p\)</span> and the task is to minimize the risk: <span class="math display">\[
+R_(f)=E_{Z \sim p}[loss(f(Z),Z)]
+\]</span> <strong>Loss function</strong>: In classification <span class="math inline">\(Z = (X, Y )\)</span> and we use 0/1 loss <span class="math inline">\(loss(f(Z), Z) = I_{f(X) \neq Y}\)</span> , in regression $Z = (X, Y ) $and we use squared error <span class="math inline">\(loss(f(Z), Z) = (f(X) − Y )^2\)</span> and in density estimation <span class="math inline">\(Z = X\)</span> and we use negative log likelihood loss <span class="math inline">\(loss(f(Z), Z) = − \log f(X)\)</span>. We are interested in finding the optimal predictor <span class="math display">\[
+f^*=\arg\min_f R(f)
+\]</span> In practice, we compute the empirical risk: <span class="math display">\[
+\hat{R}(f)=\frac{1}{n} \sum_{i=1}^n loss(f(X_i),Y_I)
+\]</span> We choose the <span class="math inline">\(\hat{f}\)</span> that minimizes the empirical risk over some class <span class="math inline">\(F\)</span>, such as parametric models, histogram classifiers, decision trees or linear/polynomial functions, etc. <span class="math display">\[
+\hat{f}^{ERM}=\arg \min_{f \in F} \hat{R}(f)
+\]</span></p>
+<h3 id="write-the-formulae-for-training-error-and-generalization-error.-point-out-the-differences.">3. Write the formulae for training error and generalization error. Point out the differences.</h3>
+<p><strong><em>Generalization error</em></strong> is defined as the expected value of the error on a new input. Here the expectation is taken across different possible inputs, drawn from the distribution of inputs we expect the system to encounter in practice. [DL Book]</p>
+<p><strong><em>Training error:</em></strong> when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error.</p>
+<p>In our linear regression example, we trained the model by minimizing the <em>training error</em>: <span class="math display">\[
+\frac{1}{m^{(train)}}||\mathbf{X}^{(train)}\mathbf{w}-\mathbf{y}^{(train)}||^2_2
+\]</span> but we actually care about the <em>test error</em>: <span class="math display">\[
+\frac{1}{m^{(test)}}||\mathbf{X}^{(test)}\mathbf{w}-\mathbf{y}^{(test)}||^2_2
+\]</span> <strong>Error v.s. Loss v.s. Risk</strong>:</p>
+<p><strong><em>Error</em></strong> is the difference between the actual / true value (𝜃) and the predicted / estimated value (𝜃̂ ) <span class="math display">\[
+Error=\theta-\hat{\theta}
+\]</span> <strong><em>Loss (𝐿)</em></strong> is a measurement of how well our model perform against your <strong>training data</strong>.</p>
+<ul>
+<li><p><strong>Regression Losses</strong></p>
+<ul>
+<li><strong>Mean Square Error/Quadratic Loss/L2 Loss</strong></li>
+</ul>
+<p><span class="math display">\[
+MSE=\frac{\sum_{i=1}^n(y_i-\hat{y}_i)^2}{n}
+\]</span></p>
+<ul>
+<li><strong>Mean Absolute Error/L1 Loss</strong></li>
+</ul>
+<p><span class="math display">\[
+MAE=\frac{\sum_{i=1}^n|y_i-\hat{y}_i|}{n}
+\]</span></p>
+<ul>
+<li><strong>Mean Bias Error</strong> <span class="math display">\[
+MBE=\frac{\sum_{i=1}^n(y_i-\hat{y}_i)}{n}
+\]</span></li>
+</ul></li>
+<li><p><strong>Classification Losses</strong></p>
+<ul>
+<li><strong>Hinge Loss/Multi class SVM Loss</strong> <span class="math display">\[
+SVM Loss=\sum_{j \neq y_i} \max(0,s_j-s_{y_i}+1) \\
+L(\mathbf{X},\mathbf{y},\beta)=\sum_{i=1}^n \max[0,1-y_i(\beta_0+\beta_1x_{i1}+,,,+\beta_px_{ip})]
+\]</span></li>
+</ul></li>
+<li><p><strong>Cross Entropy Loss/Negative Log Likelihood</strong></p></li>
+</ul>
+<p><span class="math display">\[
+CrossEntropyLoss=-\left[y_i\log(\hat{y_i})+(1-y_i)\log (1-y_i)\right]
+\]</span></p>
+<p><strong><em>Risk</em></strong> is the average measure of loss, or expected loss, across your whole data distribution. <span class="math display">\[
+R(\theta,\hat{\theta})=E(L(\theta,\hat{\theta}))
+\]</span></p>
+<p><strong><em>Empirical Risk:</em></strong> when we train our model, we do not have the full distribution of the data. This may be because some of our data is used for validation and testing, or that new data points are produced in real-time. The best we can do is to pick our training data in a random way and assume that our training data is representative of the real data.</p>
+<p>Therefore, because we don't have all the data, the best we can do is to minimize the empirical risk, from data that we do have (our training data), and use regularization techniques to generalize (i.e. avoid overfitting). This is why minimizing loss and minimizing empirical risk are roughly the same thing.</p>
+<h3 id="what-is-the-bias-variance-trade-off-theorem">4. What is the bias-variance trade-off theorem?</h3>
+<p><strong><em>Bias-variance trade-off</em></strong>: If our model is too simple and has very few parameters then it may have <strong>high bias and low variance</strong>. On the other hand if our model has large number of parameters then it’s going to have <strong>high variance and low bias</strong>. So we need to find the right/good balance without overfitting and underfitting the data.</p>
+<p><img src="./1.png" width="600"></p>
+<p><em>Bias and variance using bulls-eye diagram:</em></p>
+<p><img src="./3.png" width="300"></p>
+<p><strong><em>Underfitting</em></strong> happens when a model unable to capture the underlying pattern of the data <span class="math inline">\(\Rightarrow\)</span> high bias, low variance.</p>
+<p><strong><em>Overfitting</em></strong> happens when our model captures the noise along with the underlying pattern in data. It happens when we train our model a lot over noisy dataset <span class="math inline">\(\Rightarrow\)</span> low bias and high variance.</p>
+<p><img src="./5.png" width="600"></p>
+<h3 id="what-is-the-vc-dimension">5. What is the VC dimension?</h3>
+<p>State the uniform convergence theorem and derive it.</p>
+<p>What is sample complexity bound of uniform convergence theorem?</p>
+<p>What is error bound of uniform convergence theorem?</p>
+<p>From the bias-variance trade-off, can you derive the bound on training set size?What does the training set size depend on for a finite and infinite hypothesis set? Compare and contrast.What is the VC dimension for an n-dimensional linear classifier?How is the VC dimension of a SVM bounded although it is projected to an infinite dimension?Considering that Empirical Risk Minimization is a NP-hard problem, how does logistic regression and SVM loss work?</p>
+<h2 id="model-and-feature-selection">Model and feature selection</h2>
+<h3 id="why-are-model-selection-methods-needed">1. Why are model selection methods needed?</h3>
+<ul>
+<li><p><strong><em>Model Interpretability</em></strong>：Irrelevant variables leads to unnecessary complexity in the resulting model. By removing these variables—that is, by setting the corresponding coefficient estimates to zero—we can obtain a model that is more easily interpreted.</p></li>
+<li>We want to estimate the generalization performance, the predictive performance of our model on future (unseen) data.</li>
+<li>We want to increase the Prediction Accuracy by tweaking the learning algorithm and selecting the best performing model from a given hypothesis space.</li>
+<li>We want to identify the machine learning algorithm that is best-suited for the problem at hand; thus, we want to compare different algorithms, selecting the best-performing one as well as the best performing model from the algorithm’s hypothesis space.</li>
+<li>Fast (to train and test)</li>
+<li><p>Scalable (it can be applied to a large dataset)</p></li>
+</ul>
+<p>The idea of model selection method is intuitive. It answers the following question:</p>
+<blockquote>
+<p><strong><em>How to select the right input variables for an optimal model?</em></strong></p>
+</blockquote>
+<p><strong>An Optimal model is a model that fits the data with best values for the evaluation metrics.</strong></p>
+<p>(Feature selection simplifies a machine learning problem by choosing which subset of the available features should be used.)</p>
+<h3 id="how-do-you-do-a-trade-off-between-bias-and-variance">2. How do you do a trade-off between bias and variance?</h3>
+<p><strong>Shrinkage methods:</strong> By <strong>constraining</strong> or <strong>shrinking</strong> the estimated coefficients, we can often substantially reduce the variance at the cost of a negligible increase in bias.</p>
+<p><strong>Bagging</strong> and other <strong>resampling techniques</strong> can be used to reduce the variance in model predictions.</p>
+<h3 id="why-is-cross-validation-required">3. Why is cross-validation required?</h3>
+<p><strong>Cross-validation</strong>: can be used to estimate the test error associated with a given statistical learning method in order to evaluate its performance, or to select the appropriate level of flexibility.</p>
+<p>Cross Validation is <strong>a very useful technique for assessing the effectiveness of your model, particularly in cases where you need to mitigate overfitting.</strong> You need some kind of <strong>assurance that your model has got most of the patterns from the data correct, and its not picking up too much on the noise, or in other words its low on bias and variance.</strong></p>
+<p>Evaluation of residuals only gives us an idea about how well our model does on data used to train it. So, the problem with this evaluation technique is that <strong>it does not give an indication of how well the learner will generalize to an independent/ unseen data set.</strong> Getting this idea about our model is known as Cross Validation.</p>
+<p>It is <strong>also of use in determining the hyper parameters of your model</strong>, in the sense that which parameters will result in lowest test error.</p>
+<h3 id="describe-different-cross-validation-techniques.">4. Describe different cross-validation techniques.</h3>
+<h4 id="what-is-hold-out-cross-validation-what-are-its-advantages-and-disadvantages">What is hold-out cross validation? What are its advantages and disadvantages?</h4>
+<p><strong>Hold-out cross validation</strong>:</p>
+<ol type="1">
+<li>Randomly dividing the available set of observations into two parts, a <strong>training set</strong> and a <strong>validation set</strong> or hold-out set.</li>
+<li>The model is fit on the training set, and the fitted model is used to predict the responses for the observations in the validation set.</li>
+<li>The resulting validation set error rate—typically assessed using MSE in the case of a quantitative response—provides an estimate of the test error rate.</li>
+</ol>
+<p><strong>Advantage</strong>: this method doesn’t take any overhead to compute and is better than traditional validation</p>
+<p><strong>Disadvantage</strong>:</p>
+<ul>
+<li><strong>High variance</strong>: because it is not certain which data points will end up in the validation set and the result might be entirely different for different sets.</li>
+<li>Removing a part of it for validation poses a problem of <strong>underfitting</strong></li>
+</ul>
+<h4 id="what-is-k-fold-cross-validation-what-are-its-advantages-and-disadvantages">What is k-fold cross validation? What are its advantages and disadvantages?</h4>
+<p><strong>K-fold cross validation</strong>:</p>
+<ol type="1">
+<li>Randomly k-fold CV dividing the set of observations into k groups, or folds, of approximately equal size.</li>
+<li>The first fold is treated as a validation set, and the method is fit on the remaining k − 1 folds.</li>
+<li>The mean squared error, MSE1, is then computed on the observations in the held-out fold. This procedure is repeated k times; each time, a different group of observations is treated as a validation set.</li>
+<li>This process results in k estimates of the test error, MSE1,MSE2, . . . ,MSEk.</li>
+<li>The k-fold CV estimate is computed by averaging these values,</li>
+</ol>
+<p><span class="math display">\[
+\begin{align}
+CV_{(k)}=\frac{1}{k}\sum_{i=1}^kMSE_i
+\end{align}
+\]</span></p>
+<p><strong>Advantage</strong>: significantly <strong><em>reduces bias</em></strong> as we are using most of the data for fitting, and also significantly <strong><em>reduces variance</em></strong> as most of the data is also being used in validation set.</p>
+<p><strong>Disadvantage</strong>: the training algorithm has to be rerun from scratch <em>k</em> times, which means it takes <em>k</em> times as much computation to make an evaluation.</p>
+<h4 id="what-is-leave-one-out-cross-validation-what-are-its-advantages-and-disadvantages">What is leave-one-out cross validation? What are its advantages and disadvantages?</h4>
+<p><strong>Leave-one-out cross validation</strong>: leaves 1 data points out of training data as validation set. The statistical learning method is fit on the n − 1 training observations, and a prediction <span class="math inline">\(y_1\)</span> is made for the excluded observation, using its value <span class="math inline">\(x_1\)</span>. and then the error is averaged for all trials, to give overall effectiveness.</p>
+<p>Since $ (x_1, y_1)$ was not used in the fitting process, <span class="math inline">\(MSE_1 =(y_1 − \hat{y}_1)^2\)</span> provides an approximately <strong><em>unbiased</em></strong> estimate for the test error.But even though <span class="math inline">\(MSE_1\)</span> is unbiased for the test error, it is a poor estimate because it is <strong><em>highly variable</em></strong>, since it is based upon a single observation $ (x_1, y_1)$.</p>
+<p><strong>Advantages and disadvantages</strong>:</p>
+<ul>
+<li><p>k-Fold more biased than LOOCV; k-Fold less variance than LOOCV</p></li>
+<li>When we perform LOOCV, we are in effect averaging the outputs of n fitted models, each of which is trained on an almost identical set of observations; therefore, these outputs are highly (positively) correlated with each other.</li>
+<li><p>very expensive to compute</p></li>
+</ul>
+<h3 id="why-is-feature-selection-required">5. Why is feature selection required?</h3>
+<ul>
+<li><p><strong>Reduces Overfitting</strong>: Less redundant data means less opportunity to make decisions based on noise.</p></li>
+<li><p><strong>Improves Accuracy:</strong> Less misleading data means modeling accuracy improves.</p></li>
+<li><p><strong>Reduces Training Time</strong>: fewer data points reduce algorithm complexity and algorithms train faster.</p></li>
+</ul>
+<h3 id="describe-some-feature-selection-methods.">6. Describe some feature selection methods.</h3>
+<ul>
+<li><strong>Filter Methods:</strong> apply a statistical measure to assign a scoring to each feature. The features are ranked by the score and either selected to be kept or removed from the dataset.
+<ul>
+<li>distance metrics, correlation, mutual information, and consistency metrics</li>
+</ul></li>
+<li><strong>Wrapper Methods:</strong> consider the selection of a set of features as a search problem, where different combinations are prepared, evaluated and compared to other combinations. A predictive model is used to evaluate a combination of features and assign a score based on model accuracy.
+<ul>
+<li>Best Subset, forward and backward, recursive feature elimination</li>
+</ul></li>
+<li><strong>Embedded Methods:</strong> learn which features best contribute to the accuracy of the model while the model is being created.
+<ul>
+<li>regularization methods: LASSO, Elastic Net and Ridge Regression</li>
+</ul></li>
+</ul>
+<h3 id="what-is-forward-feature-selection-method-what-are-its-advantages-and-disadvantages">7. What is forward feature selection method? What are its advantages and disadvantages?</h3>
+<p><strong>Forward stepwise selection</strong> starts with the intercept, and then sequentially adds into the model the predictor that most improves the ﬁt.</p>
+<p><strong>Advantages and Disadvantages</strong>:</p>
+<ul>
+<li><strong>Computational</strong>: for large p we cannot compute the best subset sequence, but we can always compute the forward stepwise sequence</li>
+<li><strong>Statistical</strong>: a price is paid in variance for selecting the best subset of each size; forward stepwise is a more constrained search, and will have lower variance, but perhaps more bias</li>
+</ul>
+<p><img src="./6.png" width="600"></p>
+<h3 id="what-is-backward-feature-selection-method-what-are-its-advantages-and-disadvantages">8. What is backward feature selection method? What are its advantages and disadvantages?</h3>
+<p><strong>Backward-stepwise selection</strong> starts with the full model, and sequentially deletes the predictor that has the least impact on the ﬁt. The candidate for dropping is the variable with the smallest Z-score</p>
+<p><strong>Advantages and Disadvantages</strong>:</p>
+<ul>
+<li><p>Backward-stepwise selection can only be used when N&gt;p, while forward stepwise can always be used.</p></li>
+<li><p>Like forward stepwise selection, backward stepwise selection is not guaranteed to yield the best model containing a subset of the p predictors.</p></li>
+</ul>
+<p><img src="./7.png" width="600"></p>
+<h3 id="what-is-filter-feature-selection-method-and-describe-two-of-them">9. What is filter feature selection method and describe two of them?</h3>
+<p><strong>Filter Methods:</strong> apply a statistical measure to assign a scoring to each feature. The features are ranked by the score and either selected to be kept or removed from the dataset.</p>
+<ul>
+<li><p><a href="http://nlp.stanford.edu/IR-book/html/htmledition/feature-selectionchi2-feature-selection-1.html" target="_blank" rel="noopener"><strong>Chi-squared</strong></a> <em>:</em>Chi-square test is used for categorical features in a dataset. We calculate Chi-square between each feature and the target and select the desired number of features with best Chi-square scores. to evaluate how likely it is that any observed difference between the sets arose by chance or if the association between two categorical variables of the sample would reflect their real association in the population.</p></li>
+<li><p><a href="http://www.ime.unicamp.br/~wanderson/Artigos/correlation_based_feature_selection.pdf" target="_blank" rel="noopener"><strong>Correlation</strong></a> <strong>:</strong> The Correlation Feature Selection (CFS) measure evaluates subsets of features on the basis of the following hypothesis: &quot;Good feature subsets contain features highly correlated with the classification, yet uncorrelated to each other</p></li>
+<li><p><a href="https://hal.archives-ouvertes.fr/hal-00617969/document" target="_blank" rel="noopener"><strong>Entropy</strong></a> <strong>:</strong> Entropy measures the amount of information in a random variable; it’s the average length of the message needed to transmit an outcome of that variable using the optimal code.</p>
+<ul>
+<li><p><strong>Information content</strong>: <span class="math inline">\(I(E)=-\log [\Pr(E)]=-\log (P)\)</span></p></li>
+<li><p>Define the <strong>entropy</strong> as the expected value of information: <span class="math display">\[
+H(X)=E[I(X)]=E[-\log (P(X))]=-\sum_{i=1}^nP(x_i)\log (P(x_i))
+\]</span></p></li>
+</ul></li>
+<li><p><a href="http://www.saedsayad.com/oner.htm" target="_blank" rel="noopener"><strong>One-attribute-rule(OneR)</strong></a> <strong>:</strong> The idea of the OneR (one-attribute-rule) algorithm is to find the one attribute to use that makes fewest prediction errors.</p></li>
+</ul>
+<h3 id="what-is-cross-entropy-and-kl-divergencedescribe-kl-divergence-intuitively.">10. What is Cross Entropy and KL divergence?Describe KL divergence intuitively.</h3>
+<p><strong>Cross entropy</strong> is, at its core, a way of measuring the “distance” between two probability distributions P and Q. As you observed, <strong>entropy</strong> on its own is just a measure of a single probability distribution. As such, if we are trying to find a way to model a <strong>true probability distribution, P,</strong> using, say, a neural network to produce an <strong>approximate probability distribution Q</strong>, then there is the need for some sort of distance or difference measure which can be minimized.</p>
+<p><strong>Cross entropy function</strong>: <span class="math display">\[
+H(p,q)=H(p)+D_{KL}(p||q)
+\]</span></p>
+<ul>
+<li>The first term, the <strong>entropy</strong> of the true probability distribution <em>p</em>, during optimization is <strong><em>fixed</em></strong> – it reduces to an additive constant during optimization.</li>
+<li>Only the parameters of the second, approximation distribution, <em>q</em> that can be varied during optimization – and hence <em>the core of the cross entropy measure</em> of distance is the <strong>KL divergence</strong> function.</li>
+</ul>
+<p><strong>KL divergence</strong> is an expression of “surprise” – under the assumption that <em>P</em> and <em>Q</em> are <em>close,</em> it is <em>surprising</em> if it turns out that they are NOT CLOSE, hence in those cases the KL divergence will be high. If they are CLOSE together, then the KL divergence will be low.</p>
+<p><strong>KL divergence</strong> is the i<em>nformation gained</em> when we move from a prior distribution <em>Q</em> to a posterior distribution <em>P</em>.</p>
+<p><strong>Derivation of KL divergence</strong>:</p>
+<p>The expression for KL divergence can also be derived by using a likelihood ratio approach.</p>
+<p><strong>The likelihood ratio</strong> <span class="math display">\[
+LR=\frac{p(x)}{q(x)}
+\]</span></p>
+<ul>
+<li><strong>Interpretation</strong>: if a value x is sampled from some unknown distribution, the likelihood ratio expresses how much more likely the sample has come from distribution p than from distribution q. If it is more likely from p, the LR &gt; 1, otherwise if it is more likely from q, the LR &lt; 1.</li>
+</ul>
+<p>Let’s say we have lots of independent samples and we want to estimate the likelihood function taking into account all this evidence – it then becomes: <span class="math display">\[
+LR=\prod_{i=1}^n\frac{p(x_i)}{q(x_i)}
+\]</span> If we convert the ratio to <span class="math inline">\(log\)</span>, it’s possible to turn the product in the above definition to a summation: <span class="math display">\[
+LR=\sum_{i=1}^n\log \frac{p(x_i)}{q(x_i)}
+\]</span> So now we have the likelihood ratio as a <em>summation</em>. Let’s say we want to answer the question of how much, on average, each sample gives evidence of <span class="math inline">\(p(x)\)</span> over <span class="math inline">\(q(x)\)</span> . To do this, we can take the <em>expected value</em> of the likelihood ratio and arrive at: <span class="math display">\[
+D_{KL}(P||Q)=\sum_{i=1}^n p(x_i)\log \frac{p(x_i)}{q(x_i)}
+\]</span> The expression above is the definition of KL divergence. It is basically the expected value of the likelihood ratio – where the likelihood ratio expresses how much more likely the sampled data is from distribution P instead of distribution Q. Another way of expressing the above definition is as follows (using log rules): <span class="math display">\[
+D_{KL}(P||Q)=\sum_{i=1}^n p(x_i)\log p(x_i)-\sum_{i=1}^n p(x_i)\log q(x_i)
+\]</span></p>
+<ul>
+<li>The first term in the above equation is the <strong><em>entropy</em></strong> of the distribution P. As you can recall it is the expected value of the <strong><em>information content</em></strong> of P.</li>
+<li>The second term is the information content of Q, but instead weighted by the distribution P.</li>
+<li>This yields the <em>interpretation of the KL divergence</em> to be something like the following: if P is the “true” distribution, then the KL divergence is the amount of <strong>information “lost”</strong> when expressing it via Q.</li>
+</ul>
+<p><strong>Cross entropy</strong>: <span class="math display">\[
+\begin{align}
+H(p,q)&amp; =H(p)+D_{KL}(p||q) \\
+&amp;= -\sum_{i=1}^nP(x_i)\log (P(x_i))+\sum_{i=1}^n p(x_i)\log p(x_i)-\sum_{i=1}^n p(x_i)\log q(x_i) \\
+&amp;= -\sum_{i=1}^n p(x_i)\log q(x_i)
+\end{align}
+\]</span></p>
+<blockquote>
+<p>From DL Book</p>
+</blockquote>
+<p>If we have two separate probability distributions <span class="math inline">\(P(x)\)</span> and <span class="math inline">\(Q(x)\)</span> over the same random variable <span class="math inline">\(x\)</span>, we can measure how different these two distributions are using the <strong>Kullback-Leibler (KL) divergence</strong>: <span class="math display">\[
+D_{KL}(P||Q)=E_{x \sim P}[\log \frac{P(x)}{Q(x)}]=E_{x \sim P}[\log P(x)- \log Q(x)]
+\]</span> The <strong>KL divergence</strong> has many useful properties</p>
+<ul>
+<li><strong>Nonnegative</strong>. The KL divergence is 0 if and only if P and Q are the same distribution in the case of discrete variables, or equal “almost everywhere” in the case of continuous variables.</li>
+<li><strong>Asymmetric</strong>: <span class="math inline">\(D_{KL}(P||Q) \neq D_{KL}(Q||P)\)</span>, this asymmetry means that there are important consequences to the choice of whether to use $D_{KL}(P||Q) $ or <span class="math inline">\(D_{KL}(Q||P)\)</span>.</li>
+</ul>
+<p><strong><em>Cross-entropy:</em></strong> $H(P, Q) = H(P) +D_{KL}(P||Q) $ <span class="math display">\[
+H(P,Q)=-E_{x \sim P} \log Q(x)
+\]</span> Minimizing the <strong>cross-entropy</strong> with respect to <span class="math inline">\(Q\)</span> is equivalent to minimizing the <strong>KL divergenc</strong>e, because <span class="math inline">\(Q\)</span> does not participate in the omitted term.</p>
+<p><strong>Ref:</strong></p>
+<p><a href="https://github.com/Sroy20/machine-learning-interview-questions" target="_blank" rel="noopener">machine-learning-interview-questions</a></p>
+<p><a href="https://towardsdatascience.com/common-loss-functions-in-machine-learning-46af0ffc4d23" target="_blank" rel="noopener">Common Loss functions in machine learning</a></p>
+<p><a href="https://datascience.stackexchange.com/questions/35928/whats-the-difference-between-error-risk-and-loss" target="_blank" rel="noopener">What's the difference between Error, Risk and Loss?</a></p>
+<p><a href="https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229" target="_blank" rel="noopener">Understanding the Bias-Variance Tradeoff</a></p>
+<p><a href="https://adventuresinmachinelearning.com/cross-entropy-kl-divergence/" target="_blank" rel="noopener">An introduction to entropy, cross entropy and KL divergence in machine learning</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Interview/" rel="tag"># Interview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/bc53b72b/" rel="next" title="Study Note: SVM">
+                <i class="fa fa-chevron-left"></i> Study Note: SVM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/a2f8a358/" rel="prev" title="Machine Learning Q&A Part II: COD, Reg, Model Evaluation, Dimensionality Reduction">
+                Machine Learning Q&A Part II: COD, Reg, Model Evaluation, Dimensionality Reduction <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-theory"><span class="nav-number">1.</span> <span class="nav-text">Learning Theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#describe-bias-and-variance-with-examples."><span class="nav-number">1.1.</span> <span class="nav-text">1. Describe bias and variance with examples.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-empirical-risk-minimization"><span class="nav-number">1.2.</span> <span class="nav-text">2. What is Empirical Risk Minimization?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#write-the-formulae-for-training-error-and-generalization-error.-point-out-the-differences."><span class="nav-number">1.3.</span> <span class="nav-text">3. Write the formulae for training error and generalization error. Point out the differences.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-the-bias-variance-trade-off-theorem"><span class="nav-number">1.4.</span> <span class="nav-text">4. What is the bias-variance trade-off theorem?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-the-vc-dimension"><span class="nav-number">1.5.</span> <span class="nav-text">5. What is the VC dimension?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model-and-feature-selection"><span class="nav-number">2.</span> <span class="nav-text">Model and feature selection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#why-are-model-selection-methods-needed"><span class="nav-number">2.1.</span> <span class="nav-text">1. Why are model selection methods needed?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how-do-you-do-a-trade-off-between-bias-and-variance"><span class="nav-number">2.2.</span> <span class="nav-text">2. How do you do a trade-off between bias and variance?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-is-cross-validation-required"><span class="nav-number">2.3.</span> <span class="nav-text">3. Why is cross-validation required?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#describe-different-cross-validation-techniques."><span class="nav-number">2.4.</span> <span class="nav-text">4. Describe different cross-validation techniques.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#what-is-hold-out-cross-validation-what-are-its-advantages-and-disadvantages"><span class="nav-number">2.4.1.</span> <span class="nav-text">What is hold-out cross validation? What are its advantages and disadvantages?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#what-is-k-fold-cross-validation-what-are-its-advantages-and-disadvantages"><span class="nav-number">2.4.2.</span> <span class="nav-text">What is k-fold cross validation? What are its advantages and disadvantages?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#what-is-leave-one-out-cross-validation-what-are-its-advantages-and-disadvantages"><span class="nav-number">2.4.3.</span> <span class="nav-text">What is leave-one-out cross validation? What are its advantages and disadvantages?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-is-feature-selection-required"><span class="nav-number">2.5.</span> <span class="nav-text">5. Why is feature selection required?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#describe-some-feature-selection-methods."><span class="nav-number">2.6.</span> <span class="nav-text">6. Describe some feature selection methods.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-forward-feature-selection-method-what-are-its-advantages-and-disadvantages"><span class="nav-number">2.7.</span> <span class="nav-text">7. What is forward feature selection method? What are its advantages and disadvantages?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-backward-feature-selection-method-what-are-its-advantages-and-disadvantages"><span class="nav-number">2.8.</span> <span class="nav-text">8. What is backward feature selection method? What are its advantages and disadvantages?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-filter-feature-selection-method-and-describe-two-of-them"><span class="nav-number">2.9.</span> <span class="nav-text">9. What is filter feature selection method and describe two of them?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-cross-entropy-and-kl-divergencedescribe-kl-divergence-intuitively."><span class="nav-number">2.10.</span> <span class="nav-text">10. What is Cross Entropy and KL divergence?Describe KL divergence intuitively.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

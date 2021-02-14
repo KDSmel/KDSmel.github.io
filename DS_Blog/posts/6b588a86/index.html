@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Introduction to Descision Tree Regression Trees Predicting Baseball Players’ Salaries Using Regression Trees Terminal nodes: The regions R1, R2, and R3 are known as terminal nodes or leaves of the tre">
+<meta name="keywords" content="Trees">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Decision Trees, Random Forest, and Boosting">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/6b588a86/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Introduction to Descision Tree Regression Trees Predicting Baseball Players’ Salaries Using Regression Trees Terminal nodes: The regions R1, R2, and R3 are known as terminal nodes or leaves of the tre">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/11.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6b588a86/12.png">
+<meta property="og:updated_time" content="2019-10-19T23:20:48.887Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Decision Trees, Random Forest, and Boosting">
+<meta name="twitter:description" content="Introduction to Descision Tree Regression Trees Predicting Baseball Players’ Salaries Using Regression Trees Terminal nodes: The regions R1, R2, and R3 are known as terminal nodes or leaves of the tre">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/6b588a86/2.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/6b588a86/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Decision Trees, Random Forest, and Boosting | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/6b588a86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Decision Trees, Random Forest, and Boosting
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-19 18:02:53 / Modified: 18:20:48" itemprop="dateCreated datePublished" datetime="2019-10-19T18:02:53-05:00">2019-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">17k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">15 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="introduction-to-descision-tree">Introduction to Descision Tree</h1>
+<h2 id="regression-trees">Regression Trees</h2>
+<h3 id="predicting-baseball-players-salaries-using-regression-trees">Predicting Baseball Players’ Salaries Using Regression Trees</h3>
+<p><strong>Terminal nodes</strong>: The regions R1, R2, and R3 are known as terminal nodes or leaves of the tree.</p>
+<p><strong>Internal nodes</strong>: The points along the tree where the predictor space is split are referred to as internal nodes.</p>
+<p><strong>Branches</strong>: The segments of the trees that connect the nodes as branches</p>
+<a id="more"></a>
+<p><img src="./2.png" width="500"> <img src="./1.png" width="500"></p>
+<h3 id="prediction-via-stratification-of-the-feature-space">Prediction via Stratification of the Feature Space</h3>
+<p><strong>Process of building a regression tree</strong></p>
+<p><strong>Step 1</strong>: We divide the predictor space—that is, the set of possible values for X1,X2, . . .,Xp—into J distinct and non-overlapping regions, R1,R2, . . . , RJ .</p>
+<p><strong>Step 2</strong>: For every observation that falls into the region Rj, we make the same prediction, which is simply the <em>mean of the response values</em> for the training observations in Rj .</p>
+<h4 id="step-1">Step 1</h4>
+<p><strong>How do we construct the regions R1, . . .,RJ?</strong></p>
+<ul>
+<li><p>We choose to divide the predictor space into high-dimensional rectangles, or <strong>boxes</strong>, for ease of interpretation of the resulting predictive model.</p></li>
+<li><p>The goal is to find boxes R1, . . . , RJ that <strong>minimize the RSS</strong>, given by <span class="math display">\[
+\begin{align}
+\sum_{j=1}^J\sum_{i \in R_j} (y_i-\hat{y}_{R_j})^2
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(\hat{y}_{R_j}\)</span> is the mean response for the training observations within the jth box.</p></li>
+</ul>
+<p><strong>Recursive Binary Splitting</strong>: a <em>top-down, greedy</em> approach - <strong>Top-down</strong>: begins at the top of the tree (at which point all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree. - <strong>Greedy</strong>: at each step of the tree-building process, the best split is made at that particular step, rather than looking ahead and picking a split that will lead to a better tree in some future step.</p>
+<p><strong>Methods</strong>: 1. Select the predictor <span class="math inline">\(X_j\)</span> and the cutpoint <span class="math inline">\(s\)</span> such that splitting the predictor space into the regions <span class="math inline">\({X|X_j &lt; s}\)</span> and <span class="math inline">\({X|X_j ≥ s}\)</span> leads to the greatest possible reduction in RSS - In greater detail, for any <span class="math inline">\(j\)</span> and <span class="math inline">\(s\)</span>, we define the pair of half-planes <span class="math display">\[
+  \begin{align}
+  R_1(j, s) = {X|X_j &lt; s} ,\quad R_2(j, s) = {X|X_j ≥ s}
+  \end{align}
+\]</span> and we seek the value of <span class="math inline">\(j\)</span> and <span class="math inline">\(s\)</span> that <strong>minimize</strong> the equation <span class="math display">\[
+  \begin{align}
+  \sum_{:x_i \in R_1(j,s)}(y_i-\hat{y}_{R_1})^2+\sum_{:x_i \in R_2(j,s)}(y_i-\hat{y}_{R_2})^2
+  \end{align}
+\]</span> where <span class="math inline">\(\hat{y}_{R_1}\)</span>is the mean response for the training observations in <span class="math inline">\(R_1(j, s)\)</span>,</p>
+<p>where <span class="math inline">\(\hat{y}_{R_1}\)</span>is the mean response for the training observations in <span class="math inline">\(R_1(j, s)\)</span>,</p>
+<p>and we seek the value of <span class="math inline">\(j\)</span> and <span class="math inline">\(s\)</span> that <strong>minimize</strong> the equation <span class="math display">\[
+  \begin{align}
+  \sum_{:x_i \in R_1(j,s)}(y_i-\hat{y}_{R_1})^2+\sum_{:x_i \in R_2(j,s)}(y_i-\hat{y}_{R_2})^2
+  \end{align}
+\]</span> where <span class="math inline">\(\hat{y}_{R_1}\)</span>is the mean response for the training observations in <span class="math inline">\(R_1(j, s)\)</span>,</p>
+<p>where <span class="math inline">\(\hat{y}_{R_1}\)</span>is the mean response for the training observations in <span class="math inline">\(R_1(j, s)\)</span>,</p>
+<ol start="2" type="1">
+<li>Repeat the process, looking for the best predictor and best cutpoint in order to split the data further so as to minimize the RSS within each of the resulting regions.</li>
+</ol>
+<ul>
+<li><p>However, this time, instead of splitting the entire predictor space, we split one of the two previously identified regions.</p></li>
+<li><p>We now have three regions. Again, we look to split one of these three regions further, so as to minimize the RSS.</p></li>
+</ul>
+<ol start="3" type="1">
+<li>The process continues until a stopping criterion is reached; for instance, we may continue until no region contains more than five observations.</li>
+</ol>
+<p><img src="./3.png" width="600"></p>
+<h4 id="step-2">Step 2</h4>
+<p>Predict the response for a given test observation using the mean of the training observations in the region to which that test observation belongs.</p>
+<h3 id="tree-pruning">Tree Pruning</h3>
+<p>A better strategy is to grow a very large tree <span class="math inline">\(T_0\)</span>, and then <strong>prune</strong> it back in order to obtain a <strong>subtree</strong></p>
+<h4 id="cost-complexity-pruning">Cost complexity pruning</h4>
+<p>a.k.a.: <strong>weakest link pruning</strong></p>
+<p>Consider a sequence of trees indexed by a nonnegative tuning parameter α</p>
+<p><img src="./4.png" width="600"></p>
+<p>For each value of α there corresponds a subtree <span class="math inline">\(T ⊂ T_0\)</span> such that</p>
+<p><span class="math display">\[
+\begin{align}
+\sum_{m=1}^T\sum_{i:x_i \in R_m}(y_i − \hat{y}_{R_m})^2 + \alpha|T|  \quad \quad (8.4)
+\end{align}
+\]</span> is as small as possible.</p>
+<ul>
+<li><span class="math inline">\(|T|\)</span>: the number of terminal nodes of the tree T ,</li>
+<li><span class="math inline">\(R_m\)</span>: the rectangle (i.e. the subset of predictor space) corresponding to the m-th <strong>terminal node</strong>,</li>
+<li><span class="math inline">\(\hat{y}_{R_m}\)</span>: the predicted response associated with <span class="math inline">\(R_m\)</span>—that is, the mean of the training observations in <span class="math inline">\(R_m\)</span>.</li>
+</ul>
+<p>The tuning parameter <span class="math inline">\(α\)</span> controls a <em>trade-off</em> between the subtree’s <strong>complexity</strong> and its <strong>fit to the training data</strong>. When α = 0, then the subtree T will simply equal T0, because then (8.4) just measures the training error. However, as α increases, there is a price to pay for having a tree with many terminal nodes, and so the quantity (8.4) will tend to be minimized for a smaller subtree.</p>
+<p>Equation 8.4 is reminiscent of the lasso, in which a similar formulation was used in order to control the complexity of a linear model.</p>
+<p><img src="./5.png" width="600"> <img src="./6.png" width="600"></p>
+<h2 id="classification-trees">Classification Trees</h2>
+<p>For a classification tree, - We predict that each observation belongs to the <strong>most commonly occurring class</strong> of training observations in the region to which it belongs. - RSS cannot be used as a criterion for making the binary splits <span class="math inline">\(\Rightarrow\)</span> <strong>classification error rate</strong>.</p>
+<h3 id="classification-error-rate">Classification Error Rate</h3>
+<ul>
+<li>Since we plan to assign an observation in a given region to the most commonly occurring class of training observations in that region, the classification error rate is simply the <strong>fraction of the training observations in that region that do not belong to the most common class</strong>:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align}
+E=1-\max_k(\hat{p}_{mk})
+\end{align}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{p}_{mk}\)</span> : the proportion of training observations in the mth region that are from the kth class.</li>
+<li>classification error is not sufficiently sensitive for tree-growing, and in practice two other measures are preferable: <strong>Gini index, cross-entropy.</strong></li>
+</ul>
+<h3 id="gini-index">Gini index</h3>
+<p><span class="math display">\[
+\begin{align}
+G=\sum_{k=1}^K\hat{p}_{mk}(1-\hat{p}_{mk})
+\end{align}
+\]</span></p>
+<ul>
+<li>A measure of total variance across the K classes. It is not hard to see that the Gini index takes on a small value if all of the <span class="math inline">\(\hat{p}_{mk}\)</span>’s are close to zero or one.</li>
+<li>For this reason the Gini index is referred to as a measure of node <strong>purity</strong>—a small value indicates that a node contains predominantly observations from a single class.</li>
+</ul>
+<h3 id="cross-entropy">Cross-Entropy</h3>
+<p><span class="math display">\[
+\begin{align}
+D=-\sum_{k=1}^K\hat{p}_{mk}\log{\hat{p}_{mk}}
+\end{align}
+\]</span></p>
+<ul>
+<li>Since 0 ≤ <span class="math inline">\(\hat{p}_{mk}\)</span> ≤ 1, it follows that <span class="math inline">\(0 ≤ −\hat{p}_{mk}\log{\hat{p}_{mk}}\)</span>.</li>
+<li>Cross-entropy will take on a value near zero if the <span class="math inline">\(\hat{p}_{mk}\)</span>’s are all near zero or near one. Therefore, like the Gini index, the cross-entropy will take on a small value if the mth node is <strong>pure</strong>.</li>
+</ul>
+<hr>
+<p><strong>Cross-Entropy v.s. Gini index v.s. Classification Error Rate</strong> - When building a classification tree, either the Gini index or the crossentropy are typically used to evaluate the quality of a particular split, since these two approaches are more sensitive to node purity than is the classification error rate. Any of these three approaches might be used when pruning the tree, but the classification error rate is preferable if prediction accuracy of the final pruned tree is the goal.</p>
+<p><img src="./9.png" width="800"></p>
+<ul>
+<li><strong>A surprising characteristic</strong>: some of the splits yield two terminal nodes that have the same predicted value.</li>
+<li><strong>Why is the split performed at all?</strong> The split is performed because it leads to <strong>increased node purity.</strong></li>
+<li><strong>Why is node purity important?</strong> Suppose that we have a test observation that belongs to the region given by that right-hand leaf. Then we can be pretty certain that its response value is Yes. In contrast, if a test observation belongs to the region given by the left-hand leaf, then its response value is probably Yes, but we are much less certain. Even though the split RestECG&lt;1 does not reduce the classification error, it improves the <strong>Gini index and the cross-entropy</strong>, which are more sensitive to node purity.</li>
+</ul>
+<h2 id="trees-versus-linear-models">Trees Versus Linear Models</h2>
+<p>Linear regression assumes a model of the form <span class="math display">\[
+\begin{align}
+f(X)=\beta_0+\sum_{i=1}^p\beta_iX_i
+\end{align}
+\]</span> Regression trees assume a model of the form <span class="math display">\[
+\begin{align}
+f(X)=\sum_{m=1}^Mc_m \cdot I_{X \in R_m}
+\end{align}
+\]</span> where R1, . . .,RM represent a partition of feature space</p>
+<p>where R1, . . .,RM represent a partition of feature space</p>
+<p><strong>Linear regression works better</strong>: If the relationship between the features and the response is well approximated by a linear model; regression tree does not exploit this linear structure.</p>
+<p><strong>Regression tree works better</strong>: If instead there is a highly non-linear and complex relationship between the features and the response.</p>
+<h2 id="advantages-and-disadvantages-of-trees">Advantages and Disadvantages of Trees</h2>
+<p><strong>Advantages of decision trees for regression and classification:</strong></p>
+<p>▲ <strong>Interpretation</strong>: Trees are very <strong>easy to explain</strong> to people. In fact, they are even easier to explain than linear regression!</p>
+<p>▲ Some people believe that decision trees more closely <strong>mirror human decision-making</strong> than do the regression and classification approaches.</p>
+<p>▲ <strong>Visualization</strong>: Trees can be <strong>displayed graphically</strong>, and are easily interpreted even by a non-expert.</p>
+<p>▲ Trees can easily handle qualitative predictors without the need to create dummy variables.</p>
+<p><strong>Disadvantages of decision trees for regression and classification:</strong></p>
+<p>▼ Unfortunately, trees generally do not have the same level of predictive accuracy as some of the other regression and classification approaches seen in this book.</p>
+<h1 id="bagging">Bagging</h1>
+<p><strong>Bootstrap aggregation</strong>, or <strong>bagging</strong>, is a general-purpose procedure for reducing the variance of a statistical learning method, frequently used in the context of decision trees.</p>
+<p><strong>Averaging a set of observations reduces variance</strong>: Recall that given a set of n independent observations Z1, . . . , Zn, each with variance <span class="math inline">\(σ^2\)</span>, the variance of the mean <span class="math inline">\(\bar{Z}\)</span> of the observations is given by <span class="math inline">\(σ^2/n\)</span>.</p>
+<ul>
+<li>A natural way to reduce the variance and hence increase the prediction accuracy of a statistical learning method is to <strong>take many training sets from the population</strong>, build a separate prediction model using each training set, and average the resulting predictions.</li>
+</ul>
+<p><strong>Bootstrap</strong> taking repeated samples from the (single) training data set</p>
+<p><strong>Bagging</strong></p>
+<ul>
+<li>Generate B different bootstrapped training data sets.</li>
+<li>Train our method on the bth bootstrapped training set in order to get <span class="math inline">\(\hat{f}^{*b}(x)\)</span></li>
+<li>Finally average all the predictions, to obtain</li>
+</ul>
+<p><span class="math display">\[
+\begin{align}
+\hat{f}_{bag}(x)=\frac{1}{B}\sum_{b=1}^B\hat{f}^{*b}(x)
+\end{align}
+\]</span></p>
+<p><strong>Apply bagging to regression trees</strong></p>
+<ul>
+<li>Construct B regression trees using B bootstrapped training sets</li>
+<li>Average the resulting predictions. These trees are grown deep, and are not pruned. Hence each individual tree has high variance, but low bias. Averaging these B trees reduces the variance.</li>
+</ul>
+<p><strong>Bagging on Classification Tree</strong></p>
+<ul>
+<li>For a given test observation, we can record the class predicted by each of the B trees, and take a <strong>majority vote</strong>: the overall prediction is the most commonly occurring class among the B predictions.</li>
+</ul>
+<p><strong>B</strong></p>
+<ul>
+<li>In practice weuse a value of B sufficiently large that the error has settled down, like B=100.</li>
+</ul>
+<h2 id="out-of-bag-error-estimation">Out-of-Bag Error Estimation</h2>
+<p>Recall that the key to bagging is that trees are repeatedly fit to bootstrapped subsets of the observations. One can show that on average, each bagged tree makes use of around 2/3 of the observations. The remaining one-third of the observations not used to fit a given bagged tree are referred to as the <strong>out-of-bag (OOB)</strong> observations.</p>
+<blockquote>
+<p>We can predict the response for the ith observation using each of the trees inwhich that observation was OOB.</p>
+</blockquote>
+<ul>
+<li>This will yield around B/3 predictions for the ith observation.</li>
+<li>To obtain a single prediction for the ith observation, we can <strong>average</strong> these predicted responses (regression) or can take a <strong>majority vote</strong> (classification).</li>
+<li>This leads to a single OOB prediction for the ith observation.</li>
+</ul>
+<p>The OOB approach for estimating the test error is particularly convenient when performing bagging on large data sets for which <strong>cross-validation</strong> would be computationally onerous.</p>
+<h2 id="variable-importance-measures">Variable Importance Measures</h2>
+<p><strong>Bagging improves prediction accuracy at the expense of interpretability</strong></p>
+<ul>
+<li>When we bag a large number of trees, it is no longer possible to represent the resulting statistical learning procedure using a single tree, and it is no longer clear which variables are most important to the procedure</li>
+</ul>
+<p><strong>Variable Importance</strong></p>
+<ul>
+<li><p>One can obtain an overall summary of the importance of each predictor using the RSS (for bagging regression trees) or the Gini index (for bagging classification trees).</p></li>
+<li><p><strong>Bagging regression trees</strong>: Record the total amount that the RSS is decreased due to splits over a given predictor, averaged over all B trees. A large value indicates an important predictor. <span class="math display">\[
+\begin{align}
+RSS=\sum_{j=1}^J\sum_{i \in R_j} (y_i-\hat{y}_{R_j})^2
+\end{align}
+\]</span></p></li>
+<li><p><strong>Bagging classification trees</strong>: Add up the total amount that the <strong>Gini index</strong> is decreased by splits over a given predictor, averaged over all B trees.</p></li>
+</ul>
+<p><img src="./11.png" width="600"></p>
+<h1 id="random-forest">Random Forest</h1>
+<p><strong>Random forests</strong> provide an improvement over bagged trees by way of a small tweak that <strong>decorrelates</strong> the trees.</p>
+<p>As in bagging, we build a number of decision trees on bootstrapped training samples. But when building these decision trees, each time a split in a tree is considered, <em>a random sample of m predictors is chosen as split candidates</em> from the full set of p predictors.</p>
+<p><strong>The split is allowed to use only one of those m predictors.</strong> A fresh sample of m predictors is taken at each split, and typically we choose <span class="math inline">\(m ≈\sqrt{p}\)</span></p>
+<p><strong>Rationale</strong>:</p>
+<ul>
+<li>Suppose that there is one very strong predictor in the data set, along with a number of other moderately strong predictors. Then in the collection of bagged trees, most or all of the trees will use this strong predictor in the top split. Consequently, <em>all of the bagged trees will look quite similar to each other.</em></li>
+<li>Hence the predictions from the bagged trees will be highly correlated. Unfortunately, averaging many highly correlated quantities does not lead to as large of a reduction in variance as averaging many uncorrelated quantities.</li>
+</ul>
+<p><strong>Decorrelating</strong> the trees: Random forests forces each split to consider only a subset of the predictors, making the average of the resulting trees less variable and hence more reliable.</p>
+<h1 id="boosting">Boosting</h1>
+<p><strong>Boosting</strong>: another approach for improving the predictions resulting from a decision tree.</p>
+<ul>
+<li>Trees are grown <strong>sequentially</strong>: each tree is grown using information from previously grown trees.</li>
+<li>Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.</li>
+</ul>
+<p><img src="./12.png" width="600"></p>
+<p><strong>Idea behind this procedure</strong></p>
+<ul>
+<li>Unlike fitting a single large decision tree to the data, which amounts to fitting the data hard and potentially overfitting, the boosting approach instead <strong>learns slowly</strong>.</li>
+<li>Given the current model, we fit a decision tree to the residuals from the model. That is, we fit a tree using the current residuals, rather than the outcome Y , as the response.</li>
+<li>We then add this new decision tree into the fitted function in order to update the residuals. Each of these trees can be rather small, with just a few terminal nodes, determined by the parameter <strong>d</strong> in the algorithm.</li>
+<li>By fitting small trees to the residuals, we slowly improve <span class="math inline">\(\hat{f}\)</span> in areas where it does not perform well.</li>
+<li>The shrinkage parameter <strong>λ</strong> slows the process down even further, allowing more and different shaped trees to attack the residuals.</li>
+</ul>
+<blockquote>
+<p>Note that in boosting, unlike in bagging, the construction of each tree depends strongly on the trees that have already been grown.</p>
+</blockquote>
+<p><strong>Boosting has three tuning parameters:</strong></p>
+<ol type="1">
+<li>The number of trees <span class="math inline">\(B\)</span>.</li>
+<li>The shrinkage parameter <span class="math inline">\(λ\)</span>, a small positive number. This controls the rate at which boosting learns.</li>
+<li>The number <span class="math inline">\(d\)</span> of splits in each tree, which controls the complexity of the boosted ensemble. Often d = 1 works well, in which case each tree is a <strong>stump</strong>, consisting of a single split. In this case, the boosted ensemble is fitting an <strong>additive model</strong>, since each term involves only a single variable. More generally <span class="math inline">\(d\)</span> is the <strong>interaction depth</strong>, and controls the interaction order of the boosted model, since <span class="math inline">\(d\)</span> splits can involve at most d variables.</li>
+</ol>
+<p><strong>Boosting V.S. Random forests:</strong></p>
+<ul>
+<li>In boosting, because the growth of a particular tree takes into account the other trees that have already been grown, smaller trees are typically sufficient.</li>
+<li>Using smaller trees can aid in interpretability as well; for instance, using <strong>stumps</strong> leads to an additive model.</li>
+</ul>
+<hr>
+<p><strong>Ref:</strong></p>
+<p>James, Gareth, et al. <em>An introduction to statistical learning</em>. Vol. 112. New York: springer, 2013.</p>
+<p>Hastie, Trevor, et al. &quot;The elements of statistical learning: data mining, inference and prediction.&quot; <em>The Mathematical Intelligencer</em> 27.2 (2005): 83-85</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Trees/" rel="tag"># Trees</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/a065f58f/" rel="next" title="Study Note: Model Selection and Regularization (Ridge & Lasso)">
+                <i class="fa fa-chevron-left"></i> Study Note: Model Selection and Regularization (Ridge & Lasso)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/cac93a23/" rel="prev" title="Study Note: Dimension Reduction - PCA, PCR">
+                Study Note: Dimension Reduction - PCA, PCR <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction-to-descision-tree"><span class="nav-number">1.</span> <span class="nav-text">Introduction to Descision Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#regression-trees"><span class="nav-number">1.1.</span> <span class="nav-text">Regression Trees</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#predicting-baseball-players-salaries-using-regression-trees"><span class="nav-number">1.1.1.</span> <span class="nav-text">Predicting Baseball Players’ Salaries Using Regression Trees</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prediction-via-stratification-of-the-feature-space"><span class="nav-number">1.1.2.</span> <span class="nav-text">Prediction via Stratification of the Feature Space</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Step 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step-2"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">Step 2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tree-pruning"><span class="nav-number">1.1.3.</span> <span class="nav-text">Tree Pruning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cost-complexity-pruning"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">Cost complexity pruning</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#classification-trees"><span class="nav-number">1.2.</span> <span class="nav-text">Classification Trees</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#classification-error-rate"><span class="nav-number">1.2.1.</span> <span class="nav-text">Classification Error Rate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gini-index"><span class="nav-number">1.2.2.</span> <span class="nav-text">Gini index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cross-entropy"><span class="nav-number">1.2.3.</span> <span class="nav-text">Cross-Entropy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trees-versus-linear-models"><span class="nav-number">1.3.</span> <span class="nav-text">Trees Versus Linear Models</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#advantages-and-disadvantages-of-trees"><span class="nav-number">1.4.</span> <span class="nav-text">Advantages and Disadvantages of Trees</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bagging"><span class="nav-number">2.</span> <span class="nav-text">Bagging</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#out-of-bag-error-estimation"><span class="nav-number">2.1.</span> <span class="nav-text">Out-of-Bag Error Estimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#variable-importance-measures"><span class="nav-number">2.2.</span> <span class="nav-text">Variable Importance Measures</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#random-forest"><span class="nav-number">3.</span> <span class="nav-text">Random Forest</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#boosting"><span class="nav-number">4.</span> <span class="nav-text">Boosting</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

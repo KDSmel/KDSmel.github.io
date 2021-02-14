@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="LDA V.S. Logistic Regression:  When the classes are well-separated, the parameter estimates for the logistic regression model are surprisingly unstable. Linear discriminant analysis does not suffer fr">
+<meta name="keywords" content="LDA,Classification,Model Evaluation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Linear Discriminant Analysis, ROC &amp; AUC, Confusion Matrix">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/5b711fed/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="LDA V.S. Logistic Regression:  When the classes are well-separated, the parameter estimates for the logistic regression model are surprisingly unstable. Linear discriminant analysis does not suffer fr">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/11.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/12.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/13.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/14.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/15.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/5b711fed/16.png">
+<meta property="og:updated_time" content="2020-07-17T09:24:13.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Linear Discriminant Analysis, ROC &amp; AUC, Confusion Matrix">
+<meta name="twitter:description" content="LDA V.S. Logistic Regression:  When the classes are well-separated, the parameter estimates for the logistic regression model are surprisingly unstable. Linear discriminant analysis does not suffer fr">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/5b711fed/6.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/5b711fed/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Linear Discriminant Analysis, ROC & AUC, Confusion Matrix | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/5b711fed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Linear Discriminant Analysis, ROC & AUC, Confusion Matrix
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-19 17:59:57" itemprop="dateCreated datePublished" datetime="2019-10-19T17:59:57-05:00">2019-10-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-07-17 04:24:13" itemprop="dateModified" datetime="2020-07-17T04:24:13-05:00">2020-07-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">13k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">12 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>LDA V.S. Logistic Regression</strong>:</p>
+<ol type="1">
+<li>When the classes are well-separated, the parameter estimates for the logistic regression model are surprisingly unstable. Linear discriminant analysis does not suffer from this problem.</li>
+<li>If n is small and the distribution of the predictors X is approximately normal in each of the classes, the linear discriminant model is again more stable than the logistic regression model.</li>
+<li>Linear discriminant analysis is popular when we have more than two response classes.</li>
+</ol>
+<a id="more"></a>
+<h1 id="using-bayes-theorem-for-classification">Using Bayes’ Theorem for Classification</h1>
+<p>Suppose that we wish to classify an observation into one of K classes, where K ≥ 2.</p>
+<p><strong>Prior</strong>:Let <span class="math inline">\(\pi_k=Pr(Y=k)\)</span> represent the overall or <strong><em>prior</em></strong> probability that a randomly chosen observation comes from the kth class. This is the probability that a given observation is associated with the kth category of the response variable Y .</p>
+<p>Let <span class="math inline">\(f_k(X) ≡ Pr(X = x|Y = k)\)</span> denote the <strong><em>density function</em></strong> of X for an observation that comes from the kth class. In other words, fk(x) is relatively large if there is a high probability that an observation in the kth class has X ≈ x.</p>
+<p><strong>Bayes’ theorem</strong> states that <span class="math display">\[
+\begin{align}
+Pr(Y=k|X=x)=\frac{\pi_k f_k(x)}{\sum_{l=1}^K\pi_lf_l(x)} 
+\end{align}
+\]</span> <strong>Posterior</strong>:<span class="math inline">\(p_k(X) = Pr(Y = k|X)\)</span> an observation X = x belongs to the kth class, given the predictor value for that observation</p>
+<p><strong>Estimating <span class="math inline">\(π_k\)</span>:</strong> simply compute the fraction of the training observations that belong to the kth class.</p>
+<p><strong>Estimating <span class="math inline">\(f_k(X)\)</span>:</strong> more challenging</p>
+<h1 id="linear-discriminant-analysis-for-p-1">Linear Discriminant Analysis for p = 1</h1>
+<p>Assume p = 1—that is, we have only one predictor. We would like to obtain an estimate for <span class="math inline">\(f_k(x)\)</span> that we can estimate <span class="math inline">\(p_k(x)\)</span>. We will then classify an observation to the class for which <span class="math inline">\(p_k(x)\)</span> is greatest.</p>
+<h2 id="assumptions">Assumptions</h2>
+<p>In order to estimate <span class="math inline">\(f_k(x)\)</span>, we will first make some assumptions about its form:</p>
+<ol type="1">
+<li>Assume that <span class="math inline">\(f_k(x)\)</span> is normal or Gaussian. <span class="math display">\[
+  \begin{align}
+  f_k(x)=\frac{1}{\sqrt{2\pi}\sigma_k}\exp{\left( -\frac{1}{2\sigma_k^2}(x-\mu_k)^2 \right)}
+  \end{align}
+  \]</span></li>
+</ol>
+<p>where <span class="math inline">\(μ_k\)</span> and <span class="math inline">\(σ_k^2\)</span> are the mean and variance parameters for the kth class.</p>
+<ol start="2" type="1">
+<li><dl>
+<dt>Assume that <span class="math inline">\(\sigma_1^2=...=\sigma_k^2\)</span></dt>
+<dd>that is, there is a shared variance term across all K classes, which for simplicity we can denote by <span class="math inline">\(\sigma^2\)</span>.
+</dd>
+</dl></li>
+</ol>
+<p>So <span class="math display">\[
+\begin{align}
+p_k(x)=\frac{\pi_k \frac{1}{\sqrt{2\pi}\sigma}\exp{\left( -\frac{1}{2\sigma^2}(x-\mu_k)^2 \right)}}{\sum_{l=1}^K\pi_l\frac{1}{\sqrt{2\pi}\sigma}\exp{\left( -\frac{1}{2\sigma^2}(x-\mu_l)^2 \right)}}
+\end{align}
+\]</span> The <strong>Bayes classifier</strong> involves assigning an observation X = x to the class for which <span class="math inline">\(p_k(x)\)</span> is largest. Taking the log of <span class="math inline">\(p_k(x)\)</span> and rearranging the terms, it is not hard to show that this is equivalent to assigning the observation to the class for which <span class="math display">\[
+\begin{align}
+\delta_k(x)=x\frac{\mu_k}{\sigma^2}-\frac{\mu_k^2}{2\sigma^2}+\log(\pi_k) \quad\quad (4.13)
+\end{align}
+\]</span> is largest.</p>
+<p>For instance, if K = 2 and π1 = π2, then the Bayes classifier assigns an observation to class 1 if <span class="math inline">\(2x (μ_1 − μ_2) &gt; μ^2_1 − μ^2_2\)</span>, and to class 2 otherwise. In this case, the Bayes decision boundary corresponds to the point where <span class="math display">\[
+\begin{align}
+x=\frac{\mu_1^2-\mu_2^2}{2(\mu_1-\mu_2)}=\frac{\mu_1+\mu_2}{2}
+\end{align}
+\]</span></p>
+<h2 id="parameters-estimation">Parameters Estimation</h2>
+<p>In practice, even if we are quite certain of our assumption that X is drawn from a Gaussian distribution within each class, we still have to estimate the parameters <span class="math inline">\(μ_1, . . . , μ_K, π_1, . . . , π_K\)</span>, and <span class="math inline">\(σ^2\)</span>.</p>
+<p><strong>Linear discriminant analysis (LDA)</strong> method approximates the Bayes classifier by plugging estimates for <span class="math inline">\(μ_1, . . . , μ_K, π_1, . . . , π_K\)</span>, and <span class="math inline">\(σ^2\)</span> into (4.13)</p>
+<p><span class="math display">\[
+\begin{align}
+\hat{\mu}_k=\frac{1}{n_k}\sum_{i:y_i=k}x_i  \quad (4.15) \\
+\hat{\sigma}^2=\frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\hat{\mu_k})^2 \quad (4.16)\\
+\hat{\pi_k}=\frac{n_k}{n}
+\end{align}
+\]</span></p>
+<p>where n is the total number of training observations, and <span class="math inline">\(n_k\)</span> is the number of training observations in the kth class.</p>
+<p><span class="math inline">\(\hat{\mu}_k\)</span>: average of all the training observations from the kth class;</p>
+<p><span class="math inline">\(\hat{\sigma}^2\)</span>: a weighted average of the sample variances for each of the K classes.</p>
+<p><span class="math inline">\(\hat{\pi_k}\)</span>: the proportion of the training observations that belong to the kth class</p>
+<h2 id="lda-classifier">LDA classifier</h2>
+<p>The LDA classifier assigns an observation X = x to the class for which</p>
+<p><span class="math display">\[
+\begin{align}
+\hat{\delta}_k(x)=x\frac{\hat{\mu}_k}{\hat{\sigma}^2}-\frac{\hat{\mu}_k^2}{2\hat{\sigma}^2}+\log(\hat{\pi}_k)
+\end{align}
+\]</span> is largest.</p>
+<p>The word <strong><em>linear</em></strong> in the classifier’s name stems from the fact that the <strong><em>discriminant functions</em></strong> <span class="math inline">\(\hat{\delta}_k(x)\)</span> are linear functions of x.</p>
+<p><img src="./6.png" width="600"></p>
+<p>The right-hand panel of Figure 4.4 displays a histogram of a random sample of 20 observations from each class.</p>
+<p>To implement LDA,</p>
+<ol type="1">
+<li>Estimating πk, μk, and σ2 using (4.15) and (4.16).</li>
+<li>Compute the decision boundary, shown as a black solid line, that results from assigning an observation to the class for which <span class="math inline">\(\hat{\delta}_k(x)\)</span> is largest.</li>
+</ol>
+<p>In this case, since n1 = n2 = 20, we have <span class="math inline">\(\hat{\pi_1}\)</span> = <span class="math inline">\(\hat{\pi_2}\)</span>. As a result, the decision boundary corresponds to the midpoint between the sample means for the two classes,<span class="math inline">\(\frac{\mu_1+\mu_2}{2}\)</span></p>
+<h1 id="linear-discriminant-analysis-for-p-1-1">Linear Discriminant Analysis for p &gt;1</h1>
+<p>Assume that X = (X1,X2, . . .,Xp) is drawn from a <strong>multivariate Gaussian</strong> (or multivariate normal) distribution, with a class-specific mean vector and a common covariance matrix.</p>
+<h2 id="multivariate-gaussian-distribution">Multivariate Gaussian Distribution</h2>
+<p>Assumes that each individual predictor follows a one-dimensional normal distribution with some correlation between each pair of predictors.</p>
+<p><img src="./7.png" width="600"></p>
+<p>To indicate that a p-dimensional random variable X has a multivariate Gaussian distribution, we write X ∼ N(μ,Σ). Here E(X) = μ is the mean of X (a vector with p components), and Cov(X) = Σ is the p × p <strong>covariance matrix</strong> of X. Formally, the <strong>multivariate Gaussian density</strong> is defined as <span class="math display">\[
+\begin{align}
+f(x)=\frac{1}{\sqrt{(2\pi)^{p}|Σ|}}\exp{\left( \frac{1}{2}(x-\mu)^TΣ^{-1}(x-\mu) \right)}
+\end{align}
+\]</span> In the case of p &gt; 1 predictors, the <strong>LDA classifier</strong> assumes that the observations in the kth class are drawn from a multivariate Gaussian distribution <span class="math inline">\(N(μ_k,Σ)\)</span>, where <span class="math inline">\(μ_k\)</span> is a class-specific mean vector, and Σ is a covariance matrix that is common to all K classes.</p>
+<p>Plugging the density function for the kth class, <span class="math inline">\(f_k(X = x)\)</span>, into <span class="math inline">\(Pr(Y = k|X = x)\)</span>, the Bayes classifier assigns an observation X = x to the class for which <span class="math display">\[
+\begin{align}
+\delta_k(x)=x^TΣ^{-1}\mu_k-\frac{1}{2}\mu_k^TΣ^{-1}\mu_k+\log{\pi_k}  \quad \quad (4.19)
+\end{align}
+\]</span> is largest.</p>
+<p><img src="./8.png" width="600"></p>
+<p>Once again, we need to estimate the unknown parameters <span class="math inline">\(μ_1, . . . , μ_K\)</span>, <span class="math inline">\(π_1, . . . , π_K\)</span>, and Σ; the formulas are similar to those used in the one dimensional case, given in (4.15). To assign a new observation X = x, <strong>LDA</strong> plugs these estimates into (4.19) and classifies to the class for which <span class="math inline">\(\hat{\delta}_k(x)\)</span> is largest.</p>
+<blockquote>
+<p>Overall, the LDA decision boundaries are pretty close to the Bayes decision boundaries, shown again as dashed lines.</p>
+</blockquote>
+<h2 id="caveats">Caveats</h2>
+<ol type="1">
+<li><p>Training error rates will usually be lower than test error rates. The higher the ratio of parameters p to number of samples n, the more we expect this overfitting to play a role.</p></li>
+<li><p>Second, since only 3.33% of the individuals in the training sample defaulted, a simple but useless classifier that always predicts that each individual will not default, regardless of his or her credit card balance and student status, will result in an error rate of 3.33%. In other words, the trivial <strong>null classifier</strong> will achieve an error rate that is only a bit higher than the LDA training set error rate.</p></li>
+</ol>
+<h3 id="two-types-of-error-confusion-matrix">Two Types of Error, Confusion Matrix</h3>
+<p>Binary classifier can make two types of errors:</p>
+<ol type="1">
+<li>it can incorrectly assign an individual who defaults to the no default category;</li>
+<li>it can incorrectly assign an individual who does not default to the default category.</li>
+</ol>
+<p><strong>Confusion Matrix</strong></p>
+<p>*注意这张图不是标准的confusion matrix，看下面那张 <img src="./10.png" width="600"></p>
+<p><strong>Explanation</strong>： The matrix table reveals that LDA predicted that a total of 104 people would default. Of these people, 81 actually defaulted and 23 did not.</p>
+<p><strong>Type I Error</strong>： Of the 333 individuals who defaulted, 252 (or 75.7%) were missed by LDA. So while the overall error rate is low, the error rate among individuals who defaulted is very high. From the perspective of a credit card company that is trying to identify high-risk individuals, an error rate of 252/333 = 75.7% among individuals who default may well be unacceptable.</p>
+<p><strong>Type II Error</strong>：Only 23 out of 9, 667 of the individuals who did not default were incorrectly labeled. This looks like a pretty low error rate!</p>
+<p><img src="./11.png" width="1000"></p>
+<p><strong>Sensitivity</strong>:the percentage of true defaulters that are identified, a low 24.3% in this case.</p>
+<p><strong>Specificity</strong>:the percentage of non-defaulters that are correctly identified, here (1 − 23/9, 667)× 100 = 99.8%.</p>
+<h3 id="why-does-lda-do-such-a-poor-job-of-classifying-the-customers-who-default">Why does LDA do such a poor job of classifying the customers who default?</h3>
+<blockquote>
+<p>In other words, why does it have such a low sensitivity?</p>
+</blockquote>
+<p>LDA is trying to approximate the Bayes classifier, which has the lowest total error rate out of all classifiers (if the Gaussian model is correct). That is, the Bayes classifier will yield the smallest possible total number of misclassified observations, irrespective of which class the errors come from.</p>
+<p>The Bayes classifier works by assigning an observation to the class for which the posterior probability pk(X) is greatest. In the two-class case, this amounts to assigning an observation to the default class if <span class="math inline">\(Pr(default = Yes|X = x) &gt; 0.5.\)</span></p>
+<p>Thus, the Bayes classifier, and by extension LDA, uses a threshold of 50% for the posterior probability of default in order to assign an observation to the default class.</p>
+<p><strong>Modify LDA</strong></p>
+<p>If we are concerned about incorrectly predicting the default status for individuals who default, then we can consider lowering this threshold.</p>
+<p><span class="math display">\[P(default = Yes|X = x) &gt; 0.2\]</span></p>
+<p>Figure 4.7 illustrates the trade-off that results from modifying the threshold value for the posterior probability of default</p>
+<p><img src="./12.png" width="700"></p>
+<p>How can we decide which threshold value is best? Such a decision must be based on <strong>domain knowledge</strong>, such as detailed information about the costs associated with default.</p>
+<h3 id="roc-auc">ROC &amp; AUC</h3>
+<p><strong>ROC</strong>:The ROC curve is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds.</p>
+<p><strong>AUC</strong>: The overall performance of a classifier, summarized over all possible thresholds, is given by the area under the (ROC) curve (AUC).</p>
+<ul>
+<li><p>An ideal ROC curve will hug the top left corner, so the larger the AUC the better the classifier. We expect a classifier that performs no better than chance to have an AUC of 0.5</p></li>
+<li><p>ROC curves are useful for comparing different classifiers, since they take into account all possible thresholds.</p></li>
+</ul>
+<p><img src="./13.png" width="700"></p>
+<p><img src="./14.png" width="700"></p>
+<p><img src="./15.png" width="700"></p>
+<h1 id="quadratic-discriminant-analysis">Quadratic Discriminant Analysis</h1>
+<p><strong>Quadratic discriminant analysis (QDA)</strong> classifier results from assuming that the observations from each class are drawn from a Gaussian distribution, and plugging estimates for the parameters into Bayes’ theorem in order to perform prediction.</p>
+<p>However, unlike LDA, <strong>QDA assumes that each class has its own covariance matrix</strong>. That is, it assumes that an observation from the kth class is of the form <span class="math inline">\(X ∼ N(μ_k,Σ_k)\)</span>, where <span class="math inline">\(Σ_k\)</span> is a covariance matrix for the kth class. Under this assumption, the Bayes classifier assigns an observation <span class="math inline">\(X = x\)</span> to the class for which</p>
+<p><span class="math display">\[
+\begin{align}
+\delta_k(x)&amp;=-\frac{1}{2}(x-\mu_k)^TΣ_k^{-1}(x-\mu_k)-\frac{1}{2}\log{|Σ_k|}+\log{\pi_k} \\
+&amp;=-\frac{1}{2}x^TΣ_k^{-1}x+x^TΣ_k^{-1}\mu_k-\frac{1}{2}\mu_k^TΣ_k^{-1}\mu_k-\frac{1}{2}\log{|Σ_k|}+\log{\pi_k}
+\end{align}
+\]</span></p>
+<p>is largest.</p>
+<p>So the QDA classifier involves plugging estimates for <span class="math inline">\(Σ_k, μ_k, π_k\)</span> into <span class="math inline">\(\delta_k(x)\)</span>, and then assigning an observation <span class="math inline">\(X = x\)</span> to the class for which this quantity is largest. Unlike LDA, the quantity <span class="math inline">\(x\)</span> appears as a quadratic function.</p>
+<h2 id="why-does-it-matter-whether-or-not-we-assume-that-the-k-classes-share-a-common-covariance-matrix">Why does it matter whether or not we assume that the K classes share a common covariance matrix?</h2>
+<p>The answer lies in the <strong>bias-variance trade-off</strong>: - When there are p predictors, then estimating a covariance matrix requires estimating p(p+1)/2 parameters. QDA estimates a separate covariance matrix for each class, for a total of Kp(p+1)/2 parameters. - Consequently, LDA is a much less flexible classifier than QDA, and so has substantially lower variance. - But there is a trade-off: if LDA’s assumption that the K classes share a common covariance matrix is badly off, then LDA can suffer from high bias.</p>
+<p><strong>Conclusion</strong></p>
+<ul>
+<li>LDA tends to be a better bet than QDA if there are relatively few training observations and so reducing variance is crucial.</li>
+<li>QDA is recommended if the training set is very large, so that the variance of the classifier is not a major concern, or if the assumption of a common covariance matrix for the K classes is clearly untenable</li>
+</ul>
+<p><img src="./16.png" width="700"></p>
+<hr>
+<p><strong>Ref:</strong></p>
+<p>James, Gareth, et al. <em>An introduction to statistical learning</em>. Vol. 112. New York: springer, 2013.</p>
+<p>Hastie, Trevor, et al. &quot;The elements of statistical learning: data mining, inference and prediction.&quot; <em>The Mathematical Intelligencer</em> 27.2 (2005): 83-85</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/LDA/" rel="tag"># LDA</a>
+          
+            <a href="/tags/Classification/" rel="tag"># Classification</a>
+          
+            <a href="/tags/Model-Evaluation/" rel="tag"># Model Evaluation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/b358d10f/" rel="next" title="Study Note: Logistic Regression">
+                <i class="fa fa-chevron-left"></i> Study Note: Logistic Regression
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/6084c2b2/" rel="prev" title="Study Note: Comparing Logistic Regression, LDA, QDA, and KNN">
+                Study Note: Comparing Logistic Regression, LDA, QDA, and KNN <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#using-bayes-theorem-for-classification"><span class="nav-number">1.</span> <span class="nav-text">Using Bayes’ Theorem for Classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-discriminant-analysis-for-p-1"><span class="nav-number">2.</span> <span class="nav-text">Linear Discriminant Analysis for p = 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#assumptions"><span class="nav-number">2.1.</span> <span class="nav-text">Assumptions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#parameters-estimation"><span class="nav-number">2.2.</span> <span class="nav-text">Parameters Estimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lda-classifier"><span class="nav-number">2.3.</span> <span class="nav-text">LDA classifier</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-discriminant-analysis-for-p-1-1"><span class="nav-number">3.</span> <span class="nav-text">Linear Discriminant Analysis for p &gt;1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#multivariate-gaussian-distribution"><span class="nav-number">3.1.</span> <span class="nav-text">Multivariate Gaussian Distribution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#caveats"><span class="nav-number">3.2.</span> <span class="nav-text">Caveats</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#two-types-of-error-confusion-matrix"><span class="nav-number">3.2.1.</span> <span class="nav-text">Two Types of Error, Confusion Matrix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-does-lda-do-such-a-poor-job-of-classifying-the-customers-who-default"><span class="nav-number">3.2.2.</span> <span class="nav-text">Why does LDA do such a poor job of classifying the customers who default?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#roc-auc"><span class="nav-number">3.2.3.</span> <span class="nav-text">ROC &amp; AUC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#quadratic-discriminant-analysis"><span class="nav-number">4.</span> <span class="nav-text">Quadratic Discriminant Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#why-does-it-matter-whether-or-not-we-assume-that-the-k-classes-share-a-common-covariance-matrix"><span class="nav-number">4.1.</span> <span class="nav-text">Why does it matter whether or not we assume that the K classes share a common covariance matrix?</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

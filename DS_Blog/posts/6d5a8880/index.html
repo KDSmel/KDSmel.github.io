@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Execution &amp;amp; Scheduling SparkContext - When creating a Spark application, the first thing you do is create a SparkContext">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache Spark: Advanced Topics">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/6d5a8880/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Execution &amp;amp; Scheduling SparkContext - When creating a Spark application, the first thing you do is create a SparkContext">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/acc1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/acc2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/acc3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/6d5a8880/acc4.png">
+<meta property="og:updated_time" content="2019-06-28T21:37:11.123Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache Spark: Advanced Topics">
+<meta name="twitter:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Execution &amp;amp; Scheduling SparkContext - When creating a Spark application, the first thing you do is create a SparkContext">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/6d5a8880/exe1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/6d5a8880/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Apache Spark: Advanced Topics | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/6d5a8880/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Apache Spark: Advanced Topics
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-27 18:09:33" itemprop="dateCreated datePublished" datetime="2019-06-27T18:09:33-05:00">2019-06-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-28 16:37:11" itemprop="dateModified" datetime="2019-06-28T16:37:11-05:00">2019-06-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">8.6k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>This is course note of <a href="https://www.coursera.org/learn/big-data-essentials" target="_blank" rel="noopener">Big Data Essentials: HDFS, MapReduce and Spark RDD</a></p>
+</blockquote>
+<h1 id="execution-scheduling">Execution &amp; Scheduling</h1>
+<p><strong>SparkContext</strong> - When creating a Spark application, the first thing you do is create a SparkContext object, which tells Sparks how to access a cluster. - The context, living in your driver program, coordinates sets of processes on the cluster to run your application.</p>
+<a id="more"></a>
+<p><img src="./exe1.png" width="600"></p>
+<ul>
+<li>The SparkContext object communicates the Cluster Manager to allocate executors.</li>
+<li>The Cluster Manager is an external service for acquiring resources on a cluster. For example, YARN, Mesos or a standalone Spark cluster.</li>
+<li>once the context has allocated the executors, it communicates directly with them and schedules tasks to be done.</li>
+</ul>
+<h2 id="jobs-stages-tasks">Jobs, stages, tasks</h2>
+<ul>
+<li><strong>Task</strong> is a unit of work to be done</li>
+<li><strong>Tasks</strong> are created by a <strong>job scheduler</strong> during the scheduling of a job for every job stage. And every task belongs to the job stage.</li>
+<li><strong>Job</strong> is spawned in response to a Spark action</li>
+<li><strong>Job</strong> is divided in smaller sets of tasks called <strong>stages</strong></li>
+</ul>
+<h3 id="example">Example</h3>
+<p>Z = X .map(lambda x: (x % 10, x / 10)) .reduceByKey(lambda x, y: x + y) .collect()</p>
+<ol type="1">
+<li><p>Whenever you invoke an action, the job gets spawned in the driver program. <img src="./exe2.png" width="600"></p></li>
+<li><p>Then the driver runs a job scheduler to divide the job into smaller stages. <img src="./exe3.png" width="600"></p></li>
+<li>Then tasks are created for every job stage.</li>
+<li><p>tasks are delegated to the executors, which perform the actual work. <img src="./exe4.png" width="600"></p></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bash</span><br><span class="line">All this machinery exists within the SparkContext object. It keeps track of the executors, it spawns jobs, and it runs the scheduler.</span><br></pre></td></tr></table></figure>
+<p><strong>Difference between job stage and task:</strong> - <strong>Job stage</strong> is a pipelined computation spanning between materialization boundaries - job stages are defined on RDD level, thus not immediately executable - <strong>Task</strong> is a job stage bound to particular partitions - bound to a particular partitions, thus immediately executable - <strong>Materialization</strong> happens when reading, shuffling or passing data to an action - narrow dependencies allow pipelining - wide dependencies forbid it</p>
+<p><strong>SparkContext – other functions</strong>: - Tracks liveness of the executors by sending heartbeat messages periodically. - required to provide fault-tolerance - Schedules multiple concurrent jobs - to control the resource allocation within the application - Performs dynamic resource allocation if the cluster manager permits. - increases cluster utilization in shared environments by proper scheduling of multiple applications according to their resource demands</p>
+<h2 id="summary">Summary</h2>
+<ol type="1">
+<li>The SparkContext is the core of your application</li>
+</ol>
+<ul>
+<li>allows your application to connect to a cluster and allocate resources and executors.</li>
+<li>whenever you invoke an action, the SparkContext spawns a job and runs the job scheduler to divide it into stages--&gt;<strong>pipelineable</strong></li>
+<li>tasks are created for every job stage and scheduled to the executors.</li>
+</ul>
+<ol start="2" type="1">
+<li>The driver communicates directly with the executors</li>
+<li><p>Execution goes as follows: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Action -&gt; Job -&gt; Job Stages -&gt; Tasks</span><br></pre></td></tr></table></figure></p></li>
+<li><p>Transformations with narrow dependencies allow pipelining</p></li>
+</ol>
+<h1 id="caching-persistence">Caching &amp; Persistence</h1>
+<ul>
+<li>RDDs are partitioned</li>
+<li>Execution is build around the partitions</li>
+<li>Each task processes a small number of partitions at a time, and the shuffle globally redistributes data items between the partitions, when required.</li>
+<li>Spark transfers data over the network and the IO unit here is not a partition but a block.</li>
+<li>Block is a unit of input and output in Spark</li>
+</ul>
+<h2 id="example-1">Example</h2>
+<blockquote>
+<p>Motivating example: load a wikipedia dump from HDFS and see how many articles there contain the words Spark</p>
+</blockquote>
+<p>You need to create the RDD, apply the filter transformation, and invoke the count action. <img src="./exe5.png" width="600"></p>
+<blockquote>
+<p>Motivating example: among those articles with the Spark word, you would like to see how many of them contain the word, Hadoop and how many the word MapReduce.</p>
+</blockquote>
+<p><img src="./exe6.png" width="600"></p>
+<p><strong><em>Perform worse!</em></strong></p>
+<ul>
+<li><p>Reason: after completing the computation, Spark disposes intermediate data and those intermediate RDDs. That means, it will reload the Wikipedia dump two more times incurring extra input and output operations.</p></li>
+<li><p>A better strategy:</p></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cache the preloaded dump in the memory and reuse it until you end your session.</span><br></pre></td></tr></table></figure>
+<p>Spark allows you to hint which RDDs are better to be kept in memory or even on the disk. Spark does so by <strong><em>caching the blocks comprising your dataset. </em></strong></p>
+<h2 id="controlling-persistence-level">Controlling persistence level</h2>
+<p>Cache: mark the data set as cached by invoking a cache method on it - The cache method is just a shortcut for the memory-only persistence.</p>
+<p>Persist: allows you to set RDDs storage to persist across operations after the first time it is computed. - parameterized by a storage level <img src="./exe7.png" width="600"></p>
+<h2 id="best-practices">Best practices</h2>
+<p>When running an <strong>interactive shell</strong>, cache your dataset after you've done all the necessary preprocessing. - by keeping your work inside in the memory, you would get a more responsive experience.</p>
+<p>When running a <strong>batch computation</strong>, cache dictionaries that you join with your data. - Join dictionaries are often reshuffled, so it would be helpful to speed up their read times.</p>
+<p>When running an <strong>iterative computation</strong>, cache static data like dictionaries or input datasets - avoid reloading the data from the ground up on every iteration. - The static data tends to get evicted due to the memory pressure from the intermediate data.</p>
+<h2 id="summary-1">Summary</h2>
+<ul>
+<li>Performance may be improved by persisting data across operations</li>
+<li>in interactive sessions, iterative computations and hot datasets</li>
+<li>You can control the persistence of a dataset</li>
+<li>whether to store in the memory or on the disk</li>
+<li>how many replicas to create</li>
+</ul>
+<h1 id="broadcast-variable">Broadcast Variable</h1>
+<p><strong>shared memory</strong> is a powerful abstraction, but often misused. - It can make the developer's life easier - It can make the application performance deteriorate because of extra synchronization.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is why <span class="keyword">in</span> spark there are restricted forms of the shared memory.</span><br></pre></td></tr></table></figure>
+<p><strong>Broadcast variable</strong> is a read-only variable that is efficiently shared among tasks</p>
+<p><strong>one to many communication:</strong> When it captures a variable into the closure, it is sent to an executor together with a task specification.</p>
+<p><strong>many to many communication protocol</strong>: torrent</p>
+<ul>
+<li>Distribution is done by a torrent-like protocol (extremely fast!)</li>
+<li>Distributed efficiently compared to captured variables</li>
+</ul>
+<h2 id="example-2">Example</h2>
+<blockquote>
+<p>Motivating example: resolve IP addresses to countries from 1 terabyte access log for your website</p>
+</blockquote>
+<p>Idea: map-side join--distribute the database to every mapper and query it locally.</p>
+<p>Distributing the database via a broadcast variable, we take slightly more than 1 gigabyte of outgoing traffic at the driver node</p>
+<p>&lt;img src=&quot;./br1.png&quot; width=&quot;&quot;600&quot; /&gt;</p>
+<blockquote>
+<p>Motivating example:</p>
+</blockquote>
+<ol type="1">
+<li>setup a transformation graph to compute a dictionary</li>
+<li>invoke the <em>collect</em> action to load it into the driver's memory</li>
+<li>put it into the broadcast variable to use in further computations.</li>
+</ol>
+<p>Idea: upload computations to spark executors and use the driver program as the coordinator. &lt;img src=&quot;./br2.png&quot; width=&quot;&quot;600&quot; /&gt;</p>
+<h2 id="summary-2">Summary</h2>
+<ul>
+<li>Broadcast variables are read-only shared variables with effective sharing mechanism</li>
+<li>Useful to share dictionaries, models</li>
+</ul>
+<h1 id="accumulator-variable">Accumulator Variable</h1>
+<p><strong>Accumulator variable</strong> is a read-write variable that is shared among tasks - Writes are restricted to increments! - i. e.: var += delta - addition may be replaced by any associate, commutative operation</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Restricting the right operations allows the framework to avoid complex synchronization thus making the accumulators efficient.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Accumulator variable could be read only by the <strong><em>driver</em></strong> program and not by the executors.</li>
+<li>cannot read the accumulated value from within a task</li>
+</ul>
+<h2 id="example-3">Example</h2>
+<p><img src="./acc1.png" width="600"> <img src="./acc2.png" width="200"> <img src="./acc3.png" width="200"> <img src="./acc4.png" width="200"></p>
+<h2 id="guarantees-on-the-updates">Guarantees on the updates</h2>
+<ul>
+<li>Updates generated in actions: guaranteed to be applied only once to the accumulator.</li>
+<li>This is because successful actions are never re-executed and Spark can conditionally apply the update.</li>
+<li>Updates generated in transformations: no guarantees when they accumulate updates. - - Transformations can be recomputed on a failure, on the memory pressure, or in another unspecified codes like a preemption.</li>
+<li>Spark provides no guarantees on how many times transformation code maybe re-executed.</li>
+</ul>
+<h2 id="use-cases">Use cases</h2>
+<ol type="1">
+<li>Performance counters</li>
+</ol>
+<ul>
+<li>number of processed records, total elapsed time, total error and so on and so forth</li>
+</ul>
+<ol start="2" type="1">
+<li>Simple control flow</li>
+</ol>
+<ul>
+<li>conditionals: stop on reaching a threshold for corrupted records</li>
+<li>loops: decide whether to run the next iteration of an algorithm or not</li>
+</ul>
+<ol start="3" type="1">
+<li>Monitoring</li>
+</ol>
+<ul>
+<li>export values to the monitoring system</li>
+</ul>
+<ol start="4" type="1">
+<li>Profiling &amp; debugging</li>
+</ol>
+<h2 id="summary-3">Summary</h2>
+<ul>
+<li>Accumulators are shared read-write variables with de-coupled read and write sides</li>
+<li>could be updated from actions and transformations by using an increment.</li>
+<li>can use custom associative, commutative operation for the updates</li>
+<li>can read the total value only in the driver</li>
+<li>Useful for the control flow, monitoring, profiling &amp; debugging</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/4fe20312/" rel="next" title="Apache Spark: Basic Concepts">
+                <i class="fa fa-chevron-left"></i> Apache Spark: Basic Concepts
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/bbe483af/" rel="prev" title="Hadoop MapReduce Application Tuning">
+                Hadoop MapReduce Application Tuning <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#execution-scheduling"><span class="nav-number">1.</span> <span class="nav-text">Execution &amp; Scheduling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jobs-stages-tasks"><span class="nav-number">1.1.</span> <span class="nav-text">Jobs, stages, tasks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">1.1.1.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary"><span class="nav-number">1.2.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#caching-persistence"><span class="nav-number">2.</span> <span class="nav-text">Caching &amp; Persistence</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-1"><span class="nav-number">2.1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#controlling-persistence-level"><span class="nav-number">2.2.</span> <span class="nav-text">Controlling persistence level</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#best-practices"><span class="nav-number">2.3.</span> <span class="nav-text">Best practices</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-1"><span class="nav-number">2.4.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#broadcast-variable"><span class="nav-number">3.</span> <span class="nav-text">Broadcast Variable</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-2"><span class="nav-number">3.1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-2"><span class="nav-number">3.2.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#accumulator-variable"><span class="nav-number">4.</span> <span class="nav-text">Accumulator Variable</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-3"><span class="nav-number">4.1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#guarantees-on-the-updates"><span class="nav-number">4.2.</span> <span class="nav-text">Guarantees on the updates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-cases"><span class="nav-number">4.3.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-3"><span class="nav-number">4.4.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
