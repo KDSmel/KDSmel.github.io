@@ -12,22 +12,22 @@
 
 
 
-  
+
 
 
 <html class="theme-next mist use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 
 <script>
-    (function(){
-        if(''){
-            if (prompt('Show me your password') !== ''){
-                alert('Blah, wrong.');
-                history.back();
-            }
-        }
-    })();
+(function(){
+if(''){
+if (prompt('Show me your password') !== ''){
+alert('Blah, wrong.');
+history.back();
+}
+}
+})();
 </script>
 
 
@@ -40,9 +40,9 @@
 
 
 
-  
-  
-  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+<link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
 
 
 
@@ -56,9 +56,9 @@
 
 
 
-  
-  
-  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+<link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
 
 
 
@@ -66,23 +66,23 @@
 
 
 
-  
+
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <link rel="stylesheet" href="/css/main.css?v=7.1.2">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+<link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
 
 
 
@@ -91,71 +91,70 @@
 
 
 <script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '7.1.2',
-    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
-    fancybox: true,
-    fastclick: true,
-    lazyload: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
+var NexT = window.NexT || {};
+var CONFIG = {
+root: '/',
+scheme: 'Mist',
+version: '7.1.2',
+sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+back2top: true,
+back2top_sidebar: false,
+fancybox: true,
+fastclick: true,
+lazyload: true,
+tabs: true,
+motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+algolia: {
+applicationID: '',
+apiKey: '',
+indexName: '',
+hits: {"per_page":10},
+labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+}
+};
 </script>
 
 
-  
 
 
 
 
-  <meta name="description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
+
+<meta name="description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
 <meta name="keywords" content="Linear Regression,Logistic Regression,Regression">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models">
-<meta property="og:url" content="https://nancyyanyu.github.io/posts/9b3e7e9e/index.html">
-<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:url" content="https://kdsmel.github.io/posts/9b3e7e9e/index.html">
+<meta property="og:site_name" content="Kamel&#39;s Notes">
 <meta property="og:description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://nancyyanyu.github.io/posts/9b3e7e9e/sigmoid.png">
-<meta property="og:image" content="https://nancyyanyu.github.io/posts/9b3e7e9e/newton.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/9b3e7e9e/sigmoid.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/9b3e7e9e/newton.png">
 <meta property="og:updated_time" content="2019-10-23T06:07:40.457Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models">
 <meta name="twitter:description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
-<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/9b3e7e9e/sigmoid.png">
+<meta name="twitter:image" content="https://kdsmel.github.io/posts/9b3e7e9e/sigmoid.png">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Kamel's Notes" type="application/atom+xml">
 
 
 
-  
-  
-  <link rel="canonical" href="https://nancyyanyu.github.io/posts/9b3e7e9e/">
+
+
+<link rel="canonical" href="https://kdsmel.github.io/posts/9b3e7e9e/">
 
 
 
 <script id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
+CONFIG.page = {
+sidebar: "",
+};
 </script>
 
-  <title>CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models | Nancy's Notes</title>
-  
+<title>CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models | Kamel's Notes</title>
 
 
 
@@ -168,343 +167,344 @@
 
 
 
-  <noscript>
-  <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
 
-  .use-motion .logo,
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
+<noscript>
+<style>
+.use-motion .motion-element,
+.use-motion .brand,
+.use-motion .menu-item,
+.sidebar-inner,
+.use-motion .post-block,
+.use-motion .pagination,
+.use-motion .comments,
+.use-motion .post-header,
+.use-motion .post-body,
+.use-motion .collection-title { opacity: initial; }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
+.use-motion .logo,
+.use-motion .site-title,
+.use-motion .site-subtitle {
+opacity: initial;
+top: initial;
+}
+
+.use-motion .logo-line-before i { left: initial; }
+.use-motion .logo-line-after i { right: initial; }
+</style>
 </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="default">
 
-  
-  
-    
-  
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
-    <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
 
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Nancy's Notes</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-    
-      
-        <p class="site-subtitle">Code changes world!</p>
-      
-    
-    
-  </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+<div class="headband"></div>
+
+<header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+<div class="header-inner"><div class="site-brand-wrapper">
+<div class="site-meta">
+
+
+<div class="custom-logo-site-title">
+<a href="/" class="brand" rel="start">
+<span class="logo-line-before"><i></i></span>
+<span class="site-title">Kamel's Notes</span>
+<span class="logo-line-after"><i></i></span>
+</a>
+</div>
+
+
+<p class="site-subtitle">Code changes world!</p>
+
+
+
+</div>
+
+<div class="site-nav-toggle">
+<button aria-label="Toggle navigation bar">
+<span class="btn-bar"></span>
+<span class="btn-bar"></span>
+<span class="btn-bar"></span>
+</button>
+</div>
 </div>
 
 
 
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
+<ul id="menu" class="menu">
 
-    
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
 
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-ml">
 
-    
-    
-    
-      
-    
 
-    
+<li class="menu-item menu-item-home">
 
-    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
 
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-big-data">
 
-    
-    
-    
-      
-    
 
-    
 
-    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
 
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-journal">
 
-    
-    
-    
-      
-    
 
-    
 
-    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+<a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
 
-  </li>
+</li>
 
-      
-      
-    </ul>
-  
 
-  
-    
 
-  
 
-  
+<li class="menu-item menu-item-ml">
+
+
+
+
+
+
+
+
+
+<a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+</li>
+
+
+
+
+<li class="menu-item menu-item-big-data">
+
+
+
+
+
+
+
+
+
+<a href="/DS_Blog/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+</li>
+
+
+
+
+<li class="menu-item menu-item-journal">
+
+
+
+
+
+
+
+
+
+<a href="/DS_Blog/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+</li>
+
+
+
+</ul>
+
+
+
+
+
+
+
+
 </nav>
 
 
 
-  
+
 
 
 
 </div>
-    </header>
-
-    
+</header>
 
 
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
 
-  <div id="posts" class="posts-expand">
-    
 
-  
+<main id="main" class="main">
+<div class="main-inner">
+<div class="content-wrap">
 
-  
-  
-  
+<div id="content" class="content">
 
-  
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/9b3e7e9e/">
+<div id="posts" class="posts-expand">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Nancy Yan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Nancy's Notes">
-    </span>
 
-    
-      <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models
 
-              
-            
-          </h1>
-        
 
-        <div class="post-meta">
-          <span class="post-time">
 
-            
-            
-            
 
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
 
-              
-                
-              
 
-              <time title="Created: 2019-10-20 16:50:20" itemprop="dateCreated datePublished" datetime="2019-10-20T16:50:20-05:00">2019-10-20</time>
-            
+<article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
 
-            
-              
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
 
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-10-23 01:07:40" itemprop="dateModified" datetime="2019-10-23T01:07:40-05:00">2019-10-23</time>
-              
-            
-          </span>
+<div class="post-block">
+<link itemprop="mainEntityOfPage" href="https://kdsmel.github.io/posts/9b3e7e9e/">
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+<span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+<meta itemprop="name" content="Kamel Chehboun">
+<meta itemprop="description" content>
+<meta itemprop="image" content="/images/avatar.gif">
+</span>
 
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/CS229/" itemprop="url" rel="index"><span itemprop="name">CS229</span></a></span>
+<span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+<meta itemprop="name" content="Nancy's Notes">
+</span>
 
-                
-                
-              
-            </span>
-          
 
-          
-            
-            
-          
+<header class="post-header">
 
-          
-          
 
-          
 
-          
-            <div class="post-symbolscount">
-              
+<h1 class="post-title" itemprop="name headline">CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models
 
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Symbols count in article: </span>
-                
-                <span title="Symbols count in article">21k</span>
-              
 
-              
-                <span class="post-meta-divider">|</span>
-              
 
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">19 mins.</span>
-              
-            </div>
-          
+</h1>
 
-          
 
-        </div>
-      </header>
-    
+<div class="post-meta">
+<span class="post-time">
 
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
 
-      
-      
 
-      
-        <p><strong>linear function</strong>: <span class="math inline">\(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\)</span></p>
+
+
+
+<span class="post-meta-item-icon">
+<i class="fa fa-calendar-o"></i>
+</span>
+
+<span class="post-meta-item-text">Posted on</span>
+
+
+
+
+
+
+<time title="Created: 2019-10-20 16:50:20" itemprop="dateCreated datePublished" datetime="2019-10-20T16:50:20-05:00">2019-10-20</time>
+
+
+
+
+
+
+
+<span class="post-meta-divider">|</span>
+
+
+<span class="post-meta-item-icon">
+<i class="fa fa-calendar-check-o"></i>
+</span>
+
+<span class="post-meta-item-text">Edited on</span>
+
+<time title="Modified: 2019-10-23 01:07:40" itemprop="dateModified" datetime="2019-10-23T01:07:40-05:00">2019-10-23</time>
+
+
+</span>
+
+
+<span class="post-category">
+
+<span class="post-meta-divider">|</span>
+
+<span class="post-meta-item-icon">
+<i class="fa fa-folder-o"></i>
+</span>
+
+<span class="post-meta-item-text">In</span>
+
+
+<span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/DS_Blog/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+
+
+, 
+
+
+<span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/DS_Blog/categories/Machine-Learning/CS229/" itemprop="url" rel="index"><span itemprop="name">CS229</span></a></span>
+
+
+
+
+</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="post-symbolscount">
+
+
+
+<span class="post-meta-item-icon">
+<i class="fa fa-file-word-o"></i>
+</span>
+
+<span class="post-meta-item-text">Symbols count in article: </span>
+
+<span title="Symbols count in article">21k</span>
+
+
+
+<span class="post-meta-divider">|</span>
+
+
+
+<span class="post-meta-item-icon">
+<i class="fa fa-clock-o"></i>
+</span>
+
+<span class="post-meta-item-text">Reading time &asymp;</span>
+
+<span title="Reading time">19 mins.</span>
+
+</div>
+
+
+
+
+</div>
+</header>
+
+
+
+
+
+<div class="post-body han-init-context" itemprop="articleBody">
+
+
+
+
+
+<p><strong>linear function</strong>: <span class="math inline">\(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\)</span></p>
 <p><strong>cost function</strong>: <span class="math inline">\(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)</span></p>
 <a id="more"></a>
 <h1 id="linear-regression">Linear Regression</h1>
@@ -705,7 +705,7 @@ p(y;η) = b(y) \exp{(η^TT(y) − a(η))}
 p(y = 1; \phi) = \phi; p(y = 0; \phi) = 1 − \phi.
 \]</span> We write the Bernoulli distribution as: <span class="math display">\[
 \begin{align}p(y;\phi)&amp;=\phi^y(1-\phi)^{1-y} \\
-&amp;=\exp{(y\log{\phi})+(1-y)\log{(1-\phi)}}  \\
+&amp;=\exp{(y\log{\phi})+(1-y)\log{(1-\phi)}}\\
 &amp;=\exp((\log{(\frac{\phi}{1-\phi}}))y+\log{(1-\phi)})
 \end{align}
 \]</span></p>
@@ -729,15 +729,15 @@ p(y;\mu)=\frac{1}{\sqrt{2\pi}}\exp{(-\frac{1}{2}(y-\mu)^2)} \\
 <h3 id="multinomial-distribution">Multinomial distribution</h3>
 <p>For <em>n</em> independent trials each of which leads to a success for exactly one of <em>k</em> categories, with each category having a given fixed success probability, the <strong>multinomial distribution</strong> gives the probability of any particular combination of numbers of successes for the various categories.</p>
 <p>When <em>k</em> is 2 and <em>n</em> is 1, the multinomial distribution is the <strong>Bernoulli distribution</strong>. When <em>k</em> is 2 and <em>n</em> is bigger than 1, it is the <strong>binomial distribution</strong>. When k is bigger than 2 and <em>n</em> is 1, it is the <strong>Categorical distribution</strong>.</p>
-<p>Mathematically, we have <em>k</em> possible mutually exclusive outcomes, with corresponding probabilities <span class="math inline">\(\phi_1, ..., \phi_k\)</span><em>, and </em>n* independent trials. Since the <em>k</em> outcomes are mutually exclusive and one must occur we have <span class="math inline">\(\phi_i \geq 0\)</span> for $   i = 1, ..., k$ and <span class="math inline">\(\sum_{i=1}^k \phi_i = 1\)</span>.</p>
+<p>Mathematically, we have <em>k</em> possible mutually exclusive outcomes, with corresponding probabilities <span class="math inline">\(\phi_1, ..., \phi_k\)</span><em>, and </em>n* independent trials. Since the <em>k</em> outcomes are mutually exclusive and one must occur we have <span class="math inline">\(\phi_i \geq 0\)</span> for $ i = 1, ..., k$ and <span class="math inline">\(\sum_{i=1}^k \phi_i = 1\)</span>.</p>
 <p>To parameterize a <strong>multinomial</strong> over <span class="math inline">\(k\)</span> possible outcomes, one could use <span class="math inline">\(k\)</span> parameters <span class="math inline">\(\phi_1, . . . , \phi_{k-1}\)</span>, as they must satisfy <span class="math inline">\(\sum_{i=1}^k \phi_i = 1)\)</span>, we can let <span class="math inline">\(\phi_{k}=1-\sum_{i=1}^{k-1} \phi_i\)</span>.</p>
 <p>To express the multinomial as an <strong>exponential family distribution</strong>, we will define <span class="math inline">\(T(y) ∈ R^{k−1}\)</span> as follows: <span class="math display">\[
 T(1)=\begin{bmatrix}1\\0\\0\\...\\0\end{bmatrix} , T(2)=\begin{bmatrix}0\\1\\0\\...\\0\end{bmatrix} , T(3)=\begin{bmatrix}0\\0\\1\\...\\0\end{bmatrix} ,T(k-1)=\begin{bmatrix}0\\0\\0\\...\\1\end{bmatrix} ,T(k)=\begin{bmatrix}0\\0\\0\\...\\0\end{bmatrix}
 \]</span> Unlike our previous examples, here we do not have <span class="math inline">\(T(y) = y\)</span>; also, <span class="math inline">\(T(y)\)</span> is now a <span class="math inline">\(k − 1\)</span> dimensional vector.</p>
 <p>We will write <span class="math inline">\((T(y))_i\)</span> to denote the i-th element of the vector <span class="math inline">\(T(y)\)</span>. We can also write the relationship between <span class="math inline">\(T(y)\)</span> and <span class="math inline">\(y\)</span> as <span class="math inline">\((T(y))_i = 1\{y = i\}\)</span>. Further, we have that <span class="math inline">\(E[(T(y))_i] = P(y = i) = \phi_i\)</span>. <span class="math display">\[
 \begin{align}
-p(y; \phi) &amp;=  \phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} ... \phi_k^{1\{y=k\}} \\
-&amp;=  \phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} ... \phi_k^{1-\sum_{i=1}^{k-1}1\{y=i\}} \\
+p(y; \phi) &amp;=\phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} ... \phi_k^{1\{y=k\}} \\
+&amp;=\phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} ... \phi_k^{1-\sum_{i=1}^{k-1}1\{y=i\}} \\
 &amp;= \phi_1^{(T(y))_1} \phi_2^{(T(y))_2} ... \phi_k^{1-\sum_{i=1}^{k-1}(T(y))_i} \\
 &amp;= \exp{\left[(T(y))_1 \log{\phi_1}+(T(y))_2 \log{\phi_2}+...+(1-\sum_{i=1}^{k-1}(T(y))_i) \log{\phi_k}\right]} \\
 &amp;=\exp{\left[(T(y))_1 \log{\frac{\phi_1}{\phi_k}}+ (T(y))_2 \log{\frac{\phi_2}{\phi_k}} +...+(T(y))_{k-1} \log{\frac{\phi_{k-1}}{\phi_k}}+\log{\phi_k} \right]} \\
@@ -748,7 +748,7 @@ b(y)=1 \\
 a(η)=-\log{\phi_k} \\
 η=\begin{bmatrix}\log{\frac{\phi_1}{\phi_k}} \\ ... \\ \log{\frac{\phi_{k-1}}{\phi_k}} \\\log{\frac{\phi_1}{\phi_k}}\end{bmatrix}
 \]</span> To invert the link function and derive the response function, we therefore have that <span class="math display">\[
-e^{η_i}=\frac{\phi_i}{\phi_k}  \\
+e^{η_i}=\frac{\phi_i}{\phi_k}\\
 \phi_ke^{η_i}=\phi_i \\
 \phi_k \sum_{i=1}^ke^{η_i}=\sum_{i=1}^k\phi_i=1 \\
 \]</span> This implies that <span class="math display">\[
@@ -807,8 +807,8 @@ p(y = i|x; θ) = \phi_i \\
 \]</span> This model, which applies to classification problems where <span class="math inline">\(y ∈ \{1, . . . , k\}\)</span>, is called <strong>softmax regression</strong>.It is a generalization of logistic regression.</p>
 <p>Our hypothesis will output <span class="math display">\[
 h_\theta(x) = E[T(y)|x; θ]\\
-=\begin{bmatrix}1\{y=1\} \\1\{y=2\} \\...\\1\{y=k\}  \end{bmatrix}|x;\theta \\
-=\begin{bmatrix}\phi_1 \\\phi_2 \\...\\\phi_{k-1} \end{bmatrix}  \\
+=\begin{bmatrix}1\{y=1\} \\1\{y=2\} \\...\\1\{y=k\}\end{bmatrix}|x;\theta \\
+=\begin{bmatrix}\phi_1 \\\phi_2 \\...\\\phi_{k-1} \end{bmatrix}\\
 =\begin{bmatrix}\frac{e^{θ^T_1 x}}{\sum_{j=1}^ke^{θ^T_j x}}\\ \frac{e^{θ^T_2 x}}{\sum_{j=1}^ke^{θ^T_j x}} \\...\\\frac{e^{θ^T_{k-1} x}}{\sum_{j=1}^ke^{θ^T_j x}}\end{bmatrix}
 \]</span> <strong>Parameter fitting:</strong></p>
 <p>Training data:<span class="math inline">\({(x^{(i)}, y^{(i)}); i = 1, . . . , n}\)</span> . Log-likelihood: <span class="math display">\[
@@ -817,349 +817,7 @@ h_\theta(x) = E[T(y)|x; θ]\\
 =\sum_{i=1}^n \log{\prod_{l=1}^k(\frac{e^{θ^T_l x^{(i)}}}{\sum_{j=1}^ke^{θ^T_j x^{(i)}}})^{1\{y^{(i)}=l\}}}
 \]</span> Maximize <span class="math inline">\(ℓ(θ)\)</span> in terms of <span class="math inline">\(θ\)</span>, using a method such as <strong>gradient ascent</strong> or <strong>Newton’s method</strong></p>
 
-      
-    </div>
 
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/Linear-Regression/" rel="tag"># Linear Regression</a>
-          
-            <a href="/tags/Logistic-Regression/" rel="tag"># Logistic Regression</a>
-          
-            <a href="/tags/Regression/" rel="tag"># Regression</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/posts/109fc1d1/" rel="next" title="Realtime Financial Market Data Visualization and Analysis">
-                <i class="fa fa-chevron-left"></i> Realtime Financial Market Data Visualization and Analysis
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/5576e748/" rel="prev" title="CS229 Note: Generative Learning">
-                CS229 Note: Generative Learning <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-    <div class="comments" id="comments">
-      
-        <div id="gitment-container"></div>
-      
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Nancy Yan</p>
-              <div class="site-description motion-element" itemprop="description"></div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives">
-                
-                    <span class="site-state-item-count">44</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">8</span>
-                    <span class="site-state-item-name">categories</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">34</span>
-                    <span class="site-state-item-name">tags</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  
-                  
-                  
-                    
-                  
-                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-                </span>
-              
-            </div>
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-regression"><span class="nav-number">1.</span> <span class="nav-text">Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#least-mean-square-algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Least Mean Square Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-normal-equations"><span class="nav-number">1.2.</span> <span class="nav-text">The normal equations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#matrix-derivatives"><span class="nav-number">1.2.1.</span> <span class="nav-text">Matrix derivatives</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#least-squares-revisited"><span class="nav-number">1.2.2.</span> <span class="nav-text">Least squares revisited</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#probabilistic-interpretation"><span class="nav-number">1.3.</span> <span class="nav-text">Probabilistic interpretation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locally-weighted-linear-regression"><span class="nav-number">1.4.</span> <span class="nav-text">Locally weighted linear regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#non-parametric-v.s.-parametric"><span class="nav-number">1.4.1.</span> <span class="nav-text">Non-parametric V.S. Parametric</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#logistic-regression"><span class="nav-number">2.</span> <span class="nav-text">Logistic regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#how-do-we-fit-θ-for-it"><span class="nav-number">2.1.</span> <span class="nav-text">How do we fit \(θ\) for it?**</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#digression-the-perceptron-learning-algorithm"><span class="nav-number">2.2.</span> <span class="nav-text">Digression: The perceptron learning algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fisher-scoring-algorithm-for-maximizing-ℓθ"><span class="nav-number">2.3.</span> <span class="nav-text">Fisher scoring algorithm for maximizing ℓ(θ)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#generalized-linear-models"><span class="nav-number">3.</span> <span class="nav-text">Generalized Linear Models</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#the-exponential-family"><span class="nav-number">3.1.</span> <span class="nav-text">The exponential family</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bernoulliphi"><span class="nav-number">3.1.1.</span> <span class="nav-text">Bernoulli(\(\phi\))</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gaussian-distribution-mathcalnmusigma2"><span class="nav-number">3.1.2.</span> <span class="nav-text">Gaussian distribution \(\mathcal{N}(\mu,\sigma^2)\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multinomial-distribution"><span class="nav-number">3.1.3.</span> <span class="nav-text">Multinomial distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#other-members-of-the-exponential-family"><span class="nav-number">3.1.4.</span> <span class="nav-text">Other Members of the Exponential Family</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#constructing-glms"><span class="nav-number">3.2.</span> <span class="nav-text">Constructing GLMs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ordinary-least-squares"><span class="nav-number">3.2.1.</span> <span class="nav-text">Ordinary Least Squares</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logistic-regression-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">Logistic Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#softmax-regression"><span class="nav-number">3.2.3.</span> <span class="nav-text">Softmax Regression</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
-
-  
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
-    </span>
-    
-    <span title="Symbols count total">518k</span>
-  
-
-  
 </div>
 
 
@@ -1170,7 +828,138 @@ h_\theta(x) = E[T(y)|x; θ]\\
 
 
 
-        
+
+
+
+
+
+
+
+<footer class="post-footer">
+
+
+
+
+<div class="post-tags">
+
+<a href="/DS_Blog/tags/Linear-Regression/" rel="tag"># Linear Regression</a>
+
+<a href="/DS_Blog/tags/Logistic-Regression/" rel="tag"># Logistic Regression</a>
+
+<a href="/DS_Blog/tags/Regression/" rel="tag"># Regression</a>
+
+</div>
+
+
+
+
+
+
+
+<div class="post-nav">
+<div class="post-nav-next post-nav-item">
+
+<a href="/DS_Blog/posts/109fc1d1/" rel="next" title="Realtime Financial Market Data Visualization and Analysis">
+<i class="fa fa-chevron-left"></i> Realtime Financial Market Data Visualization and Analysis
+</a>
+
+</div>
+
+<span class="post-nav-divider"></span>
+
+<div class="post-nav-prev post-nav-item">
+
+<a href="/DS_Blog/posts/5576e748/" rel="prev" title="CS229 Note: Generative Learning">
+CS229 Note: Generative Learning <i class="fa fa-chevron-right"></i>
+</a>
+
+</div>
+</div>
+
+
+
+
+</footer>
+</div>
+
+
+
+</article>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="comments" id="comments">
+
+<div id="gitment-container"></div>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div class="sidebar-toggle">
+<div class="sidebar-toggle-line-wrap">
+<span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+<span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+<span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+</div>
+</div>
+
+<aside id="sidebar" class="sidebar">
+<div class="sidebar-inner">
+
+
+
+
+<ul class="sidebar-nav motion-element">
+<li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+Table of Contents
+</li>
+<li class="sidebar-nav-overview" data-target="site-overview-wrap">
+Overview
+</li>
+</ul>
+
+
+<div class="site-overview-wrap sidebar-panel">
+<div class="site-overview">
+<div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+
+<p class="site-author-name" itemprop="name">Kamel Chehboun</p>
+<div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+<nav class="site-state motion-element">
+
+<div class="site-state-item site-state-posts">
+
+<a href="/DS_Blog/archives">
+
+<span class="site-state-item-count">44</span>
+<span class="site-state-item-name">posts</span>
+</a>
+</div>
+
+
+
+
+
+<div class="site-state-item site-state-categories">
+
+
+<a href="/DS_Blog/categories/">
 
 
 
@@ -1179,257 +968,468 @@ h_\theta(x) = E[T(y)|x; θ]\\
 
 
 
-        
-      </div>
-    </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
 
-    
 
-    
 
-    
-  </div>
 
-  
+
+
+
+
+
+
+
+<span class="site-state-item-count">8</span>
+<span class="site-state-item-name">categories</span>
+</a>
+</div>
+
+
+
+
+
+<div class="site-state-item site-state-tags">
+
+
+<a href="/DS_Blog/tags/">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="site-state-item-count">34</span>
+<span class="site-state-item-name">tags</span>
+</a>
+</div>
+
+</nav>
+
+
+
+<div class="feed-link motion-element">
+<a href="/DS_Blog/atom.xml" rel="alternate">
+<i class="fa fa-rss"></i>
+RSS
+</a>
+</div>
+
+
+
+
+
+<div class="links-of-author motion-element">
+
+<span class="links-of-author-item">
+
+
+
+
+
+<a href="https://github.com/kdsmel" title="GitHub &rarr; https://github.com/kdsmel" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+
+
+<!--noindex-->
+<div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+<div class="post-toc">
+
+
+
+
+
+
+
+<div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-regression"><span class="nav-number">1.</span> <span class="nav-text">Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#least-mean-square-algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Least Mean Square Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-normal-equations"><span class="nav-number">1.2.</span> <span class="nav-text">The normal equations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#matrix-derivatives"><span class="nav-number">1.2.1.</span> <span class="nav-text">Matrix derivatives</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#least-squares-revisited"><span class="nav-number">1.2.2.</span> <span class="nav-text">Least squares revisited</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#probabilistic-interpretation"><span class="nav-number">1.3.</span> <span class="nav-text">Probabilistic interpretation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#locally-weighted-linear-regression"><span class="nav-number">1.4.</span> <span class="nav-text">Locally weighted linear regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#non-parametric-v.s.-parametric"><span class="nav-number">1.4.1.</span> <span class="nav-text">Non-parametric V.S. Parametric</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#logistic-regression"><span class="nav-number">2.</span> <span class="nav-text">Logistic regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#how-do-we-fit-θ-for-it"><span class="nav-number">2.1.</span> <span class="nav-text">How do we fit \(θ\) for it?**</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#digression-the-perceptron-learning-algorithm"><span class="nav-number">2.2.</span> <span class="nav-text">Digression: The perceptron learning algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fisher-scoring-algorithm-for-maximizing-ℓθ"><span class="nav-number">2.3.</span> <span class="nav-text">Fisher scoring algorithm for maximizing ℓ(θ)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#generalized-linear-models"><span class="nav-number">3.</span> <span class="nav-text">Generalized Linear Models</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#the-exponential-family"><span class="nav-number">3.1.</span> <span class="nav-text">The exponential family</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bernoulliphi"><span class="nav-number">3.1.1.</span> <span class="nav-text">Bernoulli(\(\phi\))</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gaussian-distribution-mathcalnmusigma2"><span class="nav-number">3.1.2.</span> <span class="nav-text">Gaussian distribution \(\mathcal{N}(\mu,\sigma^2)\)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multinomial-distribution"><span class="nav-number">3.1.3.</span> <span class="nav-text">Multinomial distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#other-members-of-the-exponential-family"><span class="nav-number">3.1.4.</span> <span class="nav-text">Other Members of the Exponential Family</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#constructing-glms"><span class="nav-number">3.2.</span> <span class="nav-text">Constructing GLMs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ordinary-least-squares"><span class="nav-number">3.2.1.</span> <span class="nav-text">Ordinary Least Squares</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logistic-regression-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">Logistic Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#softmax-regression"><span class="nav-number">3.2.3.</span> <span class="nav-text">Softmax Regression</span></a></li></ol></li></ol></li></ol></div>
+
+
+</div>
+</div>
+<!--/noindex-->
+
+
+
+
+</div>
+</aside>
+
+
+
+
+</div>
+</main>
+
+<footer id="footer" class="footer">
+<div class="footer-inner">
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+<span class="with-love" id="animate">
+<i class="fa fa-user"></i>
+</span>
+<span class="author" itemprop="copyrightHolder">Kamel Chehboun</span>
+
+
+<span class="post-meta-divider">|</span>
+<span class="post-meta-item-icon">
+<i class="fa fa-area-chart"></i>
+</span>
+
+<span title="Symbols count total">518k</span>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</footer>
+
+
+<div class="back-to-top">
+<i class="fa fa-arrow-up"></i>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+window.Promise = null;
+}
 </script>
 
 
 
 
 
-  
-
-
-
-  
 
 
 
 
 
 
-  
-
-
-
-  
-    
-    
-      
-    
-  
-  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
-
-
-
-  
-  
-
-
-
-  
-  
-
-
-
-  
-  
-
-
-
-  
-  
-  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
 
 
 
 
 
-  
-  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
-
-  
-  <script src="/lib/three/three.min.js"></script>
-
-  
-  <script src="/lib/three/three-waves.min.js"></script>
-
-  
-  <script src="/lib/three/canvas_lines.min.js"></script>
-
-  
-  <script src="/lib/three/canvas_sphere.min.js"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.2"></script>
 
 
 
 
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
+
+
+
+
+
+
+<script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+
+<script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+
+<script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+
+<script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+
+<script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+<script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+<script src="/lib/three/three.min.js"></script>
+
+
+<script src="/lib/three/three-waves.min.js"></script>
+
+
+<script src="/lib/three/canvas_lines.min.js"></script>
+
+
+<script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+
+
+
+<script src="/js/utils.js?v=7.1.2"></script>
+
+<script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+
+
+
+
+<script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+
+<script src="/js/scrollspy.js?v=7.1.2"></script>
 <script src="/js/post-details.js?v=7.1.2"></script>
 
 
 
-  
 
 
-  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+<script src="/js/next-boot.js?v=7.1.2"></script>
 
 
-  
-
-  
-
-  
-
-  
 
 
-  
-    
+
+
+
+
+
+
+
+
+
 <!-- LOCAL: You can save these files to your site and update links -->
 
-  
-  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
 
 <link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
 <!-- END LOCAL -->
 
 
 <script>
-  function renderGitment() {
-    var gitment = new Gitment({
-      id: window.location.pathname,
-      owner: 'nancyyanyu',
-      repo: 'nancyyanyu.github.io',
-      
-      oauth: {
-      
-      
-        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
-      
-        client_id: '90ddd3d00d8930cb0d84'
-      }
-    });
-    gitment.render('gitment-container');
-  }
+function renderGitment() {
+var gitment = new Gitment({
+id: window.location.pathname,
+owner: 'kdsmel',
+repo: 'kdsmel.github.io',
 
-  
-    renderGitment();
-  
+oauth: {
+
+
+client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+
+client_id: '90ddd3d00d8930cb0d84'
+}
+});
+gitment.render('gitment-container');
+}
+
+
+renderGitment();
+
 </script>
 
-  
 
 
 
 
-  
 
 
 
 
-  
 
-  
 
-  
-  
 
-  
-  
 
-  
-    
-      <script type="text/x-mathjax-config">
-  
 
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
-        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
-      }
-    });
-  });
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+
+
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+processEscapes: true,
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+},
+TeX: {
+
+equationNumbers: {
+autoNumber: 'AMS'
+}
+}
+});
+MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+if (data.display) {
+var next = data.script.nextSibling;
+while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+}
+});
+});
 </script>
 
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
-    }
-  });
+MathJax.Hub.Queue(function() {
+var all = MathJax.Hub.getAllJax(), i;
+for (i = 0; i < all.length; i += 1) {
+document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+}
+});
 </script>
 <script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
+MathJax.Hub.Config("");
 </script>
 
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
+MathJax.Hub.Queue(function() {
+var all = MathJax.Hub.getAllJax(), i;
+for(i=0; i < all.length; i += 1) {
+all[i].SourceElement().parentNode.className += ' has-jax';
+}
+});
 </script>
 
 <script type="text/javascript" src="custom_mathjax_source">
@@ -1437,31 +1437,31 @@ h_\theta(x) = E[T(y)|x; θ]\\
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-    
-  
 
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>
