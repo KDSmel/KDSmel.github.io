@@ -1,25 +1,97 @@
 
 
+
 <!DOCTYPE html>
-<html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-  <link rel="stylesheet" href="/DS_Blog/lib/Han/dist/han.min.css?v=3.3">
-  <link rel="stylesheet" href="/DS_Blog/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/DS_Blog/css/main.css?v=7.1.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/DS_Blog/images/favicon-32x32-next-.png?v=7.1.2">
-  <link rel="icon" type="image/png" sizes="16x16" href="/DS_Blog/images/favicon-16x16-next-.png?v=7.1.2">
-  <link rel="mask-icon" href="/DS_Blog/images/logo-.svg?v=7.1.2" color="#222">
-  
-  
-  
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -43,23 +115,61 @@
     }
   };
 </script>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Kamel&#39;s Notes">
-<meta property="og:url" content="https://kdsmel.github.io/DS_Blog/categories/Big-Data/index.html">
-<meta property="og:site_name" content="Kamel&#39;s Notes">
+
+
+  
+
+
+
+
+  <meta name="description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
+<meta name="keywords" content="Linear Regression,Logistic Regression,Regression">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/9b3e7e9e/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9b3e7e9e/sigmoid.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9b3e7e9e/newton.png">
+<meta property="og:updated_time" content="2019-10-23T06:07:40.457Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kamel&#39;s Notes">
-  <link rel="alternate" href="/DS_Blog/atom.xml" title="Kamel's Notes" type="application/atom+xml">
-  <link rel="canonical" href="https://kdsmel.github.io/DS_Blog/categories/Big-Data/">
+<meta name="twitter:title" content="CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models">
+<meta name="twitter:description" content="linear function: \(h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2+...+θ_dx_d=θ^Tx\) cost function: \(J(θ)=\frac{1}{2}\sum_{i=1}^n(h_θ(x^{(i)})-y^{(i)})^2\)">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/9b3e7e9e/sigmoid.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/9b3e7e9e/">
+
+
+
 <script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
 </script>
 
-  <title>Category: Big Data | Kamel's Notes</title>
+  <title>CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models | Nancy's Notes</title>
   
+
+
+
+
+
+
+
+
+
+
+
+
   <noscript>
   <style>
   .use-motion .motion-element,
@@ -88,20 +198,33 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="default">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right ">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
+    
+
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Kamel's Notes</span>
+        <span class="site-title">Nancy's Notes</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
+      
         <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -117,24 +240,96 @@
 
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">   
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
           <li class="menu-item menu-item-home">
-    <a href="/DS_Blog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
-</li>
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-ml">
-    <a href="/DS_Blog/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
-  </li>  
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-big-data">
 
-    <a href="/DS_Blog/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
 
   </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-journal">
 
-    <a href="/DS_Blog/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
   </li>
+
+      
+      
     </ul>
+  
+
+  
+    
+
+  
+
+  
 </nav>
+
+
+
+  
+
+
+
 </div>
     </header>
     
