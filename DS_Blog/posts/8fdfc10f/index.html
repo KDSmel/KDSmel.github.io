@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="My implementation &amp;amp; answer of Udacity A/B Testing course&apos;s final project.">
+<meta name="keywords" content="ab-testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A&#x2F;B Testing Final Project">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/8fdfc10f/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="My implementation &amp;amp; answer of Udacity A/B Testing course&apos;s final project.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-07-03T21:47:33.264Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A&#x2F;B Testing Final Project">
+<meta name="twitter:description" content="My implementation &amp;amp; answer of Udacity A/B Testing course&apos;s final project.">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/8fdfc10f/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>A/B Testing Final Project | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/8fdfc10f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">A/B Testing Final Project
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-03 14:28:54 / Modified: 16:47:33" itemprop="dateCreated datePublished" datetime="2020-07-03T14:28:54-05:00">2020-07-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Product-Sense/" itemprop="url" rel="index"><span itemprop="name">Product Sense</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">17k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">16 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>My implementation &amp; answer of Udacity A/B Testing course's final project.</p>
+<a id="more"></a>
+<h1 id="experiment-overview-free-trial-screener">Experiment Overview: Free Trial Screener</h1>
+<p>At the time of this experiment, Udacity courses currently have two options on the course overview page: &quot;start free trial&quot;, and &quot;access course materials&quot;. If the student clicks &quot;start free trial&quot;, they will be asked to enter their credit card information, and then they will be enrolled in a free trial for the paid version of the course. After 14 days, they will automatically be charged unless they cancel first. If the student clicks &quot;access course materials&quot;, they will be able to view the videos and take the quizzes for free, but they will not receive coaching support or a verified certificate, and they will not submit their final project for feedback.</p>
+<p>In the experiment, Udacity tested a change where if the student clicked &quot;start free trial&quot;, they were asked how much time they had available to devote to the course. If the student indicated 5 or more hours per week, they would be taken through the checkout process as usual. If they indicated fewer than 5 hours per week, a message would appear indicating that Udacity courses usually require a greater time commitment for successful completion, and suggesting that the student might like to access the course materials for free. At this point, the student would have the option to continue enrolling in the free trial, or access the course materials for free instead. This screenshot shows what the experiment looks like.</p>
+<p>The <strong>hypothesis</strong> was that this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn't have enough time—without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches' capacity to support students who are likely to complete the course.</p>
+<p>The <strong>unit of diversion is a cookie</strong>, although if the student enrolls in the free trial, they are tracked by user-id from that point forward. The same user-id cannot enroll in the free trial twice. For users that do not enroll, their user-id is not tracked in the experiment, even if they were signed in when they visited the course overview page.</p>
+<h2 id="metric-choice">Metric Choice</h2>
+<p>Which of the following metrics would you choose to measure for this experiment and why? For each metric you choose, indicate whether you would use it as an invariant metric or an evaluation metric. The practical significance boundary for each metric, that is, the difference that would have to be observed before that was a meaningful change for the business, is given in parentheses. All practical significance boundaries are given as absolute changes.</p>
+<p>Any place &quot;unique cookies&quot; are mentioned, the uniqueness is determined by day. (That is, the same cookie visiting on different days would be counted twice.) User-ids are automatically unique since the site does not allow the same user-id to enroll twice.</p>
+<ul>
+<li><strong><em>Number of cookies</em></strong>: That is, number of unique cookies to view the course overview page. (<span class="math inline">\(d_{min}=3000\)</span>)</li>
+<li><strong><em>Number of user-ids</em></strong>: That is, number of users who enroll in the free trial. (<span class="math inline">\(d_{min}=50\)</span>)</li>
+<li><strong><em>Number of clicks</em></strong>: That is, number of unique cookies to click the &quot;Start free trial&quot; button (which happens before the free trial screener is trigger). (<span class="math inline">\(d_{min}=240\)</span>)</li>
+<li><strong><em>Click-through-probability</em></strong>: That is, number of unique cookies to click the &quot;Start free trial&quot; button divided by number of unique cookies to view the course overview page. (<span class="math inline">\(d_{min}=0.01\)</span>)</li>
+<li><strong><em>Gross conversion</em></strong>: That is, number of user-ids to complete checkout and enroll in the free trial divided by number of unique cookies to click the &quot;Start free trial&quot; button. (<span class="math inline">\(d_{min}=0.01\)</span>)</li>
+<li><strong><em>Retention</em></strong>: That is, number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by number of user-ids to complete checkout. (<span class="math inline">\(d_{min}=0.01\)</span>)</li>
+<li><strong><em>Net conversion</em></strong>: That is, number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by the number of unique cookies to click the &quot;Start free trial&quot; button. (<span class="math inline">\(d_{min}=0.0075\)</span>)</li>
+</ul>
+<p>You should also decide now what results you will be looking for in order to launch the experiment. Would a change in any one of your evaluation metrics be sufficient? Would you want to see multiple metrics all move or not move at the same time in order to launch? This decision will inform your choices while designing the experiment.</p>
+<p><strong><em>Invariant Metrics</em></strong> : number of cookies, number of clicks, click-through-probability.</p>
+<p><strong><em>Evaluation Metrics</em></strong> : gross conversion, retention, net conversion.</p>
+<h2 id="measure-variability">Measure Variability</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">n_pageviews=<span class="number">40000</span></span><br><span class="line">n_clicks=<span class="number">3200</span></span><br><span class="line">n_enroll=<span class="number">660</span></span><br><span class="line">ctp=<span class="number">0.08</span></span><br><span class="line">n_sample=<span class="number">5000</span></span><br><span class="line"></span><br><span class="line">click_through_probability=<span class="number">0.08</span> <span class="comment">#clicks / pageviews</span></span><br><span class="line">gross_conversion=<span class="number">0.20625</span> <span class="comment"># enroll / click</span></span><br><span class="line">retention=<span class="number">0.53</span> <span class="comment"># payment / enroll</span></span><br><span class="line">net_conversion=<span class="number">0.1093125</span> <span class="comment"># payment / click</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""analytic standard deviation estimate"""</span></span><br><span class="line"><span class="comment"># gross_conversion</span></span><br><span class="line">std_gross_conversion=math.sqrt(gross_conversion*(<span class="number">1</span>-gross_conversion)/(n_clicks/n_pageviews*n_sample))</span><br><span class="line"><span class="comment"># retention</span></span><br><span class="line">std_retention=math.sqrt(retention*(<span class="number">1</span>-retention)/(n_enroll/n_pageviews*n_sample))</span><br><span class="line"><span class="comment"># net_conversion</span></span><br><span class="line">std_net_conversion=math.sqrt(net_conversion*(<span class="number">1</span>-net_conversion)/(n_clicks/n_pageviews*n_sample))</span><br><span class="line">print(<span class="string">"SD of GC: "</span>,round(std_gross_conversion,<span class="number">4</span>))</span><br><span class="line">print(<span class="string">"SD of Retention: "</span>,round(std_retention,<span class="number">4</span>))</span><br><span class="line">print(<span class="string">"SD of NC: "</span>,round(std_net_conversion,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>SD of GC:  0.0202
+SD of Retention:  0.0549
+SD of NC:  0.0156</code></pre>
+<h2 id="sizing">Sizing</h2>
+<ul>
+<li><p>Will you use Bonferroni Correction? &gt; Evaluation metrics are closely related to each other, so that Bonferroni would be too conservative.</p></li>
+<li><p>Which evaluation metrics did you choose? &gt; gross conversion, retention, net conversion</p></li>
+<li><p>How many pageviews will you need?</p></li>
+</ul>
+<h3 id="using-sample-size-calculator">Using sample size calculator</h3>
+<p>https://www.evanmiller.org/ab-testing/sample-size.html</p>
+<p><strong>gross conversion</strong> - Baseline rate: 20.625% - Minimum Detectable Effect: 0.01 - Sample size: 25,835 clicks/group - Total sample size: 25,835*2=51670 clicks - Pageviews= 51670 / 0.08 (clicks / pageviews)=645875</p>
+<p><strong>retention</strong> - Baseline rate: 53% - Minimum Detectable Effect: 0.01 - Sample size: 39,115 enrolls/group - Total sample size: 39,115*2=78230 enrolls - Pageviews= 78230 / (660/40000) (enrolls / pageviews)=4741212</p>
+<p><strong>net conversion</strong> - Baseline rate: 10.93125% - Minimum Detectable Effect: 0.0075 - Sample size: 27,413 clicks/group - Total sample size: 27,413*2=54826 clicks - Pageviews= 54826 / 0.08 (clicks / pageviews)=685325</p>
+<p>The maximum number of pageviews is 4741212</p>
+<h3 id="using-standard-error">Using Standard Error</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm</span><br><span class="line"><span class="comment"># Inputs:</span></span><br><span class="line"><span class="comment">#   The desired alpha for a two-tailed test</span></span><br><span class="line"><span class="comment"># Returns: The z-critical value</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_z_star</span><span class="params">(alpha)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> norm.ppf((<span class="number">1</span>-alpha/<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Inputs:</span></span><br><span class="line"><span class="comment">#   z-star: The z-critical value</span></span><br><span class="line"><span class="comment">#   s: The standard error of the metric at N=1</span></span><br><span class="line"><span class="comment">#   d_min: The practical significance level</span></span><br><span class="line"><span class="comment">#   N: The sample size of each group of the experiment</span></span><br><span class="line"><span class="comment"># Returns: The beta value of the two-tailed test</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_beta</span><span class="params">(z_star,s, d_min, N)</span>:</span></span><br><span class="line">    SE = s /  math.sqrt(N)</span><br><span class="line">    <span class="keyword">return</span> norm.cdf(z_star*SE,d_min,SE)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Inputs:</span></span><br><span class="line"><span class="comment">#   s: The standard error of the metric with N=1 in each group</span></span><br><span class="line"><span class="comment">#   d_min: The practical significance level</span></span><br><span class="line"><span class="comment">#   Ns: The sample sizes to try</span></span><br><span class="line"><span class="comment">#   alpha: The desired alpha level of the test</span></span><br><span class="line"><span class="comment">#   beta: The desired beta level of the test</span></span><br><span class="line"><span class="comment"># Returns: The smallest N out of the given Ns that will achieve the desired</span></span><br><span class="line"><span class="comment">#          beta. There should be at least N samples in each group of the experiment.</span></span><br><span class="line"><span class="comment">#          If none of the given Ns will work, returns -1. N is the number of</span></span><br><span class="line"><span class="comment">#          samples in each group.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">required_size</span><span class="params">(s, d_min, Ns=<span class="number">200000</span>, alpha=<span class="number">0.05</span>, beta=<span class="number">0.2</span>)</span>:</span></span><br><span class="line">    z=get_z_star(alpha)</span><br><span class="line">    <span class="keyword">for</span> N <span class="keyword">in</span> range(<span class="number">1</span>,Ns):        </span><br><span class="line">        <span class="keyword">if</span> get_beta(z, s, d_min, N) &lt;= beta:</span><br><span class="line">            <span class="keyword">return</span> N</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># s is the pooled standard error for N=1 in each group,</span></span><br><span class="line"><span class="string">"""number of clicks needed for gross_conversion"""</span></span><br><span class="line">n=<span class="number">1</span></span><br><span class="line">s=math.sqrt(gross_conversion*(<span class="number">1</span>-gross_conversion)/n)</span><br><span class="line">d_min=<span class="number">0.01</span></span><br><span class="line">req=required_size(s,d_min)</span><br><span class="line">print(<span class="string">"number of clicks needed for gross_conversion:"</span>,int(req))</span><br><span class="line">print(<span class="string">"number of pageviews needed for gross_conversion:"</span>,int(req/click_through_probability))</span><br></pre></td></tr></table></figure>
+<pre><code>number of clicks needed for gross_conversion: 12850
+number of pageviews needed for gross_conversion: 160625</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""number of enrollment needed for retention"""</span></span><br><span class="line">n=<span class="number">1</span></span><br><span class="line">s=math.sqrt(retention*(<span class="number">1</span>-retention)/n)</span><br><span class="line">d_min=<span class="number">0.01</span></span><br><span class="line">req=required_size(s,d_min)</span><br><span class="line">print(<span class="string">"number of clicks needed for retention:"</span>,int(req))</span><br><span class="line">print(<span class="string">"number of pageviews needed for retentionn:"</span>,int(req/(n_enroll/n_pageviews)))</span><br></pre></td></tr></table></figure>
+<pre><code>number of clicks needed for retention: 19552
+number of pageviews needed for retentionn: 1184969</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""number of clickes needed for net_conversion"""</span></span><br><span class="line">n=<span class="number">1</span></span><br><span class="line">s=math.sqrt(net_conversion*(<span class="number">1</span>-net_conversion)/n)</span><br><span class="line">d_min=<span class="number">0.0075</span></span><br><span class="line">req=required_size(s,d_min)</span><br><span class="line">print(<span class="string">"number of clicks needed for net_conversion:"</span>,int(req))</span><br><span class="line">print(<span class="string">"number of pageviews needed for net_conversion:"</span>,int(req/click_through_probability))</span><br></pre></td></tr></table></figure>
+<pre><code>number of clicks needed for net_conversion: 13586
+number of pageviews needed for net_conversion: 169825</code></pre>
+<h2 id="duration-and-exposure">Duration and Exposure</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fraction_of_traffic=<span class="number">1</span></span><br><span class="line">duration=<span class="number">685325</span>/(n_pageviews*fraction_of_traffic)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">duration</span><br></pre></td></tr></table></figure>
+<pre><code>17.133125</code></pre>
+<h2 id="sanity-check">Sanity Check</h2>
+<p>For each invariant metric, compute a 95% confidence interval for the value you expect to observe.</p>
+<p>For invariant metrics we expect equal diversion into the experiment and control group.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">dates=[<span class="string">'Sat, Oct 11'</span>, <span class="string">'Sun, Oct 12'</span>, <span class="string">'Mon, Oct 13'</span>, <span class="string">'Tue, Oct 14'</span>,</span><br><span class="line">       <span class="string">'Wed, Oct 15'</span>, <span class="string">'Thu, Oct 16'</span>, <span class="string">'Fri, Oct 17'</span>, <span class="string">'Sat, Oct 18'</span>,</span><br><span class="line">       <span class="string">'Sun, Oct 19'</span>, <span class="string">'Mon, Oct 20'</span>, <span class="string">'Tue, Oct 21'</span>, <span class="string">'Wed, Oct 22'</span>,</span><br><span class="line">       <span class="string">'Thu, Oct 23'</span>, <span class="string">'Fri, Oct 24'</span>, <span class="string">'Sat, Oct 25'</span>, <span class="string">'Sun, Oct 26'</span>,</span><br><span class="line">       <span class="string">'Mon, Oct 27'</span>, <span class="string">'Tue, Oct 28'</span>, <span class="string">'Wed, Oct 29'</span>, <span class="string">'Thu, Oct 30'</span>,</span><br><span class="line">       <span class="string">'Fri, Oct 31'</span>, <span class="string">'Sat, Nov 1'</span>, <span class="string">'Sun, Nov 2'</span>, <span class="string">'Mon, Nov 3'</span>,</span><br><span class="line">       <span class="string">'Tue, Nov 4'</span>, <span class="string">'Wed, Nov 5'</span>, <span class="string">'Thu, Nov 6'</span>, <span class="string">'Fri, Nov 7'</span>,</span><br><span class="line">       <span class="string">'Sat, Nov 8'</span>, <span class="string">'Sun, Nov 9'</span>, <span class="string">'Mon, Nov 10'</span>, <span class="string">'Tue, Nov 11'</span>,</span><br><span class="line">       <span class="string">'Wed, Nov 12'</span>, <span class="string">'Thu, Nov 13'</span>, <span class="string">'Fri, Nov 14'</span>, <span class="string">'Sat, Nov 15'</span>,</span><br><span class="line">       <span class="string">'Sun, Nov 16'</span>]</span><br><span class="line">pageviews_cont=[ <span class="number">7723</span>,  <span class="number">9102</span>, <span class="number">10511</span>,  <span class="number">9871</span>, <span class="number">10014</span>,  <span class="number">9670</span>,  <span class="number">9008</span>,  <span class="number">7434</span>,  <span class="number">8459</span>,</span><br><span class="line">       <span class="number">10667</span>, <span class="number">10660</span>,  <span class="number">9947</span>,  <span class="number">8324</span>,  <span class="number">9434</span>,  <span class="number">8687</span>,  <span class="number">8896</span>,  <span class="number">9535</span>,  <span class="number">9363</span>,</span><br><span class="line">        <span class="number">9327</span>,  <span class="number">9345</span>,  <span class="number">8890</span>,  <span class="number">8460</span>,  <span class="number">8836</span>,  <span class="number">9437</span>,  <span class="number">9420</span>,  <span class="number">9570</span>,  <span class="number">9921</span>,</span><br><span class="line">        <span class="number">9424</span>,  <span class="number">9010</span>,  <span class="number">9656</span>, <span class="number">10419</span>,  <span class="number">9880</span>, <span class="number">10134</span>,  <span class="number">9717</span>,  <span class="number">9192</span>,  <span class="number">8630</span>,</span><br><span class="line">        <span class="number">8970</span>]</span><br><span class="line">pageviews_exp=[ <span class="number">7716</span>,  <span class="number">9288</span>, <span class="number">10480</span>,  <span class="number">9867</span>,  <span class="number">9793</span>,  <span class="number">9500</span>,  <span class="number">9088</span>,  <span class="number">7664</span>,  <span class="number">8434</span>,</span><br><span class="line">       <span class="number">10496</span>, <span class="number">10551</span>,  <span class="number">9737</span>,  <span class="number">8176</span>,  <span class="number">9402</span>,  <span class="number">8669</span>,  <span class="number">8881</span>,  <span class="number">9655</span>,  <span class="number">9396</span>,</span><br><span class="line">        <span class="number">9262</span>,  <span class="number">9308</span>,  <span class="number">8715</span>,  <span class="number">8448</span>,  <span class="number">8836</span>,  <span class="number">9359</span>,  <span class="number">9427</span>,  <span class="number">9633</span>,  <span class="number">9842</span>,</span><br><span class="line">        <span class="number">9272</span>,  <span class="number">8969</span>,  <span class="number">9697</span>, <span class="number">10445</span>,  <span class="number">9931</span>, <span class="number">10042</span>,  <span class="number">9721</span>,  <span class="number">9304</span>,  <span class="number">8668</span>,</span><br><span class="line">        <span class="number">8988</span>]</span><br><span class="line">clicks_cont=[<span class="number">687</span>, <span class="number">779</span>, <span class="number">909</span>, <span class="number">836</span>, <span class="number">837</span>, <span class="number">823</span>, <span class="number">748</span>, <span class="number">632</span>, <span class="number">691</span>, <span class="number">861</span>, <span class="number">867</span>, <span class="number">838</span>, <span class="number">665</span>,</span><br><span class="line">       <span class="number">673</span>, <span class="number">691</span>, <span class="number">708</span>, <span class="number">759</span>, <span class="number">736</span>, <span class="number">739</span>, <span class="number">734</span>, <span class="number">706</span>, <span class="number">681</span>, <span class="number">693</span>, <span class="number">788</span>, <span class="number">781</span>, <span class="number">805</span>,</span><br><span class="line">       <span class="number">830</span>, <span class="number">781</span>, <span class="number">756</span>, <span class="number">825</span>, <span class="number">874</span>, <span class="number">830</span>, <span class="number">801</span>, <span class="number">814</span>, <span class="number">735</span>, <span class="number">743</span>, <span class="number">722</span>]</span><br><span class="line">clicks_exp=[<span class="number">686</span>, <span class="number">785</span>, <span class="number">884</span>, <span class="number">827</span>, <span class="number">832</span>, <span class="number">788</span>, <span class="number">780</span>, <span class="number">652</span>, <span class="number">697</span>, <span class="number">860</span>, <span class="number">864</span>, <span class="number">801</span>, <span class="number">642</span>,</span><br><span class="line">       <span class="number">697</span>, <span class="number">669</span>, <span class="number">693</span>, <span class="number">771</span>, <span class="number">736</span>, <span class="number">727</span>, <span class="number">728</span>, <span class="number">722</span>, <span class="number">695</span>, <span class="number">724</span>, <span class="number">789</span>, <span class="number">743</span>, <span class="number">808</span>,</span><br><span class="line">       <span class="number">831</span>, <span class="number">767</span>, <span class="number">760</span>, <span class="number">850</span>, <span class="number">851</span>, <span class="number">831</span>, <span class="number">802</span>, <span class="number">829</span>, <span class="number">770</span>, <span class="number">724</span>, <span class="number">710</span>]</span><br><span class="line">enrolls_cont=[<span class="number">134</span>, <span class="number">147</span>, <span class="number">167</span>, <span class="number">156</span>, <span class="number">163</span>, <span class="number">138</span>, <span class="number">146</span>, <span class="number">110</span>, <span class="number">131</span>, <span class="number">165</span>, <span class="number">196</span>, <span class="number">162</span>, <span class="number">127</span>,</span><br><span class="line">       <span class="number">220</span>, <span class="number">176</span>, <span class="number">161</span>, <span class="number">233</span>, <span class="number">154</span>, <span class="number">196</span>, <span class="number">167</span>, <span class="number">174</span>, <span class="number">156</span>, <span class="number">206</span>]</span><br><span class="line">enrolls_exp=[<span class="number">105</span>, <span class="number">116</span>, <span class="number">145</span>, <span class="number">138</span>, <span class="number">140</span>, <span class="number">129</span>, <span class="number">127</span>,  <span class="number">94</span>, <span class="number">120</span>, <span class="number">153</span>, <span class="number">143</span>, <span class="number">128</span>, <span class="number">122</span>,</span><br><span class="line">       <span class="number">194</span>, <span class="number">127</span>, <span class="number">153</span>, <span class="number">213</span>, <span class="number">162</span>, <span class="number">201</span>, <span class="number">207</span>, <span class="number">182</span>, <span class="number">142</span>, <span class="number">182</span>]</span><br><span class="line">payment_cont=[ <span class="number">70</span>,  <span class="number">70</span>,  <span class="number">95</span>, <span class="number">105</span>,  <span class="number">64</span>,  <span class="number">82</span>,  <span class="number">76</span>,  <span class="number">70</span>,  <span class="number">60</span>,  <span class="number">97</span>, <span class="number">105</span>,  <span class="number">92</span>,  <span class="number">56</span>,</span><br><span class="line">       <span class="number">122</span>, <span class="number">128</span>, <span class="number">104</span>, <span class="number">124</span>,  <span class="number">91</span>,  <span class="number">86</span>,  <span class="number">75</span>, <span class="number">101</span>,  <span class="number">93</span>,  <span class="number">67</span>]</span><br><span class="line">payment_exp=[ <span class="number">34</span>,  <span class="number">91</span>,  <span class="number">79</span>,  <span class="number">92</span>,  <span class="number">94</span>,  <span class="number">61</span>,  <span class="number">44</span>,  <span class="number">62</span>,  <span class="number">77</span>,  <span class="number">98</span>,  <span class="number">71</span>,  <span class="number">70</span>,  <span class="number">68</span>,</span><br><span class="line">        <span class="number">94</span>,  <span class="number">81</span>, <span class="number">101</span>, <span class="number">119</span>, <span class="number">120</span>,  <span class="number">96</span>,  <span class="number">67</span>, <span class="number">123</span>, <span class="number">100</span>, <span class="number">103</span>]</span><br><span class="line">ctp_cont=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(clicks_cont,pageviews_cont)]</span><br><span class="line">ctp_exp=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(clicks_exp,pageviews_exp)]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""pageviews"""</span></span><br><span class="line">sum_pv_cont=sum(pageviews_cont)</span><br><span class="line">sum_pv_exp=sum(pageviews_exp)</span><br><span class="line">SD_pageviews=math.sqrt(<span class="number">0.5</span>*<span class="number">0.5</span>/(sum_pv_cont+sum_pv_exp))</span><br><span class="line">m=<span class="number">1.96</span>*SD_pageviews</span><br><span class="line">ci_min,ci_max=<span class="number">0.5</span>-m,<span class="number">0.5</span>+m</span><br><span class="line">print(<span class="string">"Confidence Interval for pageviews: [&#123;&#125;,&#123;&#125;]"</span>.format(round(ci_min,<span class="number">4</span>),round(ci_max,<span class="number">4</span>)))</span><br><span class="line">print(<span class="string">"Observed: "</span>,round(sum_pv_cont/(sum_pv_exp+sum_pv_cont),<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>Confidence Interval for pageviews: [0.4988,0.5012]
+Observed:  0.5006</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""clicks"""</span></span><br><span class="line">sum_click_cont=sum(clicks_cont)</span><br><span class="line">sum_click_exp=sum(clicks_exp)</span><br><span class="line">SD_clicks=math.sqrt(<span class="number">0.5</span>*<span class="number">0.5</span>/(sum_click_cont+sum_click_exp))</span><br><span class="line">m=<span class="number">1.96</span>*SD_clicks</span><br><span class="line">ci_min,ci_max=<span class="number">0.5</span>-m,<span class="number">0.5</span>+m</span><br><span class="line">print(<span class="string">"Confidence Interval for clicks: [&#123;&#125;,&#123;&#125;]"</span>.format(round(ci_min,<span class="number">4</span>),round(ci_max,<span class="number">4</span>)))</span><br><span class="line">print(<span class="string">"Observed: "</span>,round(sum_click_cont/(sum_click_exp+sum_click_cont),<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>Confidence Interval for clicks: [0.4959,0.5041]
+Observed:  0.5005</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""click_through_probability"""</span></span><br><span class="line">ctp_cont=sum_click_cont/sum_pv_cont</span><br><span class="line">ctp_exp=sum_click_exp/sum_pv_exp</span><br><span class="line">d_hat=ctp_exp-ctp_cont</span><br><span class="line">ctp_pool=(sum_click_cont+sum_click_exp)/(sum_pv_cont+sum_pv_exp)</span><br><span class="line">SE_ctp=math.sqrt(ctp_pool*(<span class="number">1</span>-ctp_pool)*(<span class="number">1</span>/sum_pv_cont+<span class="number">1</span>/sum_pv_exp))</span><br><span class="line">m=<span class="number">1.96</span>*SE_ctp</span><br><span class="line">ci_min,ci_max=-m,m</span><br><span class="line">print(<span class="string">"Confidence Interval for ctp: [&#123;&#125;,&#123;&#125;]"</span>.format(round(ci_min,<span class="number">4</span>),round(ci_max,<span class="number">4</span>)))</span><br><span class="line">print(<span class="string">"Observed: "</span>,round(d_hat,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>Confidence Interval for ctp: [-0.0013,0.0013]
+Observed:  0.0001</code></pre>
+<h2 id="effective-size-test">Effective Size Test</h2>
+<p>For each evaluation metric, compute a 95% confidence interval around the difference between the experiment and control group</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""gross conversion"""</span></span><br><span class="line">n=len(enrolls_exp)</span><br><span class="line">d_min=<span class="number">0.01</span></span><br><span class="line">sum_clicks_cont=sum(clicks_cont[:n])</span><br><span class="line">sum_clicks_exp=sum(clicks_exp[:n])</span><br><span class="line">sum_enroll_cont=sum(enrolls_cont[:n])</span><br><span class="line">sum_enroll_exp=sum(enrolls_exp[:n])</span><br><span class="line">p_pool=(sum_enroll_exp+sum_enroll_cont)/(sum_clicks_exp+sum_clicks_cont)</span><br><span class="line">SE_pool=math.sqrt(p_pool*(<span class="number">1</span>-p_pool)*(<span class="number">1</span>/sum_clicks_cont+<span class="number">1</span>/sum_clicks_exp))</span><br><span class="line">m=SE_pool*<span class="number">1.96</span></span><br><span class="line">d_hat=sum_enroll_exp/sum_clicks_exp-sum_enroll_cont/sum_clicks_cont</span><br><span class="line">print(<span class="string">"Confidence Interval:[&#123;&#125;,&#123;&#125;]"</span>.format(d_hat-m,d_hat+m))</span><br><span class="line">print(<span class="string">"Observed:"</span>,d_hat)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"Statistically significant:"</span>, d_hat+m&lt;<span class="number">0</span> <span class="keyword">or</span> d_hat-m&gt;<span class="number">0</span> ,<span class="string">",  CI doesn't include 0"</span>)</span><br><span class="line">print(<span class="string">"Practically significant:"</span>,<span class="literal">True</span>,<span class="string">",  CI doesn't include d_min or -d_min"</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Confidence Interval:[-0.0291233583354044,-0.01198639082531873]
+Observed: -0.020554874580361565
+Statistically significant: True ,  CI doesn&#39;t include 0
+Practically significant: True ,  CI doesn&#39;t include d_min or -d_min</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""retention"""</span></span><br><span class="line">n=len(payment_exp)</span><br><span class="line">d_min=<span class="number">0.01</span></span><br><span class="line">sum_payment_cont=sum(payment_cont[:n])</span><br><span class="line">sum_payment_exp=sum(payment_exp[:n])</span><br><span class="line">sum_enroll_cont=sum(enrolls_cont[:n])</span><br><span class="line">sum_enroll_exp=sum(enrolls_exp[:n])</span><br><span class="line">p_pool=(sum_payment_cont+sum_payment_exp)/(sum_enroll_cont+sum_enroll_exp)</span><br><span class="line">SE_pool=math.sqrt(p_pool*(<span class="number">1</span>-p_pool)*(<span class="number">1</span>/sum_enroll_cont+<span class="number">1</span>/sum_enroll_exp))</span><br><span class="line">m=SE_pool*<span class="number">1.96</span></span><br><span class="line">d_hat=sum_payment_exp/sum_enroll_exp-sum_payment_cont/sum_enroll_cont</span><br><span class="line">print(<span class="string">"Confidence Interval:[&#123;&#125;,&#123;&#125;]"</span>.format(d_hat-m,d_hat+m))</span><br><span class="line">print(<span class="string">"Observed:"</span>,d_hat)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"Statistically significant:"</span>, d_hat+m&lt;<span class="number">0</span> <span class="keyword">or</span> d_hat-m&gt;<span class="number">0</span> ,<span class="string">",  CI doesn't include 0"</span>)</span><br><span class="line">print(<span class="string">"Practically significant:"</span>,<span class="literal">False</span>,<span class="string">",  CI include d_min"</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Confidence Interval:[0.008104435728019967,0.05408517368626556]
+Observed: 0.031094804707142765
+Statistically significant: True ,  CI doesn&#39;t include 0
+Practically significant: False ,  CI include d_min</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""net conversion"""</span></span><br><span class="line">n=len(enrolls_exp)</span><br><span class="line">d_min=<span class="number">0.0075</span></span><br><span class="line">sum_clicks_cont=sum(clicks_cont[:n])</span><br><span class="line">sum_clicks_exp=sum(clicks_exp[:n])</span><br><span class="line">sum_payment_cont=sum(payment_cont[:n])</span><br><span class="line">sum_payment_exp=sum(payment_exp[:n])</span><br><span class="line">p_pool=(sum_payment_exp+sum_payment_cont)/(sum_clicks_exp+sum_clicks_cont)</span><br><span class="line">SE_pool=math.sqrt(p_pool*(<span class="number">1</span>-p_pool)*(<span class="number">1</span>/sum_clicks_cont+<span class="number">1</span>/sum_clicks_exp))</span><br><span class="line">m=SE_pool*<span class="number">1.96</span></span><br><span class="line">d_hat=sum_payment_exp/sum_clicks_exp-sum_payment_cont/sum_clicks_cont</span><br><span class="line">print(<span class="string">"Confidence Interval:[&#123;&#125;,&#123;&#125;]"</span>.format(d_hat-m,d_hat+m))</span><br><span class="line">print(<span class="string">"Observed:"</span>,d_hat)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"Statistically significant:"</span>, d_hat+m&lt;<span class="number">0</span> <span class="keyword">or</span> d_hat-m&gt;<span class="number">0</span> ,<span class="string">",  CI doesn't include 0"</span>)</span><br><span class="line">print(<span class="string">"Practically significant:"</span>,<span class="literal">False</span>,<span class="string">",  CI include d_min"</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Confidence Interval:[-0.011604624359891718,0.001857179010803383]
+Observed: -0.0048737226745441675
+Statistically significant: False ,  CI doesn&#39;t include 0
+Practically significant: False ,  CI include d_min</code></pre>
+<h2 id="sign-tests">Sign Tests</h2>
+<p>Run a sign test on each evaluation metric using the day-by-day data</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> binom_test </span><br><span class="line"><span class="string">"""gross conversion"""</span></span><br><span class="line">alpha=<span class="number">0.05</span></span><br><span class="line">beta=<span class="number">0.2</span></span><br><span class="line"></span><br><span class="line">gc_exp=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(enrolls_exp,clicks_exp)]</span><br><span class="line">gc_cont=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(enrolls_cont,clicks_cont)]</span><br><span class="line">gc_diff=sum([i&gt;j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(gc_exp,gc_cont)])</span><br><span class="line">days=len(gc_exp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The prob of gross conversion of experiment group &gt; gross conversion of control group is 0.5</span></span><br><span class="line">p_value=binom_test(gc_diff, n=days, p=<span class="number">0.5</span>)</span><br><span class="line">print(<span class="string">"p-value:"</span>,p_value,<span class="string">", Statistically Significant:"</span>,p_value&lt;alpha)</span><br></pre></td></tr></table></figure>
+<pre><code>p-value: 0.0025994777679443364 , Statistically Significant: True</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""retention"""</span></span><br><span class="line">rt_exp=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(payment_exp,enrolls_exp)]</span><br><span class="line">rt_cont=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(payment_cont,enrolls_cont)]</span><br><span class="line">rt_diff=sum([i&gt;j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(rt_exp,rt_cont)])</span><br><span class="line">days=len(rt_exp)</span><br><span class="line">p_value=binom_test(rt_diff, n=days, p=<span class="number">0.5</span>)</span><br><span class="line">print(<span class="string">"p-value:"</span>,p_value,<span class="string">", Statistically Significant:"</span>,p_value&lt;alpha)</span><br></pre></td></tr></table></figure>
+<pre><code>p-value: 0.6776394844055175 , Statistically Significant: False</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(gc_exp)</span><br></pre></td></tr></table></figure>
+<pre><code>23</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""net conversion"""</span></span><br><span class="line">nc_exp=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(payment_exp,clicks_exp)]</span><br><span class="line">nc_cont=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(payment_cont,clicks_cont)]</span><br><span class="line">nc_diff=sum([i&gt;j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(nc_exp,nc_cont)])</span><br><span class="line">days=len(nc_exp)</span><br><span class="line">p_value=binom_test(nc_diff, n=days, p=<span class="number">0.5</span>)</span><br><span class="line">print(<span class="string">"p-value:"</span>,p_value,<span class="string">", Statistically Significant:"</span>,p_value&lt;alpha)</span><br></pre></td></tr></table></figure>
+<pre><code>p-value: 0.6776394844055175 , Statistically Significant: False</code></pre>
+<blockquote>
+<p>Recomendation: not to launch</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ab-testing/" rel="tag"># ab-testing</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/17c5bb19/" rel="next" title="Study Notes of Udacity A/B Testing">
+                <i class="fa fa-chevron-left"></i> Study Notes of Udacity A/B Testing
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/c27004a0/" rel="prev" title="Probability & Statistics Fundamental">
+                Probability & Statistics Fundamental <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#experiment-overview-free-trial-screener"><span class="nav-number">1.</span> <span class="nav-text">Experiment Overview: Free Trial Screener</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#metric-choice"><span class="nav-number">1.1.</span> <span class="nav-text">Metric Choice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#measure-variability"><span class="nav-number">1.2.</span> <span class="nav-text">Measure Variability</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sizing"><span class="nav-number">1.3.</span> <span class="nav-text">Sizing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#using-sample-size-calculator"><span class="nav-number">1.3.1.</span> <span class="nav-text">Using sample size calculator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#using-standard-error"><span class="nav-number">1.3.2.</span> <span class="nav-text">Using Standard Error</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#duration-and-exposure"><span class="nav-number">1.4.</span> <span class="nav-text">Duration and Exposure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sanity-check"><span class="nav-number">1.5.</span> <span class="nav-text">Sanity Check</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#effective-size-test"><span class="nav-number">1.6.</span> <span class="nav-text">Effective Size Test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sign-tests"><span class="nav-number">1.7.</span> <span class="nav-text">Sign Tests</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

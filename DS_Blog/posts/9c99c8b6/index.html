@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Clustering Methods Clustering refers to a very broad set of techniques for finding subgroups, or clusters, in a data set.  When we cluster the observations of a data set, we seek to partition them int">
+<meta name="keywords" content="Clustering,Unsupervised">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Clustering">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/9c99c8b6/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Clustering Methods Clustering refers to a very broad set of techniques for finding subgroups, or clusters, in a data set.  When we cluster the observations of a data set, we seek to partition them int">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C7.png">
+<meta property="og:updated_time" content="2019-10-19T23:20:31.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Clustering">
+<meta name="twitter:description" content="Clustering Methods Clustering refers to a very broad set of techniques for finding subgroups, or clusters, in a data set.  When we cluster the observations of a data set, we seek to partition them int">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/9c99c8b6/C1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/9c99c8b6/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Clustering | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/9c99c8b6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Clustering
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-15 12:52:06" itemprop="dateCreated datePublished" datetime="2019-06-15T12:52:06-05:00">2019-06-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-10-19 18:20:31" itemprop="dateModified" datetime="2019-10-19T18:20:31-05:00">2019-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">7.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">6 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="clustering-methods">Clustering Methods</h1>
+<p><strong>Clustering</strong> refers to a very broad set of techniques for finding subgroups, or clusters, in a data set.</p>
+<ul>
+<li><p>When we cluster the observations of a data set, we seek to partition them into distinct groups so that the observations within each group are quite similar to each other</p></li>
+<li><p>This is an unsupervised problem because we are trying to discover structure</p></li>
+</ul>
+<a id="more"></a>
+<h2 id="clustering-v.s.-pca">Clustering v.s. PCA</h2>
+<p>Both clustering and PCA seek to simplify the data via a small number of summaries, but their mechanisms are different:</p>
+<ul>
+<li><p>PCA looks to find a low-dimensional representation of the observations that explain a good fraction of the variance;</p></li>
+<li><p>Clustering looks to find homogeneous subgroups among the observations.</p></li>
+</ul>
+<p><strong>Application:market segmentation</strong></p>
+<h1 id="k-means-clustering">K-Means Clustering</h1>
+<p><strong>K-means clustering</strong> is a simple and elegant approach for partitioning a data set into K distinct, <strong><em>non-overlapping</em></strong> clusters.</p>
+<p>The idea behind <strong>K-means clustering</strong> is that a <em>good</em> clustering is one for which the <strong><em>within-cluster</em></strong> <strong><em>variation</em></strong> is as small as possible.</p>
+<p>The <strong>within-cluster variation</strong> for cluster <span class="math inline">\(C_k\)</span> is a measure <span class="math inline">\(W(C_k)\)</span> of the amount by which the observations within a cluster differ from each other.</p>
+<p>Hence we want to solve the problem, <span class="math display">\[
+\min_{C_1,...,C_K}\left\{ \sum_{i=1}^KW(C_k) \right\}
+\]</span></p>
+<ul>
+<li>partition the observations into K clusters such that the total within-cluster variation, summed over all K clusters, is <em>as small as possible</em>.</li>
+</ul>
+<p><strong>Define the within-cluster variation</strong>: <strong><em>Euclidean distance</em></strong>: <span class="math display">\[
+W(C_k)=\frac{1}{|C_k|}\sum_{i,i^{&#39;}\in C_k}\sum_{j=1}^p(x_{ij}-x_{i^{&#39;}j})^2
+\]</span></p>
+<ul>
+<li>where <span class="math inline">\(|C_k|\)</span> denotes the number of observations in the kth cluster.</li>
+<li>The within-cluster variation for the kth cluster is <em>the sum of all ofthe pairwise squared Euclidean distances between the observations in the kth cluste</em>r, divided by the total number of observations in the kth cluster.</li>
+</ul>
+<h2 id="k-means-clustering-optimization-problem">K-means Clustering Optimization Problem</h2>
+<p><strong>Objective funtion</strong>: <span class="math display">\[
+\min_{C_1,...,C_K}\left\{ \sum_{i=1}^K\frac{1}{|C_k|}\sum_{i,i^{&#39;}\in C_k}\sum_{j=1}^p(x_{ij}-x_{i^{&#39;}j})^2\right\}
+\]</span> <img src="./C1.png"></p>
+<p>Algorithm 10.1 is guaranteed to decrease the value of the objective at each step: <span class="math display">\[
+\frac{1}{|C_k|}\sum_{i,i^{&#39;}\in C_k}\sum_{j=1}^p(x_{ij}-x_{i^{&#39;}j})^2=2\sum_{i\in C_k}\sum_{j=1}^p(x_{ij}-\bar{x}_{kj})^2, \quad (10.12)
+\]</span></p>
+<ul>
+<li>where <span class="math inline">\(\bar{x}_{kj}=\frac{1}{C_k}\sum_{i \in C_k}x_{ij}\)</span> is the mean for feature <span class="math inline">\(j\)</span> in cluster <span class="math inline">\(C_k\)</span>.</li>
+</ul>
+<p><strong>Step 2(a)</strong> : the <em>cluster means</em> for each feature are the constants that minimize the sum-of-squared deviations</p>
+<p><strong>Step 2(b)</strong> : reallocating the observations can only improve (10.12).</p>
+<p><strong>Local optimum</strong> : This means that as the algorithmis run, the clustering obtained will continually improve until the result no longer changes; the objective will never increase.</p>
+<ul>
+<li>It is important to run the algorithm multiple times from different random initial configurations, because the results obtained will depend on the initial (random) cluster assignmentof each observation in Step 1 of Algorithm 10.1</li>
+</ul>
+<p><img src="./C2.png"></p>
+<h1 id="hierarchical-clustering">Hierarchical Clustering</h1>
+<p><strong>Hierarchical clustering</strong> is an alternative approach which does not require that we commit to a particular choice of <span class="math inline">\(K\)</span>.</p>
+<ul>
+<li>Added advantage over K-means clustering in that it results in an attractive tree-based representation of the observations, called a <strong><em>dendrogram</em></strong>.</li>
+</ul>
+<p><strong>Bottom-up</strong> or <strong>agglomerative</strong> clustering: the most common type of hierarchical clustering.</p>
+<h2 id="interpreting-a-dendrogram">Interpreting a Dendrogram</h2>
+<p><img src="./C4.png"></p>
+<p><img src="./C3.png"></p>
+<p>In the left-hand panel of Figure 10.9, each <em>leaf</em> of the dendrogram representsone of the 45 observations in Figure 10.8.</p>
+<ul>
+<li><p>As we move up the tree, some leaves begin to <strong>fuse</strong> into branches: observations that are similar to each other.</p></li>
+<li>The earlier(lower in the tree) fusions occur, the more similar the groups of observationsare to each other.</li>
+<li>For any two observations, we can look for the point in the tree where branches containing those two observations are first fused.
+<ul>
+<li>The <em>height</em> of this fusion, as measured on the vertical axis, indicates how different the two observations are.</li>
+</ul></li>
+</ul>
+<p>Thus, observations that fuse at the very bottom of the tree are quite similar to each other, whereas observationsthat fuse close to the top of the tree will tend to be quite different.</p>
+<p><strong>Identifying clusters on the basisof a dendrogram</strong>:</p>
+<p>Make a <em>horizontal cut</em> across the dendrogram, as shown in the center and right-hand panels of Figure 10.9. The distinct sets of observations beneath the cut can be interpreted as clusters.</p>
+<blockquote>
+<p><strong><em>The height of the cut to the dendrogram serves the same role as the K in K-means clustering: it controls the number ofclusters obtained.</em></strong></p>
+</blockquote>
+<p><strong><em>Hierarchical</em></strong> refers to the fact that clusters obtained by cutting the dendrogram at a given height are necessarily <em>nested</em> within the clusters obtained by cutting the <em>dendrogram</em> at any greater height.</p>
+<p><strong>Disadvantage</strong>: hierarchical clustering can sometimes yield worse results than <em>K-means clustering</em> when the assumption of hierarchical structure unrealistic.</p>
+<h2 id="the-hierarchical-clustering-algorithm">The Hierarchical Clustering Algorithm</h2>
+<p><img src="C5.png"></p>
+<p><strong>Explanation:</strong></p>
+<p>The two clusters that are most similar to each other are then fused so that there now are n−1 clusters. Next the two clusters that are most similar to each other arefused again, so that there now are n − 2 clusters. The algorithm proceeds in this fashion until all of the observations belong to one single cluster, and the dendrogram is complete.</p>
+<p><img src="C6.png"></p>
+<blockquote>
+<p>How did we determine that the cluster {5, 7} should be fused with the cluster {8}? - linkage</p>
+</blockquote>
+<p><strong>Linkage</strong> : defines the <em>dissimilarity</em> between two groups of observations.</p>
+<ul>
+<li>Complete, average, single, and centroid</li>
+<li>The dissimilarities computed in Step 2(b)of the hierarchical clustering algorithm will depend on the type of linkage used, as well as on the choice of dissimilarity measure.</li>
+</ul>
+<p><img src="C7.png"></p>
+<h2 id="choice-of-dissimilarity-measure">Choice of Dissimilarity Measure</h2>
+<p><strong>Dissimilarity Measure</strong>:</p>
+<ul>
+<li><strong><em>Euclidean distance</em></strong></li>
+<li><strong><em>Correlation-based distance</em></strong>: considers two observationsto be similar if their features are highly correlated</li>
+</ul>
+<p>In general, careful attention should be paid to the <em>type</em> of data being clustered and the scientific question at hand which determines what type of dissimilarity measureis used for hierarchical clustering.</p>
+<p><strong>Note:</strong> variables should be <strong><em>scaled</em></strong> to have standarddeviation one before the dissimilarity between the observations iscomputed.</p>
+<h1 id="practical-issues-in-clustering">Practical Issues in Clustering</h1>
+<h2 id="small-decisions-with-big-consequences">Small Decisions with Big Consequences</h2>
+<p>In order to perform clustering, some decisions must be made.</p>
+<ul>
+<li>Should the observations or features first be standardized to have mean zero and scaled to have standard deviation one.</li>
+<li>In the case of hierarchical clustering,
+<ul>
+<li>What dissimilarity measure should be used?</li>
+<li>What type of linkage should be used?</li>
+<li>Where should we cut the dendrogramin order to obtain clusters?</li>
+</ul></li>
+<li>In the case of K-means clustering, how many clusters should we lookfor in the data?\</li>
+</ul>
+<p>We try several different choices, and look for the one withthe most useful or interpretable solution.</p>
+<hr>
+<p><strong>Ref:</strong></p>
+<p>James, Gareth, et al. <em>An introduction to statistical learning</em>. Vol. 112. New York: springer, 2013.</p>
+<p>Hastie, Trevor, et al. &quot;The elements of statistical learning: data mining, inference and prediction.&quot; <em>The Mathematical Intelligencer</em> 27.2 (2005): 83-85</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Clustering/" rel="tag"># Clustering</a>
+          
+            <a href="/tags/Unsupervised/" rel="tag"># Unsupervised</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/a2f8a358/" rel="next" title="Machine Learning Q&A Part II: COD, Reg, Model Evaluation, Dimensionality Reduction">
+                <i class="fa fa-chevron-left"></i> Machine Learning Q&A Part II: COD, Reg, Model Evaluation, Dimensionality Reduction
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/c8f688ba/" rel="prev" title="Machine Learning Q&A Part III: SVM">
+                Machine Learning Q&A Part III: SVM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#clustering-methods"><span class="nav-number">1.</span> <span class="nav-text">Clustering Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#clustering-v.s.-pca"><span class="nav-number">1.1.</span> <span class="nav-text">Clustering v.s. PCA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#k-means-clustering"><span class="nav-number">2.</span> <span class="nav-text">K-Means Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#k-means-clustering-optimization-problem"><span class="nav-number">2.1.</span> <span class="nav-text">K-means Clustering Optimization Problem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hierarchical-clustering"><span class="nav-number">3.</span> <span class="nav-text">Hierarchical Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#interpreting-a-dendrogram"><span class="nav-number">3.1.</span> <span class="nav-text">Interpreting a Dendrogram</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-hierarchical-clustering-algorithm"><span class="nav-number">3.2.</span> <span class="nav-text">The Hierarchical Clustering Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choice-of-dissimilarity-measure"><span class="nav-number">3.3.</span> <span class="nav-text">Choice of Dissimilarity Measure</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#practical-issues-in-clustering"><span class="nav-number">4.</span> <span class="nav-text">Practical Issues in Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#small-decisions-with-big-consequences"><span class="nav-number">4.1.</span> <span class="nav-text">Small Decisions with Big Consequences</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
