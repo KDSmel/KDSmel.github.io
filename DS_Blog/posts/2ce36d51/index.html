@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="123456import scipyimport scipy.statsimport numpy as npimport pandas as pdimport matplotlib.pyplot as plt%matplotlib inline 12data=pd.read_csv(&apos;./data/prostate.data&apos;,delimiter=&apos;\t&apos;,index_col=0)data.hea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Linear Regression Example Prostate Cancer">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/2ce36d51/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="123456import scipyimport scipy.statsimport numpy as npimport pandas as pdimport matplotlib.pyplot as plt%matplotlib inline 12data=pd.read_csv(&apos;./data/prostate.data&apos;,delimiter=&apos;\t&apos;,index_col=0)data.hea">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/2ce36d51/ESL-Example-Prostate%20Cancer_5_0.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/2ce36d51/ESL-Example-Prostate%20Cancer_22_0.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/2ce36d51/ESL-Example-Prostate%20Cancer_25_0.png">
+<meta property="og:updated_time" content="2019-10-19T23:21:01.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Linear Regression Example Prostate Cancer">
+<meta name="twitter:description" content="123456import scipyimport scipy.statsimport numpy as npimport pandas as pdimport matplotlib.pyplot as plt%matplotlib inline 12data=pd.read_csv(&apos;./data/prostate.data&apos;,delimiter=&apos;\t&apos;,index_col=0)data.hea">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/2ce36d51/ESL-Example-Prostate%20Cancer_5_0.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/2ce36d51/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Linear Regression Example Prostate Cancer | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/2ce36d51/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Linear Regression Example Prostate Cancer
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-19 18:04:00 / Modified: 18:21:01" itemprop="dateCreated datePublished" datetime="2019-10-19T18:04:00-05:00">2019-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">8.5k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy</span><br><span class="line"><span class="keyword">import</span> scipy.stats</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data=pd.read_csv(<span class="string">'./data/prostate.data'</span>,delimiter=<span class="string">'\t'</span>,index_col=<span class="number">0</span>)</span><br><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+    
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+lcavol
+</th>
+<th>
+lweight
+</th>
+<th>
+age
+</th>
+<th>
+lbph
+</th>
+<th>
+svi
+</th>
+<th>
+lcp
+</th>
+<th>
+gleason
+</th>
+<th>
+pgg45
+</th>
+<th>
+lpsa
+</th>
+<th>
+train
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+1
+</th>
+<td>
+-0.579818
+</td>
+<td>
+2.769459
+</td>
+<td>
+50
+</td>
+<td>
+-1.386294
+</td>
+<td>
+0
+</td>
+<td>
+-1.386294
+</td>
+<td>
+6
+</td>
+<td>
+0
+</td>
+<td>
+-0.430783
+</td>
+<td>
+T
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+-0.994252
+</td>
+<td>
+3.319626
+</td>
+<td>
+58
+</td>
+<td>
+-1.386294
+</td>
+<td>
+0
+</td>
+<td>
+-1.386294
+</td>
+<td>
+6
+</td>
+<td>
+0
+</td>
+<td>
+-0.162519
+</td>
+<td>
+T
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+-0.510826
+</td>
+<td>
+2.691243
+</td>
+<td>
+74
+</td>
+<td>
+-1.386294
+</td>
+<td>
+0
+</td>
+<td>
+-1.386294
+</td>
+<td>
+7
+</td>
+<td>
+20
+</td>
+<td>
+-0.162519
+</td>
+<td>
+T
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+-1.203973
+</td>
+<td>
+3.282789
+</td>
+<td>
+58
+</td>
+<td>
+-1.386294
+</td>
+<td>
+0
+</td>
+<td>
+-1.386294
+</td>
+<td>
+6
+</td>
+<td>
+0
+</td>
+<td>
+-0.162519
+</td>
+<td>
+T
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+0.751416
+</td>
+<td>
+3.432373
+</td>
+<td>
+62
+</td>
+<td>
+-1.386294
+</td>
+<td>
+0
+</td>
+<td>
+-1.386294
+</td>
+<td>
+6
+</td>
+<td>
+0
+</td>
+<td>
+0.371564
+</td>
+<td>
+T
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The correlation matrix of the predictors:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.corr()</span><br></pre></td></tr></table></figure>
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+    
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+lcavol
+</th>
+<th>
+lweight
+</th>
+<th>
+age
+</th>
+<th>
+lbph
+</th>
+<th>
+svi
+</th>
+<th>
+lcp
+</th>
+<th>
+gleason
+</th>
+<th>
+pgg45
+</th>
+<th>
+lpsa
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+lcavol
+</th>
+<td>
+1.000000
+</td>
+<td>
+0.280521
+</td>
+<td>
+0.225000
+</td>
+<td>
+0.027350
+</td>
+<td>
+0.538845
+</td>
+<td>
+0.675310
+</td>
+<td>
+0.432417
+</td>
+<td>
+0.433652
+</td>
+<td>
+0.734460
+</td>
+</tr>
+<tr>
+<th>
+lweight
+</th>
+<td>
+0.280521
+</td>
+<td>
+1.000000
+</td>
+<td>
+0.347969
+</td>
+<td>
+0.442264
+</td>
+<td>
+0.155385
+</td>
+<td>
+0.164537
+</td>
+<td>
+0.056882
+</td>
+<td>
+0.107354
+</td>
+<td>
+0.433319
+</td>
+</tr>
+<tr>
+<th>
+age
+</th>
+<td>
+0.225000
+</td>
+<td>
+0.347969
+</td>
+<td>
+1.000000
+</td>
+<td>
+0.350186
+</td>
+<td>
+0.117658
+</td>
+<td>
+0.127668
+</td>
+<td>
+0.268892
+</td>
+<td>
+0.276112
+</td>
+<td>
+0.169593
+</td>
+</tr>
+<tr>
+<th>
+lbph
+</th>
+<td>
+0.027350
+</td>
+<td>
+0.442264
+</td>
+<td>
+0.350186
+</td>
+<td>
+1.000000
+</td>
+<td>
+-0.085843
+</td>
+<td>
+-0.006999
+</td>
+<td>
+0.077820
+</td>
+<td>
+0.078460
+</td>
+<td>
+0.179809
+</td>
+</tr>
+<tr>
+<th>
+svi
+</th>
+<td>
+0.538845
+</td>
+<td>
+0.155385
+</td>
+<td>
+0.117658
+</td>
+<td>
+-0.085843
+</td>
+<td>
+1.000000
+</td>
+<td>
+0.673111
+</td>
+<td>
+0.320412
+</td>
+<td>
+0.457648
+</td>
+<td>
+0.566218
+</td>
+</tr>
+<tr>
+<th>
+lcp
+</th>
+<td>
+0.675310
+</td>
+<td>
+0.164537
+</td>
+<td>
+0.127668
+</td>
+<td>
+-0.006999
+</td>
+<td>
+0.673111
+</td>
+<td>
+1.000000
+</td>
+<td>
+0.514830
+</td>
+<td>
+0.631528
+</td>
+<td>
+0.548813
+</td>
+</tr>
+<tr>
+<th>
+gleason
+</th>
+<td>
+0.432417
+</td>
+<td>
+0.056882
+</td>
+<td>
+0.268892
+</td>
+<td>
+0.077820
+</td>
+<td>
+0.320412
+</td>
+<td>
+0.514830
+</td>
+<td>
+1.000000
+</td>
+<td>
+0.751905
+</td>
+<td>
+0.368987
+</td>
+</tr>
+<tr>
+<th>
+pgg45
+</th>
+<td>
+0.433652
+</td>
+<td>
+0.107354
+</td>
+<td>
+0.276112
+</td>
+<td>
+0.078460
+</td>
+<td>
+0.457648
+</td>
+<td>
+0.631528
+</td>
+<td>
+0.751905
+</td>
+<td>
+1.000000
+</td>
+<td>
+0.422316
+</td>
+</tr>
+<tr>
+<th>
+lpsa
+</th>
+<td>
+0.734460
+</td>
+<td>
+0.433319
+</td>
+<td>
+0.169593
+</td>
+<td>
+0.179809
+</td>
+<td>
+0.566218
+</td>
+<td>
+0.548813
+</td>
+<td>
+0.368987
+</td>
+<td>
+0.422316
+</td>
+<td>
+1.000000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Scatterplot matrix:</strong>(showing every pairwise plot between the variables)We see that <em>svi</em> is a binary variable, and <em>gleason</em> is an ordered categorical variable.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pd.plotting.scatter_matrix(data,figsize=(<span class="number">12</span>,<span class="number">12</span>))</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="ESL-Example-Prostate%20Cancer_5_0.png" alt="png"><figcaption>png</figcaption>
+</figure>
+<h2 id="simple-univariate-regression">Simple univariate regression</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">y=data[<span class="string">'lpsa'</span>]</span><br><span class="line">mask_train=data[<span class="string">'train'</span>]</span><br><span class="line">X=data.drop([<span class="string">'lpsa'</span>,<span class="string">'train'</span>],axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_train_data</span><span class="params">(X)</span>:</span></span><br><span class="line">    <span class="comment">#normalize X</span></span><br><span class="line">    X=X.apply(scipy.stats.zscore)</span><br><span class="line">    X_train=X[mask_train==<span class="string">'T'</span>]</span><br><span class="line">    y_train=y[mask_train==<span class="string">'T'</span>]</span><br><span class="line">    X_test=X[mask_train!=<span class="string">'T'</span>]</span><br><span class="line">    y_test=y[mask_train!=<span class="string">'T'</span>]</span><br><span class="line">    X_test=np.hstack((np.ones((len(X_test),<span class="number">1</span>)),X_test))</span><br><span class="line">    X_train=np.hstack((np.ones((len(X_train),<span class="number">1</span>)),X_train))</span><br><span class="line">    <span class="keyword">return</span> X_train, y_train,X_test,y_test</span><br><span class="line"></span><br><span class="line">X_train, y_train,X_test,y_test=get_train_data(X)</span><br><span class="line">X_train.shape</span><br></pre></td></tr></table></figure>
+<p>(67, 9)</p>
+<p><span class="math display">\[\begin{align}\hat{\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^Ty \end{align}\]</span> Fitted values at the training inputs: <span class="math inline">\(\hat{y}=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^Ty\)</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ols</span><span class="params">(X_,y_)</span>:</span></span><br><span class="line">    w=np.linalg.inv(X_.T.dot(X_)).dot(X_.T).dot(y_)</span><br><span class="line">    y_hat=X_.dot(w)</span><br><span class="line">    <span class="keyword">return</span> w,y_hat</span><br><span class="line">w,y_hat=ols(X_train,y_train)</span><br><span class="line">y_hat.shape</span><br></pre></td></tr></table></figure>
+<p>(67,)</p>
+<p>Unbiased estimate of <span class="math inline">\(\sigma^2\)</span>: <span class="math display">\[\begin{align} \hat{\sigma^2}=\frac{1}{N-p-1}\sum^{N}_{i=1}(y_i-\hat{y_i})^2 \end{align}\]</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sigma2_hat=sum((y_train-y_hat)**<span class="number">2</span>)/(len(y_train)<span class="number">-1</span>-len(X.columns))</span><br><span class="line">sigma2_hat</span><br></pre></td></tr></table></figure>
+<p>0.5073514562053173</p>
+<p>The variance–covariance matrix of the least squares parameter estimates: <span class="math display">\[\begin{align} Var(\hat{\beta})=(\mathbf{X}^T\mathbf{X})^{-1}\sigma^2) \end{align}\]</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std_w=np.sqrt(np.diag(np.linalg.inv(X_train.T.dot(X_train)))*sigma2_hat)</span><br><span class="line">std_w</span><br></pre></td></tr></table></figure>
+<p>array([ 0.08931498, 0.12597461, 0.095134 , 0.10081871, 0.10169077, 0.1229615 , 0.15373073, 0.14449659, 0.1528197 ])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">table=pd.DataFrame(columns=[<span class="string">'Term'</span>,<span class="string">'Coeﬃcient'</span>,<span class="string">'Std. Error'</span>,<span class="string">'Z Score'</span>])</span><br><span class="line">table[<span class="string">'Term'</span>]=[<span class="string">'Intercept'</span>]+list(X.columns)</span><br><span class="line">table[<span class="string">'Coeﬃcient'</span>]=w</span><br><span class="line">table[<span class="string">'Std. Error'</span>]=std_w</span><br><span class="line">table[<span class="string">'Z Score'</span>]=w/std_w</span><br><span class="line">table</span><br></pre></td></tr></table></figure>
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+    
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Term
+</th>
+<th>
+Coeﬃcient
+</th>
+<th>
+Std. Error
+</th>
+<th>
+Z Score
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Intercept
+</td>
+<td>
+2.464933
+</td>
+<td>
+0.089315
+</td>
+<td>
+27.598203
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+lcavol
+</td>
+<td>
+0.676016
+</td>
+<td>
+0.125975
+</td>
+<td>
+5.366290
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+lweight
+</td>
+<td>
+0.261694
+</td>
+<td>
+0.095134
+</td>
+<td>
+2.750789
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+age
+</td>
+<td>
+-0.140734
+</td>
+<td>
+0.100819
+</td>
+<td>
+-1.395909
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+lbph
+</td>
+<td>
+0.209061
+</td>
+<td>
+0.101691
+</td>
+<td>
+2.055846
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+svi
+</td>
+<td>
+0.303623
+</td>
+<td>
+0.122962
+</td>
+<td>
+2.469255
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+lcp
+</td>
+<td>
+-0.287002
+</td>
+<td>
+0.153731
+</td>
+<td>
+-1.866913
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+gleason
+</td>
+<td>
+-0.021195
+</td>
+<td>
+0.144497
+</td>
+<td>
+-0.146681
+</td>
+</tr>
+<tr>
+<th>
+8
+</th>
+<td>
+pgg45
+</td>
+<td>
+0.265576
+</td>
+<td>
+0.152820
+</td>
+<td>
+1.737840
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We can also test for the exclusion of a number of terms at once, using the F-statistic: <span class="math display">\[\begin{align} F=\frac{(RSS_2-RSS_1)/(p_1-p_2)}{RSS_1/(N-p_1)} \end{align}\]</span> <span class="math display">\[\begin{align}
+RSS(\beta)=\sum_{i=1}^{N}(y_{i}-f(x_{i}))^2=\sum_{i=1}^{N}(y_{i}-\beta_{0}-\sum_{j=1}^{p}X_{ij}\beta_{j})^2
+\end{align}\]</span></p>
+<p>we consider dropping all the non-signiﬁcant terms, namely <em>age, lcp, gleason, and pgg45</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">X2=X.drop([<span class="string">'age'</span>, <span class="string">'lcp'</span>, <span class="string">'gleason'</span>, <span class="string">'pgg45'</span>],axis=<span class="number">1</span>)</span><br><span class="line">X_train2, y_train2,X_test2,y_test2=get_train_data(X2)</span><br><span class="line">w2,y_hat2=ols(X_train2,y_train2)</span><br><span class="line">RSS1=sum((y_train-y_hat)**<span class="number">2</span>)</span><br><span class="line">RSS2=sum((y_train2-y_hat2)**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">p2=X_train2.shape[<span class="number">1</span>]</span><br><span class="line">N,p1=X_train.shape</span><br><span class="line">F=round(((RSS2-RSS1)/(p1-p2))/((RSS1)/(N-p1)),<span class="number">2</span>)</span><br><span class="line">p_value=round(<span class="number">1</span>-scipy.stats.f.cdf(F,p1-p2,N-p1),<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"F:&#123;&#125;"</span>.format(F))</span><br><span class="line">print(<span class="string">"Pr(F(&#123;a&#125;,&#123;b&#125;)&gt;&#123;c&#125;)=&#123;d&#125;"</span>.format(a=p1-p2,b=N-p1,c=F,d=p_value))</span><br></pre></td></tr></table></figure>
+<p>F:1.67 Pr(F(4,58)&gt;1.67)=0.17</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RSS1,RSS2</span><br></pre></td></tr></table></figure>
+<p>(29.4263844599084, 32.81499474881556)</p>
+<p>The mean prediction error on the test data is 0.521. In contrast, prediction using the mean training value of lpsa has a test error of 1.057, which is called the “base error rate.” Hence the linear model reduces the base error rate by about 50%. We will return to this example later to compare various selection and shrinkage methods.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">y_test_fit=X_test.dot(w)</span><br><span class="line">base_error=round(sum((y_test-y_train.mean())**<span class="number">2</span>)/len(y_test),<span class="number">3</span>)</span><br><span class="line">prediction_error=round(sum((y_test-y_test_fit)**<span class="number">2</span>)/len(y_test),<span class="number">3</span>)</span><br><span class="line">print(<span class="string">'base_error:'</span>,base_error)</span><br><span class="line">print(<span class="string">'prediction_error:'</span>,prediction_error)</span><br></pre></td></tr></table></figure>
+<p>base_error: 1.057 prediction_error: 0.521</p>
+<h2 id="best-subset-selection">Best-Subset Selection</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> itertools</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nCr</span><span class="params">(n,r)</span>:</span></span><br><span class="line">    <span class="string">"""calculate how many combination of (n,r)"""</span></span><br><span class="line">    f = math.factorial</span><br><span class="line">    <span class="keyword">return</span> int(f(n) / f(r) / f(n-r))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">best_subset_ols</span><span class="params">(i)</span>:</span></span><br><span class="line">    <span class="string">"""calculate all ols estimate of i size subset"""</span></span><br><span class="line">    combine=itertools.combinations(range(<span class="number">1</span>,p+<span class="number">1</span>),i)</span><br><span class="line">    y_subset_train=y_train</span><br><span class="line">    result=[]</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> combine:</span><br><span class="line">        X_subset_train=X_train[:,[<span class="number">0</span>]+list(k)]</span><br><span class="line">        w,y_hat=ols(X_subset_train,y_subset_train)</span><br><span class="line">        result.append((w,sum((y_subset_train-y_hat)**<span class="number">2</span>)))</span><br><span class="line">    <span class="keyword">return</span> np.array(result)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p=len(X.columns)</span><br><span class="line">best=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, p+<span class="number">1</span>):</span><br><span class="line">    ncr=nCr(p,i)</span><br><span class="line">    result=best_subset_ols(i)</span><br><span class="line">    best.append(min(result[:,<span class="number">1</span>]))</span><br><span class="line">    plt.plot(np.ones(ncr)*i,result[:,<span class="number">1</span>],<span class="string">'o'</span>,c=<span class="string">'grey'</span>)</span><br><span class="line">plt.plot(range(<span class="number">0</span>, p+<span class="number">1</span>),best,<span class="string">'o--'</span>,c=<span class="string">'red'</span>)  </span><br><span class="line">plt.xlabel(<span class="string">'Subset Size k'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'RSS'</span>)</span><br><span class="line">plt.savefig(<span class="string">'./images/best_subset.png'</span>)</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="ESL-Example-Prostate%20Cancer_22_0.png" alt="png"><figcaption>png</figcaption>
+</figure>
+<h2 id="the-ridge-regression">The ridge regression</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">U,D,V=np.linalg.svd(X_train, full_matrices=<span class="literal">False</span>)</span><br><span class="line">p=len(D)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(D,lam)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sum(D**<span class="number">2</span>/(D**<span class="number">2</span>+lam))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ddf</span><span class="params">(D,lam)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> -sum(D**<span class="number">2</span>/(D**<span class="number">2</span>+lam)**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">newton</span><span class="params">(p,D)</span>:</span></span><br><span class="line">    <span class="string">"""Calculate lambdas through eﬀective degrees of freedom """</span></span><br><span class="line">    edfs=np.linspace(<span class="number">0.5</span>, p<span class="number">-0.5</span>, (p<span class="number">-1</span>)*<span class="number">10</span>+<span class="number">1</span>)</span><br><span class="line">    threshold=<span class="number">1e-3</span></span><br><span class="line">    lambdas=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> edfs:</span><br><span class="line">        lam0=(p-i)/i</span><br><span class="line">        lam1=<span class="number">1e6</span></span><br><span class="line">        diff=lam1-lam0</span><br><span class="line">        <span class="keyword">while</span> diff&gt;threshold:</span><br><span class="line">            lam1=lam0-(df(D,lam0)-i)/ddf(D,lam0)</span><br><span class="line">            diff=lam1-lam0</span><br><span class="line">            lam0=lam1</span><br><span class="line">            </span><br><span class="line">        lambdas.append(lam1)</span><br><span class="line">    lambdas.append(<span class="number">0</span>)</span><br><span class="line">    edfs=np.concatenate(([<span class="number">0</span>],edfs,[p]))</span><br><span class="line">    <span class="keyword">return</span> edfs,np.array(lambdas)</span><br><span class="line"></span><br><span class="line">edfs,lambdas=newton(p,D)</span><br><span class="line">beta_ridge=[np.zeros(p)]</span><br><span class="line"><span class="keyword">for</span> lam <span class="keyword">in</span> lambdas:</span><br><span class="line">    beta=V.T.dot(np.diag(D/(D**<span class="number">2</span>+lam))).dot(U.T).dot(y_train)</span><br><span class="line">    beta_ridge.append(beta)</span><br><span class="line">beta_ridge=np.array(beta_ridge)</span><br><span class="line">plt.plot(edfs,beta_ridge, <span class="string">'o-'</span>, markersize=<span class="number">2</span>)</span><br><span class="line">plt.xlabel(<span class="string">'df(lambda)'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'beta_ridge'</span>)</span><br><span class="line">plt.legend(X.columns)</span><br><span class="line">plt.title(<span class="string">'Proﬁles of ridge coeﬃcients'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="ESL-Example-Prostate%20Cancer_25_0.png" alt="png"><figcaption>png</figcaption>
+</figure>
+<hr>
+<p><strong>Ref:</strong></p>
+<p>James, Gareth, et al. <em>An introduction to statistical learning</em>. Vol. 112. New York: springer, 2013.</p>
+<p>Hastie, Trevor, et al. &quot;The elements of statistical learning: data mining, inference and prediction.&quot; <em>The Mathematical Intelligencer</em> 27.2 (2005): 83-85</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/86b37baa/" rel="next" title="Study Note: Assessing Model Accuracy">
+                <i class="fa fa-chevron-left"></i> Study Note: Assessing Model Accuracy
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/8b70757d/" rel="prev" title="Analysis of 2018 H-1B Sponsorship for Data Science Employees">
+                Analysis of 2018 H-1B Sponsorship for Data Science Employees <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#simple-univariate-regression"><span class="nav-number">1.</span> <span class="nav-text">Simple univariate regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#best-subset-selection"><span class="nav-number">2.</span> <span class="nav-text">Best-Subset Selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-ridge-regression"><span class="nav-number">3.</span> <span class="nav-text">The ridge regression</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Apache Spark Apache Spark:a modern distributed fault tolerant computation platform. History of Apache Spark:">
+<meta name="keywords" content="Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache Spark: Basic Concepts">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/4fe20312/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Apache Spark Apache Spark:a modern distributed fault tolerant computation platform. History of Apache Spark:">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/week4_1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/week4_2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/week4_3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/week4_4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/rdd1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/rdd2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/rdd3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/rdd4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/rdd5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/trans11.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/action1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/action2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/action3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/resi1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/resi2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/4fe20312/resi3.png">
+<meta property="og:updated_time" content="2019-06-28T21:29:05.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache Spark: Basic Concepts">
+<meta name="twitter:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Apache Spark Apache Spark:a modern distributed fault tolerant computation platform. History of Apache Spark:">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/4fe20312/week4_1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/4fe20312/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Apache Spark: Basic Concepts | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/4fe20312/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Apache Spark: Basic Concepts
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-27 18:08:12" itemprop="dateCreated datePublished" datetime="2019-06-27T18:08:12-05:00">2019-06-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-28 16:29:05" itemprop="dateModified" datetime="2019-06-28T16:29:05-05:00">2019-06-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">13k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">12 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>This is course note of <a href="https://www.coursera.org/learn/big-data-essentials" target="_blank" rel="noopener">Big Data Essentials: HDFS, MapReduce and Spark RDD</a></p>
+</blockquote>
+<h1 id="apache-spark">Apache Spark</h1>
+<p><strong>Apache Spark</strong>:a modern distributed fault tolerant computation platform.</p>
+<p><strong>History of Apache Spark</strong>:</p>
+<a id="more"></a>
+<p><img src="./week4_1.png" width="600"> <img src="./week4_2.png" width="250"> <img src="./week4_3.png" width="600"> <img src="./week4_4.png" width="600"></p>
+<h1 id="rdds">RDDs</h1>
+<p><strong>RDD(Resilient Distributed Dataset)</strong>: a core abstraction enabling both an <em>efficient execution for a computation</em>, and a <em>flexible and convenient formalism to define computations</em>.</p>
+<ul>
+<li><strong>Resilient</strong> — able to withstand failures</li>
+<li><strong>Distributed</strong> — spanning across multiple machines</li>
+<li>Formally, RDD is a read-only, partitioned collection of records</li>
+<li>To say that the dataset is an RDD, the dataset must adhere to the RDD interface.</li>
+</ul>
+<p><strong>The dataset must be:</strong> - able to enumerate its partitions by implementing the partition's function.</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">partitions() -&gt; Array[Partition]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>The partition is an opaque object for the framework. It is passed back to the iterator function of the RDD, when the framework needs to read the data from the partition.</li>
+</ul>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iterator(p: Partition, parents: Array[Iterator]) -&gt; Iterator</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>able to enumerate its dependencies and provide an array of dependency objects.</li>
+</ul>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dependencies() -&gt; Array[Dependency]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>The dependency object maps partitions of the dataset to the dependencies that are partitions of the parent dataset.</li>
+<li><p>Those parent partitions are injected into the iterator call when creating a reader.</p></li>
+<li><strong>Typed.</strong> every item in RDD has the same, known type.</li>
+<li>typedness is an important property to catch bugs early on before the actual execution</li>
+<li><p>e.g. RDD[strings], or an RDD[integers]. <img src="./rdd1.png" width="600"></p></li>
+</ul>
+<h2 id="why-do-we-need-a-new-abstraction">Why do we need a new abstraction?</h2>
+<p><strong>Example</strong>: iterative computations (K-means, PageRank, …) - relation between consequent steps is known only to the user code not the framework - framework has no capabilities to optimize the whole computation - framework must reliably persist data between steps thus generating excessive I/O (even if it is temporary data)</p>
+<blockquote>
+<p>In this scenario,Spark is trying to keep the data in the memory, effectively eliminates an intermediate disk persistence, and thus improving the completion time.</p>
+</blockquote>
+<p><strong>Example</strong>: joins - join operation is used in many MapReduce applications - not-so-easy to reuse code</p>
+<h2 id="example-a-binary-file-in-hdfs">Example: a binary file in HDFS</h2>
+<blockquote>
+<p>Implement the necessary functions to make the binary file in RDD</p>
+</blockquote>
+<p><img src="./rdd2.png" width="600"></p>
+<ul>
+<li>To implement the <strong>partition</strong>'s function: lookup the blocks for NameNode, create a partition for every block, and return the partitions.</li>
+<li>To implement the <strong>iterator</strong>'s function: extract the block information from the partition, and use it to create a reader from HDFS.</li>
+<li>To implement the <strong>dependencies</strong>' function: File reading does not depend on any other RDD, nor on any other partition. So implementing the dependencies function is trivial. It returns an empty array</li>
+</ul>
+<h2 id="example-a-data-file-in-hdfs">Example: a data* file in HDFS</h2>
+<blockquote>
+<p>reading records from the file rather than a raw bytes</p>
+</blockquote>
+<p><img src="./rdd3.png" width="600"></p>
+<h2 id="example-an-in-memory-array">Example: an in-memory array</h2>
+<p>The simplest way to make the array in RDD is to pretend that there is a single partition with the whole array. In this case, the partition object keeps a <strong><em>reference</em></strong> to the array, and the iterator function uses this reference to create an iterator.</p>
+<p><img src="./rdd4.png" width="600"></p>
+<h2 id="example-a-sliced-in-memory-array">Example: a sliced* in-memory array</h2>
+<blockquote>
+<p>slice the array into chunks to gain parallelism</p>
+</blockquote>
+<p>The partition corresponds to the chunk of the source array.</p>
+<p><em>partitions are handled in parallel.</em></p>
+<p><img src="./rdd5.png" width="600"></p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li><strong>RDD is a read-only, partitioned collection of records</strong></li>
+<li>The collection of the dataset must provide information about its partitions, and provide means to create an iterator over the partition.</li>
+<li>a developer can access the partitions and create iterators over them</li>
+<li>RDD tracks dependencies (to be explained in the next video)</li>
+<li>Examples of RDDs</li>
+<li>Hadoop files with the proper file format</li>
+<li>In-memory arrays</li>
+</ul>
+<h1 id="transformation">Transformation</h1>
+<p><strong>Two ways to construct RDDs:</strong> - Data in a stable storage - Example: files in HDFS, objects in Amazon S3 bucket, lines in a text file, … - RDD for data in a stable storage has no dependencies - From existing RDDs by applying a transformation - Example: filtered file, grouped records, … - RDD for a transformed data depends on the source data</p>
+<p><strong>Transformation</strong>: - Allow you to create new RDDs from the existing RDDs by specifying how to obtain new items from the existing items - The transformed RDD depends implicitly on the source RDD</p>
+<p>Note: Datasets are immutable in Spark, and you cannot modify data in-place.</p>
+<h2 id="example-map-flatmap">Example: map, flatMap</h2>
+<p><strong>map</strong>: - Def: map(f: T -&gt; U): RDD[T] -&gt; RDD[U] - returns a mapped RDD with items f(x) for every x in the source RDD <img src="./trans2.png" width="600"></p>
+<p><strong>flatMap</strong>: - Def: flatMap(f: T -&gt; Array[U]): RDD[T] -&gt; RDD[U] - same as map but flattens the result of <em>f</em> - generalizes map and filter</p>
+<h2 id="example-filter">Example: filter</h2>
+<p><strong>filter</strong>: - Def: filter(p: T -&gt; Boolean): RDD[T] -&gt; RDD[T] - returns a filtered RDD with items satisfying the predicate <em>p</em> <img src="./trans1.png" width="600"></p>
+<p><strong>Filtered RDD</strong>: - <strong>partitions</strong>: transformed RDD's mostly the same as source one--&gt;<em>reuse partitions of the source RDD</em> as there is no need to change the partitioning. - <strong>dependencies</strong>: every field of partition depends on the source partition. You can establish this relation by providing a dependency object that establishes one-to-one correspondence between the filtered and the source partitions. - <strong>iterator</strong>: when creating an iterator over the filter partition: - Spark would inject an iterator of the source partition into the iterator function called - reusing the parent iterator. - When requested for the next value, you can pull values from the parent iterator until it returns you an item that satisfies the predicate. <img src="./trans3.png" width="600"></p>
+<h3 id="lazy-iterator">Lazy iterator</h3>
+<p>Actual filtering happens not at the creation time of Y, but at the access time to the iterator over a partition of Y.The filtering starts to happen only when you start to pull items from the iterator.</p>
+<p>Same holds for other transformations – they are lazy,i.e. they compute the result only when accessed.</p>
+<h3 id="on-closures">On closures</h3>
+<p><img src="./trans4.png" width="600"></p>
+<h3 id="partitiondependency-graph">(Partition)Dependency graph</h3>
+<p>Whenever you apply a transformation to the RDD, you implicitly construct a dependency graph on the RDDs - This graph is used by the framework to schedule jobs</p>
+<p><img src="./trans5.png" width="600"></p>
+<h2 id="keyed-transformation">Keyed Transformation</h2>
+<p><img src="./trans6.png" width="600"></p>
+<h3 id="grouped-rdd">Grouped RDD</h3>
+<ul>
+<li>partition the key space</li>
+<li><p>using the hash partition then to compute the values in the resulting partition</p></li>
+<li><strong>Shuffle</strong>: redistribute all the values between all the partitions.</li>
+<li><p>scan over the entire source RDD to select only the pairs that belong to the output partition.</p></li>
+</ul>
+<blockquote>
+<p>Differnt from flatMap like transformation, a single output partition depends on all the input partitions.</p>
+</blockquote>
+<p><img src="./trans9.png" width="600"></p>
+<h4 id="narrow-wide-dependencies">Narrow &amp; Wide dependencies</h4>
+<p><img src="./trans10.png" width="600"></p>
+<h2 id="cogroup-transformation">Cogroup Transformation</h2>
+<p><img src="./trans7.png" width="600"></p>
+<p>The cogroup transformation allows you to compute any kind of a join between two data sets.</p>
+<h3 id="inner-join">Inner join</h3>
+<p>That is all triples (k, x, y) where (k, x) is in X and (k, y) is in Y</p>
+<p>--&gt; apply the <strong>`flatMap</strong> transformation on top of the result of the cogroup transformation.</p>
+<h2 id="joins-transformation">Joins Transformation</h2>
+<p>The join transformation produces the inner join of two data sets.</p>
+<p><strong>inner join:</strong> If the key is present only in the one side of the join that is in one data set. Then it is omitted from the result</p>
+<p><strong>outer join:</strong> one-sided keys are added to the result with appropriate null values.</p>
+<p><img src="./trans8.png" width="600"></p>
+<h2 id="mapreduce-in-spark">MapReduce in Spark</h2>
+<p>You can express any MapReduce computation in Spark as the <strong>flatMap</strong> followed by the <strong>groupByKey</strong>, followed by one more <strong>flatMap</strong>.</p>
+<p><img src="./trans11.png" width="600"></p>
+<h2 id="summary-1">Summary</h2>
+<p>Transformation - is a description of how to obtain a new RDD from existing RDDs - is the primary way to “modify” data (given that RDDs are immutable)</p>
+<p>Properties: - Transformations are lazy, i.e. no work is done until data is explicitly requested - There are transformations with narrow and wide dependencies - MapReduce can be expressed with a couple of transformations - Complex transformations (like joins, cogroup) are available</p>
+<h1 id="actions">Actions</h1>
+<p><strong>Driver &amp; executors</strong>: - When you write and invoke your Spark application, driver <strong><em>runs within the driver program.</em></strong> - Driver program drives the execution of your Spark application - Driver delegates tasks to executors to use cluster resources - When something must be done with the data, the driver schedules tasks to be executed by executors. - In <em>local</em> mode, executors are collocated with the driver - In <em>cluster</em> mode, executors are located on cluster machines--&gt; allowing you to use the cluster for a computation</p>
+<p><strong>Actions</strong>: - Triggers data to be materialized and processed on the executors and then passes the outcome to the driver &gt; Actions, together with a transformation code, are executed elsewhere, not in your driver program. Your driver program receives only the outcome.</p>
+<p>Spark does a great job of abstracting away the execution details, and that improves your developer productivity and code readability.</p>
+<ul>
+<li><strong>Example</strong>: actions are used to collect, print and save data</li>
+</ul>
+<h2 id="frequently-used-actions">Frequently used actions</h2>
+<ul>
+<li><strong>collect</strong> action collects the result into the memory of the driver program.</li>
+<li>intended to be used when the output is small enough to fit into the driver's memory.</li>
+<li><strong>take</strong> action takes the given number of items from a data set and passes them back to the driver.</li>
+<li>tries to use only the first partition of a data set to optimize the completion time. <img src="./action1.png" width="600"> When the result is large enough, you may want to save it to HDFS for example. Doing so by collecting items in the driver will quickly run out of memory.</li>
+</ul>
+<p>There are special family of safe actions that do heavy work on the executor side and return a confirmation to the driver.</p>
+<ul>
+<li>SaveAsText file is used for full debugging or for simple applications</li>
+<li>SaveAsHadoopFile leverages Hadoop file formats to serialize data--&gt;common way to save data to HDFS. <img src="./action2.png" width="600"></li>
+</ul>
+<p>If you need to run your own code over a data set, there are <em>foreach</em> and <em>foreachPartition</em> actions that invoke your function on the executor side.</p>
+<p>You can use this function to persist your data in your custom database for example, or to send data over the wire to an external service, or anything else. <img src="./action3.png" width="600"></p>
+<h2 id="summary-2">Summary</h2>
+<ul>
+<li>Actions trigger computation and processing of the dataset</li>
+<li>Actions are executed on executors and they pass results back to the driver</li>
+<li>Actions are used to collect, save, print and fold data</li>
+</ul>
+<h1 id="resiliency">Resiliency</h1>
+<p>How it is possible to continue operation despite machine failures in the cluster?</p>
+<h2 id="fault-tolerance-in-mapreduce">Fault-tolerance in MapReduce</h2>
+<p>Two key aspects: - reliable storage for input and output data - once data is stored in HDFS it is safe - deterministic and side-effect free execution of mappers and reducers - if the computation is deterministic, and has no side effects, the framework can restart it multiple times, and get the same result every time <img src="./resi1.png" width="600"></p>
+<h2 id="fault-tolerance-in-spark">Fault-tolerance in Spark</h2>
+<p>Same two key aspects: - reliable storage for input and output data - deterministic and side-effect free execution of transformations(including closures) - Spark assumes that every transformation is deterministic, and free of side-effects, to be able to restart any failed computation</p>
+<p><strong>Determinism</strong> — every invocation of the function results in the same returned value - e. g. do not use random numbers, do not depend on a hash value order</p>
+<p><strong>Freedom of side-effects</strong> — an invocation of the function does not change anything in the external world - e. g. do not commit to a database, do not rely on global variables - If your function happens to commit to the database, there is no way to roll back changes in case of failure.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Spark is allowed to restart the failed parts of the computation. To decide what to restart, Spark keeps track of the lineage.</span><br></pre></td></tr></table></figure>
+<h2 id="fault-tolerance-transformations">Fault-tolerance &amp; transformations</h2>
+<p><strong>Lineage</strong> — a dependency graph for all partitions of all RDDs involved in a computation up to the data source</p>
+<p>Machine failure renders some partitions in the lineage unavailable. To cope with the failure, you must detect <em>which partitions become unavailable</em>, and decide <em>what to restart</em>. - Detection is done in the Driver Program, because the Driver Program orchestrates the execution, and already tracks the partitions. - <strong>Deciding what to restart</strong>: Given the failed partition, you look at its dependencies, and if they are alive, restart the computation. If the dependencies are failed as well, you recursively try to recover them. - <strong>Restarts</strong> are slightly more fragile in the case of wide dependencies, because to recompute an output partition, all dependencies must be alive, and there are many of them. If dependencies you evicted out of a cache for example, the restart will be expensive.</p>
+<p><img src="./resi2.png" width="600"> <img src="./resi3.png" width="600"></p>
+<h2 id="fault-tolerance-actions">Fault-tolerance &amp; actions</h2>
+<p>Actions are side-effects in Spark (communicate with external services) - Actions have to be <strong>idempotent</strong>幂等（自己重複運算的結果等於它自己的元素） that is safe to be re-executed multiple times given the same input</p>
+<p>Example: <strong>collect()</strong> - all transformations are deterministic, the final data set isn't changed in case of restarts. Therefore, even if the collect action fails, it could be safely re-executed</p>
+<p>Example: <strong>saveAsTextFile()</strong></p>
+<ul>
+<li>since the data set is the same, you can safely override the output file</li>
+</ul>
+<h2 id="summary-3">Summary</h2>
+<p>Resiliency is implemented by - tracking lineage - assuming deterministic &amp; side-effect free execution of transformations(including closures) - all the closures pass to Spark, must be deterministic and side effect free - assuming idempotency for actions</p>
+<p>These properties cannot be checked or enforced at the compile time, and may lead to obscure bugs in your application that are hard to debug and hard to reproduce. ```</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/49a14c15/" rel="next" title="DFS, HDFS, Architecture, Scaling problem">
+                <i class="fa fa-chevron-left"></i> DFS, HDFS, Architecture, Scaling problem
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/6d5a8880/" rel="prev" title="Apache Spark: Advanced Topics">
+                Apache Spark: Advanced Topics <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#apache-spark"><span class="nav-number">1.</span> <span class="nav-text">Apache Spark</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rdds"><span class="nav-number">2.</span> <span class="nav-text">RDDs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#why-do-we-need-a-new-abstraction"><span class="nav-number">2.1.</span> <span class="nav-text">Why do we need a new abstraction?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example-a-binary-file-in-hdfs"><span class="nav-number">2.2.</span> <span class="nav-text">Example: a binary file in HDFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example-a-data-file-in-hdfs"><span class="nav-number">2.3.</span> <span class="nav-text">Example: a data* file in HDFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example-an-in-memory-array"><span class="nav-number">2.4.</span> <span class="nav-text">Example: an in-memory array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example-a-sliced-in-memory-array"><span class="nav-number">2.5.</span> <span class="nav-text">Example: a sliced* in-memory array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary"><span class="nav-number">2.6.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transformation"><span class="nav-number">3.</span> <span class="nav-text">Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-map-flatmap"><span class="nav-number">3.1.</span> <span class="nav-text">Example: map, flatMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example-filter"><span class="nav-number">3.2.</span> <span class="nav-text">Example: filter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lazy-iterator"><span class="nav-number">3.2.1.</span> <span class="nav-text">Lazy iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#on-closures"><span class="nav-number">3.2.2.</span> <span class="nav-text">On closures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#partitiondependency-graph"><span class="nav-number">3.2.3.</span> <span class="nav-text">(Partition)Dependency graph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keyed-transformation"><span class="nav-number">3.3.</span> <span class="nav-text">Keyed Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#grouped-rdd"><span class="nav-number">3.3.1.</span> <span class="nav-text">Grouped RDD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#narrow-wide-dependencies"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">Narrow &amp; Wide dependencies</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cogroup-transformation"><span class="nav-number">3.4.</span> <span class="nav-text">Cogroup Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inner-join"><span class="nav-number">3.4.1.</span> <span class="nav-text">Inner join</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#joins-transformation"><span class="nav-number">3.5.</span> <span class="nav-text">Joins Transformation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mapreduce-in-spark"><span class="nav-number">3.6.</span> <span class="nav-text">MapReduce in Spark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-1"><span class="nav-number">3.7.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#actions"><span class="nav-number">4.</span> <span class="nav-text">Actions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#frequently-used-actions"><span class="nav-number">4.1.</span> <span class="nav-text">Frequently used actions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-2"><span class="nav-number">4.2.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#resiliency"><span class="nav-number">5.</span> <span class="nav-text">Resiliency</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fault-tolerance-in-mapreduce"><span class="nav-number">5.1.</span> <span class="nav-text">Fault-tolerance in MapReduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fault-tolerance-in-spark"><span class="nav-number">5.2.</span> <span class="nav-text">Fault-tolerance in Spark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fault-tolerance-transformations"><span class="nav-number">5.3.</span> <span class="nav-text">Fault-tolerance &amp; transformations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fault-tolerance-actions"><span class="nav-number">5.4.</span> <span class="nav-text">Fault-tolerance &amp; actions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-3"><span class="nav-number">5.5.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
