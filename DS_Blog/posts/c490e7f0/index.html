@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Data modeling and file formats There is a mismatch between terms used to define business tasks and terms used to describe what HDFS is. Data modeling and data management are concerned with these issue">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop MapReduce: Tuning Distributed Storage Platform with File Types">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/c490e7f0/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Data modeling and file formats There is a mismatch between terms used to define business tasks and terms used to describe what HDFS is. Data modeling and data management are concerned with these issue">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_50.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_51.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_52.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_60.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_61.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_70.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_71.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_80.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_81.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_82.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_83.png">
+<meta property="og:updated_time" content="2019-07-10T23:03:55.904Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop MapReduce: Tuning Distributed Storage Platform with File Types">
+<meta name="twitter:description" content="Data modeling and file formats There is a mismatch between terms used to define business tasks and terms used to describe what HDFS is. Data modeling and data management are concerned with these issue">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/c490e7f0/week_50.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/c490e7f0/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hadoop MapReduce: Tuning Distributed Storage Platform with File Types | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/c490e7f0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop MapReduce: Tuning Distributed Storage Platform with File Types
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-09 13:08:35" itemprop="dateCreated datePublished" datetime="2019-07-09T13:08:35-05:00">2019-07-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-10 18:03:55" itemprop="dateModified" datetime="2019-07-10T18:03:55-05:00">2019-07-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">13k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">12 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="data-modeling-and-file-formats">Data modeling and file formats</h1>
+<p>There is a mismatch between terms used to define business tasks and terms used to describe what HDFS is.</p>
+<p>Data modeling and data management are concerned with these issues.</p>
+<a id="more"></a>
+<p><img src="./week_50.png" width="300"></p>
+<h2 id="data-modeling">Data modeling</h2>
+<ul>
+<li><p><strong>Data model</strong> – a way you think about your data elements, what they are, what domain they come from, how different elements relate to each other, what they are composed of</p></li>
+<li>abstract model</li>
+<li>explicitly defines the structure of data</li>
+<li>Makes some things easier to express than others</li>
+<li><p>Will use a relational model</p></li>
+<li><p><strong>Relational data model</strong></p></li>
+<li>a data set is an ordered set called table of tuples called rows.</li>
+<li>Where every tuple is composed of simple values such as numbers or strings.</li>
+<li><p>A position of a value within a tuple is a column. And column defines value semantics. <img src="./week_51.png" width="300"></p></li>
+<li><p><strong>Graph data model</strong></p></li>
+<li>A graph consist of vertices and edges.</li>
+<li>vertices: represent entities. Movies, actors, directors, titles, and so on.</li>
+<li><p>edges: represent relations between entities.</p></li>
+</ul>
+<p><img src="./week_52.png" width="300"></p>
+<ul>
+<li><p><strong>Unstructured data</strong></p></li>
+<li>Technically, all data is structured at least as a byte sequence</li>
+<li>Usually, means “not structured enough for a task</li>
+<li><p>Denote <em>complexity of bringing data to useful form for a particular application</em>.</p></li>
+</ul>
+<p>e.g. Videos are structured as a sequence of frames, where each frame is an ordered set of pixels, where every pixel is just a triple of RGB color intensities.</p>
+<p>However, this structure is useless if you're willing to count people in the video. The hard job is to do the image recognition and bring the appropriate structure to the data so that solving accounting problem would become easier.</p>
+<h2 id="data-management">Data Management</h2>
+<blockquote>
+<p>How to store and how to organize your data physically. In Hadoop, this is a matter of file format or storage format</p>
+</blockquote>
+<p>File format: - Defines (physical) data layout - Different choices of data layout lead to different tradeoffs in application complexity, and thus, affect performance and correctness.</p>
+<p><strong>Primary function</strong>: - <strong>serialization</strong>: a process of converting an object into a sequence of bytes which can be persisted to a disk or database or can be sent through streams. - <strong>deserialization</strong>: creating object from sequence of bytes</p>
+<p><strong>Differ in:</strong> - space efficiency: different formats use different coding schemes which directly affect consumed disk space. - encoding &amp; decoding speed - supported data types - splittable/monolithic structure: this property allows you to extract a subset of data without reading the entire file. We typically expect data to be splittable. This follows from our data model. - extensibility</p>
+<h1 id="text-formats">Text Formats</h1>
+<p>line delimited text files:</p>
+<ul>
+<li><p>pros: human-readable</p></li>
+<li><p>cons: you need to parse it, convert it from the textual form into programmatic data structures.</p></li>
+</ul>
+<h2 id="csv">CSV</h2>
+<blockquote>
+<p>comma-separated values</p>
+</blockquote>
+<p>Criteria: - Space efficiency: BAD - Extensibility: BAD -It is not that easy to remove or reorder fields in these formats and the code is likely to make assumptions about the field indexes. - Splittable: You should not include any headers in your data as it hinders splittability and mergability of your data. - Data types: ONLY STRINGS - Speed: generation and parsing are very efficient</p>
+<h2 id="json">JSON</h2>
+<blockquote>
+<p>JavaScript Object Notation: defines a representation for the primitive values and their combination in the form of lists and maps.</p>
+</blockquote>
+<p>Criteria: - Space efficiency: WORSE THAN CSV -It includes field names in serialized form. As you can see, the strings ticker, date, and others are repeated in every row of the data set. - Extensibility: You can easily add and remove fields from your data items and JSON will remain valid and parsable. - Splittable: - SPLITTABLE IF 1 DOCUMENT PER LINE - Data types: JSON allows you to store strings, numbers, Booleans, maps, lists in the native way. - Speed: GOOD ENOUGH</p>
+<h1 id="binary-formats">Binary formats</h1>
+<ul>
+<li>Text formats are designed with human readability in mind</li>
+<li>Binary formats are designed for machines and they trade readability for efficiency and correctness.</li>
+</ul>
+<h2 id="sequence-file">Sequence File</h2>
+<ul>
+<li>First binary format implemented in Hadoop</li>
+<li>Stores sequence of key-value pairs, where key and value are of arbitrary type with the user defined serialization and deserialization code</li>
+<li>Java-specific serialization/deserialization</li>
+<li>Primary use case: storing the intermediate data in MapReduce computations</li>
+</ul>
+<h3 id="data-layout">Data Layout</h3>
+<p>SequenceFile starts with the header which includes format version, class names for key and value types, flags syndicating compression, metadata, and a sync marker.</p>
+<p><img src="./week_60.png" width="400"></p>
+<p>Uncompressed case for every record:</p>
+<ul>
+<li>Fixed size header with a record key length and value length, followed by the serialized key and the serialized value.</li>
+<li>To decode data, you can read the file linearly and use length to read the key and the value.</li>
+</ul>
+<p>Block compressed case:</p>
+<ul>
+<li>Key-value pairs are grouped in blocks and every block starts with a number of pairs followed by the key lengths and the compressed keys. Then by value lengths and finally by compressed values.</li>
+</ul>
+<p>Record compressed case: - Every value is compressed individually while block compressed case, a set of keys or values are compressed together resulting in better compression</p>
+<h3 id="critera">Critera</h3>
+<ul>
+<li>Space efficiency: MODERATE TO GOOD -the on-disk format closely matches the in-memory format to enable fast encoding and decoding.</li>
+<li>Extensibility: No</li>
+<li>Splittable: splittable via sync markers -Sync markers are unique with the high probability, so you can seek to an arbitrary point in the file and scan for the next occurrence of the sync marker to get the next record.</li>
+<li>Data types: Any type implement in the appropriate interfaces could be used with a format.</li>
+<li>Speed:GOOD</li>
+</ul>
+<h2 id="avro">AVRO</h2>
+<blockquote>
+<p>Avro's design goal was to create an efficient and flexible format which could be used with different programming languages.</p>
+</blockquote>
+<ul>
+<li>Both format &amp; support library</li>
+<li>Stores objects defined by the schema</li>
+<li>specifies field names, types, aliases</li>
+<li>defines serialization/deserialization code</li>
+<li>allows some schema updates</li>
+<li>Interoperability with many languages</li>
+</ul>
+<p><strong>schema</strong>: a description of the fields in data items and their types.</p>
+<ul>
+<li>defines data encoding for every item</li>
+<li>When storing data, the schema is included in the file thus allowing future readers to decode it correctly</li>
+<li>If the read schema does not match the data schema, Avro tries to resolve inconsistencies thus enabling smooth schema migrations</li>
+</ul>
+<h3 id="data-layout-1">Data Layout</h3>
+<p>Every Avro file starts with a header followed by a sequence of blocks containing the number of encoded objects, their sizes, and the actual payload.</p>
+<p><strong>Sync markers</strong> are used to delimit consequent blocks of records.</p>
+<p>What is different in Avro is that the serialization code is defined by the schema and not by the user-provided code. <img src="./week_61.png" width="300"></p>
+<h3 id="critera-1">Critera</h3>
+<ul>
+<li>Space efficiency: MODERATE TO GOOD -The encoding format mostly follows the in-memory format. Space savings could be obtained by using compression.</li>
+<li>Extensibility: field addition, or removal, or renaming, are handled transparently by the framework.</li>
+<li>Splittable: Achieved using the same sync marker technique as in sequence files</li>
+<li>Data types: same types as JSON, plus a few more complex types, like enumerations records.</li>
+<li>Speed: GOOD WITH CODE GENERATION -Avro can generate serialization and deserialization code from a schema. In this case, its performance closely matches sequence files.</li>
+</ul>
+<p>Avro is a popular format now, holding the balance between efficiency and flexibility.</p>
+<h2 id="rcfile">RCFile</h2>
+<h3 id="columnar">Columnar</h3>
+<p>The <strong>execution time</strong> for analytical applications is mostly I/O bound---you could gain more by optimizing input and output, while optimizing the computation has a diminishing effect on performance.</p>
+<p><strong>How to save input and output operations?</strong> - not reading the data necessary for the processing - using superior compression schemes.</p>
+<p>RCFile and Parquet: columnar(relational data model) data formats that exploit outlined optimizations.</p>
+<p><strong>Pros of columnar:</strong> 1. Columnar stores are highly efficient in terms of CPU usage.databases were storing data row by row, linearly. They would completely serialize one row before continuing to the other ---&gt; if you need to read the values from just one particular column, you still need to read the whole table.</p>
+<ol start="2" type="1">
+<li>Columnar stores transpose data layout and store all the values column by column, enabling two key optimizations:</li>
+</ol>
+<ul>
+<li>you can efficiently scan only the necessary data.</li>
+<li>you can achieve better compression ratios, because column-wise, data is more regular and more repetitive, and hence, more compressible.</li>
+</ul>
+<p><strong>Cons of columnar:</strong> 1. row assembly -To reconstruct the full row, you need to perform lookups from all the columns, which is likely to cause more input and output operations. However, by accessing the subset of columns, you can reduce the number of input and output operations.</p>
+<h3 id="data-layout-2">Data Layout</h3>
+<p>RC: Record Columnar</p>
+<ul>
+<li>First columnar format* in Hadoop()</li>
+<li>one of the most popular storage formats for data warehouses.</li>
+<li>Horizontal/vertical partitioning to layout data</li>
+<li>rows are split into row groups; within each row group, values are encoded column by column.</li>
+<li>transpose values within a row group &gt; The scheme, assuming that the row repeats with a single block managed by a single machine, ensures that the row assembly is a local operation, and hence, does not incur any network accesses.</li>
+</ul>
+<p><img src="./week_70.png" width="300"></p>
+<p>Every row group contains three factions: sync marker, metadata, and column data.</p>
+<ul>
+<li>Metadata:</li>
+<li>the number of rows</li>
+<li>the number of columns</li>
+<li>the total number of bytes</li>
+<li>bytes per column</li>
+<li>bytes per value.</li>
+</ul>
+<p>This information is used by a decoder to read the consequent column data.</p>
+<p><strong>Compression:</strong></p>
+<ul>
+<li><p>Metadata is compressed with the run-length encoding to save on the repeated integers;</p></li>
+<li><p>Column data is compressed with a general-purpose codec such as ZIP.</p></li>
+</ul>
+<p>To produce a block of data, you need to buffer a row group within the main memory and transpose it, and then precompute metadata.</p>
+<h3 id="critera-2">Critera</h3>
+<ul>
+<li>Space efficiency:</li>
+<li>RCFiles save a lot of space by exploiting the columnar layout</li>
+<li>data itself is compressed on the block level, increasing space savings.</li>
+<li>Speed: MODERATE TO GOOD,LESS I/O</li>
+<li>ZIP is not the fastest codec in the world.</li>
+<li>Speed is gained by reducing input and output operations, by not reading columns that are not used in further computation.</li>
+<li>Splittable: SPLITTABLE</li>
+<li>sync markers are used to make a splittable format.</li>
+<li>Data types: BYTE STRINGS</li>
+<li>RCFiles are untyped. And values are treated as bytes.</li>
+<li>The reason for that is because RCFiles are mostly used in conjunction with Hive. And Hive deals with all the serialization and deserialization. So there is no need to offload this functionality to the format.</li>
+<li>Extensibility: NO</li>
+<li>Encoded records have a fixed structure. So you need to deal with schema migration by yourself. Once again, this is mostly because Hive rewrites data on schema change.</li>
+</ul>
+<h2 id="parquet">Parquet</h2>
+<ul>
+<li>The most sophisticated columnar format in Hadoop</li>
+<li>Collaborative effort by Twitter &amp; Cloudera</li>
+<li>Supports nested and repeated data</li>
+<li>Exploits many columnar optimizations (such as predicate pruning,per column codecs)</li>
+<li>Optimizes write path</li>
+</ul>
+<h3 id="data-layout-3">Data Layout</h3>
+<p><img src="./week_71.png" width="300"></p>
+<h2 id="conclusion">Conclusion</h2>
+<ul>
+<li>Binary formats are efficient in coding data</li>
+<li>SequenceFile is a reasonable choice for Java users</li>
+<li>Avro is a good alternative for many use cases</li>
+<li>RCFile/ORC/Parquet are best for “wide” tables and analytical workloads</li>
+</ul>
+<h1 id="compression">Compression</h1>
+<ul>
+<li>Block-level compression</li>
+<li>used in SequenceFiles, RCFiles, Parquet</li>
+<li>RCFiles: sync markers and metadata could be used to devise splitting for the dataset without decompressing the entire file.</li>
+<li>applied within a block of data</li>
+<li><p>pros: compression does not hinder the ability to navigate through the file quickly.</p></li>
+<li>File-level compression</li>
+<li>a file was compressed before being written.</li>
+<li>e.g.zip applied to all files in Unix systems.</li>
+<li>applied to the file as a whole</li>
+<li>hinders an ability to navigate through file</li>
+<li>pros: achieves better compression ratios</li>
+<li><p>cons: breaks the file structure and makes the files lesss splitable.</p></li>
+</ul>
+<h2 id="codecs">Codecs</h2>
+<p>In Hadoop stack, there are few popular codecs that you can use with your data: Gzip, Bzip2, LZO, Snappy.</p>
+<p><img src="./week_80.png" width="400"></p>
+<ul>
+<li>Bzip2 is the slowest yet the most efficient</li>
+<li>Snappy is the fastest, yet not so efficient</li>
+</ul>
+<h2 id="when-to-use-compression">When to use compression?</h2>
+<ol type="1">
+<li><strong>CPU-bound</strong>: Assume your program can process data at a rate 10 MB per second.</li>
+</ol>
+<ul>
+<li>Providing data at higher rates, has no effect on completion time because there is no capacity to perform more work in a unit of time. (Your program spends more time computing rather than doing I/O operations.)</li>
+<li>CPU is your bottleneck</li>
+<li>Results: Adding compression would put more pressure on CPU and increase the completion time.</li>
+</ul>
+<p><img src="./week_81.png" width="400"></p>
+<ol start="2" type="1">
+<li>I/O bound: your program can process data at a rate 1000 MB per second, while HDFS can stream data only at rate 100 MB per second</li>
+</ol>
+<ul>
+<li><p>your program spends more time waiting for input and output, rather than doing actual computation. <img src="./week_82.png" width="400"></p></li>
+<li><p>Adding compression here would allow HDFS to stream the compressed data at rate 100 MB per second, which transforms to 500 MB per second of uncompressed data, assuming the compression ratio of five <img src="./week_83.png" width="400"></p></li>
+</ul>
+<h2 id="summary">Summary</h2>
+<ol type="1">
+<li>Raise awareness about application bottlenecks</li>
+</ol>
+<ul>
+<li>CPU-bound : cannot benefit from the compression</li>
+<li>I/O-bound : can benefit from the compression &gt;trade spare CPU time that was wasted in I/O wait for an extra work for compression which resulted in better utilization of both CPU and I/O.</li>
+</ul>
+<ol start="2" type="1">
+<li>Codec performance vary depending on data, many options available</li>
+</ol>
+<h1 id="conclusion-1">Conclusion</h1>
+<ul>
+<li>Many applications assume relational data model</li>
+<li>File format defines encoding of your data</li>
+<li>text formats are readable, allow quick prototyping, but inefficient</li>
+<li>binary formats are efficient, but more complicated to use</li>
+<li>File formats vary in terms of space efficiency, encoding &amp; decoding speed, support for data types, extensibility</li>
+<li>When I/O bound, can benefit from compression</li>
+<li>When CPU bound, compression may increase completion time</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/4935c427/" rel="next" title="June 2019 | 六月日志">
+                <i class="fa fa-chevron-left"></i> June 2019 | 六月日志
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/9a328503/" rel="prev" title="Spark SQL & DataFrame, SparkETL">
+                Spark SQL & DataFrame, SparkETL <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#data-modeling-and-file-formats"><span class="nav-number">1.</span> <span class="nav-text">Data modeling and file formats</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#data-modeling"><span class="nav-number">1.1.</span> <span class="nav-text">Data modeling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data-management"><span class="nav-number">1.2.</span> <span class="nav-text">Data Management</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#text-formats"><span class="nav-number">2.</span> <span class="nav-text">Text Formats</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#csv"><span class="nav-number">2.1.</span> <span class="nav-text">CSV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json"><span class="nav-number">2.2.</span> <span class="nav-text">JSON</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#binary-formats"><span class="nav-number">3.</span> <span class="nav-text">Binary formats</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sequence-file"><span class="nav-number">3.1.</span> <span class="nav-text">Sequence File</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-layout"><span class="nav-number">3.1.1.</span> <span class="nav-text">Data Layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#critera"><span class="nav-number">3.1.2.</span> <span class="nav-text">Critera</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#avro"><span class="nav-number">3.2.</span> <span class="nav-text">AVRO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-layout-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">Data Layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#critera-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">Critera</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rcfile"><span class="nav-number">3.3.</span> <span class="nav-text">RCFile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#columnar"><span class="nav-number">3.3.1.</span> <span class="nav-text">Columnar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-layout-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">Data Layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#critera-2"><span class="nav-number">3.3.3.</span> <span class="nav-text">Critera</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#parquet"><span class="nav-number">3.4.</span> <span class="nav-text">Parquet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-layout-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">Data Layout</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">3.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#compression"><span class="nav-number">4.</span> <span class="nav-text">Compression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#codecs"><span class="nav-number">4.1.</span> <span class="nav-text">Codecs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when-to-use-compression"><span class="nav-number">4.2.</span> <span class="nav-text">When to use compression?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary"><span class="nav-number">4.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#conclusion-1"><span class="nav-number">5.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

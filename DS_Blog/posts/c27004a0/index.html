@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Basic Probability &amp;amp; Statistics knowledge.">
+<meta name="keywords" content="Probability,Statistics,ANOVA,Hypothesis Testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Probability &amp; Statistics Fundamental">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/c27004a0/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Basic Probability &amp;amp; Statistics knowledge.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/type-error.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/p-value.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/anova1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/anova5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/anova3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/anova4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c27004a0/anova6.png">
+<meta property="og:updated_time" content="2020-07-15T23:02:52.194Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Probability &amp; Statistics Fundamental">
+<meta name="twitter:description" content="Basic Probability &amp;amp; Statistics knowledge.">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/c27004a0/type-error.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/c27004a0/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Probability & Statistics Fundamental | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/c27004a0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Probability & Statistics Fundamental
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-15 15:14:40 / Modified: 18:02:52" itemprop="dateCreated datePublished" datetime="2020-07-15T15:14:40-05:00">2020-07-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">29k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">26 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Basic Probability &amp; Statistics knowledge.</p>
+<a id="more"></a>
+<h1 id="random-variables">Random Variables</h1>
+<p><strong>Bernoulli</strong></p>
+<ul>
+<li><strong>Story:</strong> A trial is performed with probability <span class="math inline">\(p\)</span> of 'succes', and <span class="math inline">\(X\)</span> is the indicator of success: <span class="math inline">\(1\)</span> means success, <span class="math inline">\(0\)</span> means failure.</li>
+<li><strong>PMF:</strong> <span class="math inline">\(\begin{align}p(X=1) &amp;= p \\p(X=0) &amp;= 1 − p \end{align}\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(p\)</span></li>
+<li><strong>Variance:</strong> <span class="math inline">\(p(1-p)\)</span></li>
+</ul>
+<p><strong>Binomial</strong></p>
+<ul>
+<li><strong>Story:</strong> <span class="math inline">\(X\)</span> is the number of 'successes' that we will achieve in <span class="math inline">\(n\)</span> independent trials, where each trial is either a success or a failure, each with the same probability <span class="math inline">\(p\)</span> of success.</li>
+<li><strong>PMF:</strong> <span class="math inline">\(p(k)=\binom{n}{k} p^k(1-p)^{n-k}\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(np\)</span></li>
+<li><p><strong>Variance:</strong> <span class="math inline">\(np(1-p)\)</span></p></li>
+<li><strong>Property:</strong> Let <span class="math inline">\(X \sim \mathcal{Bin}(n,p), Y \sim \mathcal{Bin}(m,p)\)</span> with <span class="math inline">\(X \text{ independent with } Y\)</span>.
+<ul>
+<li><strong>Redefine success</strong> : <span class="math inline">\(n-X \sim \mathcal{Bin}(n,1-p)\)</span></li>
+<li><strong>Sum</strong>: <span class="math inline">\(X+Y \sim \mathcal{Bin}(n+m,p)\)</span></li>
+<li><strong>Binomial-Poisson Relationship</strong>: <span class="math inline">\(\mathcal{Bin}(n, p)\)</span> is approximately <span class="math inline">\(\mathcal{Pois}(\lambda=np)\)</span> if <span class="math inline">\(p\)</span> is small and <span class="math inline">\(n\)</span> is large.</li>
+<li><strong>Binomial-Normal Relationship</strong>: <span class="math inline">\(\mathcal{Bin}(n, p)\)</span> is approximately <span class="math inline">\(\mathcal{N}(np,np(1-p))\)</span> if <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is not near <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.</li>
+<li><strong>Binomial-Bernoulli Relationship</strong>:let <span class="math inline">\(X_1, X_2, . . . , X_n\)</span> be <em>independent</em> <strong>Bernoulli random</strong> variables with <span class="math inline">\(p(X_i = 1) = p\)</span>. Then <span class="math inline">\(Y = X_1 + X_2 + ··· + X_n\)</span> is a <strong>Binomial random variable</strong>.</li>
+</ul></li>
+</ul>
+<p><strong>Geometric</strong></p>
+<ul>
+<li><strong>Story:</strong> <span class="math inline">\(X\)</span> is the number of ``failures&quot; that we will achieve before we achieve our first success. Our successes have probability <span class="math inline">\(p\)</span>.</li>
+<li><strong>PMF:</strong> <span class="math inline">\(p(k)=P(X=k)=(1-p)^{k}p, \quad k=1,2,3\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(\frac{1-p}{p}\)</span></li>
+<li><strong>Variance:</strong> <span class="math inline">\(\frac{1-p}{p^2}\)</span></li>
+</ul>
+<p><strong>Negative Binomial Distributions</strong></p>
+<ul>
+<li><strong>Story:</strong><span class="math inline">\(X\)</span> is the number of &quot;failures&quot; that we will have before we achieve our <span class="math inline">\(r\)</span>th success. Our successes have probability <span class="math inline">\(p\)</span>.</li>
+<li><strong>PMF:</strong> <span class="math inline">\(p(X=k)=\left(\begin{array}{c}r+k-1\\ r-1\end{array}\right) p^r(1-p)^{k}\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(\frac{r(1-p)}{p}\)</span></li>
+<li><strong>Variance:</strong> <span class="math inline">\(\frac{r(1-p)}{p^2}\)</span></li>
+</ul>
+<p><strong>Poisson Distribution</strong></p>
+<ul>
+<li><strong>Story: </strong> There are rare events (low probability events) that occur many different ways (high possibilities of occurences) at an average rate of <strong><span class="math inline">\(\lambda\)</span> occurrences per unit space or time</strong>. The number of events that occur in that unit of space or time is <span class="math inline">\(X\)</span>.</li>
+<li><strong>Example</strong>: A certain busy intersection has an average of 2 accidents per month. Since an accident is a low probability event that can happen many different ways, it is reasonable to model the <strong>number of accidents in a month at that intersection</strong> as <span class="math inline">\(\mathcal{Pois}(2)\)</span>. Then the number of accidents that happen in two months at that intersection is distributed <span class="math inline">\(\mathcal{Pois}(4)\)</span></li>
+<li><strong>PMF:</strong> <span class="math inline">\(p(X=k)=\frac{e^{-\lambda}\lambda^k }{k!}, \quad k=0,1,2,3\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(\lambda\)</span></li>
+<li><strong>Variance:</strong> <span class="math inline">\(\lambda\)</span></li>
+<li><strong>Property:</strong> Let <span class="math inline">\(X \sim \mathcal{Pois}(\lambda_1)\)</span> and <span class="math inline">\(Y \sim \mathcal{Pois}(\lambda_2)\)</span>, with <span class="math inline">\(X \perp \!\!\! \perp Y\)</span>.
+<ul>
+<li><strong>Sum</strong>: <span class="math inline">\(X + Y \sim \mathcal{Pois}(\lambda_1 + \lambda_2)\)</span></li>
+<li><strong>Conditional</strong>: <span class="math inline">\(X | (X + Y = n) \sim \mathcal{Bin}\left(n, \frac{\lambda_1}{\lambda_1 + \lambda_2}\right)\)</span></li>
+<li><strong>Chicken-egg</strong>: If there are <span class="math inline">\(Z \sim \mathcal{Pois}(\lambda)\)</span> items and we randomly and independently &quot;accept&quot; each item with probability <span class="math inline">\(p\)</span>, then the number of accepted items <span class="math inline">\(Z_1 \sim \mathcal{Pois}(\lambda p)\)</span>, and the number of rejected items <span class="math inline">\(Z_2 \sim \mathcal{Pois}(\lambda (1-p))\)</span>, and <span class="math inline">\(Z_1 \perp \!\!\! \perp Z_2\)</span></li>
+</ul></li>
+</ul>
+<p><strong>Uniform Distribution</strong></p>
+<ul>
+<li><strong>Story: </strong>A <strong>uniform random variable</strong> on the interval <span class="math inline">\([a, b]\)</span> is a model for what we mean when we say “choose a number at random between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</li>
+<li><strong>PMF:</strong> <span class="math inline">\(f(x)=\frac{1}{b-a}, x\in (a,b)\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(\frac{a+b}{2}\)</span></li>
+<li><strong>Variance:</strong> <span class="math inline">\(\frac{(b-a)^2}{12}\)</span></li>
+<li><strong>Property:</strong> For a Uniform distribution, the probability of a draw from any interval within the support is proportional to the length of the interval</li>
+</ul>
+<p><strong>Normal Distribution</strong> <span class="math inline">\(\mathcal{N}(\mu,\sigma^2)\)</span></p>
+<ul>
+<li><strong>Central Limit Theorem</strong>: the sample mean of i.i.d.~r.v.s will approach a Normal distribution as the sample size grows, regardless of the initial distribution.</li>
+<li><strong>Location-Scale Transformation</strong>: Every time we shift a Normal r.v.~(by adding a constant) or rescale a Normal (by multiplying by a constant), we change it to another Normal r.v. For any Normal <span class="math inline">\(X \sim \mathcal{N}(\mu, \sigma^2)\)</span>, we can transform it to the standard <span class="math inline">\(\mathcal{N}(0, 1)\)</span> by: <span class="math inline">\(Z= \frac{X - \mu}{\sigma} \sim \mathcal{N}(0, 1)\)</span></li>
+<li><strong>Standard Normal</strong>: The Standard Normal, <span class="math inline">\(Z \sim \mathcal{N}(0, 1)\)</span>, has mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(1\)</span>. Its CDF is denoted by <span class="math inline">\(\Phi\)</span>.</li>
+<li><strong>PMF:</strong> <span class="math inline">\(f(x)=\frac{1}{\sigma \sqrt{2 \pi} }e^{-\frac{(x-\mu)^2}{2\sigma^2}}, x\in (-\infty,\infty)\)</span></li>
+<li><strong>Expectation:</strong> <span class="math inline">\(\mu\)</span></li>
+<li><strong>Variance:</strong> <span class="math inline">\(\sigma^2\)</span></li>
+</ul>
+<p><strong>Exponential Distribution</strong></p>
+<ul>
+<li><p><strong>Story: </strong> the waiting times between rare events. <span class="math inline">\(\lambda\)</span> is the rate parameter, the next event arrives at a rate of 1 per <span class="math inline">\(1/\lambda\)</span> (hour/minute) on average. The expected time until the next event is <span class="math inline">\(1/\lambda\)</span></p></li>
+<li><p><strong>PMF:</strong> <span class="math inline">\(f(x)=\lambda e^{-\lambda x}, x\in (0,\infty)\)</span></p></li>
+<li><p><strong>Expectation:</strong> <span class="math inline">\(\frac{1}{\lambda}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math inline">\(\frac{1}{\lambda^2}\)</span></p></li>
+<li><p><strong>Property:</strong></p>
+<ul>
+<li><p><strong>Expos as a rescaled Expo(1)</strong>: <span class="math inline">\(Y \sim \mathcal{Expo}(\lambda) \rightarrow X = \lambda Y \sim \mathcal{Expo}(1)\)</span></p></li>
+<li><p><strong>Memorylessness</strong>: The Exponential Distribution is the <em>only</em> <strong>continuous memoryless</strong> distribution. The memoryless property says that for <span class="math inline">\(X \sim \mathcal{Expo}(\lambda)\)</span> and any positive numbers <span class="math inline">\(s\)</span> and <span class="math inline">\(t\)</span>,</p>
+<p><span class="math display">\[P(X &gt; s + t | X &gt; s) = P(X &gt; t)\]</span></p>
+<p>Equivalently, <span class="math display">\[
+X - a | (X &gt; a) \sim \mathcal{Expo}(\lambda)
+\]</span></p></li>
+<li><p><strong>Min of Expos</strong>: If we have independent <span class="math inline">\(X_i \sim \mathcal{Expo}(\lambda_i)\)</span>, then <span class="math inline">\(\min(X_1, \dots, X_k) \sim \mathcal{Expo}(\lambda_1 + \lambda_2 + \dots + \lambda_k)\)</span></p></li>
+<li><p><strong>Max of Expos</strong>: If we have i.i.d.~<span class="math inline">\(X_i \sim \mathcal{Expo}(\lambda)\)</span>, then <span class="math inline">\(\max(X_1, \dots, X_k)\)</span> has the same distribution as <span class="math inline">\(Y_1+Y_2+\dots+Y_k\)</span>, where <span class="math inline">\(Y_j \sim \mathcal{Expo}(j\lambda)\)</span> and the <span class="math inline">\(Y_j\)</span> are independent</p></li>
+</ul></li>
+</ul>
+<p><strong>Chi-Square</strong> <span class="math inline">\(\chi^2_n\)</span></p>
+<ul>
+<li><strong>Story: </strong>A Chi-Square(<span class="math inline">\(n\)</span>) is the <strong>sum of the squares</strong> of <span class="math inline">\(n\)</span> independent <strong>standard Normal</strong> r.v.s. <span class="math display">\[
+\mathcal{X} \textrm{ is distributed as } Z_1^2 + Z_2^2 + \dots + Z_n^2 \textrm{ for i.i.d.~$Z_i \sim \mathcal{N}(0,1)$} \\
+\mathcal{X} \sim \text{Gamma}(n/2,1/2)
+\]</span></li>
+</ul>
+<p><strong>Student-t</strong> <span class="math inline">\(t_n\)</span></p>
+<ul>
+<li><strong>Story: </strong> Let <span class="math inline">\(X_1,...X_n\)</span> be i.i.id Normal r.v.s <span class="math inline">\(\sim \mathcal{N}(\mu, \sigma^2)\)</span></li>
+</ul>
+<p><span class="math display">\[
+\textrm{sample mean: } \bar{X}=\frac{1}{n}\sum_{i=1}^nX_i \\
+\textrm{sample variance: }S^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2 \\
+\frac{\bar{X}-\mu}{S/\sqrt{n}} \sim t(n-1)
+\]</span></p>
+<h1 id="lln-clt">LLN &amp; CLT</h1>
+<p><strong>Law of Large Numbers (LLN)</strong></p>
+<p>Let <span class="math inline">\(X_1, X_2, X_3 \dots\)</span> be i.i.d.~with mean <span class="math inline">\(\mu\)</span>. The <span class="math inline">\(\textbf{sample mean}\)</span> is<br>
+<span class="math display">\[
+\bar{X}_n = \frac{X_1 + X_2 + X_3 + \dots + X_n}{n}
+\]</span></p>
+<p>The <span class="math inline">\(\textbf{Law of Large Numbers}\)</span> states that as <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(\bar{X}_n \to \mu\)</span> with probability <span class="math inline">\(1\)</span>.</p>
+<p>For example, in flips of a coin with probability <span class="math inline">\(p\)</span> of Heads, let <span class="math inline">\(X_j\)</span> be the indicator of the <span class="math inline">\(j\)</span>th flip being Heads. Then LLN says the proportion of Heads converges to <span class="math inline">\(p\)</span> (with probability <span class="math inline">\(1\)</span>).</p>
+<p><strong>Central Limit Theorem (CLT)</strong></p>
+<p><strong>Explanation</strong>: the sample mean of i.i.d.~r.v.s will approach a Normal distribution as the sample size grows, regardless of the initial distribution.</p>
+<p>We can use the <strong>Central Limit Theorem</strong> to approximate the distribution of a random variable <span class="math inline">\(Y=X_1+X_2+\dots+X_n\)</span> that is a sum of <span class="math inline">\(n\)</span> i.i.d. random variables <span class="math inline">\(X_i\)</span>. Let <span class="math inline">\(E(Y) = \mu_Y\)</span> and <span class="math inline">\(Var(Y) = \sigma^2_Y\)</span>. The CLT says <span class="math display">\[
+Y \dot{\,\sim\,} \mathcal{N}(\mu_Y, \sigma^2_Y)
+\]</span> If the <span class="math inline">\(X_i\)</span> are i.i.d.~with mean <span class="math inline">\(\mu_X\)</span> and variance <span class="math inline">\(\sigma^2_X\)</span>, then <span class="math inline">\(\mu_Y = n \mu_X\)</span> and <span class="math inline">\(\sigma^2_Y = n \sigma^2_X\)</span>. For the sample mean <span class="math inline">\(\bar{X}_n\)</span>, the CLT says <span class="math display">\[
+\bar{X}_n = \frac{1}{n}(X_1 + X_2 + \dots + X_n) \dot{\,\sim\,} \mathcal{N}(\mu_X, \sigma^2_X/n)
+\]</span></p>
+<p><strong>Asymptotic Distributions using CLT</strong></p>
+<p>We use <span class="math inline">\(\xrightarrow{D}\)</span> to denote <em>converges in distribution to</em> as <span class="math inline">\(n \to \infty\)</span>. The CLT says that if we standardize the sum <span class="math inline">\(X_1 + \dots + X_n\)</span> then the distribution of the sum converges to <span class="math inline">\(\mathcal{N}(0,1)\)</span> as <span class="math inline">\(n \to \infty\)</span>: <span class="math display">\[
+\frac{1}{\sigma\sqrt{n}} (X_1 + \dots + X_n - n\mu_X) \xrightarrow{D} \mathcal{N}(0, 1)
+\]</span> In other words, the CDF of the left-hand side goes to the standard Normal CDF, <span class="math inline">\(\Phi\)</span>. In terms of the sample mean, the CLT says <span class="math display">\[
+\frac{(\bar{X}_n - \mu_X)}{\sigma_X/\sqrt{n} } \xrightarrow{D} \mathcal{N}(0, 1)
+\]</span> <strong>Assumptions of CLT</strong></p>
+<ul>
+<li><p><strong>Randomization Condition:</strong> The data must be sampled randomly.</p></li>
+<li><p><strong>Independence Assumption</strong>: The sample values must be independent of each other. This means that the occurrence of one event has no influence on the next event. Usually, if we know that people or items were selected randomly we can assume that the independence assumption is met.</p></li>
+<li><p><strong>10% Condition:</strong> When the sample is drawn without replacement (usually the case), the sample size, <em>n</em>, should be no more than 10% of the population.</p></li>
+<li><p><strong>Sample Size Assumption:</strong> The sample size must be sufficiently large. Although the Central Limit Theorem tells us that we can use a Normal model to think about the behavior of sample means when the sample size is large enough, it does not tell us how large that should be. If the population is very skewed, you will need a pretty large sample size to use the CLT, however if the population is unimodal and symmetric, even small samples are acceptable. So think about your sample size in terms of what you know about the population and decide whether the sample is large enough. In general a sample size of 30 is considered sufficient if the sample is unimodal (and meets the 10% condition).</p></li>
+</ul>
+<h1 id="the-mean-variance-and-standard-deviation">The Mean, Variance and Standard Deviation</h1>
+<p><strong>Population:</strong> whatever unit it is you are measuring something.</p>
+<p><strong>Population parameters:</strong> the parameters that determine how a distribution fits the population data</p>
+<ul>
+<li><strong>mean</strong> and <strong>standard deviation</strong> of the normal curve, which represents the population.</li>
+</ul>
+<p>We rarely, if ever, have population data, so we always <em>estimate</em> the <u>population parameters</u> using a relatively small sample.</p>
+<blockquote>
+<p>The reason why we want to know the <u>population parameters</u> is to ensure that the results drawn from our experiment are <strong><em>reproducible</em></strong>.</p>
+</blockquote>
+<p>The more data we have, the more <em>confidence</em> we can have in the accuracy of the estimates.</p>
+<ul>
+<li><strong>P-values &amp; confidence intervals</strong> : quantify the confidence in the esitmated parameters - &gt; tell us that while the estimates are different, they are not <em>significantly</em> different.</li>
+</ul>
+<p>By estimating the population parameters and quantifying our confidence in them, we can generate results that are reprducible in future experiments.</p>
+<p><span class="math inline">\(\bar{x}\)</span> : <strong>estimated mean</strong> or <strong>sample mean</strong>.</p>
+<p><span class="math inline">\(\mu\)</span>: <strong>population mean</strong></p>
+<p>The estimated mean <span class="math inline">\(\bar{x}\)</span> is different from the population mean <span class="math inline">\(\mu\)</span>, but with more and more data, <span class="math inline">\(\bar{x}\)</span> should get closer and closer.</p>
+<p><strong>Population Variance</strong> = <span class="math inline">\(\frac{\sum{(x-\mu)^2}}{n}\)</span> <span class="math inline">\(\leftarrow\)</span> this is the formula we use to <em>calculate</em>, not <em>estimate</em>, the population variance.</p>
+<p><strong>Population Standard Deviation</strong>=<span class="math inline">\(\sqrt{\frac{\sum{(x-\mu)^2}}{n}}\)</span></p>
+<p>Note: we almost never calcualte the population mean, population variance and standard deviation.</p>
+<p><strong>Estimated Population Variance (sample variance)</strong> <span class="math inline">\(s^2= \frac{\sum{(x-\bar{x})^2}}{n-1}\)</span></p>
+<ul>
+<li>Dividing by <strong><em>n-1</em></strong> compensates for the fact that we are calcualting differences from the <strong>sample mean</strong> instead of the <strong>population mean</strong>, otherwise we would consistently underestimate the variance around the population mean.</li>
+<li>This is because the <em>differences between the data and the sample mean</em> tend to be smaller than the <em>differences between the data and the population mean</em>. Thus the differences around the population mean result in a larger average.</li>
+</ul>
+<p>​ <span class="math display">\[\frac{\sum{(x-\bar{x})^2}}{n-1} &lt; \frac{\sum{(x-\mu)^2}}{n}\]</span></p>
+<p><strong>Chi-Squared relation with sample variance</strong>: <span class="math inline">\(\frac{s^2(n-1)}{\sigma^2} \sim \mathcal{X}^2_{n-1}\)</span></p>
+<p><strong>Estimated Population Mean</strong> = <span class="math inline">\(\frac{\sum_i x_i}{n}\)</span></p>
+<h2 id="sd-v.s.-se">SD v.s. SE</h2>
+<blockquote>
+<p><strong>The standard deviation of the means is called The Standard Error</strong></p>
+</blockquote>
+<p>The <strong>Standard Deviation</strong> quantifies the variation within a set of data points.</p>
+<p>The <strong>Stardard Error</strong> quantifies the variation in the <em>means</em> from <strong><em>multiple sets</em></strong> of data.</p>
+<ul>
+<li>The confusing thing is that the SE can be estimated from a single set of data. In almost all cases, <strong>you should plot he SD</strong>, since graphs are usually intended to describe the data that you measured.</li>
+</ul>
+<h1 id="hypothesis-testing">Hypothesis Testing</h1>
+<p><strong>Null Hypothesis</strong>: there is <strong><em>no difference</em></strong> between things <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(H_0\)</span></p>
+<p><strong>Alternative Hypothesis</strong>: there is a <strong><em>difference</em></strong> between things<span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(H_1\)</span></p>
+<p>Outcome: A decision about whether or not to <strong><em>reject</em></strong> or <strong><em>fail to reject</em></strong> the Null Hypothesis</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Accept <span class="math inline">\(H_0\)</span></th>
+<th>Reject <span class="math inline">\(H_0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_0\)</span> is true</td>
+<td>☑</td>
+<td>type I error</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_0\)</span> is false</td>
+<td>type II error</td>
+<td>☑</td>
+</tr>
+</tbody>
+</table>
+<p><strong>type I error:</strong> the probability of rejecting the null hypothesis while the null hypothesis is true, often noted <span class="math inline">\(\alpha\)</span> and also called &quot;false alarm&quot; or significance level . If we note <em>T</em> the <strong>test statistic</strong> and <em>R</em> the <strong>rejection region</strong>, then we have: <span class="math display">\[
+\alpha=P(T \in R| H_0 \text{ is true})
+\]</span> <strong>type II error:</strong> the probability of not rejecting the null hypothesis while the null hypothesis is not true, often noted <span class="math inline">\(\beta\)</span> and also called &quot;missed alarm&quot; or <strong>&quot;false positive</strong>&quot;. <span class="math display">\[
+\beta=P(T\notin R|H_0{\small\textrm{ not true})}
+\]</span> <img src="type-error.png"></p>
+<p><strong>p-value</strong>: the probability under the <strong>null hypothesis</strong> of having a test statistic <em>T</em> at least as extreme as the one that we observed <span class="math inline">\(T_0\)</span>. We have: <span class="math display">\[
+{\small\textrm{(left-sided)}}\quad\boxed{p\textrm{-value}=P(T\leqslant T_0|H_0{\small\textrm{ true})}}\quad\quad\quad{\small\textrm{(right-sided)}} \quad \boxed{p\textrm{-value}=P(T\geqslant T_0|H_0{\small\textrm{ true})}}
+\]</span></p>
+<p><span class="math display">\[
+{\small\textrm{(two-sided)}}\quad\boxed{p\textrm{-value}=P(|T|\geqslant |T_0||H_0{\small\textrm{ true})}}
+\]</span></p>
+<p><em>Remark: the example below illustrates the case of a right-sided </em>p*-value.</p>
+<p><img src="p-value.png"></p>
+<p><strong>Testing for the difference in two means</strong>:</p>
+<p>The table below sums up the <strong>test statistic</strong> to compute when performing a hypothesis test where the null hypothesis is: <span class="math display">\[
+H_0\quad:\quad\mu_X-\mu_Y=\delta
+\]</span></p>
+<table>
+<colgroup>
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution of <span class="math inline">\(X_i, Y_i\)</span></th>
+<th><strong>Sample size <span class="math inline">\(n_X, n_Y\)</span></strong></th>
+<th><strong>Variance <span class="math inline">\(\sigma_X^2, \sigma_Y^2\)</span></strong></th>
+<th><strong>Test statistic under <span class="math inline">\(H_0\)</span></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>Any</td>
+<td>Known</td>
+<td><span class="math inline">\(\frac{(\bar{X}-\bar{Y})-\delta}{\sqrt{\frac{\sigma_X^2}{n_X}+\frac{\sigma_Y^2}{n_Y}}} \sim \mathcal{N}(0,1)\)</span></td>
+</tr>
+<tr class="even">
+<td>Normal</td>
+<td>Large</td>
+<td>Unknown</td>
+<td><span class="math inline">\(\frac{(\bar{X}-\bar{Y})-\delta}{\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}}} \sim \mathcal{N}(0,1)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Normal</td>
+<td>Small</td>
+<td>Unknown with <span class="math inline">\(\sigma_X=\sigma_Y\)</span></td>
+<td><span class="math inline">\(\frac{(\bar{X}-\bar{Y})-\delta}{s\sqrt{\frac{1}{n_X}+\frac{1}{n_Y}}} \sim \mathcal{t}_{n_X+n_Y-2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-wald-test">The Wald Test</h2>
+<p>Let <span class="math inline">\(θ\)</span> be a scalar parameter, let <span class="math inline">\(\hat{θ}\)</span> be an estimate of <span class="math inline">\(θ\)</span> and let <span class="math inline">\(􏰸\hat{se}\)</span> be the estimated standard error of <span class="math inline">\(θ\)</span>.</p>
+<p>​ Note: <span class="math inline">\(\hat{se} \approx \frac{s}{n}\)</span>, where <span class="math inline">\(s\)</span> is sample standard deviation <span class="math inline">\(s=\sqrt{\frac{\sum{(x-\bar{x})^2}}{n-1}}\)</span></p>
+<p><strong>Definition.</strong> The Wald Test</p>
+<p>​ <em>Consider testing</em> <span class="math display">\[
+H_0 :θ=θ_0 \text{ versus } H_1 :θ \neq θ_0.
+\]</span> ​ <em>Assume that θ is asymptotically Normal:</em> <span class="math display">\[
+\frac{(\hat{θ}−θ_0)}{\hat{se}} \sim 􏱂N(0,1)
+\]</span> ​ <em>The size α of <strong>Wald test</strong> is: reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(|W | &gt; z_{α/2}\)</span> where</em> <span class="math display">\[
+W=\frac{(\hat{θ}−θ_0)}{\hat{se}} 
+\]</span></p>
+<h2 id="p-value">P-Value</h2>
+<p><strong>p-values</strong> are numbers <span class="math inline">\(\in [0,1]\)</span> that quantify how confident we should be that A is different from B.</p>
+<blockquote>
+<p>How <strong><em>small</em></strong> does a <strong>p-value</strong> have to be before we are sufficiently confident that A is different from B?</p>
+</blockquote>
+<ul>
+<li>A commonly used threshold is <strong>0.05</strong>. It means
+<ul>
+<li>If there is no difference between A and B, and if we did this exact sample experiment a bunch of times, then only <strong>5%</strong> of those experiments would result in the <strong><em>wrong</em></strong> decision; Or</li>
+<li>If there is no difference between A and B, <strong>5%</strong> time we do the experiment, we will get a <strong>p-value</strong> less than <strong>0.05</strong>, aka a <strong>False Positive</strong>.</li>
+</ul></li>
+</ul>
+<p><strong>False Positive</strong>: getting a small <strong>p-value</strong> where there is no difference</p>
+<p><strong>Another e.g.:</strong></p>
+<ul>
+<li>Using a threshold of <strong>0.00001</strong> means we would only get a <strong>False Positive</strong> once every <strong>100,000</strong> experiments.</li>
+<li>Using a threshold of <strong>0.2</strong> means we would only get a <strong>False Positive</strong> <strong>2</strong> times out of <strong>10</strong>.</li>
+</ul>
+<p><strong>Important</strong>:</p>
+<ul>
+<li><p>If we calculate a <strong>p-value</strong> &lt; 0.05 then we will decide that A is different from B <span class="math inline">\(\rightarrow\)</span> we should reject the <strong>Null Hypothesis</strong></p></li>
+<li><p>While a small <strong>p-value</strong> helps us decide if A is different from B, it does <strong><em>not</em></strong> tell us <strong><em>how different</em></strong> they are or effective size.</p></li>
+</ul>
+<p><strong>Two types of p-value:</strong></p>
+<ol type="1">
+<li><strong>One-sided</strong>: rarely used and potentially dangerous</li>
+<li><strong>Two-sided</strong></li>
+</ol>
+<h3 id="calculating-p-value">Calculating P-Value</h3>
+<p><strong>p-values</strong> are determined by adding up probabilities. 3 parts:</p>
+<ol type="1">
+<li>The probability random chance would result in the observation</li>
+<li>The probability of observing something else that <strong>is eqaully rare</strong></li>
+<li>The probability of observing something <strong>rarer</strong> or more extreme</li>
+</ol>
+<p>Why adding the latter 2 parts? - A lot of equally rare or rarer things would make something less special</p>
+<p>e.g. the p-value for getting 4 Heads and 1 Tails</p>
+<blockquote>
+<p>5/32+5/32+2/32=0.375</p>
+</blockquote>
+<h3 id="p-hacking">P-Hacking</h3>
+<p><strong>P-Hacking</strong> refers to the misues and abuse of analysis techniques and results in being fooled by <strong>false positives</strong>.</p>
+<ul>
+<li><strong>Multiple Testing Problem</strong>: doing a lot of tests and ending up with <strong>False Positives</strong>.
+<ul>
+<li><strong>False Discovery Rate</strong>: don't just collect all the data but only calculate a <strong>p-value</strong> for the one time things look different, instead, calcualte a <strong>p-value</strong> for each test and adjust all of the <strong>p-values</strong> with <strong>FDR</strong>.</li>
+</ul></li>
+<li>When a <strong>p-value</strong> is close to <strong>0.05</strong>, there is a high prob that just adding one new measurement to both groups will result in a <strong>false positive</strong>. -&gt; don't give each group more data points
+<ul>
+<li><strong>Power Analysis:</strong> performed before doing an experiment and tells us how many replicates we need in order to have a relatively high probability of <strong><em>correctly</em></strong> rejecting the <strong>null hypothesis</strong>.</li>
+</ul></li>
+</ul>
+<h2 id="statistical-power">Statistical Power</h2>
+<p><strong>Power</strong> is the probability that we will <em>correctly</em> reject the <strong>Null Hypothesis</strong>, i.e. get a small <strong>p-value</strong>.</p>
+<ul>
+<li>When we have 2 distributions that have very little overlap, we have a lot of <strong>Power</strong> because there is a high prob that we will <em>correctly</em> reject the <strong><em>null hypothesis</em></strong>.</li>
+<li>When the 2 distributions overlap a lot, and if we have a small sample size, we will have small <strong>Power</strong></li>
+<li>If we want more <strong>Power</strong>, we can increase the sample size</li>
+</ul>
+<p><strong>Power Analysis</strong>: tell us how many measurements we need to collect to have a good amount of <strong>Power</strong>.</p>
+<h2 id="power-analysis">Power Analysis</h2>
+<p><strong>Power Analysis</strong>: determines what sample size will ensure a high probability that we <em>correctly</em> reject the <strong><em>null hypothesis</em></strong> that there is no difference between the 2 groups.</p>
+<p><strong>Power Analysis</strong> is affected by 2 factors:</p>
+<ol type="1">
+<li>How much overlap there is between the 2 distibutions we want to identify with our study</li>
+</ol>
+<p><img src="1.png"></p>
+<ol start="2" type="1">
+<li>The <strong>Sample Size</strong></li>
+</ol>
+<p><img src="2.png"></p>
+<blockquote>
+<p>The more overlap between the 2 distributions, the larger then <strong>Sample Size</strong> needs to be in order to have a large <strong>Power</strong>.</p>
+</blockquote>
+<p><img src="3.png"></p>
+<p>When we increase the <strong>Sample Size</strong> , we have more confidence that the <strong>estimated</strong> means are close to the <strong>Population Means</strong> because extreme observations have less effect on the location of the estimated means. And the closer the estimated means are to the <strong>Population Means</strong> , the less the measn from the different distributions will overlap and that increase the prob that we will <strong><em>correctly</em></strong> reject the <strong>Null Hypothesis</strong>.</p>
+<p><strong>3 components to calculate Sample Size:</strong></p>
+<ol type="1">
+<li><p>Decide how much <strong>Power</strong> we want.</p>
+<ul>
+<li>Common value for <strong>Power</strong>: <strong>0.8</strong> <span class="math inline">\(\rightarrow\)</span> we want an <strong>80%</strong> prob that we will correctly reject the <strong>Null Hypothesis</strong>.</li>
+</ul></li>
+<li><p>Determine the threshold for significance (called <strong>alpha</strong>, <span class="math inline">\(\alpha\)</span>)</p></li>
+</ol>
+<ul>
+<li>Common value for <strong>Alpha</strong>: <strong>0.05</strong></li>
+</ul>
+<ol start="3" type="1">
+<li><p>Estimate the <strong>Overlap</strong> between the 2 distributions</p>
+<ul>
+<li><strong>Overlap</strong> is effected by both the <strong>distance</strong> between the population means, and the <strong>standard deviations</strong> <span class="math inline">\(\rightarrow\)</span> combine them together <span class="math inline">\(\rightarrow\)</span> <strong>Effective Size</strong></li>
+<li><strong>Effective Size (d)</strong> = <span class="math inline">\(\frac{The\ estimated\ difference\ in\ the\ means}{Pooled\ esitmated\ standard\ deviations} = \sqrt{\frac{s_1^2+s_2^2}{2}}\)</span> where <span class="math inline">\(s_1\)</span> &amp; <span class="math inline">\(s_2\)</span> represent the estimated standard devation for the 2 distributions.</li>
+</ul>
+<p><img src="5.png"></p>
+<p>Then <span class="math inline">\(\rightarrow\)</span> statistics power calculator <span class="math inline">\(\rightarrow\)</span> sample size = N</p>
+<p>It means if I get N measurements per group, I will have an <strong>80%</strong> chance that I will <strong><em>correctly</em></strong> reject the <strong>Null Hypothesis</strong>.</p></li>
+</ol>
+<h1 id="covariance-and-correlation">Covariance and Correlation</h1>
+<p><strong>Covariance:</strong> <span class="math inline">\(Cov(X,Y)=\sigma_{XY}=E[(X-\mu_X)(Y-\mu_Y)]=E(XY)-\mu_X\mu_Y\)</span></p>
+<ul>
+<li><p>If X and Y are discrete random variables with joint support S, then the covariance of X and Y is: <span class="math display">\[
+Cov(X,Y)=\sum\sum_{(x,y)\in S}(x-\mu_X)(y-\mu_Y)f(x,y)
+\]</span></p></li>
+<li><p>If X and Y are continuous random variables with supports S1 and S2, respectively, then the covariance of X and Y is: <span class="math display">\[
+Cov(X,Y)=\int_{S_2}\int_{S_1}(x-\mu_X)(y-\mu_Y)f(x,y)dxdy
+\]</span></p></li>
+</ul>
+<p><strong>Correlation Coefficient</strong>: <span class="math inline">\(\rho_{XY}=Corr(X,Y)=\frac{Cov(X,Y)}{\sigma_X\sigma_Y}=\frac{\sigma_{XY}}{\sigma_X \sigma_Y} \in [0,1]\)</span></p>
+<p><strong>Independent</strong>: If X and Y are independent random variables (discrete or continuous!), then: <span class="math display">\[
+Corr(X,Y)=Cov(X,Y)=0
+\]</span> <strong>Why Coveriance is hard to interpret?</strong> Covariance is sensitive to the scale of the data while correlation is not affected by the scale of the data.</p>
+<p><strong>Correlation - p-value relationship</strong>: For <strong>correlation</strong>, a <strong>p-value</strong> tells us the probability that randomly drawn dots will result in a similarly <em>strong</em> relationship or stronger. Thus, the smaller the <strong>p-value</strong>, the more confidence we have in the predictions we make with the line. We quantify the confidence of correlation with a <strong>p-value</strong>. The more data we have, the more confidence (smaller p-value) we have.</p>
+<p><strong>Why Correlation is still hard to interpret?</strong> It's not obvious that Corr=0.7 is twice as good at making predictions as Corr=0.5, while <span class="math inline">\(R^2=0.7\)</span> is 1.4 times as good as <span class="math inline">\(R^2=0.5\)</span></p>
+<h1 id="anova">ANOVA</h1>
+<h2 id="basic-ideas">Basic Ideas</h2>
+<p><strong>Why ANOVA?</strong>: the previous hypothesis tests are only about a maximum of 2 populations, ANOVA permits comparisons of multiple populations and even subgroups.</p>
+<p><strong>Null Hypothesis:</strong> whether or not these 3 sample means come from the same population. <span class="math display">\[
+H_0: \mu_1=\mu_2=\mu_3
+\]</span> <img src="anova1.png"></p>
+<p>In ANOVA, the ideas below are very important.</p>
+<ul>
+<li><strong>Variability AMONG/BETWEEN the sample means</strong>. each sample mean's distance from the mean of the overall population.</li>
+<li><strong>Variability AROUND/WITHIN the sample means</strong>. the variance or SPREAD of each distribution.</li>
+</ul>
+<p><img src="anova5.png"></p>
+<p><strong>Definition</strong>. <strong>ANOVA</strong> is a <em>variability ratio</em> <span class="math display">\[
+\frac{\text{Variability AMONG/BETWEEN the means}}{\text{Variability AROUND/WITHIN the distributions}}
+\]</span> <img src="anova3.png"></p>
+<blockquote>
+<p>If the variabitlity BETWEEN the means (distance from overall mean) in the numerator is relatively large compared to the variance WITHIN the samples (internal spread) in the denominator, the ratio will be much larger than 1. The samples then most likely do NOT come from a common population; REJECT Null Hypothesis that mean(s) are equal.</p>
+</blockquote>
+<p><img src="anova4.png"></p>
+<h2 id="one-way-anova">One-Way ANOVA</h2>
+<p><strong>Formulas For One-Way ANOVA</strong>: <span class="math display">\[
+\text{Sum of Squares Total(SST)}=\text{Sum of Squares Between(SSC)}+\text{Sum of Squares Within(SSE)}
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+N=\text{total observations} \quad C=\text{Number of columns/treatments/tests}  \\
+\end{align}
+\]</span></p>
+<table>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 10%">
+<col style="width: 28%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Degree of Freedom</th>
+<th>Average</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\text{Sum of squares(columns)(SSC)}\)</span></td>
+<td><span class="math inline">\(C-1\)</span></td>
+<td><span class="math inline">\(\text{MSC}=\frac{SSC}{\text{df}_{columns}}\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^kn_j(\bar{x}_j-\bar{\bar{x}})^2\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\text{Sum of squares(within/error)(SSE)}\)</span></td>
+<td><span class="math inline">\(N-C\)</span></td>
+<td><span class="math inline">\(\text{MSE}=\frac{SSE}{\text{df}_{error}}\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^k(\sum_{i=1}^{n_1}(x_{ji}-\bar{x}_j)^2)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\text{Sum of squares(total)(SST)}\)</span></td>
+<td><span class="math inline">\(N-1\)</span></td>
+<td><span class="math inline">\(\text{F}=\frac{MSC}{MSE}\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^k\sum_{i=1}^{n_j}(x_{ji}-\bar{\bar{x}})^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df=pd.DataFrame(data=np.array([[<span class="number">82</span>,<span class="number">93</span>,<span class="number">61</span>,<span class="number">74</span>,<span class="number">69</span>,<span class="number">70</span>,<span class="number">53</span>],[<span class="number">71</span>,<span class="number">62</span>,<span class="number">85</span>,<span class="number">94</span>,<span class="number">78</span>,<span class="number">66</span>,<span class="number">71</span>],[<span class="number">64</span>,<span class="number">73</span>,<span class="number">87</span>,<span class="number">91</span>,<span class="number">56</span>,<span class="number">78</span>,<span class="number">87</span>]]).T,</span><br><span class="line">                columns=[<span class="string">'year_1'</span>,<span class="string">'year_2'</span>,<span class="string">'year_3'</span>])</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    
+    .dataframe thead th {
+        text-align: right;
+    }
+
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+year_1
+</th>
+<th>
+year_2
+</th>
+<th>
+year_3
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+82
+</td>
+<td>
+71
+</td>
+<td>
+64
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+93
+</td>
+<td>
+62
+</td>
+<td>
+73
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+61
+</td>
+<td>
+85
+</td>
+<td>
+87
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+74
+</td>
+<td>
+94
+</td>
+<td>
+91
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+69
+</td>
+<td>
+78
+</td>
+<td>
+56
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+70
+</td>
+<td>
+66
+</td>
+<td>
+78
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+53
+</td>
+<td>
+71
+</td>
+<td>
+87
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">N=len(df)*len(df.columns)</span><br><span class="line">C=len(df.columns)</span><br><span class="line">N,C</span><br></pre></td></tr></table></figure>
+<p>(21, 3)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mean_1=df[<span class="string">'year_1'</span>].mean()</span><br><span class="line">mean_2=df[<span class="string">'year_2'</span>].mean()</span><br><span class="line">mean_3=df[<span class="string">'year_3'</span>].mean()</span><br><span class="line">mean_total=(df[<span class="string">'year_1'</span>].sum()+df[<span class="string">'year_2'</span>].sum()+df[<span class="string">'year_3'</span>].sum())/N</span><br><span class="line">mean_1,mean_2,mean_3,mean_total</span><br></pre></td></tr></table></figure>
+<p>(71.71428571428571, 75.28571428571429, 76.57142857142857, 74.52380952380952)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SSC = ((mean_1-mean_total)**<span class="number">2</span> +</span><br><span class="line">      (mean_2-mean_total)**<span class="number">2</span> +</span><br><span class="line">      (mean_3-mean_total)**<span class="number">2</span>)*<span class="number">7</span></span><br><span class="line"></span><br><span class="line">SSE = (sum((df[<span class="string">'year_1'</span>]-mean_1)**<span class="number">2</span>) +</span><br><span class="line">       sum((df[<span class="string">'year_2'</span>]-mean_2)**<span class="number">2</span>) +</span><br><span class="line">       sum((df[<span class="string">'year_3'</span>]-mean_3)**<span class="number">2</span>))</span><br><span class="line">SST=SSC+SSE</span><br><span class="line">SSC,SSE,SST</span><br></pre></td></tr></table></figure>
+<p>(88.66666666666693, 2812.571428571429, 2901.238095238096)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MSC=SSC/(C<span class="number">-1</span>)</span><br><span class="line">MSE=SSE/(N-C)</span><br><span class="line">F=MSC/MSE</span><br><span class="line">MSC,MSE,F</span><br></pre></td></tr></table></figure>
+<p>(44.333333333333464, 156.25396825396828, 0.28372612759041116)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">F_crit=scipy.stats.f.ppf(q=<span class="number">1</span><span class="number">-0.05</span>, dfn=C<span class="number">-1</span>, dfd=N-C)</span><br><span class="line">print(<span class="string">"Since our F value(&#123;0:.2f&#125;) is smaller than F critical value(&#123;1:.2f&#125;), we fail to reject the null hypothesis. So there is no significant difference between the mean of each column"</span>.format(F,F_crit))</span><br></pre></td></tr></table></figure>
+<p>Since our F value(0.28) is smaller than F critical value(3.55), we fail to reject the null hypothesis. So there is no significant difference between the mean of each column</p>
+<h2 id="two-way-anova">Two-Way ANOVA</h2>
+<p><strong>Two-Way ANOVA &quot;Block&quot; Design</strong>:</p>
+<p>ANOVA is about partitioning the total / overall variance into <strong>different parts</strong>; assigning parts of the overall variance to different sources.</p>
+<p>One of those parts is always ERROR; the unexplained source.</p>
+<p>In a One-Way ANOVA, aside from ERROR, we were only working with one potential source of variance: COLUMNS/GROUPS.</p>
+<p>A Two-Way ANOVA allows us to &quot;account for variation&quot; at the ROW level due to some other <strong>factor</strong> or <strong>grouping</strong> . We introduce a new way to separate the data: BLOCKS</p>
+<ul>
+<li>Blocks allow us to further refine how we &quot;assign&quot; or split apart the overall variance, allowing for more powerfil hypothesis tests.</li>
+<li>By adding blocks or factors to the ROWS, we can &quot;subtract out&quot; that ROW variance from the overall ERROR variance.</li>
+<li>This allows greater focus on COLUMN or GRROUP differences <em>making it easier to <strong>detect</strong> group differences.</em></li>
+</ul>
+<p><img src="anova6.png"></p>
+<p><strong>Eating up original SSE with Blocks</strong>:</p>
+<blockquote>
+<p>SSC wants SSE to be as small as possible. &quot;Hey SSB, eat up original SSE!&quot;</p>
+</blockquote>
+<blockquote>
+<p>In the end, SSC will be compared to SSE. So, the smaller SSE is, SSC can claim a larger part of SST.</p>
+</blockquote>
+<p><strong>Formulas For One-Way ANOVA</strong>: <span class="math display">\[
+\begin{align}
+\text{Sum of Squares Total(SST)}=&amp;\text{Sum of Squares Between(SSC)}+ \\
+                &amp;\text{Sum of Squares Block(SSB)}+ \\
+                &amp;\text{Sum of Squares Within(SSE)}
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+N=\text{total observations} \quad C=\text{Number of  columns/treatments/tests} \quad B=\text{Number of  blocks} \\
+\end{align}
+\]</span></p>
+<table>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 10%">
+<col style="width: 28%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Degree of Freedom</th>
+<th>Average</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\text{Sum of squares(columns)(SSC)}\)</span></td>
+<td><span class="math inline">\(C-1\)</span></td>
+<td><span class="math inline">\(\text{MSC}=\frac{SSC}{\text{df}_{columns}}\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^kn_j(\bar{x}_j-\bar{\bar{x}})^2\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\text{Sum of squares(block)(SSB)}\)</span></td>
+<td><span class="math inline">\(B-1\)</span></td>
+<td><span class="math inline">\(\text{MSB}=\frac{SSB}{\text{df}_{blocks}}\)</span></td>
+<td><span class="math inline">\(\sum_{b=1}^Bn_b(\bar{x}_b-\bar{\bar{x}})^2\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\text{Sum of squares(within/error)(SSE)}\)</span></td>
+<td><span class="math inline">\((C-1)(B-1)\)</span></td>
+<td><span class="math inline">\(\text{MSE}=\frac{SSE}{\text{df}_{error}}\)</span></td>
+<td><span class="math inline">\(SST-SSB-SSC\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\text{Sum of squares(total)(SST)}\)</span></td>
+<td><span class="math inline">\(N-1\)</span></td>
+<td><span class="math inline">\(\text{F}=\frac{MSC}{MSE}\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^k\sum_{i=1}^{n_j}(x_{ji}-\bar{\bar{x}})^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df=pd.DataFrame(data=np.array([[<span class="number">75</span>,<span class="number">70</span>,<span class="number">50</span>,<span class="number">65</span>,<span class="number">80</span>,<span class="number">65</span>],[<span class="number">75</span>,<span class="number">70</span>,<span class="number">55</span>,<span class="number">60</span>,<span class="number">65</span>,<span class="number">65</span>],[<span class="number">90</span>,<span class="number">70</span>,<span class="number">75</span>,<span class="number">85</span>,<span class="number">80</span>,<span class="number">65</span>]]).T,</span><br><span class="line">                columns=[<span class="string">"city_&#123;&#125;"</span>.format(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">4</span>)],index=[<span class="string">"shopper_&#123;&#125;"</span>.format(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">7</span>)])</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    
+    .dataframe thead th {
+        text-align: right;
+    }
+
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+city_1
+</th>
+<th>
+city_2
+</th>
+<th>
+city_3
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+shopper_1
+</th>
+<td>
+75
+</td>
+<td>
+75
+</td>
+<td>
+90
+</td>
+</tr>
+<tr>
+<th>
+shopper_2
+</th>
+<td>
+70
+</td>
+<td>
+70
+</td>
+<td>
+70
+</td>
+</tr>
+<tr>
+<th>
+shopper_3
+</th>
+<td>
+50
+</td>
+<td>
+55
+</td>
+<td>
+75
+</td>
+</tr>
+<tr>
+<th>
+shopper_4
+</th>
+<td>
+65
+</td>
+<td>
+60
+</td>
+<td>
+85
+</td>
+</tr>
+<tr>
+<th>
+shopper_5
+</th>
+<td>
+80
+</td>
+<td>
+65
+</td>
+<td>
+80
+</td>
+</tr>
+<tr>
+<th>
+shopper_6
+</th>
+<td>
+65
+</td>
+<td>
+65
+</td>
+<td>
+65
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">N=len(df)*len(df.columns)</span><br><span class="line">C=len(df.columns)</span><br><span class="line">B=len(df)</span><br><span class="line">N,C,B</span><br></pre></td></tr></table></figure>
+<p>(18, 3, 6)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">block_means=df.mean(axis=<span class="number">1</span>)</span><br><span class="line">column_means=df.mean(axis=<span class="number">0</span>)</span><br><span class="line">total_mean=df.values.mean()</span><br><span class="line">print(<span class="string">"Means of block"</span>)</span><br><span class="line">print(block_means)</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">"Means of columns"</span>)</span><br><span class="line">print(column_means)</span><br><span class="line">print()</span><br><span class="line">print(<span class="string">"Total mean:"</span>,total_mean)</span><br></pre></td></tr></table></figure>
+<p>Means of block shopper_1 80.0 shopper_2 70.0 shopper_3 60.0 shopper_4 70.0 shopper_5 75.0 shopper_6 65.0 dtype: float64</p>
+<p>Means of columns city_1 67.5 city_2 65.0 city_3 77.5 dtype: float64</p>
+<p>Total mean: 70.0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SST=sum((df.values.reshape(<span class="number">-1</span>)-total_mean)**<span class="number">2</span>)</span><br><span class="line">SSC=sum((column_means-total_mean)**<span class="number">2</span>)*len(df)</span><br><span class="line">SSB=sum((block_means-total_mean)**<span class="number">2</span>)*len(df.columns)</span><br><span class="line">SSE=SST-SSB-SSC</span><br><span class="line">SST,SSC,SSB,SSE</span><br></pre></td></tr></table></figure>
+<p>(1750.0, 525.0, 750.0, 475.0)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MST=SST/(N<span class="number">-1</span>)</span><br><span class="line">MSC=SSC/(C<span class="number">-1</span>)</span><br><span class="line">MSB=SSB/(B<span class="number">-1</span>)</span><br><span class="line">MSE=SSE/(C<span class="number">-1</span>)/(B<span class="number">-1</span>)</span><br><span class="line">MST,MSC,MSB,MSE</span><br></pre></td></tr></table></figure>
+<p>(102.94117647058823, 262.5, 150.0, 47.5)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">F=MSC/MSE</span><br><span class="line">F_=MSB/MSE</span><br><span class="line">F,F_</span><br></pre></td></tr></table></figure>
+<p>(5.526315789473684, 3.1578947368421053)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">F_crit=scipy.stats.f.ppf(q=<span class="number">1</span><span class="number">-0.05</span>, dfn=C<span class="number">-1</span>, dfd=(C<span class="number">-1</span>)*(B<span class="number">-1</span>))</span><br><span class="line">print(<span class="string">"Since our F value(&#123;0:.2f&#125;) is larger than F critical value(&#123;1:.2f&#125;), we can reject the null hypothesis. So significant difference do exist in cities."</span>.format(F,F_crit))</span><br></pre></td></tr></table></figure>
+<p>Since our F value(5.53) is larger than F critical value(4.10), we can reject the null hypothesis. So significant difference do exist in cities.</p>
+<p><strong>Ref</strong></p>
+<p>https://cnx.org/contents/6Znhbn2_<span class="citation" data-cites="1.5:7mUmR30Q">@1.5:7mUmR30Q</span><span class="citation" data-cites="1/Central-Limit-Theorem-Assumptions-and-Conditions">@1/Central-Limit-Theorem-Assumptions-and-Conditions</span></p>
+<p>https://github.com/wzchen/probability_cheatsheet/blob/master/probability_cheatsheet.pdf</p>
+<p><a href="https://en.wikipedia.org/wiki/Student&#39;s_t-distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Student%27s_t-distribution</a></p>
+<p>https://stanford.edu/~shervine/teaching/cme-106/cheatsheet-statistics#hypothesis-testing</p>
+<p>https://www.youtube.com/user/joshstarmer</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Probability/" rel="tag"># Probability</a>
+          
+            <a href="/tags/Statistics/" rel="tag"># Statistics</a>
+          
+            <a href="/tags/ANOVA/" rel="tag"># ANOVA</a>
+          
+            <a href="/tags/Hypothesis-Testing/" rel="tag"># Hypothesis Testing</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/8fdfc10f/" rel="next" title="A/B Testing Final Project">
+                <i class="fa fa-chevron-left"></i> A/B Testing Final Project
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/db6945d3/" rel="prev" title="A/B Testing : Pitfalls, Baysian & Math Behind">
+                A/B Testing : Pitfalls, Baysian & Math Behind <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#random-variables"><span class="nav-number">1.</span> <span class="nav-text">Random Variables</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lln-clt"><span class="nav-number">2.</span> <span class="nav-text">LLN &amp; CLT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#the-mean-variance-and-standard-deviation"><span class="nav-number">3.</span> <span class="nav-text">The Mean, Variance and Standard Deviation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sd-v.s.-se"><span class="nav-number">3.1.</span> <span class="nav-text">SD v.s. SE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hypothesis-testing"><span class="nav-number">4.</span> <span class="nav-text">Hypothesis Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#the-wald-test"><span class="nav-number">4.1.</span> <span class="nav-text">The Wald Test</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p-value"><span class="nav-number">4.2.</span> <span class="nav-text">P-Value</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#calculating-p-value"><span class="nav-number">4.2.1.</span> <span class="nav-text">Calculating P-Value</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p-hacking"><span class="nav-number">4.2.2.</span> <span class="nav-text">P-Hacking</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#statistical-power"><span class="nav-number">4.3.</span> <span class="nav-text">Statistical Power</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#power-analysis"><span class="nav-number">4.4.</span> <span class="nav-text">Power Analysis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#covariance-and-correlation"><span class="nav-number">5.</span> <span class="nav-text">Covariance and Correlation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#anova"><span class="nav-number">6.</span> <span class="nav-text">ANOVA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-ideas"><span class="nav-number">6.1.</span> <span class="nav-text">Basic Ideas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#one-way-anova"><span class="nav-number">6.2.</span> <span class="nav-text">One-Way ANOVA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#two-way-anova"><span class="nav-number">6.3.</span> <span class="nav-text">Two-Way ANOVA</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
