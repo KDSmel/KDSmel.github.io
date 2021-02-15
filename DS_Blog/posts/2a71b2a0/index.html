@@ -14,8 +14,6 @@
         }
     })();
 </script>
-
-
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
@@ -27,7 +25,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/DS_Blog/images/favicon-32x32-next.png?v=7.1.2">
   <link rel="icon" type="image/png" sizes="16x16" href="/DS_Blog/images/favicon-16x16-next.png?v=7.1.2">
   <link rel="mask-icon" href="/DS_Blog/images/logo.svg?v=7.1.2" color="#222">
-
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -51,8 +48,6 @@
     }
   };
 </script>
-
-
 
   <meta name="description" content="Bias, Variance and Model Complexity Test error (generalization error): the prediction error over an independent test sample \[ 𝐸𝑟𝑟𝜏=𝐸[𝐿(𝑌,\hat{f} (𝑋))|𝜏] \] Here the training set \(\tau\) is">
 <meta name="keywords" content="Model Assessment,Model Selection">
@@ -559,6 +554,7 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
         </div>
         
           
+  
   <div class="sidebar-toggle">
     <div class="sidebar-toggle-line-wrap">
       <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
@@ -569,6 +565,10 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
 
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
+
+      
+
+      
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             Table of Contents
@@ -598,17 +598,119 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
+              
+
+              
+                
+                
                 <div class="site-state-item site-state-categories">
-                                        <a href="/categories/">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
                     
                     <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
-                              
+              
+
+              
+                
+                
                 <div class="site-state-item site-state-tags">
+                  
                     
                       <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
                     
                     <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">tags</span>
@@ -617,22 +719,43 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
               
             </nav>
           
+
+          
             <div class="feed-link motion-element">
               <a href="/atom.xml" rel="alternate">
                 <i class="fa fa-rss"></i>
                 RSS
               </a>
             </div>
+          
+
+          
+
+          
             <div class="links-of-author motion-element">
               
                 <span class="links-of-author-item">
                   
-             
+                  
+                  
+                    
+                  
                   <a href="https://github.com/kdsmel/DS_Blog" title="GitHub &rarr; https://github.com/kdsmel/DS_Blog" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
             </div>
-   
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
         </div>
       </div>
 
@@ -640,13 +763,29 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
       <!--noindex-->
         <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
-           
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stock-streaming-fundamental"><span class="nav-number">2.1.</span> <span class="nav-text">1 Stock: Streaming &amp; Fundamental</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-source"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etl"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 ETL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#historical-data"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">1. Historical data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#realtime-data"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">2. Realtime data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fundatmental-data"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">3. Fundatmental data</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stock-comparison"><span class="nav-number">2.2.</span> <span class="nav-text">2 Stock: Comparison</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#economy"><span class="nav-number">2.3.</span> <span class="nav-text">3 Economy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-source-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etl-1"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2 ETL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#economy-data"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">1. Economy data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#business-news"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">2. Business news</span></a></li></ol></li></ol></li></ol></li></ol></div>
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bias-variance-and-model-complexity"><span class="nav-number">1.</span> <span class="nav-text">Bias, Variance and Model Complexity</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#the-bias-variance-decomposition"><span class="nav-number">2.</span> <span class="nav-text">The Bias Variance Decomposition</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#general-model"><span class="nav-number">2.1.</span> <span class="nav-text">General Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#knn-regression"><span class="nav-number">2.2.</span> <span class="nav-text">KNN regression</span></a></li></ol></li></ol></div>
+            
+
           </div>
         </div>
       <!--/noindex-->
+      
+
+      
+
     </div>
   </aside>
+  
+
+
+        
       </div>
     </main>
 
@@ -695,18 +834,11 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
   <script src="/DS_Blog/js/schemes/muse.js?v=7.1.2"></script>
   <script src="/DS_Blog/js/scrollspy.js?v=7.1.2"></script>
 <script src="/DS_Blog/js/post-details.js?v=7.1.2"></script>
-
-  <script src="/DS_Blog/js/next-boot.js?v=7.1.2"></script>
-    
+  <script src="/DS_Blog/js/next-boot.js?v=7.1.2"></script>  
 <!-- LOCAL: You can save these files to your site and update links -->
-
-  
   <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
-
 <link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
 <!-- END LOCAL -->
-
-
 <script>
   function renderGitment() {
     var gitment = new Gitment({
@@ -719,13 +851,9 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
       }
     });
     gitment.render('gitment-container');
-  }
-
-  
+  }  
     renderGitment();
-  
 </script>
- 
  <script type="text/x-mathjax-config">
    MathJax.Hub.Config({
     tex2jax: {
@@ -783,4 +911,3 @@ Err(x_0)&amp;=E[(Y-\hat{f}_k(x_0))^2|X=x_0] \\
 </html>
 
 <script type="text/javascript" src="/DS_Blog/js/src/dynamic_bg.js"></script>
-
