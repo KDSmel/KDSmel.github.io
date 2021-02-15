@@ -1,19 +1,4 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
 <html class="theme-next mist use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
@@ -28,67 +13,17 @@
         }
     })();
 </script>
-
-
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-
-
-
-
-
-
-  
-  
-  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
-
-
-
-
-
-
-
-  
-
+  <link rel="stylesheet" href="/DS_Blog/lib/Han/dist/han.min.css?v=3.3">
+  <link rel="stylesheet" href="/DS_Blog/lib/fancybox/source/jquery.fancybox.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
-
-
-
-
-
-
-
+<link rel="stylesheet" href="/DS_Blog/css/main.css?v=7.1.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/DS_Blog/images/apple-touch-icon-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/DS_Blog/images/favicon-32x32-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/DS_Blog/images/favicon-16x16-next.png?v=7.1.2">
+  <link rel="mask-icon" href="/DS_Blog/images/logo.svg?v=7.1.2" color="#222">
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -113,7 +48,6 @@
   };
 </script>
 
-
   
 
 
@@ -123,8 +57,8 @@
 <meta name="keywords" content="Spark,ETL,SQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark SQL &amp; DataFrame, SparkETL">
-<meta property="og:url" content="https://nancyyanyu.github.io/posts/9a328503/index.html">
-<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:url" content="https://kdsmel.github.io/DS_Blog/posts/9a328503/index.html">
+<meta property="og:site_name" content="Kamel&#39;s Notes">
 <meta property="og:description" content="SQL and DataFrame 1234import pysparkfrom pyspark import SparkContextfrom pyspark.sql import SparkSessionfrom pyspark.conf import SparkConf A SparkSession can be used create DataFrame, register DataFra">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2019-07-09T18:04:06.548Z">
@@ -134,13 +68,13 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+  <link rel="alternate" href="/DS_Blog/atom.xml" title="Kamel's Notes" type="application/atom+xml">
 
 
 
   
   
-  <link rel="canonical" href="https://nancyyanyu.github.io/posts/9a328503/">
+  <link rel="canonical" href="https://kdsmel.github.io/DS_Blog/posts/9a328503/">
 
 
 
@@ -150,7 +84,7 @@
   };
 </script>
 
-  <title>Spark SQL & DataFrame, SparkETL | Nancy's Notes</title>
+  <title>Spark SQL & DataFrame, SparkETL | Kamel's Notes</title>
   
 
 
@@ -209,7 +143,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Nancy's Notes</span>
+        <span class="site-title">Kamel's Notes</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -353,16 +287,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/9a328503/">
+    <link itemprop="mainEntityOfPage" href="https://kdsmel.github.io/DS_Blog/posts/9a328503/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="name" content="Kamel Chehboun">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Nancy's Notes">
+      <meta itemprop="name" content="Kamel's Notes">
     </span>
 
     
@@ -576,7 +510,7 @@ bob
 <li><strong>Transform</strong>: use sparkSQL to manipulate data</li>
 <li><strong>Load</strong>: write to csv</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> spark <span class="keyword">import</span> start_spark</span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkConf</span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkFiles</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> Row</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    spark,conf=start_spark()</span><br><span class="line">    steps_per_floor_=conf[<span class="string">'steps_per_floor'</span>]</span><br><span class="line">    df=extract(spark)</span><br><span class="line">    df_tf=transform(df,steps_per_floor_,spark)</span><br><span class="line">    load(df_tf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract</span><span class="params">(spark)</span>:</span></span><br><span class="line">    df=spark.read.parquet(<span class="string">'tests/test_data/employees'</span>)</span><br><span class="line">    <span class="keyword">return</span> df</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">transform</span><span class="params">(df,steps_per_floor_,spark)</span>:</span></span><br><span class="line">    df.createOrReplaceTempView(<span class="string">"table1"</span>)</span><br><span class="line">    df_transformed=spark.sql(<span class="string">"select id, concat(first_name,' ' , second_name) as name, floor* %s as steps_to_desk from table1"</span>%steps_per_floor_)</span><br><span class="line">    <span class="keyword">return</span> df_transformed</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(df)</span>:</span></span><br><span class="line">    df.coalesce(<span class="number">1</span>).write.csv(<span class="string">'loaded_data'</span>, mode=<span class="string">'overwrite'</span>, header=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_test_data</span><span class="params">(spark,conf)</span>:</span>   </span><br><span class="line">    local_records=[</span><br><span class="line">            Row(id=<span class="number">1</span>, first_name=<span class="string">'nancy'</span>, second_name=<span class="string">"yan"</span>, floor=<span class="number">1</span>),</span><br><span class="line">            Row(id=<span class="number">2</span>, first_name=<span class="string">'Dan'</span>, second_name=<span class="string">'Sommerville'</span>, floor=<span class="number">1</span>),</span><br><span class="line">            Row(id=<span class="number">3</span>, first_name=<span class="string">'Alex'</span>, second_name=<span class="string">'Ioannides'</span>, floor=<span class="number">2</span>),</span><br><span class="line">            Row(id=<span class="number">4</span>, first_name=<span class="string">'Ken'</span>, second_name=<span class="string">'Lai'</span>, floor=<span class="number">2</span>),</span><br><span class="line">            Row(id=<span class="number">5</span>, first_name=<span class="string">'Stu'</span>, second_name=<span class="string">'White'</span>, floor=<span class="number">3</span>),</span><br><span class="line">            Row(id=<span class="number">6</span>, first_name=<span class="string">'Mark'</span>, second_name=<span class="string">'Sweeting'</span>, floor=<span class="number">3</span>),</span><br><span class="line">            Row(id=<span class="number">7</span>, first_name=<span class="string">'Phil'</span>, second_name=<span class="string">'Bird'</span>, floor=<span class="number">4</span>),</span><br><span class="line">            Row(id=<span class="number">8</span>, first_name=<span class="string">'Kim'</span>, second_name=<span class="string">'Suter'</span>, floor=<span class="number">4</span>)</span><br><span class="line">        ]</span><br><span class="line">    </span><br><span class="line">    df=spark.createDataFrame(local_records)</span><br><span class="line">    df_tf=transform(df,conf[<span class="string">'steps_per_floor'</span>],spark)</span><br><span class="line">    df_tf.coalesce(<span class="number">1</span>).write.parquet(<span class="string">'tests/test_data/employees_report'</span>,mode=<span class="string">'overwrite'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> spark <span class="keyword">import</span> start_spark</span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkConf</span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkFiles</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> Row</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    spark,conf=start_spark()</span><br><span class="line">    steps_per_floor_=conf[<span class="string">'steps_per_floor'</span>]</span><br><span class="line">    df=extract(spark)</span><br><span class="line">    df_tf=transform(df,steps_per_floor_,spark)</span><br><span class="line">    load(df_tf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract</span><span class="params">(spark)</span>:</span></span><br><span class="line">    df=spark.read.parquet(<span class="string">'tests/test_data/employees'</span>)</span><br><span class="line">    <span class="keyword">return</span> df</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">transform</span><span class="params">(df,steps_per_floor_,spark)</span>:</span></span><br><span class="line">    df.createOrReplaceTempView(<span class="string">"table1"</span>)</span><br><span class="line">    df_transformed=spark.sql(<span class="string">"select id, concat(first_name,' ' , second_name) as name, floor* %s as steps_to_desk from table1"</span>%steps_per_floor_)</span><br><span class="line">    <span class="keyword">return</span> df_transformed</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(df)</span>:</span></span><br><span class="line">    df.coalesce(<span class="number">1</span>).write.csv(<span class="string">'loaded_data'</span>, mode=<span class="string">'overwrite'</span>, header=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_test_data</span><span class="params">(spark,conf)</span>:</span>   </span><br><span class="line">    local_records=[</span><br><span class="line">            Row(id=<span class="number">1</span>, first_name=<span class="string">'Kamel'</span>, second_name=<span class="string">"yan"</span>, floor=<span class="number">1</span>),</span><br><span class="line">            Row(id=<span class="number">2</span>, first_name=<span class="string">'Dan'</span>, second_name=<span class="string">'Sommerville'</span>, floor=<span class="number">1</span>),</span><br><span class="line">            Row(id=<span class="number">3</span>, first_name=<span class="string">'Alex'</span>, second_name=<span class="string">'Ioannides'</span>, floor=<span class="number">2</span>),</span><br><span class="line">            Row(id=<span class="number">4</span>, first_name=<span class="string">'Ken'</span>, second_name=<span class="string">'Lai'</span>, floor=<span class="number">2</span>),</span><br><span class="line">            Row(id=<span class="number">5</span>, first_name=<span class="string">'Stu'</span>, second_name=<span class="string">'White'</span>, floor=<span class="number">3</span>),</span><br><span class="line">            Row(id=<span class="number">6</span>, first_name=<span class="string">'Mark'</span>, second_name=<span class="string">'Sweeting'</span>, floor=<span class="number">3</span>),</span><br><span class="line">            Row(id=<span class="number">7</span>, first_name=<span class="string">'Phil'</span>, second_name=<span class="string">'Bird'</span>, floor=<span class="number">4</span>),</span><br><span class="line">            Row(id=<span class="number">8</span>, first_name=<span class="string">'Kim'</span>, second_name=<span class="string">'Suter'</span>, floor=<span class="number">4</span>)</span><br><span class="line">        ]</span><br><span class="line">    </span><br><span class="line">    df=spark.createDataFrame(local_records)</span><br><span class="line">    df_tf=transform(df,conf[<span class="string">'steps_per_floor'</span>],spark)</span><br><span class="line">    df_tf.coalesce(<span class="number">1</span>).write.parquet(<span class="string">'tests/test_data/employees_report'</span>,mode=<span class="string">'overwrite'</span>)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -697,7 +631,7 @@ bob
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <p class="site-author-name" itemprop="name">Kamel Chehboun</p>
               <div class="site-description motion-element" itemprop="description"></div>
           </div>
 
@@ -836,7 +770,7 @@ bob
 
           
             <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
+              <a href="/DS_Blog/atom.xml" rel="alternate">
                 <i class="fa fa-rss"></i>
                 RSS
               </a>
@@ -854,7 +788,7 @@ bob
                   
                     
                   
-                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                  <a href="https://github.com/kdsmel/DS_Blog" title="GitHub &rarr; https://github.com/kdsmel/DS_Blog" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
             </div>
@@ -903,251 +837,73 @@ bob
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+ <footer id="footer" class="footer">
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+  <span class="author" itemprop="copyrightHolder">Kamel Chehboun</span>
 
   
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    
     <span title="Symbols count total">518k</span>
-  
-
-  
 </div>
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
         
       </div>
     </footer>
-
-    
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
         
       </div>
-    
-
-    
-
-    
-
-    
   </div>
-
-  
-
 <script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
 </script>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-  
-
-
-
-  
-    
-    
-      
-    
-  
   <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
-
-
-
-  
-  
-
-
-
-  
-  
-
-
-
-  
-  
-
-
-
-  
-  
-  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
-
-
-
-
-
-  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/DS_Blog/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-
-  
   <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
-
-  
   <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
-
-  
-  <script src="/lib/three/three.min.js"></script>
-
-  
-  <script src="/lib/three/three-waves.min.js"></script>
-
-  
-  <script src="/lib/three/canvas_lines.min.js"></script>
-
-  
-  <script src="/lib/three/canvas_sphere.min.js"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.2"></script>
-
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
-<script src="/js/post-details.js?v=7.1.2"></script>
-
-
-
-  
-
-
-  <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-    
+  <script src="/DS_Blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/DS_Blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/DS_Blog/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/DS_Blog/lib/three/three.min.js"></script>
+  <script src="/DS_Blog/lib/three/three-waves.min.js"></script>
+  <script src="/DS_Blog/lib/three/canvas_lines.min.js"></script>
+  <script src="/DS_Blog/lib/three/canvas_sphere.min.js"></script>
+  <script src="/DS_Blog/js/utils.js?v=7.1.2"></script>
+  <script src="/DS_Blog/js/motion.js?v=7.1.2"></script>
+  <script src="/DS_Blog/js/schemes/muse.js?v=7.1.2"></script>
+  <script src="/DS_Blog/js/scrollspy.js?v=7.1.2"></script>
+<script src="/DS_Blog/js/post-details.js?v=7.1.2"></script>
+  <script src="/DS_Blog/js/next-boot.js?v=7.1.2"></script>  
 <!-- LOCAL: You can save these files to your site and update links -->
-
-  
   <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
-
 <link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
 <!-- END LOCAL -->
-
-
 <script>
   function renderGitment() {
     var gitment = new Gitment({
       id: window.location.pathname,
-      owner: 'nancyyanyu',
-      repo: 'nancyyanyu.github.io',
-      
+      owner: 'kdsmel',
+      repo: 'kdsmel.github.io',
       oauth: {
-      
-      
         client_secret: '75adc257166813deff478053f3f05133285d6cf0',
-      
         client_id: '90ddd3d00d8930cb0d84'
       }
     });
     gitment.render('gitment-container');
-  }
-
-  
+  }  
     renderGitment();
-  
 </script>
-
-  
-
-
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
-    
-      <script type="text/x-mathjax-config">
-  
-
-  MathJax.Hub.Config({
+ <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
     tex2jax: {
       inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
       processEscapes: true,
@@ -1179,7 +935,9 @@ bob
     }
   });
 </script>
-<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -1197,35 +955,8 @@ bob
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-
-    
-  
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
 </body>
 </html>
 
-<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
-
+<script type="text/javascript" src="/DS_Blog/js/src/dynamic_bg.js"></script>
+  
