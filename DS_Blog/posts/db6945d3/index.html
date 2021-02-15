@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="My study note of various A/B testing resources. I do not own any credit for the any idea, knowledge, code below.">
+<meta name="keywords" content="ab-testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A&#x2F;B Testing : Pitfalls, Baysian &amp; Math Behind">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/db6945d3/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="My study note of various A/B testing resources. I do not own any credit for the any idea, knowledge, code below.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/6n-graph2.svg/350px-6n-graph2.svg.png">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/e6f63ff7144996fb004e3d4b211c2c73c5e59fbd">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/db6945d3/Math%20behind_15_1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/db6945d3/Math%20behind_17_1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/db6945d3/Math%20behind_22_0.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/db6945d3/confusion.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/db6945d3/sample_size.png">
+<meta property="og:updated_time" content="2020-07-16T22:43:29.428Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A&#x2F;B Testing : Pitfalls, Baysian &amp; Math Behind">
+<meta name="twitter:description" content="My study note of various A/B testing resources. I do not own any credit for the any idea, knowledge, code below.">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/6n-graph2.svg/350px-6n-graph2.svg.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/db6945d3/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>A/B Testing : Pitfalls, Baysian & Math Behind | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/db6945d3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">A/B Testing : Pitfalls, Baysian & Math Behind
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-16 15:22:59 / Modified: 17:43:29" itemprop="dateCreated datePublished" datetime="2020-07-16T15:22:59-05:00">2020-07-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Product-Sense/" itemprop="url" rel="index"><span itemprop="name">Product Sense</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">24k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">22 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>My study note of various A/B testing resources. I do not own any credit for the any idea, knowledge, code below.</p>
+<a id="more"></a>
+<h1 id="common-pitfalls">Common Pitfalls</h1>
+<h2 id="network-effect">Network Effect</h2>
+<p><strong>Limitations</strong> of per-user assignment to run an A/B test on <strong><em>user-to-user features</em></strong> or product relies heavily on interaction between users:</p>
+<ol type="1">
+<li><p>If you let the test group use video chat with anybody, the people in the control group wouldn't really be a control group because they're getting exposed to this new video chat feature.</p></li>
+<li><p>Can't measure &quot;<strong>higher-order effects</strong>&quot; (also known as <strong>network effects</strong>)</p>
+<p><strong>Network effects</strong>: occur when the changes induced by a new feature leak out of the test group and affect behavior in the control group as well.</p>
+<ul>
+<li>The change would theoretically improve the experience for test group as well as the control group</li>
+<li>Higher-order effects might create an illusory change that disappears once you roll out a feature out to everybody.</li>
+</ul></li>
+</ol>
+<h3 id="solution-using-per-community-random-assignment"><strong>Solution: Using per-<em>community</em> random assignment</strong></h3>
+<blockquote>
+<p>a &quot;<strong>community</strong>&quot; is any group of users whose interactions are primarily directed to other users within the same group.</p>
+</blockquote>
+<p><strong>How to define a &quot;community&quot;?</strong></p>
+<p>Model the relationships between users with a <a href="https://en.wikipedia.org/wiki/Social_graph" target="_blank" rel="noopener">social graph</a>, each user is a node, and edges are placed between nodes that have had some interaction. And then apply <strong>graph partitioning</strong> algorithms like <a href="https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf" target="_blank" rel="noopener">Normalized Cuts</a> to find isolated, non-interacting groups.</p>
+<p><strong>Pitfall</strong>: In dating apps, the community is really defined by &quot;anybody that's near you&quot; as opposed to &quot;people you have a history of interacting with&quot;.</p>
+<h3 id="solution-defining-geographic-communities">Solution: Defining geographic communities</h3>
+<p>Define 'optimal' regions by drawing boundaries that maximizes the <u>number of connections within each region</u> relative to the <u>number of connections that occur across regions</u> using Shi &amp; Malik's <a href="https://people.eecs.berkeley.edu/~malik/papers/SM-ncut.pdf" target="_blank" rel="noopener">Normalized Cut</a> algorithm for graph partitioning.</p>
+<ol type="1">
+<li><p>Build a graph to describe how many messages were sent between pairs of US/Canadian locations as the square adjacency matrix <strong>A</strong> (size <em>num_Locations</em>-by-<em>num_Locations</em>). The value at <strong>A</strong>[<em>i</em>,<em>j</em>] set to the number of messages sent between users in location <em>i</em> to users in location <em>j</em></p></li>
+<li><p>Calculate the graph <em>Laplacian</em>, <strong>L</strong>, from the <em>adjacency</em> matrix, <strong>A</strong>, and the <em>degree matrix</em>, <strong>D</strong>, as <strong>L</strong> = <strong>D</strong> - <strong>A</strong>. The degree matrix is just a diagonal matrix with the degree of each node on the diagonal and zeros everywhere else.</p></li>
+</ol>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/6n-graph2.svg/350px-6n-graph2.svg.png">,<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e6f63ff7144996fb004e3d4b211c2c73c5e59fbd"></p>
+<ol start="3" type="1">
+<li>Calculate the eigendecomposition of <strong>L</strong>, and inspect its eigenvalues. Each fully-isolated (<em>i.e.</em>, disconnected) sets of nodes will be represented by an eigenvector with an associated eigenvalue of 0. Further segmentation of these regions is done by looking at the patterns in the eigenvectors with the <em>k</em> smallest, non-zero eigenvalues. The value of <em>k</em> can be varied depending on how many regions you want to make.</li>
+</ol>
+<h2 id="history-effect">History Effect</h2>
+<p><strong>History Effect</strong> happens when an event from the outside world skews your testing data</p>
+<p>A traffic spike that’s a direct result of an unusual event means there’s a high probability that those visitors might have different needs, wants and browsing behaviours.</p>
+<p>Because this traffic is only <em>temporary</em>, it means your test data could shift completely during this event and could result in making one of your variations win when in reality, with your regular traffic, it should’ve lost.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li><strong>Prevention</strong>: run your test for longer to get some of your usual traffic into the mix as well.</li>
+<li>Be aware of the fluctuations and differences in your traffic: when you’re aware of what’s happening, dig deeper in Google Analytics to analyze variations’ performance, and then recognize if your winning variation is indeed a winner.</li>
+<li>Launch a test that’s only targeting traffic coming from certain traffic sources (excluding the most variable traffic source from the test entirely)</li>
+<li>Never analyze a test solely by testing tools like <a href="https://vwo.com/" target="_blank" rel="noopener">VWO</a>, <a href="http://optimizely.com/" target="_blank" rel="noopener">Optimizely</a>. They don’t allow you to dig as deeply into your analysis as with <em>Google Analytics</em>: use your testing tool for running your tests. Use Google Analytics to analyze them.</li>
+</ul>
+<h2 id="instrumentation-effect">Instrumentation Effect</h2>
+<p><strong>Instrumentation Effect</strong> happens when there are problems with your testing tools or test variations that cause your data to be flawed. -&gt; companies new to testing</p>
+<p>A common example is when the code of one or more of your variations is not functioning properly with all devices or browser types, and often, without the company who is running the test even being aware.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li><p>rigorous <strong>Quality Assurance (QA)</strong> checks: performing cross-browser and cross-device testing on new variations, and trying out variations under different user scenarios.</p>
+<p>To test on different devices and tools, you can use online tools such as <a href="http://www.browserstack.com/" target="_blank" rel="noopener">Browserstack</a> (which guarantees 100% accuracy for cross-browser functionalities), or <a href="https://www.browserling.com/" target="_blank" rel="noopener">Browserling</a>.</p></li>
+</ul>
+<h2 id="selection-effect">Selection Effect</h2>
+<p>Selection Effect: Each traffic source brings its own type of visitors, and you can’t assume that traffic from a certain channel mirrors the behaviors, context, mindset and needs of the totality of your usual traffic.</p>
+<p>‍</p>
+<p><em>if you run an A/B test and the traffic sample is not a good representative of the average visitors to your website then you are not going to get an accurate insight on how your website visitors respond to different landing page variations (unless off course if you are running your test only for a particular traffic segment).</em></p>
+<p><strong>Solution</strong></p>
+<ul>
+<li>When you’re analyzing the test results, make sure to <strong>segment by sources</strong> in order to see the real data that lies behind averages.</li>
+</ul>
+<h2 id="novelty-effect">Novelty Effect</h2>
+<p><strong>Novelty Effect</strong> happens when the engagement and interaction with one of your variations is substantially higher than previously, but only temporarily – giving you a false positive.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li><p>Run your test for at least 4 weeks. In most cases, 4 weeks will be enough time to start seeing the novelty wear off and the test results begin to regulate.</p></li>
+<li>Keep tracking the winning variation's performance to ensure its long-term performance.</li>
+<li><a href="https://splitbase.com/blog/conversion-research-ecommerce/#Whatrsquos_a_session_recording" target="_blank" rel="noopener">analyze session recordings</a> and <a href="https://splitbase.com/blog/conversion-research-ecommerce/#Method_2_User_Testing" target="_blank" rel="noopener">run usability tests</a> in order to understand the user behavior that’s happening on your site.</li>
+<li><p>Cohort analysis: <em>Segment your visitors into new and returning visitors and compare the conversion rates.‍</em> If it’s just the Novelty Effect, the new offer will win with new visitors. Eventually, as returning visitors get accustomed to the new changes, the offer will win with them, too</p></li>
+</ul>
+<h2 id="statistical-regression">Statistical Regression</h2>
+<p><strong>Statistical Regression</strong> (regression to the mean):if a variable is extreme on its first measurement, it will tend to be closer to the average on its second measurement.</p>
+<blockquote>
+<p>Launched an A/B test and noticed wild fluctuations during the first few days of it being live.</p>
+</blockquote>
+<p>What this means is that if you end a test too early or based only on reaching statistical significance, you’ll likely see a false positive.</p>
+<p><strong>Solution</strong></p>
+<ul>
+<li><p>You can't avoid Statistical Regression, but can avoid to let it ruin your A/B test results by <em>not ending your test solely based on when you reach statistical significance</em>.</p></li>
+<li><p>Before you end a test, make sure you’ve had a large enough sample size.</p></li>
+</ul>
+<h1 id="bayesian-ab-testing">Bayesian A/B Testing</h1>
+<p><strong>The Frequentist approach</strong>: a Frequentist method makes predictions on the underlying truths of the experiment using only data from the <em>current</em> experiment.</p>
+<p><strong>The Bayesian approach</strong>: <em>past knowledge of similar experiments is encoded into a statistical device known as a prior, and this prior is combined with current experiment data to make a conclusion on the test at hand.</em></p>
+<p><strong>Difference:</strong></p>
+<ul>
+<li><p>The biggest distinction is that Bayesian probability specifies some <strong>prior probability</strong>.</p></li>
+<li><p>The metric you want to study is, for the frequentists, a simple number, while for bayesians, a <strong>distribution</strong>.</p></li>
+</ul>
+<h1 id="math-behind-ab-testing">Math Behind A/B Testing</h1>
+<h2 id="set-up-the-experiment">Set Up The Experiment</h2>
+<h3 id="baseline-conversion-rate-and-minimum-difference-between-test-and-control">Baseline Conversion Rate and minimum difference between test and control</h3>
+<p>For our example, we want to use our test to confirm that the changes we make to our signup process will result in at least a 2% increase in our sign up rate. We currently sign up 10 out of 100 users who are offered a premium account.</p>
+<p><strong>baseline conversion rate</strong>: the current rate at which we sign up new users under the existing design.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bcr = <span class="number">0.10</span>  <span class="comment"># baseline conversion rate</span></span><br><span class="line">d_hat = <span class="number">0.02</span>  <span class="comment"># difference between the groups</span></span><br></pre></td></tr></table></figure>
+<h3 id="control-group-a-and-test-group-b">Control Group (A) and Test Group (B)</h3>
+<p>Initially, we will collect 1000 users for each group and serve the current signup page to the control group and a new signup page to the test group.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># # A is control; B is test</span></span><br><span class="line">N_A = <span class="number">1000</span></span><br><span class="line">N_B = <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+<h2 id="run-the-test">Run the Test</h2>
+<h3 id="generate-fake-data">Generate Fake data</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_data</span><span class="params">(N_A, N_B, p_A, p_B, days=None, control_label=<span class="string">'A'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  test_label=<span class="string">'B'</span>)</span>:</span></span><br><span class="line">    <span class="string">"""Returns a pandas dataframe with fake CTR data</span></span><br><span class="line"><span class="string">    Example:</span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">        N_A (int): sample size for control group</span></span><br><span class="line"><span class="string">        N_B (int): sample size for test group</span></span><br><span class="line"><span class="string">            Note: final sample size may not match N_A provided because the</span></span><br><span class="line"><span class="string">            group at each row is chosen at random (50/50).</span></span><br><span class="line"><span class="string">        p_A (float): conversion rate; conversion rate of control group</span></span><br><span class="line"><span class="string">        p_B (float): conversion rate; conversion rate of test group</span></span><br><span class="line"><span class="string">        days (int): optional; if provided, a column for 'ts' will be included</span></span><br><span class="line"><span class="string">            to divide the data in chunks of time</span></span><br><span class="line"><span class="string">            Note: overflow data will be included in an extra day</span></span><br><span class="line"><span class="string">        control_label (str)</span></span><br><span class="line"><span class="string">        test_label (str)</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        df (df)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># initiate empty container</span></span><br><span class="line">    data = []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># total amount of rows in the data</span></span><br><span class="line">    N = N_A + N_B</span><br><span class="line"></span><br><span class="line">    <span class="comment"># distribute events based on proportion of group size</span></span><br><span class="line">    group_bern = scs.bernoulli(N_A / (N_A + N_B))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># initiate bernoulli distributions from which to randomly sample</span></span><br><span class="line">    A_bern = scs.bernoulli(p_A)</span><br><span class="line">    B_bern = scs.bernoulli(p_B)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> idx <span class="keyword">in</span> range(N):</span><br><span class="line">        <span class="comment"># initite empty row</span></span><br><span class="line">        row = &#123;&#125;</span><br><span class="line">        <span class="comment"># for 'ts' column</span></span><br><span class="line">        <span class="keyword">if</span> days <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> type(days) == int:</span><br><span class="line">                row[<span class="string">'ts'</span>] = idx // (N // days)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">raise</span> ValueError(<span class="string">"Provide an integer for the days parameter."</span>)</span><br><span class="line">        <span class="comment"># assign group based on 50/50 probability</span></span><br><span class="line">        row[<span class="string">'group'</span>] = group_bern.rvs()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> row[<span class="string">'group'</span>] == <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># assign conversion based on provided parameters</span></span><br><span class="line">            row[<span class="string">'converted'</span>] = A_bern.rvs()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            row[<span class="string">'converted'</span>] = B_bern.rvs()</span><br><span class="line">        <span class="comment"># collect row into data container</span></span><br><span class="line">        data.append(row)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># convert data into pandas dataframe</span></span><br><span class="line">    df = pd.DataFrame(data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># transform group labels of 0s and 1s to user-defined group labels</span></span><br><span class="line">    df[<span class="string">'group'</span>] = df[<span class="string">'group'</span>].apply(</span><br><span class="line">        <span class="keyword">lambda</span> x: control_label <span class="keyword">if</span> x == <span class="number">0</span> <span class="keyword">else</span> test_label)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> df</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ab_data = generate_data(N_A, N_B, bcr, bcr+d_hat)</span><br><span class="line">ab_data.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    
+    .dataframe thead th {
+        text-align: right;
+    }
+
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+group
+</th>
+<th>
+converted
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+B
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+A
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+B
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+B
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+A
+</td>
+<td>
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="summary-of-ab-data">Summary of AB data</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ab_summary = ab_data.pivot_table(</span><br><span class="line">    index=<span class="string">'group'</span>, values=<span class="string">'converted'</span>, aggfunc=np.sum)</span><br><span class="line">ab_summary[<span class="string">'total'</span>] = ab_data.pivot_table(</span><br><span class="line">    index=<span class="string">'group'</span>, values=<span class="string">'converted'</span>, aggfunc=<span class="keyword">lambda</span> x: len(x))</span><br><span class="line">ab_summary[<span class="string">'rate'</span>] = ab_data.pivot_table(values=<span class="string">'converted'</span>, index=<span class="string">'group'</span>)</span><br><span class="line">ab_summary</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    
+    .dataframe thead th {
+        text-align: right;
+    }
+
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+converted
+</th>
+<th>
+total
+</th>
+<th>
+rate
+</th>
+</tr>
+<tr>
+<th>
+group
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+A
+</th>
+<td>
+107
+</td>
+<td>
+1002
+</td>
+<td>
+0.106786
+</td>
+</tr>
+<tr>
+<th>
+B
+</th>
+<td>
+132
+</td>
+<td>
+998
+</td>
+<td>
+0.132265
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>It looks like the difference in conversion rates between the two groups is 0.026 which is greater than the <span class="math inline">\(\hat{d}\)</span> we initially wanted of 0.02. <strong>This is a good sign but this is not enough evidence for us to confidently go with the new design.</strong> At this point we have not measured how confident we are in this result. This can be mitigated by looking at the distributions of the two groups.</p>
+<h2 id="compare-the-two-groups">Compare the Two Groups</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A_converted, B_converted = ab_summary[<span class="string">'converted'</span>][<span class="string">'A'</span>],ab_summary[<span class="string">'converted'</span>][<span class="string">'B'</span>]</span><br><span class="line">A_total,B_total = ab_summary[<span class="string">'total'</span>][<span class="string">'A'</span>],ab_summary[<span class="string">'total'</span>][<span class="string">'B'</span>]</span><br><span class="line">p_A,p_B = ab_summary[<span class="string">'rate'</span>][<span class="string">'A'</span>],ab_summary[<span class="string">'rate'</span>][<span class="string">'B'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">12</span>, <span class="number">6</span>))</span><br><span class="line">xa = np.linspace(A_converted<span class="number">-49</span>, A_converted+<span class="number">50</span>, <span class="number">100</span>)</span><br><span class="line">ya = scs.binom(A_total, p_A).pmf(xa)</span><br><span class="line">xb = np.linspace(B_converted<span class="number">-49</span>, B_converted+<span class="number">50</span>, <span class="number">100</span>)</span><br><span class="line">yb = scs.binom(B_total, p_B).pmf(xb)</span><br><span class="line"></span><br><span class="line">ax.bar(xa, ya, alpha=<span class="number">0.5</span>)</span><br><span class="line">ax.bar(xb, yb, alpha=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">'converted'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'probability'</span>)</span><br></pre></td></tr></table></figure>
+<p>Text(0, 0.5, 'probability')</p>
+<figure>
+<img src="Math%20behind_15_1.png" alt="png"><figcaption>png</figcaption>
+</figure>
+<p>We can see that the test group converted more users than the control group. We can also see that the peak of the test group results is lower than the control group. How do we interpret the difference in peak probability? We should focus instead on the conversion rate so that we have an apples-to-apples comparison. In order to calculate this, we need to standardize the data and compare the probability of successes, p, for each group.</p>
+<h3 id="bernoulli-distribution-and-the-central-limit-theorem">Bernoulli Distribution and the Central Limit Theorem</h3>
+<p>To do this, first, consider the <strong>Bernoulli</strong> distribution for the <em>control</em> group.</p>
+<p><span class="math display">\[
+X \sim \mathcal{Bernoulli}(p)
+\]</span></p>
+<p>where p is the conversion probability of the control group.</p>
+<p>According to the properties of the Bernoulli distribution, the mean and variance are as follows:</p>
+<p><span class="math display">\[
+E(X)=p \\
+Var(X)=p(1-p)
+\]</span></p>
+<p>According to the <strong>central limit theorem</strong>, by calculating many <strong>sample means</strong> we can approximate the true mean of the population, <span class="math inline">\(𝜇\)</span>, from which the data for the control group was taken. The distribution of the sample means, <span class="math inline">\(p\)</span>, will be normally distributed around the true mean with a standard deviation equal to the <strong>standard error of the mean</strong>. The equation for this is given as: <span class="math display">\[
+\sigma_{\bar{x}}=\frac{s}{\sqrt{n}} = \sqrt{\frac{p(1-p)}{n}}
+\]</span></p>
+<p>Therefore, we can represent both groups as a normal distribution with the following properties: <span class="math display">\[
+\hat{p} \sim \mathcal{N}(p,\sqrt{\frac{p(1-p)}{n}})
+\]</span></p>
+<p>The same can be done for the test group. So, we will have two normal distributions for <span class="math inline">\(p_A\)</span> and <span class="math inline">\(p_B\)</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># standard error of the mean for both groups</span></span><br><span class="line"></span><br><span class="line">SE_A=np.sqrt(p_A*(<span class="number">1</span>-p_A)/A_total)</span><br><span class="line">SE_B=np.sqrt(p_B*(<span class="number">1</span>-p_B)/B_total)</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot the null and alternative hypothesis</span></span><br><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">12</span>,<span class="number">6</span>))</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">0</span>, <span class="number">.2</span>, <span class="number">1000</span>)</span><br><span class="line">yA = scs.norm(p_A, SE_A).pdf(x)</span><br><span class="line">ax.plot(x, yA)</span><br><span class="line">ax.axvline(x=p_A, c=<span class="string">'red'</span>, alpha=<span class="number">0.5</span>, linestyle=<span class="string">'--'</span>)</span><br><span class="line">yB = scs.norm(p_B, SE_B).pdf(x)</span><br><span class="line">ax.plot(x, yB)</span><br><span class="line">ax.axvline(x=p_B, c=<span class="string">'blue'</span>, alpha=<span class="number">0.5</span>, linestyle=<span class="string">'--'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Converted Proportion'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'PDF'</span>)</span><br></pre></td></tr></table></figure>
+<p>Text(0, 0.5, 'PDF')</p>
+<figure>
+<img src="Math%20behind_17_1.png" alt="png"><figcaption>png</figcaption>
+</figure>
+<p>The dashed lines represent the mean conversion rate for each group. The distance between the red dashed line and the blue dashed line is equal to mean difference between the control and test group. <span class="math inline">\(\hat{d}\)</span> is the distribution of the difference between random variables from the two groups. <span class="math display">\[
+\hat{d}=\hat{p_B}-\hat{p_A}
+\]</span></p>
+<h3 id="variance-of-the-sum">Variance of the Sum</h3>
+<p>Recall that the null hypothesis states that the <strong>difference in probability</strong> between the two groups is <span class="math inline">\(0\)</span>. Therefore, the <em>mean</em> for this normal distribution will be at <span class="math inline">\(0\)</span>.</p>
+<p>A basic property of variance is that the variance of the sum of two random independent variables is the sum of the variances.</p>
+<p><span class="math display">\[
+Var(X-Y)=Var(X)+Var(Y)
+\]</span></p>
+<p>This means that the <em>null hypothesis</em> and <em>alternative hypothesis</em> will have the same variance which will be the sum of the variances for the control group and the test group.</p>
+<p><span class="math display">\[
+Var(\hat{d})=Var({\hat{p_B}-\hat{p_A}})=Var(\hat{p_B})+Var(\hat{p_A})=\frac{\hat{p_B}(1-\hat{p_B})}{n_B}+\frac{\hat{p_A}(1-\hat{p_A})}{n_A}
+\]</span></p>
+<p>The standard deviation can then be calculated as:</p>
+<p><span class="math display">\[
+SE=\sqrt{Var(\hat{d})}=\sqrt{\frac{s_A^2}{n_B}+\frac{s_B^2}{n_A}}
+\]</span></p>
+<p>and we get the <strong><em>Satterthwaite approximation</em></strong> for <strong>pooled standard error</strong>. If we calculate the <strong>pooled probability</strong> and use the pooled probability to calculate the standard deviation for both groups, we get:</p>
+<p><span class="math display">\[
+\sigma=\sqrt{Var(\hat{d})}=\sqrt{\frac{s_A^2}{n_B}+\frac{s_B^2}{n_A}}=\sqrt{\frac{s_{pool}^2}{n_B}+\frac{s_{pool}^2}{n_A}} = \sqrt{\hat{p}_{pool}(1-\hat{p}_{pool})\frac{1}{n_B}+\frac{1}{n_A}}
+\]</span></p>
+<p>where: <span class="math display">\[
+\hat{p}_{pool}=\frac{p_An_A+p_Bn_B}{n_B+n_A}
+\]</span></p>
+<h3 id="compare-the-null-hypothesis-vs.-the-alternative-hypothesis">Compare the Null Hypothesis vs. the Alternative Hypothesis</h3>
+<p><strong>null hypothesis</strong> : the change in the design made for the test group would <strong>result in no change</strong> in the conversion rate.</p>
+<p><strong>alternative hypothesis</strong> : the change in the design for the test group would <strong>result in an improvement</strong> (or reduction) in the conversion rate.</p>
+<p>The <strong>null hypothesis</strong> will be a <em>normal distribution</em> with a mean of zero and a standard deviation equal to the pooled standard error.</p>
+<p><span class="math display">\[
+H_0: d=0 \\
+\hat{d}_0 \sim \mathcal{N}(0,SE_{pool})
+\]</span></p>
+<p>The <strong>alternative hypothesis</strong> has the same standard deviation as the null hypothesis, but the <em>mean</em> will be located at the difference in the conversion rate, <span class="math inline">\(\hat{d}\)</span>. This makes sense because we can calculate the difference in the conversion rates directly from the data, but the normal distribution represents the possible values our experiment could have given us.</p>
+<p><span class="math display">\[
+H_1: d=p_B-p_A \\
+\hat{d}_1 \sim \mathcal{N}(d,SE_{pool})
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">z_val</span><span class="params">(sig_level=<span class="number">0.05</span>)</span>:</span></span><br><span class="line">    <span class="string">"""Returns the z value for a given significance level"""</span></span><br><span class="line">    z_dist = scs.norm()</span><br><span class="line">    area = <span class="number">1</span> - sig_level/<span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> z_dist.ppf(area)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">confidence_interval</span><span class="params">(sample_mean=<span class="number">0</span>, sample_std=<span class="number">1</span>, sample_size=<span class="number">1</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                        sig_level=<span class="number">0.05</span>)</span>:</span></span><br><span class="line">    <span class="string">"""Returns the confidence interval as a tuple"""</span></span><br><span class="line">    z = z_val(sig_level)</span><br><span class="line"></span><br><span class="line">    left = sample_mean - z * sample_std / np.sqrt(sample_size)</span><br><span class="line">    right = sample_mean + z * sample_std / np.sqrt(sample_size)</span><br><span class="line">    <span class="keyword">return</span> (left, right)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">n = N_A + N_B</span><br><span class="line">bcr = p_A  </span><br><span class="line">d=<span class="number">0</span></span><br><span class="line">d_hat = p_B - p_A</span><br><span class="line"></span><br><span class="line"><span class="comment"># define parameters to find pooled standard error</span></span><br><span class="line">X_A = bcr * N_A</span><br><span class="line">X_B = (bcr + d_hat) * N_B</span><br><span class="line"></span><br><span class="line"><span class="comment"># pooled probability for two samples</span></span><br><span class="line">p_pool=(X_A + X_B) / (N_A + N_B)</span><br><span class="line">SE_pool = np.sqrt(p_pool * (<span class="number">1</span> - p_pool) * (<span class="number">1</span> / N_A + <span class="number">1</span> / N_B))</span><br><span class="line"></span><br><span class="line"><span class="comment"># null hypothesis: d ~ N(0,SE_pool)</span></span><br><span class="line">d=<span class="number">0</span></span><br><span class="line">x = np.linspace(d - <span class="number">12</span> * SE_pool, d + <span class="number">12</span> * SE_pool, <span class="number">1000</span>)</span><br><span class="line">y = scs.norm(d, SE_pool).pdf(x)</span><br><span class="line"><span class="comment"># null hypothsis's confidence interval</span></span><br><span class="line">left, right = confidence_interval(sample_mean=d, sample_std=SE_pool,</span><br><span class="line">                                  sig_level=<span class="number">0.05</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># althernative hypothsis: d ~ N(p_B-p_A,SE_pool)</span></span><br><span class="line">x_1 = np.linspace(d_hat - <span class="number">12</span> * SE_pool, d_hat + <span class="number">12</span> * SE_pool, <span class="number">1000</span>)</span><br><span class="line">y_1 = scs.norm(d_hat, SE_pool).pdf(x_1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># althernative hypothsis's confidence interval</span></span><br><span class="line">left_1, right_1 = confidence_interval(sample_mean=d_hat, sample_std=SE_pool,</span><br><span class="line">                                      sig_level=<span class="number">0.05</span>)</span><br><span class="line">alternative = scs.norm(d_hat, SE_pool)</span><br><span class="line">null=scs.norm(d, SE_pool)</span><br><span class="line"><span class="comment"># plot</span></span><br><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">12</span>, <span class="number">6</span>))</span><br><span class="line">ax.plot(x, y, c=<span class="string">'blue'</span>,label=<span class="string">"Null"</span>)</span><br><span class="line">ax.axvline(left, c=<span class="string">'blue'</span>, linestyle=<span class="string">'--'</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">ax.axvline(right, c=<span class="string">'blue'</span>, linestyle=<span class="string">'--'</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">x_=np.linspace(<span class="number">-12</span> * SE_pool, <span class="number">12</span> * SE_pool,<span class="number">1000</span>)</span><br><span class="line">ax.fill_between(x_, <span class="number">0</span>, alternative.pdf(x_), color=<span class="string">'green'</span>, alpha=<span class="number">0.25</span>, \</span><br><span class="line">                where=(x_ &gt; right))</span><br><span class="line">ax.fill_between(x_, <span class="number">0</span>, alternative.pdf(x_), color=<span class="string">'pink'</span>, alpha=<span class="number">0.25</span>, \</span><br><span class="line">                where=(x_ &lt;= right))</span><br><span class="line">ax.fill_between(x_, <span class="number">0</span>, null.pdf(x_), color=<span class="string">'black'</span>, alpha=<span class="number">0.35</span>, \</span><br><span class="line">                where=(x_ &gt; right))</span><br><span class="line">ax.text(<span class="number">5</span> * SE_pool, null.pdf(<span class="number">0</span>),</span><br><span class="line">                <span class="string">'power = &#123;0:.3f&#125;'</span>.format(<span class="number">1</span> - alternative.cdf(right)),</span><br><span class="line">                fontsize=<span class="number">12</span>, ha=<span class="string">'right'</span>, color=<span class="string">'k'</span>)</span><br><span class="line">ax.text(<span class="number">-3</span> * SE_pool, null.pdf(<span class="number">0</span>),</span><br><span class="line">                <span class="string">'alpha right = &#123;0:.3f&#125;'</span>.format(<span class="number">1</span> - null.cdf(right)),</span><br><span class="line">                fontsize=<span class="number">12</span>, ha=<span class="string">'right'</span>, color=<span class="string">'k'</span>)</span><br><span class="line">ax.plot(x_1, y_1, c=<span class="string">'red'</span>,label=<span class="string">"Alternative"</span>)</span><br><span class="line"><span class="comment"># ax.axvline(left_1, c='red', linestyle='--', alpha=0.5)</span></span><br><span class="line"><span class="comment"># ax.axvline(right_1, c='red', linestyle='--', alpha=0.5)</span></span><br><span class="line"></span><br><span class="line">ax.set_xlim(<span class="number">-8</span> * SE_pool, <span class="number">8</span> * SE_pool)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.xlabel(<span class="string">'d'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'PDF'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="Math%20behind_22_0.png" alt="png"><figcaption>png</figcaption>
+</figure>
+<p>Visually, the plot for the null and alternative hypothesis looks very similar to the other plots above. Fortunately, both curves are identical in shape, so we can just compare the distance between the means of the two distributions. We can see that the alternative hypothesis curve suggests that the test group has a higher conversion rate than the control group. This plot also can be used to directly determine the statistical power.</p>
+<h2 id="statistical-power-and-significance-level">Statistical Power and Significance Level</h2>
+<p>The green shaded area represents the <strong>statistical power</strong>, calculated by finding the <strong><em>area under the alternative hypothesis distribution and outside of the confidence interval of the null hypothesis</em></strong>.</p>
+<p>After running our experiment, we get a resulting conversion rate for both groups. If we calculate the difference between the conversion rates, we end up with one result, the difference or the effect of the design change. Our task is to determine which population this result came from, the null hypothesis or the alternative hypothesis.</p>
+<p>If the alternative design is truly better, the <strong><em>power</em></strong> is the probability that we <em>accept the alternative hypothesis and reject the null hypothesis</em> and is equal to the area shaded green (<strong><em>true positive</em></strong>).</p>
+<p>The opposite area under the alternative curve is the probability that we <em>accept the null hypothesis and reject the alternative hypothesis</em> (<strong><em>false negative</em></strong>). This is referred to as <span class="math inline">\(\beta\)</span> in A/B testing or pink shaded area.</p>
+<p>If the null hypothesis is true and there truly is <strong>no difference</strong> between the control and test groups, then the <em>significance level</em> <span class="math inline">\(= \alpha\)</span> is the probability that we would <em>reject the null hypothesis and accept the alternative hypothesis</em> (<strong>false positive</strong>). A <strong>false positive</strong> is when we mistakenly conclude that the new design is better. This value is low because we want to limit this probability.</p>
+<p>A typical 95% confidence level for an A/B test corresponds to a significance level of 0.05. <span class="math display">\[
+\alpha=1-\text{confidence interval}
+\]</span></p>
+<p><img src="confusion.png"></p>
+<p>Experiments are typically set up for a <em>minimum desired power</em> of 80%. If our new design is truly better, we want our experiment to show that there is at least an 80% probability that this is the case. Unfortunately, our current experiment only has a power of 0.419.</p>
+<p>We know that if we <strong>increase the sample size</strong> for each group, we will <em>decrease the pooled variance</em> for our null and alternative hypothesis. This will <em>make our distributions much narrower</em> and may <em>increase the statistical power</em>. Let’s take a look at how sample size will directly affect our results.</p>
+<h2 id="sample-size">Sample Size</h2>
+<p>You will need the <strong>baseline conversion rate (bcr)</strong> and the <strong>minimum detectable effect</strong>, which is the minimum difference between the control and test group that you or your team will determine to be worth the investment of making the design change in the first place.</p>
+<p><strong>Equation for minimum sample size</strong>: <span class="math display">\[
+n=\frac{2p_{pool}(1-p_{pool})(z_{\beta}+z_{\alpha/2})^2}{(p_B-p_A)^2}
+\]</span></p>
+<p><img src="sample_size.png"></p>
+<p><strong>Derivation of sample size formula</strong>:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;\text{critical value}=\mu+z_{\alpha/2}*SE \\
+\text{Thus  }\quad &amp;0+z_{\alpha/2}*SE=\hat{d}-SE \cdot z_{power} \\
+\text{We can get  }\quad &amp;z_{power} = \frac{ \hat{d}-z_{\alpha/2} \cdot SE}{SE} \\
+\text{As  }\quad &amp;SE=\sqrt{\frac{\sigma^2}{n_1}+\frac{\sigma^2}{n_2}} \\ 
+\text{If ratio $r=\frac{n_2}{n_1}$  }\quad &amp;SE=\sqrt{\frac{\sigma^2}{n_1}+\frac{\sigma^2}{rn_2}} \\ 
+&amp;z_{power} = \frac{\hat{d}}{\sqrt{\frac{\sigma^2}{n_1}+\frac{\sigma^2}{rn_2}}} -z_{\alpha/2} \\
+&amp;z_{power} =\frac{\hat{d}}{\sqrt{\frac{(r+1)\sigma^2}{rn_1}}} -z_{\alpha/2} \\
+&amp;(r+1)\sigma^2(z_{power}+z_{\alpha/2})^2 =rn_1\hat{d}^2 \\
+&amp;n_1=\frac{r+1}{r}\frac{\sigma^2 (z_{power}+z_{\alpha/2})^2 }{\hat{d}^2} \\
+\text{If r=1(equal groups)  } &amp;n_1=\frac{2\sigma^2 (z_{power}+z_{\alpha/2})^2 }{\hat{d}^2} \\
+\end{align}
+\]</span></p>
+<h4 id="sample-size-formula-for-difference-in-means">Sample Size Formula for difference in means</h4>
+<p><span class="math display">\[
+n_1=\frac{r+1}{r}\frac{\sigma^2 (z_{power}+z_{\alpha/2})^2 }{\hat{d}^2}
+\]</span></p>
+<p>where <span class="math display">\[
+\begin{align}
+n1 &amp;= \text{size of smaller group} \\
+r &amp;= \text{ratio of larger group to smaller group} \\
+\sigma &amp;= \text{SD of the charateristic} \\
+difference &amp;= \text{meaningful difference in means of 2 groups} \\
+z_{power} &amp;= \text{corresponds to power (0.84 for power = 0.8)} \\
+z_{\alpha/2}&amp;= \text{corresponds to 2-tailed significance level (1.96 for $\alpha$=0.05)} \\
+\end{align}
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">power=<span class="number">0.8</span></span><br><span class="line">sig_level=<span class="number">0.05</span></span><br><span class="line">mde=<span class="number">0.02</span></span><br><span class="line">bcr=<span class="number">0.1</span></span><br><span class="line"><span class="comment"># standard normal distribution to determine z-values</span></span><br><span class="line">standard_norm = scs.norm(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># find Z_beta from desired power</span></span><br><span class="line">Z_beta = standard_norm.ppf(power)</span><br><span class="line"></span><br><span class="line"><span class="comment"># find Z_alpha</span></span><br><span class="line">Z_alpha = standard_norm.ppf(<span class="number">1</span>-sig_level/<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># average of probabilities from both groups</span></span><br><span class="line">pooled_prob = (bcr + bcr+mde) / <span class="number">2</span></span><br><span class="line"></span><br><span class="line">min_N = (<span class="number">2</span> * pooled_prob * (<span class="number">1</span> - pooled_prob) * (Z_beta + Z_alpha)**<span class="number">2</span></span><br><span class="line">         / mde**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Minimum sample size:"</span>,int(min_N))</span><br></pre></td></tr></table></figure>
+<p>Minimum sample size: 3842</p>
+<h1 id="reference">Reference</h1>
+<p><a href="https://tech.okcupid.com/the-pitfalls-of-a-b-testing-in-social-networks/" target="_blank" rel="noopener">The pitfalls of A/B testing in social networks</a></p>
+<p><a href="https://splitbase.com/blog/ab-testing-threats" target="_blank" rel="noopener">5 Validity Threats That Will Make Your A/B Tests Useless</a></p>
+<p><a href="https://towardsdatascience.com/the-math-behind-a-b-testing-with-example-code-part-1-of-2-7be752e1d06f" target="_blank" rel="noopener">The Math Behind A/B Testing with Example Python Code</a></p>
+<p><a href="https://medium.com/convoy-tech/the-power-of-bayesian-a-b-testing-f859d2219d5" target="_blank" rel="noopener">The Power of Bayesian A/B Testing</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ab-testing/" rel="tag"># ab-testing</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/c27004a0/" rel="next" title="Probability & Statistics Fundamental">
+                <i class="fa fa-chevron-left"></i> Probability & Statistics Fundamental
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#common-pitfalls"><span class="nav-number">1.</span> <span class="nav-text">Common Pitfalls</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#network-effect"><span class="nav-number">1.1.</span> <span class="nav-text">Network Effect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#solution-using-per-community-random-assignment"><span class="nav-number">1.1.1.</span> <span class="nav-text">Solution: Using per-community random assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solution-defining-geographic-communities"><span class="nav-number">1.1.2.</span> <span class="nav-text">Solution: Defining geographic communities</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#history-effect"><span class="nav-number">1.2.</span> <span class="nav-text">History Effect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#instrumentation-effect"><span class="nav-number">1.3.</span> <span class="nav-text">Instrumentation Effect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#selection-effect"><span class="nav-number">1.4.</span> <span class="nav-text">Selection Effect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#novelty-effect"><span class="nav-number">1.5.</span> <span class="nav-text">Novelty Effect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#statistical-regression"><span class="nav-number">1.6.</span> <span class="nav-text">Statistical Regression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bayesian-ab-testing"><span class="nav-number">2.</span> <span class="nav-text">Bayesian A/B Testing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#math-behind-ab-testing"><span class="nav-number">3.</span> <span class="nav-text">Math Behind A/B Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#set-up-the-experiment"><span class="nav-number">3.1.</span> <span class="nav-text">Set Up The Experiment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#baseline-conversion-rate-and-minimum-difference-between-test-and-control"><span class="nav-number">3.1.1.</span> <span class="nav-text">Baseline Conversion Rate and minimum difference between test and control</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#control-group-a-and-test-group-b"><span class="nav-number">3.1.2.</span> <span class="nav-text">Control Group (A) and Test Group (B)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#run-the-test"><span class="nav-number">3.2.</span> <span class="nav-text">Run the Test</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#generate-fake-data"><span class="nav-number">3.2.1.</span> <span class="nav-text">Generate Fake data</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-of-ab-data"><span class="nav-number">3.3.</span> <span class="nav-text">Summary of AB data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compare-the-two-groups"><span class="nav-number">3.4.</span> <span class="nav-text">Compare the Two Groups</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bernoulli-distribution-and-the-central-limit-theorem"><span class="nav-number">3.4.1.</span> <span class="nav-text">Bernoulli Distribution and the Central Limit Theorem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#variance-of-the-sum"><span class="nav-number">3.4.2.</span> <span class="nav-text">Variance of the Sum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compare-the-null-hypothesis-vs.-the-alternative-hypothesis"><span class="nav-number">3.4.3.</span> <span class="nav-text">Compare the Null Hypothesis vs. the Alternative Hypothesis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#statistical-power-and-significance-level"><span class="nav-number">3.5.</span> <span class="nav-text">Statistical Power and Significance Level</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sample-size"><span class="nav-number">3.6.</span> <span class="nav-text">Sample Size</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sample-size-formula-for-difference-in-means"><span class="nav-number">3.6.0.1.</span> <span class="nav-text">Sample Size Formula for difference in means</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

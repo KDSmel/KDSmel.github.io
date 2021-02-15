@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Streaming In a Hadoop MapReduce application:">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop MapReduce Streaming Application in Python">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/f53c188b/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Streaming In a Hadoop MapReduce application:">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/s7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/sp9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/wc9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs11.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs12.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs13.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dc2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dc3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dc4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dv6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dc7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dc8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/dc10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/e10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/t1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/t2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/t3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/t4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/f53c188b/t5.png">
+<meta property="og:updated_time" content="2019-06-28T21:12:05.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop MapReduce Streaming Application in Python">
+<meta name="twitter:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Streaming In a Hadoop MapReduce application:">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/f53c188b/mrs1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/f53c188b/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hadoop MapReduce Streaming Application in Python | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/f53c188b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop MapReduce Streaming Application in Python
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-27 18:13:45" itemprop="dateCreated datePublished" datetime="2019-06-27T18:13:45-05:00">2019-06-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-28 16:12:05" itemprop="dateModified" datetime="2019-06-28T16:12:05-05:00">2019-06-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">9.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>This is course note of <a href="https://www.coursera.org/learn/big-data-essentials" target="_blank" rel="noopener">Big Data Essentials: HDFS, MapReduce and Spark RDD</a></p>
+</blockquote>
+<h1 id="streaming">Streaming</h1>
+<p>In a Hadoop MapReduce application:</p>
+<a id="more"></a>
+<ol type="1">
+<li><p>you have a stream of input key value pairs. <img src="./mrs1.png" width="600"></p></li>
+<li>you process this data with a map function, and transform this data to a list of intermediate key value pairs. <img src="./mrs2.png" width="600"></li>
+<li>This data is aggregated by keys during shuffle and sort phase. <img src="./mrs3.png" width="600"></li>
+<li><p>you process data provided in reduce function <img src="./mrs4.png" width="600"></p></li>
+</ol>
+<p>If you want to plug in an external program, then it is natural to communicate via standard input and output channels. You have to <em>implement your own mappers and reducers</em> instead of just map and reduce functions. <img src="./mrs5.png" width="600"></p>
+<h2 id="what-is-hadoop-streaming">What is Hadoop Streaming?</h2>
+<p>Hadoop streaming is a utility that comes with the Hadoop distribution. The utility allows you to create and run Map/Reduce jobs with any executable or script as the mapper and/or the reducer. For example: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$HADOOP_HOME</span>/bin/hadoop  jar <span class="variable">$HADOOP_HOME</span>/hadoop-streaming.jar \</span><br><span class="line">    -input myInputDirs \</span><br><span class="line">    -output myOutputDir \</span><br><span class="line">    -mapper /bin/cat \</span><br><span class="line">    -reducer /bin/wc</span><br></pre></td></tr></table></figure></p>
+<h2 id="cli-command">CLI command</h2>
+<h3 id="execute-the-map-phase">Execute the map phase</h3>
+<ol type="1">
+<li>define the path to the streaming jar</li>
+</ol>
+<ul>
+<li>Where this jar is located depends on your cluster installation</li>
+</ul>
+<ol start="2" type="1">
+<li>execute yarn application</li>
+<li>provide a number of arguments</li>
+</ol>
+<ul>
+<li>mapper: bash command wc-l.</li>
+<li>numReducesTasks: For now, you don't want to execute any reducers,</li>
+<li>input: specify what HDFS folder or file you are going to process</li>
+<li>output: specify an HDFS folder for output.</li>
+</ul>
+<p><img src="./s1.png" width="600"></p>
+<p>If you already have this HDFS folder, then you have to remove it beforehand. Otherwise, you wouldn't be able to launch mapreduce jar.</p>
+<p><img src="./s2.png" width="600"> <img src="./s3.png" width="600"></p>
+<p><strong>HDFS folder internals after a successful execution</strong> - only two mappers were executed - These two files contain information about the processed articles. - If you sum them up, then you get 4,100 Wikipedia articles in our assemble. <img src="./s4.png" width="600"></p>
+<h3 id="execute-the-reduce-phase">Execute the reduce phase</h3>
+<ol type="1">
+<li>For each input line, sum it up to the variable--&gt;line count</li>
+<li>provide reducer which aggregates the number of articles from all the mappers--&gt;awk</li>
+<li>specified exactly one reducer--&gt;guarantee that the only reducer will be working, you have exactly one value in the output.</li>
+<li>print it out</li>
+</ol>
+<p><img src="./s5.png" width="600"></p>
+<p>Wrap special characters in the Shell map and reduce commands into as Shell script.</p>
+<p><img src="./s6.png" width="600"></p>
+<p>Summary: write and call MapReduce Shell streaming application. <img src="./s7.png" width="600"></p>
+<h1 id="streaming-in-python">Streaming in Python</h1>
+<ul>
+<li>If you have more than one file to distribute over the workers, then you can specify them as a comma separated list.</li>
+<li><p><img src="./sp1.png" width="500"></p></li>
+<li><p>I have also flipped the order of arguments.The order of some arguments is important. They are the so-called <strong>generic options</strong>.</p></li>
+</ul>
+<p><img src="./sp2.png" width="600"></p>
+<ul>
+<li>When released an HDFS folder with output, you see only one file.</li>
+<li><p>it is only natural to see an empty output by running this streaming mapReduce job. <img src="./sp3.png" width="600"></p></li>
+<li><p>double check it with an hdfs minus text command. <img src="./sp4.png" width="600"></p></li>
+</ul>
+<p><strong>mapper.py</strong> <img src="./sp5.png" width="600"></p>
+<p><strong>reducer.py</strong> <img src="./sp6.png" width="600"> <img src="./sp9.png" width="600"></p>
+<h1 id="wordcount-in-python">WordCount in Python</h1>
+<p>learn how to define key value pairs for the input and output streams.</p>
+<h2 id="map">Map</h2>
+<p><img src="./wc1.png" width="600"> 1. For each input line, you split it into key and value where the article ID is a key, and the article content is a value.</p>
+<ol start="2" type="1">
+<li><p>Then you split the content into words, and finally output intermediate key value pairs. <img src="./wc2.png" width="600"></p></li>
+<li>validate mapper against a small dataset.</li>
+</ol>
+<ul>
+<li>I don't want to execute any reducer. So, I set minus numReduceTasks argument to zero.</li>
+<li><p>In the output folder, you'll see several map output files. According to the random nature, you don't know which of the mappers processed the first split of data. <img src="./wc3.png" width="600"></p></li>
+<li>As you can see the first chunk of data was processed by the second mapper.</li>
+<li><p>And there is no article ID in the output. <img src="./wc4.png" width="600"></p></li>
+</ul>
+<ol start="4" type="1">
+<li>If you see one reducer with default implementation which does nothing, then shuffle and sort phase will be executed. And you should see the sorted output.</li>
+</ol>
+<ul>
+<li>Be cautious to use one reducer with big datasets <img src="./wc5.png" width="600"></li>
+<li>To get rid of all of the configuration characters. You can use Python regular expression module. I use here Capital W, which helps to ignore all bold characters. <img src="./wc6.png" width="600"> <img src="./wc7.png" width="600"></li>
+</ul>
+<h2 id="reduce">Reduce</h2>
+<blockquote>
+<p>have data aggregated by key. But how does reading the input streaming data on the reducer side look like.</p>
+</blockquote>
+<p><img src="./wc8.png" width="600"></p>
+<p>On reduce phase, you have sorted stream of key value pairs - stream is sorted by keys--&gt;you can iterate line by line, and keep track of the current keys to aggregate values. <img src="./wc9.png" width="600"></p>
+<h3 id="code-snippet">Code Snippet</h3>
+<p><img src="./mrs10.png" width="600"></p>
+<p>If you execute the whole mapper reduce job with one reducer, then you get only one file in the output. <img src="./mrs11.png" width="600"></p>
+<p>Take a look at the content of this file, then you see the data sorted by keys, and there is only one value per each key. <img src="./mrs12.png" width="600"></p>
+<p><strong>Remove <em>numReduceTasks</em> from the argument list</strong> - my previous job will have an arbitrary number of reducers - several files in the output HDFS folder. - In each file, the data is sorted by keys, but the keys are not globally sorted as I have shuffled between reducers.</p>
+<p><img src="./mrs13.png" width="600"></p>
+<h1 id="distributed-cache">Distributed Cache</h1>
+<p><strong>Distributed Cache</strong> is a facility provided by the Hadoop MapReduce framework. It cache files when needed by the applications. It can cache read only text files, archives, jar files etc. Once we have cached a file for our job, Hadoop will make it available on each datanodes where map/reduce tasks are running.</p>
+<p>When you call MapReduce application, NodeManagers provide containers for execution. And there can be several containers on each NodeManager. If you provide files then each of this files will be copied once by each node before any task execution. <img src="./dc2.png" width="600"></p>
+<p>So each container can access this data locally via created synlinks. - distributed cache file should not be modified by the application while the job being executed. <img src="./dc3.png" width="600"></p>
+<h2 id="ways-to-distribute-files">3 ways to distribute files</h2>
+<p><img src="./dc4.png" width="600"></p>
+<ul>
+<li>-files</li>
+<li>-archives: provides the ability to better utilize network profile transmission</li>
+<li>all archives will be un-parked on worker nodes. So, you will be able to work with profiles from mapper or reducer's grid.</li>
+<li>-libjars: distribute files in JARs(Java Archive). You will not pay attention to this option at all, as this course is about Python development, not Java.</li>
+</ul>
+<h2 id="archives">Archives</h2>
+<ol type="1">
+<li>create two files - The text files will contain female and male names.</li>
+<li><p>create a tar archive with the following CLI comment. <img src="./dv6.png" width="600"></p></li>
+<li><p>execute the following MapReduce application <img src="./dc7.png" width="600"></p></li>
+</ol>
+<p>Python code:</p>
+<ul>
+<li><p>mapper.py <img src="./dc8.png" width="600"></p></li>
+<li><p>reducer.py <img src="./dc10.png" width="600"></p></li>
+</ul>
+<h1 id="environments-counters">Environments, Counters</h1>
+<p>You can get job configuration options through environment variables. When you launch MapReduce application, hadoop framework will assign splits of data to available workers. you can access this data from your scripts. <img src="./e1.png" width="600"> <img src="./e2.png" width="600"> You can also access task id within map, or reduce phase with the following environment variables. 1. get an absolute task id, and is usually available as a task name on job tracker ui. 2. access the relative order of the task within map or reduced pace. In this example, it would be 1 and 8. <img src="./e3.png" width="600"></p>
+<p><img src="./e4.png" width="600"></p>
+<p>In addition to the existing environment variables, you can provide your own: - Write a generic mapper for word cound problem - use regular expression to parse words. <img src="./e5.png" width="600"></p>
+<ul>
+<li>use -D flag to provide arbitrary environment variables</li>
+<li>Here, I provided a regular expression to parse words ending with numbers <img src="./e6.png" width="600"></li>
+</ul>
+<h2 id="communication">Communication</h2>
+<ol type="1">
+<li>Reading environment variables is a one-way communication between Hadoop MapReduce and scripts.</li>
+<li>A backward communication channel between framework--provide information about your task progress <img src="./e7.png" width="600"></li>
+</ol>
+<p>2 types of information: - status - provide an aribtrary message in status for each task execution - normally used to inform a user about the processing stage(startup, run, or cleanup) <img src="./e8.png" width="600"></p>
+<ul>
+<li><strong>counters</strong></li>
+<li>accumulate statstics of a map and the reduced executions</li>
+</ul>
+<p>In word count example, you can easily count the number of words, providing 1. a counter family name--&gt;group 2. a counter name 3. the value you'd like to add to the counter</p>
+<p><img src="./e9.png" width="600"> <img src="./e10.png" width="600"></p>
+<h1 id="testing">Testing</h1>
+<h2 id="unit-testing">Unit Testing</h2>
+<p>Python Testing Tools: Taxonomy, pytest</p>
+<h3 id="example-of-unit-testing">Example of unit testing</h3>
+<p><img src="./t1.png" width="600"></p>
+<p>Aim of testing: to validate your scripts in a reproducible environment as close as possible to the production of one.</p>
+<h2 id="integration-testing">Integration Testing</h2>
+<p>You can validate the whole pipeline with mapper and reducer, or independent mapper or reducer with the hand-crafted input. This type of testing is referred to as an integration testing, because you validate how our mappers and reducers scripts are integrated with Hadoop MapReduce streaming API.</p>
+<p><img src="./t2.png" width="600"></p>
+<p>Drawback: it will be working out of the box if your scripts rely on MapReduce job configuration options</p>
+<h2 id="system-testing">System Testing</h2>
+<p>System testing: execute the whole pipeline end to end</p>
+<p>Hadoop MapReduce framework provides an empty config which you can use for HDFS, MapReduce and the Yarn clients.</p>
+<blockquote>
+<p>see <em>locate</em> CLI to <em>find</em> a path to an empty config on your Hadoop installation.</p>
+</blockquote>
+<p><img src="./t3.png" width="600"></p>
+<p>If you provide a Hadoop empty config, then you execute the whole MapReduce application in a <strong>standalone mode</strong>. - an HDFS client points out to a local file system - a node manager is working on the same node - your streaming scripts will be able to communicate with MapReduce framework via environment variables. - You will be able to read configuration of variables and validate counters correctness.</p>
+<p><img src="./t4.png" width="600"></p>
+<h2 id="acceptance-testing">Acceptance Testing</h2>
+<ul>
+<li>Validation of your streaming scripts against a sample dataset to</li>
+<li>find bugs early without wasting your time and CPU cycles.</li>
+<li>Validation against big datasets and measuring performance or efficiency of your solution <img src="./t5.png" width="600"></li>
+</ul>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>you know how to use Python unit testing</li>
+<li>you know how to emulate MapReduce locally with <code>(cat | map | sort | reduce)</code></li>
+<li>you know how to run MapReduce in a standalone mode ( <code>hadoop/conf.empty</code>)</li>
+<li>you know why you need to execute MapReduce against sample datasets</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/bbe483af/" rel="next" title="Hadoop MapReduce Application Tuning">
+                <i class="fa fa-chevron-left"></i> Hadoop MapReduce Application Tuning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/df5ae10a/" rel="prev" title="Hadoop MapReduce: How to Build Reliable System from Unreliable Components">
+                Hadoop MapReduce: How to Build Reliable System from Unreliable Components <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#streaming"><span class="nav-number">1.</span> <span class="nav-text">Streaming</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-is-hadoop-streaming"><span class="nav-number">1.1.</span> <span class="nav-text">What is Hadoop Streaming?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cli-command"><span class="nav-number">1.2.</span> <span class="nav-text">CLI command</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#execute-the-map-phase"><span class="nav-number">1.2.1.</span> <span class="nav-text">Execute the map phase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#execute-the-reduce-phase"><span class="nav-number">1.2.2.</span> <span class="nav-text">Execute the reduce phase</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#streaming-in-python"><span class="nav-number">2.</span> <span class="nav-text">Streaming in Python</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wordcount-in-python"><span class="nav-number">3.</span> <span class="nav-text">WordCount in Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#map"><span class="nav-number">3.1.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reduce"><span class="nav-number">3.2.</span> <span class="nav-text">Reduce</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#code-snippet"><span class="nav-number">3.2.1.</span> <span class="nav-text">Code Snippet</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#distributed-cache"><span class="nav-number">4.</span> <span class="nav-text">Distributed Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ways-to-distribute-files"><span class="nav-number">4.1.</span> <span class="nav-text">3 ways to distribute files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#archives"><span class="nav-number">4.2.</span> <span class="nav-text">Archives</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#environments-counters"><span class="nav-number">5.</span> <span class="nav-text">Environments, Counters</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#communication"><span class="nav-number">5.1.</span> <span class="nav-text">Communication</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#testing"><span class="nav-number">6.</span> <span class="nav-text">Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#unit-testing"><span class="nav-number">6.1.</span> <span class="nav-text">Unit Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#example-of-unit-testing"><span class="nav-number">6.1.1.</span> <span class="nav-text">Example of unit testing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#integration-testing"><span class="nav-number">6.2.</span> <span class="nav-text">Integration Testing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#system-testing"><span class="nav-number">6.3.</span> <span class="nav-text">System Testing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acceptance-testing"><span class="nav-number">6.4.</span> <span class="nav-text">Acceptance Testing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#summary"><span class="nav-number">7.</span> <span class="nav-text">Summary</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

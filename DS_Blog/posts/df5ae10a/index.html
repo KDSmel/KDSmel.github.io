@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Unreliable Components 3 different unreliable components in distributed systemsnodes: nodes, links and clock. Distributed com">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop MapReduce: How to Build Reliable System from Unreliable Components">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/df5ae10a/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Unreliable Components 3 different unreliable components in distributed systemsnodes: nodes, links and clock. Distributed com">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_0.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_12.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_13.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_14.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/mr2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/mr4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/mr6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/ft8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/df5ae10a/mrf.png">
+<meta property="og:updated_time" content="2019-06-28T21:02:04.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop MapReduce: How to Build Reliable System from Unreliable Components">
+<meta name="twitter:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Unreliable Components 3 different unreliable components in distributed systemsnodes: nodes, links and clock. Distributed com">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/df5ae10a/week2_0.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/df5ae10a/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hadoop MapReduce: How to Build Reliable System from Unreliable Components | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/df5ae10a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop MapReduce: How to Build Reliable System from Unreliable Components
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-27 18:15:02" itemprop="dateCreated datePublished" datetime="2019-06-27T18:15:02-05:00">2019-06-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-28 16:02:04" itemprop="dateModified" datetime="2019-06-28T16:02:04-05:00">2019-06-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">8.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>This is course note of <a href="https://www.coursera.org/learn/big-data-essentials" target="_blank" rel="noopener">Big Data Essentials: HDFS, MapReduce and Spark RDD</a></p>
+</blockquote>
+<h1 id="unreliable-components">Unreliable Components</h1>
+<p>3 different unreliable components in distributed systemsnodes: nodes, links and clock. Distributed computational systems: - built from unreliable components - Cluster nodes can break any time because of power supply, disk damages, overheated CPUs, and so on</p>
+<p>3 different unreliable components in distributed systemsnodes: nodes, links and clock.</p>
+<a id="more"></a>
+<h2 id="nodes">Nodes</h2>
+<p><strong>3 types of node failures:</strong></p>
+<ul>
+<li><strong>Fail-Stop</strong>: if machines get out of service during a computation then you have to have an external impact to bring system back to a working state. &gt; A system administrator should either</li>
+<li>fix the node and reboot the whole system or part of it. Or <img src="./week2_0.png" width="550"></li>
+<li>retire the broken machine and reconfigure the distributed system</li>
+</ul>
+<p><img src="./week2_1.png" width="550"></p>
+<ul>
+<li><strong>Fail-Recovery</strong>: during computations, notes can arbitrarily crash and return back to servers.</li>
+<li>doesn't influence correctness and success of computations</li>
+<li>no external impact necessary to reconfiguring the system at such events. &gt; if a hard drive was damaged, then a system administrator can physically change the hard drive.After reconnection, this node will be automatically picked up by a distributed system. And it will even be able to participate in current computations.</li>
+</ul>
+<p><img src="./week2_2.png" width="550"></p>
+<ul>
+<li><strong>Byzantine</strong>: A distributed system is robust Byzantine failures if it can correctly work despite some of the nodes behaving out of protocol. <img src="./week2_3.png" width="550"></li>
+</ul>
+<blockquote>
+<p>If you are developing a financial system, then you are likely required to deal with these types of failures to protect your customers and your business.</p>
+</blockquote>
+<h2 id="links">Links</h2>
+<p><strong>3 types of links:</strong></p>
+<ul>
+<li><p>perfect: all the sent messages must be delivered and received without any modification into the same portal. <img src="./week2_4.png" width="550"></p></li>
+<li><p>fail-loss: some part of the messages can be lost but the probability of message loss does not depend on contents of a message.</p></li>
+</ul>
+<blockquote>
+<p>the well-known TCP/IP protocol tries to solve this problem by re-transmitting messages if they were not received.</p>
+</blockquote>
+<p><img src="./week2_5.png" width="350"> - byzantine: some messages can be filtered according to some rule, some messages can be modified, and some messages could be created out of nowhere</p>
+<h2 id="clocks">Clocks</h2>
+<p><strong>clock synchronization problem: </strong></p>
+<ul>
+<li>clock skew: the time can be different on different machines</li>
+<li>clock drift: there can be a different clock rate <img src="./week2_6.png" width="300"></li>
+</ul>
+<p><strong>Logical clocks</strong> help to track happened before events and therefore, order events to build reliable protocols.</p>
+<h2 id="asynchronous-systems">[A]synchronous systems</h2>
+<p>Systems can be divided into synchronous and asynchronous.</p>
+<p><strong>synchronous</strong>: - every network packet should be delivered within a limited time bound. - Clock drift is limited in size - each CPU instruction is also limited in time.</p>
+<h3 id="examples-of-different-distributed-systems">Examples of different distributed systems</h3>
+<ol type="1">
+<li>fail-stop, perfect link, and synchronous model</li>
+</ol>
+<blockquote>
+<p>A parallel computational model and widely adopted by supercomputers where many processors connected by a local high speed computer bus.</p>
+</blockquote>
+<ol start="2" type="1">
+<li><p>fail-recovery, fair-loss link, and asynchronous model (this course focus)</p></li>
+<li><p>byzantine-failure, byzantine link, and asynchronous model</p></li>
+</ol>
+<blockquote>
+<p>computational components spread across the globe of unreliable and untrusted network connections. The common representative of this model is grid computing.</p>
+</blockquote>
+<h1 id="mapreduce">MapReduce</h1>
+<p>There are two phases during computation, map and reduce:</p>
+<p><strong>map</strong>:apply the same function to each element of your collection. <img src="./week2_8.png" width="550"></p>
+<p><strong>reduce</strong>:Reduce operator causes a sequence of elements by applying the following procedure iteratively. - As soon as you have more than one element in the sequence, then you get the first two and combine them to one element by applying the provided function. - Reduce function computes the value from left to right. &gt;Be careful about reducing functions that are not associative.</p>
+<p><img src="./week2_9.png" width="550"></p>
+<p><strong>MapReduce</strong>:the class of problems that you can solve with arbitrary map and reduce functions is quite big. <img src="./week2_10.png" width="550"></p>
+<h1 id="distributed-shell">Distributed Shell</h1>
+<ul>
+<li>run a distributed <strong>grep</strong> as a MapReduce job. <img src="./week2_12.png" width="550"></li>
+<li>Map will be equivalent to grep</li>
+<li>Reduce will be None.</li>
+</ul>
+<p>In MapReduce applications, you don't always need map or reduce function.</p>
+<ul>
+<li><p>run a distributed <strong>head</strong> as a MapReduce job. <img src="./week2_13.png" width="550"> You can just retrieve the necessary data with HDFS client. To get these data with MapReduce job, get actual information such as, block index and size in lines on map phase to complete the task correctly --&gt; <strong>head and tweaks</strong>.</p></li>
+<li>run a distributed <strong>wc</strong> as a MapReduce job. <img src="./week2_14.png" width="550"></li>
+<li>The output from the map will be a tuple of the size 3: number of lines, words, and bytes.</li>
+<li><p>Sum the items by components, so the reduced function will be an extended add operator.</p></li>
+</ul>
+<h2 id="wordcound-example">WordCound Example</h2>
+<p><em>find the most popular words in the Wikipedia with MapReduce</em></p>
+<ol type="1">
+<li>count how many times each word appear in a data set &gt; wikipedia.dump | tr ' ' '' | sort | uniq -c</li>
+</ol>
+<p>Map--&gt;Shuffle&amp;Sort--&gt;Reduce - Map: the text is split in two words - tr - Shuffle&amp;Sort: words are distributed to a reduce phase in a way that reduce functions can be executed independently on different machines - sort - Reduce: uniq</p>
+<p><img src="./mr2.png" width="600"> <strong>external sorting</strong>:If the data is sorted, and can be read as a stream, then uniq-c will be working correctly. To make data sorted, you only need to have enough disk space. The algorithm for this is called, external sorting.</p>
+<p>All input and output of map and reduce functions should be a key value pair.</p>
+<p><strong>MapReduce Formal Model</strong>:</p>
+<p>map: (key, value) → (key, value)</p>
+<p>reduce: (key, value) → (key, value)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat -n wikipedia.dump | tr <span class="string">' '</span> <span class="string">'\n'</span>| sort | uniq -c</span><br></pre></td></tr></table></figure>
+<ul>
+<li>read data and get pairs with a line number, and line content.</li>
+</ul>
+<blockquote>
+<p>cat -n wikipedia.dump: [(line_no, line), …]</p>
+</blockquote>
+<ul>
+<li><p>on a map phase,you ignore line numbers and split lines into words. &gt; tr ' ' '': (-, line) —&gt; [ (word, 1), … ]</p></li>
+<li><p>You can add value one to each output it worked. So, it means that you have seen this word once by reading a line from left to right.</p></li>
+<li><p>a shuffle and sort phase where you spread the words by the hashes.So, you can process them on independent reducers. &gt; sort: Shuffle &amp; Sort</p></li>
+<li><p>count how many figures of 1 you have for each word, and sum them up to get an answer. &gt; uniq -c: (word, [1, …]) —&gt; (word, count)</p></li>
+</ul>
+<p><img src="./mr4.png" width="600"></p>
+<p><strong>3 types of key value pairs</strong>: - Key value pairs for the input data <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat -n wikipedia.dump: [(line_no, line), …]</span><br><span class="line"><span class="built_in">read</span>: [(k_in, v_in), …]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>key value pairs for the intermediate data <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tr ‘ ‘ ‘\n’: (-, line) —&gt; [ (word, 1), … ]</span><br><span class="line">map: (k_in, v_in) —&gt; [(k_interm, v_interm), …]</span><br></pre></td></tr></table></figure></p></li>
+<li><p>key value pairs for the output data <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Shuffle &amp; Sort: sort and group by k_interm</span><br><span class="line">uniq -c: (word, [1, …]) —&gt; (word, count)</span><br><span class="line">reduce: (k_interm, [(v_interm, …)] ) —&gt; [(k_out, v_out), …]</span><br></pre></td></tr></table></figure></p></li>
+</ul>
+<p><img src="./mr6.png" width="600"></p>
+<h2 id="fault-tolerence">Fault Tolerence</h2>
+<p>In a distributed file system, you store information with duplication in order to overcome node failures. MapReduce framework should also provide robustness against node failures during the job execution.</p>
+<p>In a MapReduce job, you will have: 1. Master program: control the execution <img src="./ft1.png" width="600"></p>
+<ol start="2" type="1">
+<li><p>Master program will launch mappers to process input blocks or splits of data. <img src="./ft2.png" width="600"></p></li>
+<li><p>To overcome the issues of correction execution mappers, there is no harm in re-executing mapper against the same data because you expect map function to be deterministic. As soon as you work on top of HDFS, you have a replica of this data on other nodes. So, you could assign another worker to a execute mapper against these data, and application master will do all this magic for you. <img src="./ft3.png" width="600"></p></li>
+<li><p>If a worker running reducer dies, you can shuffle and sort data for this particular reducer to another worker. <img src="./ft4.png" width="600"></p></li>
+<li><p>Shuffled and sorted data are stored on local disks instead of the distributed file system <img src="./ft5.png" width="600"></p></li>
+</ol>
+<blockquote>
+<p><em>You only need to provide deterministic map and reduce function</em></p>
+</blockquote>
+<h2 id="hadoop-mapreduce-framework">Hadoop MapReduce framework</h2>
+<p><strong>Job</strong> One MapReduce application is a job.</p>
+<p><strong>Task</strong> a task can be either mapper or reducer.</p>
+<h3 id="first-version">First version</h3>
+<p><img src="./ft7.png" width="600"></p>
+<ul>
+<li>JobTracker: one global JobTracker to direct execution of MapReduce jobs.</li>
+<li>located on one high-cost and high-performance node with HDFS namenode.</li>
+<li>a single point failure</li>
+<li>TaskTrackers</li>
+<li>located once per every node where you store data, or where datanode daemon is working</li>
+<li>spawns workers from mapper or reducer</li>
+</ul>
+<h3 id="yarn">YARN</h3>
+<blockquote>
+<p>Yet Another Resource Negotiation</p>
+</blockquote>
+<p><img src="./ft8.png" width="600"></p>
+<ul>
+<li>TaskTracker is subtituted by NodeManagers who can provide a layer of CPU and RAM containers.</li>
+<li>ResourceManager overseas NodeManagers, and client request resources for execution</li>
+<li>MapReduce applications can work on top of this resource layer.</li>
+<li>There is no concept such as a global JobTracker because application master can start on any node.</li>
+<li>All of these enable Hadoop to share resources dynamically between MapReduce and other parallel processing frameworks.</li>
+</ul>
+<p><img src="./mrf.png" width="600"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/f53c188b/" rel="next" title="Hadoop MapReduce Streaming Application in Python">
+                <i class="fa fa-chevron-left"></i> Hadoop MapReduce Streaming Application in Python
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/4935c427/" rel="prev" title="June 2019 | 六月日志">
+                June 2019 | 六月日志 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unreliable-components"><span class="nav-number">1.</span> <span class="nav-text">Unreliable Components</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nodes"><span class="nav-number">1.1.</span> <span class="nav-text">Nodes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#links"><span class="nav-number">1.2.</span> <span class="nav-text">Links</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clocks"><span class="nav-number">1.3.</span> <span class="nav-text">Clocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#asynchronous-systems"><span class="nav-number">1.4.</span> <span class="nav-text">[A]synchronous systems</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#examples-of-different-distributed-systems"><span class="nav-number">1.4.1.</span> <span class="nav-text">Examples of different distributed systems</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mapreduce"><span class="nav-number">2.</span> <span class="nav-text">MapReduce</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#distributed-shell"><span class="nav-number">3.</span> <span class="nav-text">Distributed Shell</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#wordcound-example"><span class="nav-number">3.1.</span> <span class="nav-text">WordCound Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fault-tolerence"><span class="nav-number">3.2.</span> <span class="nav-text">Fault Tolerence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hadoop-mapreduce-framework"><span class="nav-number">3.3.</span> <span class="nav-text">Hadoop MapReduce framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#first-version"><span class="nav-number">3.3.1.</span> <span class="nav-text">First version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yarn"><span class="nav-number">3.3.2.</span> <span class="nav-text">YARN</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
