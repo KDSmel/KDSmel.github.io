@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="My study note of Udacity A/B Testing course.">
+<meta name="keywords" content="ab-testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Notes of Udacity A&#x2F;B Testing">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/17c5bb19/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="My study note of Udacity A/B Testing course.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://lh3.googleusercontent.com/7G4sR5EnVaKfqmc98cJorT0F9TtKIYEql7WDIYuemeWSGcGf6fW_MqrxR8fAs39n6gdmZ2ubbg28ttH_O9c=s0#w=134&h=128">
+<meta property="og:updated_time" content="2020-07-03T21:54:59.829Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Notes of Udacity A&#x2F;B Testing">
+<meta name="twitter:description" content="My study note of Udacity A/B Testing course.">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/7G4sR5EnVaKfqmc98cJorT0F9TtKIYEql7WDIYuemeWSGcGf6fW_MqrxR8fAs39n6gdmZ2ubbg28ttH_O9c=s0#w=134&h=128">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/17c5bb19/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Notes of Udacity A/B Testing | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/17c5bb19/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Notes of Udacity A/B Testing
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-03 14:24:21 / Modified: 16:54:59" itemprop="dateCreated datePublished" datetime="2020-07-03T14:24:21-05:00">2020-07-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Product-Sense/" itemprop="url" rel="index"><span itemprop="name">Product Sense</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">47k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">43 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>My study note of Udacity <a href="https://classroom.udacity.com/courses/ud257" target="_blank" rel="noopener">A/B Testing course</a>.</p>
+<a id="more"></a>
+<h1 id="overview">Overview</h1>
+<p>A/B testing is a methodology for testing product changes. You split your users to two groups - the control group which sees the default feature, and an experimental group that sees the new features.</p>
+<h2 id="what-ab-testing-isnt-good-for">What A/B testing <strong><em>isn’t</em></strong> good for</h2>
+<p>A/B testing is not good for <strong>testing new experiences</strong>. It may result in <em>change aversion</em> (where users don’t like changes to the norm), or a <em>novelty effect</em> (where users see something new and test out everything).</p>
+<p>The two things with new experiences is</p>
+<ul>
+<li>having a baseline and</li>
+<li>how much time needs to be allowed for the users to adapt to the new experience, so you can say what is going to be the plateaud experience and make a robust decision.</li>
+</ul>
+<p>Finally, A/B testing cannot tell you <strong>if you are missing something</strong>.</p>
+<p>In these cases, user logs can be used to develop hypothesis that can then be used in an A/B test. A/B testing gives broad quantitiative data, while other techniques such as user research, focus groups, human evaluation give you deep qualitative data</p>
+<h2 id="metric-choice">Metric Choice</h2>
+<p><strong>Click-Through Rate</strong>: <span class="math inline">\(\frac{Number \ of \ clicks }{Number \ of \ page views}\)</span></p>
+<ul>
+<li>Use a rate when you want to measure the <strong>usability</strong> (how often do they actually find that button.)</li>
+</ul>
+<p><strong>Click-Through Probability</strong> <span class="math inline">\(\frac{Unique \ visitors \ who \ click }{Unique \ visitors \ to \ page}\)</span></p>
+<ul>
+<li>Use a probability when you want to measure the <strong>total impact</strong> (how often users went to the second level page on your site)</li>
+</ul>
+<blockquote>
+<p>We're interested in whether users are progressing to the second level of the funnel, which is why we picked a probability.</p>
+</blockquote>
+<h3 id="how-to-compute-rate-probability">How to compute rate &amp; probability ?</h3>
+<p>Rate: on every page view you capture the event, and then whenever a user clicks you also capture that click event</p>
+<ul>
+<li>Sum the page views, you sum the clicks and you divide.</li>
+</ul>
+<p>Probability: match each page view with all of the child clicks, so that you count, at most, one child click per page view.</p>
+<h2 id="review-distribution">Review Distribution</h2>
+<h3 id="binomial-distribution">Binomial Distribution</h3>
+<p>For a binomial distribution with probability <span class="math inline">\(p\)</span> , the mean is given by <span class="math inline">\(p\)</span> and the standard deviation is <span class="math inline">\(\sqrt{p \times (1−p)/N}\)</span> where <span class="math inline">\(N\)</span> is the number of trials.</p>
+<p>A binomial distribution can be used when</p>
+<ol type="1">
+<li>The outcomes are of 2 types</li>
+<li>Each event is independent of the other</li>
+<li>Each event has an identical distribution (i.e. <span class="math inline">\(p\)</span> is the same for all)</li>
+</ol>
+<blockquote>
+<p>We expect click-through probability to follow a binomial distribution</p>
+</blockquote>
+<h3 id="confidence-interval">Confidence Interval</h3>
+<p>Click or non-click</p>
+<p><span class="math inline">\(x\)</span>: # of users who clicked</p>
+<p><span class="math inline">\(N\)</span>: # of users</p>
+<p><span class="math inline">\(\hat{p}=\frac{x}{N}\)</span> : estimate of probability</p>
+<ul>
+<li><span class="math inline">\(\hat{p}=\frac{100}{1000}=0.1\)</span></li>
+</ul>
+<p>To use normal: check <span class="math inline">\(N \cdot \hat{p}&gt;5\)</span> and <span class="math inline">\(N \cdot (1-\hat{p})&gt;5\)</span></p>
+<p><span class="math inline">\(z\)</span>- distribution: standard normal distribution with <span class="math inline">\(\mu=0\)</span> and <span class="math inline">\(\sigma=1\)</span></p>
+<ul>
+<li>With 95% confidence, the true value would be within $1.96 $ and <span class="math inline">\(-1.96\)</span></li>
+</ul>
+<p><span class="math inline">\(m=z \cdot SE=z \cdot \sqrt{\frac{\hat{p}(1-\hat{p})}{N}}\)</span>: margin of error</p>
+<ul>
+<li><span class="math inline">\(m=0.019\)</span>,</li>
+<li>Confidence interval: <span class="math inline">\([0.081,0.119]\)</span></li>
+</ul>
+<p>This means, if you'd run the experiment again with another 1000 page views, you'd maybe expect to see between 80 and 120 clicks, but more or less than that would be pretty surprising.</p>
+<h4 id="standard-deviation-of-binomial">Standard deviation of binomial</h4>
+<p>If you look up a binomial distribution elsewhere, you may find that it has a mean of <span class="math inline">\(np\)</span> and a standard deviation of <span class="math inline">\(\sqrt{np(1-p)}\)</span>. This is for a binomial distribution defined as <strong>the total number of successes</strong>, whereas we will use <strong>the fraction or proportion of successes</strong> throughout this class. In this cas, the mean is <span class="math inline">\(p\)</span> and standard deviation is <span class="math inline">\(\sqrt{\frac{p(1-p)}{n}}\)</span>.</p>
+<h4 id="useful-equations">Useful equations</h4>
+<p>You may find these equations helpful in solving the quiz: <img src="https://lh3.googleusercontent.com/7G4sR5EnVaKfqmc98cJorT0F9TtKIYEql7WDIYuemeWSGcGf6fW_MqrxR8fAs39n6gdmZ2ubbg28ttH_O9c=s0#w=134&amp;h=128" alt="p_hat = X/N SE = sqrt(p_hat (1-p_hat) / N) m = z* SE"></p>
+<h2 id="hypothesis-testing">Hypothesis Testing</h2>
+<p><strong>null hypothesis:</strong> there's no difference in click-through probability between our control, and our experiment.</p>
+<p><strong>alternative hypothesis:</strong> whether the click-through rate is different? Or it's higher, or lower? Or are we interested in any kind of difference at all?</p>
+<h3 id="two-tailed-vs.-one-tailed-tests">Two-tailed vs. one-tailed tests</h3>
+<p>Two-tailed: The null hypothesis and alternative hypothesis allows you to distinguish between three cases:</p>
+<ol type="1">
+<li>A statistically significant positive result</li>
+<li>A statistically significant negative result</li>
+<li>No statistically significant difference.</li>
+</ol>
+<p>one-tailed: allows you to distinguish between two cases:</p>
+<ol type="1">
+<li>A statistically significant positive result</li>
+<li>No statistically significant result</li>
+</ol>
+<p>Which one you should use depends on what action you will take based on the results. If you're going to launch the experiment for a statistically significant positive change, and otherwise not, then you don't need to distinguish between a negative result and no result, so a one-tailed test is good enough. If you want to learn the direction of the difference, then a two-tailed test is necessary.</p>
+<h2 id="comparing-two-samples---pooled-standard-error">Comparing two samples - Pooled Standard Error</h2>
+<p>For comparing two samples, we calculate the <strong>pooled standard error</strong>. For e.g., suppose <span class="math inline">\(Xcont\)</span> and <span class="math inline">\(Ncont\)</span> are the control number of users that click, and the total number of users in the control group. Let <span class="math inline">\(X_{exp}\)</span> and <span class="math inline">\(N_{exp}\)</span> be the values for the experiment.</p>
+<p>The pooled probability is given by</p>
+<p><span class="math inline">\(\hat{p}_{pool}=\frac{X_{cont}+X_{exp}}{N_{cont}+N_{exp}}\)</span></p>
+<p><span class="math display">\[SE_{pool}=\sqrt{\hat{p}_{pool}∗(1−\hat{p}_{pool})∗(\frac{1}{N_{cont}}+\frac{1}{N_{exp}})}\]</span></p>
+<p><span class="math display">\[\hat{d}=\hat{p}_{exp}−\hat{p}_{cont}\]</span></p>
+<p><span class="math display">\[H_0:d=0 \ where \ \hat{d} ∼N(0,SE_{pool})\]</span></p>
+<p><span class="math inline">\(d\)</span> is practical significance boundary. If <span class="math inline">\(\hat{d} &gt;1.96∗SE_{pool}\)</span> or $ &lt;−1.96∗SE_{pool}$ then we can reject the null hypothesis and state that our difference represents a statistically significant difference</p>
+<h3 id="practical-or-substantive-significance">Practical or Substantive Significance</h3>
+<p>Practical significance is the level of change that you would expect to see from a business standpoint for the change to be valuable.</p>
+<p>The differences in the magnitudes for what's consider practically significant can be quite different. What you really want to observe is repeatability.</p>
+<p>Statistical significance is about <strong>repeatability</strong>. And you want to make sure when you setup your experiment that you get that guarantee that yes, these results are repeatable so it's statistically significant.</p>
+<p>The statistical significance bar is often lower than the practical significance bar, so that if the outcome is practically significance, it is also statistically significant.</p>
+<h2 id="size-vs-power-trade-off">Size vs Power trade-off</h2>
+<p><strong>Statistical power:</strong> given that we have control over how many page views go into our control and our experiment, we have to decide how many page views we need in order to get a statistically significant result. -&gt; determine the number of data points needed to get a statistically significant result.</p>
+<p><strong>Power</strong> has an inverse trade-off with <strong>size</strong>. The smaller the change you want to detect or the increased confidence you want to have in the result, means you have to run a larger experiment.</p>
+<p>As you increase the number of samples, the confidence interval moves closer to the mean.</p>
+<p><span class="math display">\[α=P(reject\ null | null\ true)\]</span> - Falsely concluding there is a difference.</p>
+<p><span class="math display">\[β=P(fail\ to\ reject\ null | null\ false)\]</span> - Falsely concluding there is no difference</p>
+<p><span class="math inline">\(1−β\)</span> is referred to as the <strong>sensitivity</strong> of the experiment, or <strong>statistical power</strong>. In general, you want your experiment to have a high level of sensitivity at the practical significance boundary. People often choose high sensitivity, typically around <em>80%</em>.</p>
+<p>For a small sample,</p>
+<ul>
+<li><span class="math inline">\(α\)</span> is low (you are unlikely to launch a bad experiment)</li>
+<li><span class="math inline">\(β\)</span> is high (you are likely to fail to launch an experiment that actually did have a difference you care about).</li>
+</ul>
+<p>For a large sample,</p>
+<ul>
+<li><span class="math inline">\(α\)</span> remains the same</li>
+<li><span class="math inline">\(β\)</span> is lower (i.e. sensitivity increases).</li>
+</ul>
+<p>As you change one of the parameters, your sample size will change as well.</p>
+<ul>
+<li>If you increase the baseline click through probability (under 0.5) then this increases the standard error, and therefore, you need a higher number of samples</li>
+<li>If you increase the practical significance level (<span class="math inline">\(d_{min}\)</span>), you require a fewer number of samples since larger changes are easier to detect</li>
+<li>If you increase the confidence level (<span class="math inline">\(1-\alpha\)</span>), you want to be more certain that you are rejecting the null. At the same sensivitiy, this would require increasing the number of samples</li>
+<li>If you want to increase the sensitivity (<span class="math inline">\(1-\beta\)</span>), you need to collect more samples</li>
+</ul>
+<h3 id="analyze-results">Analyze Results</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">N_cont = <span class="number">10072</span>  <span class="comment"># Control samples (pageviews)</span></span><br><span class="line">N_exp = <span class="number">9886</span>  <span class="comment"># Test samples (pageviews)</span></span><br><span class="line">X_cont = <span class="number">974</span>  <span class="comment"># Control clicks</span></span><br><span class="line">X_exp = <span class="number">1242</span>  <span class="comment"># Exp. clicks</span></span><br><span class="line"></span><br><span class="line">p_pool = (X_cont + X_exp)/(N_cont+N_exp)</span><br><span class="line">se_pool = sqrt(p_pool*(<span class="number">1</span>-p_pool)*(<span class="number">1</span>/N_cont + <span class="number">1</span>/N_exp))</span><br><span class="line"></span><br><span class="line">p_cont = X_cont/N_cont</span><br><span class="line">p_exp = X_exp/N_exp</span><br><span class="line">d_hat = p_exp - p_cont</span><br><span class="line"><span class="comment"># d_hat = 0.02892847</span></span><br><span class="line"></span><br><span class="line">m = <span class="number">1.96</span>*se_pool</span><br><span class="line">cf_min = d_hat-m</span><br><span class="line">cf_max = d_hat+m</span><br><span class="line">d_min = <span class="number">0.02</span> <span class="comment"># Minimum practical significance value for difference</span></span><br><span class="line"><span class="comment"># cf_min = 0.0202105</span></span><br><span class="line"><span class="comment"># cf_max = 0.03764645</span></span><br></pre></td></tr></table></figure>
+<p>Since the minimum confidence limit is greater than 0 and the practical significance level of 0.02, we conclude that it is highly probable that click through probability is higher than 0.02 and is significant. Based on this, one would launch the new version.</p>
+<h1 id="choosing-and-charaterizing-metrics">Choosing and Charaterizing Metrics</h1>
+<p>:)</p>
+<h2 id="metric-definition">Metric Definition</h2>
+<p><strong>Two use cases of metrics:</strong></p>
+<ul>
+<li><strong><em>Invariant checking</em></strong> (sanity checking): Metrics that shouldn’t change between your test and control
+<ul>
+<li>Do you have the same number of users across the two?</li>
+<li>Is the distribution the same?</li>
+</ul></li>
+<li><strong><em>Evaluation</em></strong>:
+<ul>
+<li>High level business metrics: how much revenue you make, what your market share is, how many users you have</li>
+<li>Detailed metrics: user experience with the product</li>
+</ul></li>
+</ul>
+<p><strong>How to make a definition</strong>:</p>
+<ol type="1">
+<li>A high level concept for a metric/ one sentence summary: &quot;active users&quot;, &quot;click-through probability&quot;</li>
+<li>Nitty gritty details: How do you define what active is? Which events count towards activity?</li>
+<li>Summarize individual data measurements into a single metric: a sum or a count, an average</li>
+</ol>
+<p>For evaluation, you can choose either one metric or a whole suite of metrics.</p>
+<p><strong>Overall Evaluation Criterion (OEC):</strong> a term that Microsoft uses for when they come up with a weighted function that combines all of these different metrics.</p>
+<ul>
+<li>Hard to define and get everyone to agree</li>
+<li>Over-optimize</li>
+<li>Hard to explain why is it moving</li>
+</ul>
+<p><strong>How generally applicable the metric is</strong>:</p>
+<p>If you're running a whole suite of AB tests, then ideally you'd have one or more metrics that you can use across the entire suite. If you are running a suite of A/B tests, it is preferable to have a metric that works across the entire suite. It's much better to use a metric that's <strong>less optimal</strong> than it is to come up with the perfect metric for your test.</p>
+<h3 id="refining-the-customer-funnel">Refining the Customer Funnel</h3>
+<p>User funnel indicates a series of steps taken by users through the site. It is called a funnel because every subsequent stage has fewer users than the stage above.</p>
+<p>Each stage is a metric:</p>
+<ul>
+<li><p>Count: No. of users who reach that point (keep in certain stages)</p></li>
+<li>Rate: better for usability test. You want to increase rate of progression</li>
+<li><p>Probability: progression. A unique user progressed down the funnel</p></li>
+</ul>
+<h2 id="defining-metrics-other-techniques">Defining Metrics: Other Techniques</h2>
+<ol type="1">
+<li><strong>External Data:</strong> great for brainstorming, think of new metrics idea; good for validating metrics; benchmark your own metrics against the industry; help you develop validation techniques
+<ul>
+<li>Companies that collect data (e.g. Comscore, Nielsen)</li>
+<li>Companies that conduct surveys (e.g. Pew)</li>
+<li>Academic papers</li>
+</ul></li>
+<li>Internal Data:
+<ul>
+<li><strong>Retrospective analysis</strong>:
+<ul>
+<li>Look at historic data to look at changes and see the evaluation</li>
+<li>Good to get a baseline and help you develop theories</li>
+</ul></li>
+<li><strong>Surveys and User experience research</strong>:
+<ul>
+<li>help you develop ideas on what you want to research</li>
+</ul></li>
+</ul></li>
+</ol>
+<p>The problem of these studies: show you correlation, not causation</p>
+<h3 id="gathering-additional-data"><strong>Gathering Additional Data</strong></h3>
+<ol type="1">
+<li><p><strong>User Experience Research (UER)</strong>:</p>
+<ul>
+<li>high depth on a few users.</li>
+<li>good for brainstorming.</li>
+<li><p>can use special equipment in a UER (e.g. eye movement camera)</p>
+<p>X validate the results (retrospective analysis)</p></li>
+</ul></li>
+<li><p><strong>Focus groups</strong>:</p>
+<ul>
+<li>Medium depth and medium # of participants.</li>
+<li><p>Get feedback on hypotheticals</p>
+<p>X may run into the issue of groupthink</p></li>
+</ul></li>
+<li><p><strong>Surveys</strong>:</p>
+<ul>
+<li>low depth but high # of participants</li>
+<li><p>Useful for metrics you cannot directly measure.</p>
+<p>X Can’t directly compare with other metrics since population for survey and internal metrics may be different.</p></li>
+</ul></li>
+</ol>
+<h3 id="applying-other-techniques-on-difficult-metrics">Applying Other Techniques on Difficult Metrics</h3>
+<p><strong>Difficult Metrics:</strong></p>
+<ol type="1">
+<li>Don't have access to data</li>
+<li>Takes too long</li>
+</ol>
+<p><strong>Rate of returning for 2nd course</strong></p>
+<ul>
+<li>Takes too long</li>
+<li>Survey -&gt; proxy</li>
+</ul>
+<p><strong>Average happiness of shoppers</strong></p>
+<ul>
+<li>Don't have access to data</li>
+<li>Survey; UER - brainstorm</li>
+</ul>
+<p><strong>Probability of finding info via search</strong></p>
+<ul>
+<li>Don't have access to data</li>
+<li>External data; UER; Human raters</li>
+<li>Possible proxies: time spent; clickes on result; follow up queries</li>
+</ul>
+<h2 id="metric-definitions-data-capture">Metric definitions &amp; Data Capture</h2>
+<p>Def #1 (Cookie probability): For each <time interval>, number of cookies that click divided by number of cookies</time></p>
+<p>Def #2 (Pageview probability): Number of pageviews with a click within <time interval> divided by number of pageviews</time></p>
+<p>Def #3 (Rate): Number of clicks divided by number of pageviews</p>
+<h3 id="filtering-and-segmenting">Filtering and Segmenting</h3>
+<blockquote>
+<p>Good for evaluating definitions and building intuitions</p>
+</blockquote>
+<p>You may have to filter out spam and fraud to de-bias the data. You do want to be careful you don't introduce bias into your data by doing the filtering.</p>
+<p>One way to figure out if you are biasing or de-biasing the data by filtering, is to <strong>slice your data</strong> by country, or by language, or by platform, and then calculate the metric for each slice after filterig. If you are affecting any slide disproportionately, then you may be biasing your data with filtering</p>
+<p>To remove any weekly effects when looking say at total active cookies over time, use week-over-week i.e. divide current data by data from a week ago. Alternately, one can use year-over-year.</p>
+<h2 id="summary-metrics">Summary Metrics</h2>
+<blockquote>
+<p>Summarize all of these individual data measurements into a single summary metric.</p>
+</blockquote>
+<p><strong>Characteristics for your metric</strong>:</p>
+<ol type="1">
+<li>the <strong>sensitivity</strong> and <strong>robustness</strong>: You want your metric to be sensitive enough, in order to actually detect a change when you, when you're testing your possible future options,</li>
+<li>the <strong>distribution</strong>: The most ideal way of doing this is to do a retrospective analysis to compute a histogram.</li>
+</ol>
+<p><strong>4 categories of summary metrics:</strong></p>
+<ol type="1">
+<li>Sums and counts: # of users who visited</li>
+<li><p>Distributional metrics: the means, the medians, the 25th, the 75th and 90th percentiles.</p></li>
+<li>Probabilities and rates.</li>
+<li><p>Ratios: can compute a whole range of different business models, and various different things that you may care about, but they can be very difficult to characterize.</p></li>
+</ol>
+<h2 id="sensitivity-and-robustness"><strong>Sensitivity</strong> and <strong>Robustness</strong></h2>
+<p>Whether the metric is sensitive to changes you care about, and is robust to changes you don’t care about</p>
+<ul>
+<li><strong>mean</strong> is sensitive to outliers - NOT robust</li>
+<li><strong>median</strong> is robust but not sensitive to changes to small group of users</li>
+</ul>
+<p>How to measure <strong>Sensitivity</strong> and <strong>Robustness</strong>:</p>
+<ol type="1">
+<li><strong>A/A tests</strong> to see if the metric picks up any spurious differences</li>
+<li>Using <em>prior experiments</em> to see if the metric moves in a way that intuitively make sense.</li>
+<li><em>Retrospective analysis</em> of log data: look back at changes you made to your website and see if the metrics you're interested in actually moved in conjunction with chose changes.</li>
+</ol>
+<h2 id="absolute-vs.-relative-difference">Absolute vs. Relative difference</h2>
+<p>Suppose you run an experiment where you measure the number of visits to your homepage, and you measure 5000 visits in the control and 7000 in the experiment. Then the absolute difference is the result of subtracting one from the other, that is, 2000. The <strong>relative difference</strong> is the absolute difference divided by the control metric, that is, 40%.</p>
+<p>If you are running a lot of experiments you want to use the relative difference i.e the percentage change.</p>
+<ul>
+<li>The main advantage : you only have to choose one <em>practical significance boundary</em> to get stability over time rather than change it as the system changes.</li>
+<li>The main disadvantage : <strong>variability</strong>, relative differences such as <em>ratios</em> are not as well behaved as absolute differences</li>
+</ul>
+<h6 id="relative-differences-in-probabilities">Relative differences in probabilities</h6>
+<p>For probability metrics, people often use percentage points to refer to absolute differences and percentages to refer to relative differences. For example, if your control click-through-probability were 5%, and your experiment click-through-probability were 7%, the absolute difference would be 2 percentage points, and the relative difference would be 40 percent. However, sometimes people will refer to the absolute difference as a 2 percent change, so if someone gives you a percentage, it's important to clarify whether they mean a relative or absolute difference!</p>
+<h2 id="variability">Variability</h2>
+<p>We want to check the variability of a metric to later determine the sizing of the experiment and to analyze confidence intervals and draw conclusions. If we have a metric that varies a lot, then the practical significance level that we are looking for may not be feasible.</p>
+<p>To calculate the confidence interval, you need</p>
+<ul>
+<li>Variance (or standard deviation)</li>
+<li>Distribution</li>
+</ul>
+<p>Binomial distribution:</p>
+<p><span class="math display">\[SE=\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}\]</span></p>
+<p><span class="math display">\[m=z^*SE\]</span></p>
+<p>We use the fact that this was a binomial distribution in two ways.</p>
+<ol type="1">
+<li><p>we use the fact that this was a binomial distribution to get this formula for the standard error.</p></li>
+<li><p>this formula for the margin of error depends on the assumption that this is a normal distribution, as the binomial approaches a normal distribution as N gets larger.</p></li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 36%">
+<col style="width: 27%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type of metric</th>
+<th>Distribution</th>
+<th>Estimated variance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Probability</td>
+<td>Binomial (normal)</td>
+<td><span class="math inline">\(\frac{\hat{p}(1-\hat{p})}{N}\)</span></td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>Normal</td>
+<td><span class="math inline">\(\frac{\hat{\sigma}^2}{n}\)</span> (<span class="math inline">\(\hat{\sigma}\)</span> : variance of the sample)</td>
+</tr>
+<tr class="odd">
+<td>Medium/percentile</td>
+<td>Depends on the assumption of data distribution</td>
+<td>Depends</td>
+</tr>
+<tr class="even">
+<td>Count/difference</td>
+<td>Normal (maybe)</td>
+<td><span class="math inline">\(Var(X)+Var(Y)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Rates</td>
+<td>Poisson</td>
+<td><span class="math inline">\(\bar{X}\)</span> (mean)</td>
+</tr>
+<tr class="even">
+<td>Ratios (<span class="math inline">\(\frac{\hat{p}_{exp}}{\hat{p}_{cont}}\)</span> instead of <span class="math inline">\(\hat{p}_{exp}-\hat{p}_{cont}\)</span>)</td>
+<td>Depends</td>
+<td>Depends</td>
+</tr>
+</tbody>
+</table>
+<p>The variance of the actual metric: if you were to collect a new sample, how would you expect this metric to vary?</p>
+<p>The variance of the sample: take each of your data points and then collect the variance of them.</p>
+<p><strong>Calculating CI for a Mean</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">N= [<span class="number">87029</span>, <span class="number">113407</span>, <span class="number">84843</span>, <span class="number">104994</span>, <span class="number">99327</span>, <span class="number">92052</span>, <span class="number">60684</span>]</span><br><span class="line">N_mean=sum(N)/len(N)</span><br><span class="line">N_std=math.sqrt(sum([(n-N_mean)**<span class="number">2</span> <span class="keyword">for</span> n <span class="keyword">in</span> N])/(len(N)<span class="number">-1</span>))</span><br><span class="line">SE=N_std/math.sqrt(len(N))</span><br><span class="line"></span><br><span class="line">cf_min,cf_max=N_mean-SE*<span class="number">1.96</span>,N_mean+SE*<span class="number">1.96</span></span><br></pre></td></tr></table></figure>
+<h3 id="non-parametric-methods">Non-parametric methods</h3>
+<p>A way to analyze the data without making an assumption about what the distribution Is.</p>
+<ul>
+<li><strong>sign test</strong></li>
+<li>Compute variance empirically</li>
+</ul>
+<p>Reason of using Non-parametric methods:</p>
+<ul>
+<li>for more complicated metrics, you might need to estimate the variance empirically instead of computing it analytically.</li>
+<li>At Google, it was observed that the analytical estimates of variance was often under-estimated, and therefore they have resorted to use empirical measurements based on A/A test to evaluate variance.</li>
+</ul>
+<p>-&gt; using <strong>A versus A experiments</strong> across the board to estimate the empirical variability of all of our metrics.</p>
+<p><strong>What are A versus A experiments</strong>: in an A versus A test, what you have is a control, A against another control A, and so there's actually no change in what the users are seeing. What that means that any differences that you measure are due to the underlying variability, maybe of your system, of the user population, what users are doing, all of those types of things.</p>
+<p>If you see a lot of variability in a metric in an A versus A test, it's probably too sensitive to be useful in, in evaluating a real experiment.</p>
+<p><strong>How many A/A tests are needed to get a good sense?</strong>: The key rule of thumb to keep in mind is that the standard deviation is going to be proportional to the square root of the number of sample.</p>
+<p><strong>What if you can't run many A/A tests for some reason?</strong>: another option is to run one really big A versus A experiment. And then using bootstrap, where what you do is you take that big sample, and you randomly divvy it up into a bunch of small samples and you do the comparison within those random subsets.</p>
+<p>One advantage of running the lots of different A/A tests is because if your experiment system is itself complicated, it's actually a very good test of your system.</p>
+<p><strong>Uses of A/A tests:</strong></p>
+<ol type="1">
+<li>Compare result to what you expect (sanity check)</li>
+<li>Estimate variance empirically and use your assumption about the distribution to calculate confidence</li>
+<li>Directly estimate confidence interval without making any assumption of the data</li>
+</ol>
+<p><strong>Calculating a Confidence Interval Empirically</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># click-through-probability of 40 A/A tests or bootstrap samples</span></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line">group1=[<span class="number">0.02</span>, <span class="number">0.11</span>, <span class="number">0.14</span>, <span class="number">0.05</span>, <span class="number">0.09</span>, <span class="number">0.11</span>, <span class="number">0.09</span>, <span class="number">0.1</span> , <span class="number">0.14</span>, <span class="number">0.08</span>, <span class="number">0.09</span>,</span><br><span class="line">       <span class="number">0.08</span>, <span class="number">0.09</span>, <span class="number">0.08</span>, <span class="number">0.12</span>, <span class="number">0.09</span>, <span class="number">0.16</span>, <span class="number">0.11</span>, <span class="number">0.12</span>, <span class="number">0.11</span>, <span class="number">0.06</span>, <span class="number">0.11</span>,</span><br><span class="line">       <span class="number">0.13</span>, <span class="number">0.1</span> , <span class="number">0.08</span>, <span class="number">0.14</span>, <span class="number">0.1</span> , <span class="number">0.08</span>, <span class="number">0.12</span>, <span class="number">0.09</span>, <span class="number">0.14</span>, <span class="number">0.1</span> , <span class="number">0.08</span>,</span><br><span class="line">       <span class="number">0.08</span>, <span class="number">0.07</span>, <span class="number">0.13</span>, <span class="number">0.11</span>, <span class="number">0.08</span>, <span class="number">0.1</span> , <span class="number">0.11</span>]</span><br><span class="line">group2=[<span class="number">0.07</span>, <span class="number">0.11</span>, <span class="number">0.05</span>, <span class="number">0.07</span>, <span class="number">0.1</span> , <span class="number">0.07</span>, <span class="number">0.1</span> , <span class="number">0.1</span> , <span class="number">0.12</span>, <span class="number">0.14</span>, <span class="number">0.04</span>,</span><br><span class="line">       <span class="number">0.07</span>, <span class="number">0.07</span>, <span class="number">0.06</span>, <span class="number">0.15</span>, <span class="number">0.09</span>, <span class="number">0.12</span>, <span class="number">0.1</span> , <span class="number">0.08</span>, <span class="number">0.09</span>, <span class="number">0.08</span>, <span class="number">0.08</span>,</span><br><span class="line">       <span class="number">0.14</span>, <span class="number">0.09</span>, <span class="number">0.1</span> , <span class="number">0.08</span>, <span class="number">0.08</span>, <span class="number">0.09</span>, <span class="number">0.08</span>, <span class="number">0.11</span>, <span class="number">0.11</span>, <span class="number">0.1</span> , <span class="number">0.14</span>,</span><br><span class="line">       <span class="number">0.1</span> , <span class="number">0.08</span>, <span class="number">0.05</span>, <span class="number">0.19</span>, <span class="number">0.11</span>, <span class="number">0.08</span>, <span class="number">0.13</span>]</span><br><span class="line">confidence_level=<span class="number">0.95</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># assume metric is normally distributed</span></span><br><span class="line">difference=[i-j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(group1,group2)]</span><br><span class="line">mean=sum(difference)/len(difference)</span><br><span class="line">SD=math.sqrt(sum([(i-mean)**<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> difference ])/(len(difference)<span class="number">-1</span>))</span><br><span class="line"><span class="comment"># m=SD*z-score</span></span><br><span class="line">m=SD*<span class="number">1.96</span></span><br><span class="line">ci_max=mean+m</span><br><span class="line">ci_min=mean-m</span><br><span class="line"></span><br><span class="line">&gt; ci_min,ci_max</span><br><span class="line">&gt; (<span class="number">-0.06702773846019527</span>, <span class="number">0.07552773846019528</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># no assumption of metric distribution</span></span><br><span class="line">difference=sorted(difference)</span><br><span class="line">ci_min,ci_max=difference[<span class="number">1</span>],difference[<span class="number">-2</span>]</span><br><span class="line"></span><br><span class="line">&gt; ci_min,ci_max</span><br><span class="line">&gt; (<span class="number">-0.06000000000000001</span>, <span class="number">0.08</span>)</span><br></pre></td></tr></table></figure>
+<p>In summary, different metrics have different variability. The variability may be high for certain metrics which makes them useless even if they make business or product sense. Computing the variability of a metric is tricky and one needs to take a lot of care.</p>
+<p>For a lot of analysts, a majority of the time is spent is validating and choosing a metric compared to actually running the experiment. Being able to standardize the definitions was critical in the test. When measuring latency, are you talking about when the first byte loads and when a last byte loads. Also, for latency, the mean may not change at all. The signals (e.g. slow/fast connections or browsers) causes lumps in the distribution, and no central measure works. One needs to look at the right percentile metric. The key thing is that you are build</p>
+<h1 id="design-an-experiment"><strong>Design an Experiment</strong></h1>
+<ol type="1">
+<li>Choose <strong>subject</strong>: What are the units in the population you are going to run the test on? (unit of diversion)</li>
+<li>Choose <strong>population</strong>: What population are you going to use (US only?)</li>
+<li>Size</li>
+<li>Duration</li>
+</ol>
+<h2 id="unit-of-diversion">Unit of Diversion</h2>
+<p>Commonly used units of diversion are:</p>
+<ol type="1">
+<li><strong>User identifier (id)</strong>: Typically the username or email address used on the website. It is typically stable and unchanging. If user id is used as a unit of diversion, then it is either in the test group or the control group. User ID is personally identifiable</li>
+<li><strong>Anonymous id</strong>: This is usually an anonymous identifier such as a <strong>cookie</strong>. It changes with browser or device. People may often refresh their cookies every time they log in. It is difficult to refresh a cookie on an app or a phone compared to the computer.</li>
+<li><strong>Event</strong>: An event is a page load that can change for each user. This is used typically for non-user-visible changes.</li>
+</ol>
+<p>Less common:</p>
+<ol type="1">
+<li><strong>Device id</strong>: Typically available for mobile devices. It is tied to a specific device and cannot be changed by the user. Personally identifiable.</li>
+<li><strong>IP address</strong>: location specific, but may change as the user changes location (e.g. testing on infrastructure change to test impact on latency)</li>
+</ol>
+<p>3 main considerations in selecting an appropriate unit of diversion:</p>
+<ol type="1">
+<li><strong>Consistency</strong></li>
+<li>Ethical - Informed consent: a issue when using user id.</li>
+<li>Variability</li>
+</ol>
+<h3 id="consistency-of-diversion">Consistency of Diversion</h3>
+<p>If you're testing a change that crosses the sign in, sign out border, then a <strong>user ID</strong> doesn't work as well, use cookie instead.</p>
+<p><strong>For user visible changes</strong>, you would definitely use a <strong>cookie</strong> or a <strong>user ID</strong>. But there are lots of non-user-visible changes (latency changes, back-end infra changes or ranking changes):</p>
+<p>Examples:</p>
+<ul>
+<li>Cookie: change button color and size (distracting if changes on reload; different look on difference devices is ok)</li>
+<li>User id: Add instructors note before quizzes (cross device consistency important)</li>
+<li>Event: Reducing video load time; change order of search results (users won't probably notice)</li>
+</ul>
+<p>IP based diversion not very useful:</p>
+<ul>
+<li>not as consistent as cookie or user id as ip randomly change depending on the provider; no clean randomization like event based diversion.</li>
+<li>only choice: testing out one hosting provider versus a different hosting provider to understand the impact of latency.</li>
+<li>May not get a clean comparison between your experiment and your control:some providers aggregate all of those modem dialup users into a single IP address, so it's hard to find comparable population of users in the control group.</li>
+</ul>
+<h3 id="unit-of-analysis-v.s.-unit-of-diversion">Unit of Analysis v.s. Unit of Diversion</h3>
+<p><strong>Variability</strong> is higher when it is calculated empirically than when calculated analytically. This is because the <strong>unit of analysis</strong> (i.e. the denominator in the metric. e.g. page view in click through rate) is different from the unit of variability.</p>
+<p>When your <em>unit of diversion</em> is also a page view, so as would be the case in an <strong>event</strong> base diversion, then the analytically computed variability is likely to be very close to the empirically computed variability.</p>
+<p>If, however, your unit of diversion is a <strong>cookie</strong> or a user id then the variability of your same metric click through rate is actually going to be much higher.</p>
+<p>This is because when you're actually computing your variability analytically, you're fundamentally making an assumption about the distribution of the data and what's considered to be independent.</p>
+<ul>
+<li><p>When you're doing event-based diversion every single event is a different randomdraw, and so your independence assumption is actually valid.</p></li>
+<li><p>When you're doing cookie or user ID based diversion, that independence assumption is no longer valid because you're actually diverting groups of events. And so they're actually correlated together.</p></li>
+</ul>
+<p><strong>Measure variablity of a metric</strong>:</p>
+<p>Unit of diversion: queries (event-based) v.s. cookies</p>
+<p>Metric: coverage (the percentage of queries for which an ad is shown) = <span class="math inline">\(\frac{\# queries\ with\ ads}{\#\ queries}\)</span></p>
+<p>Unit of analysis: query</p>
+<p>Binomial: <span class="math inline">\(SE=\sqrt{\frac{p(1-p)}{N}}\)</span></p>
+<p>The SE of coverage under cookies diversion is much larger then that of queries.</p>
+<blockquote>
+<p>When unit of analysis = unit of diversion, variability tends to be lower and closer to the anlytical estimate.</p>
+</blockquote>
+<h2 id="choose-population">Choose Population</h2>
+<p><strong>intra-user experiment:</strong> expose the same user to this feature being on and of over time, and you actually analyze how they behave in different time windows.</p>
+<ul>
+<li>pitfalls:
+<ul>
+<li>be really careful that you choose a comparable time window.(not 2 weeks before Christmas)</li>
+<li>different behaviors as a result of a frustration or a learning problem, where people learn to use the particular feature in the first two weeks</li>
+</ul></li>
+</ul>
+<p><strong>interleaved experiment</strong>: expose the same user to the A and the B side at the same time. And typically this only works in cases where you're looking at reordering a list.</p>
+<p><strong>inter-user experiments</strong>: different people on the A side and on the B side.</p>
+<h3 id="target-population">Target Population</h3>
+<p>Some easy divisions of your user space: what browser they're on, what geo location they come from, what country, what language they're using.</p>
+<p>Reasons why you might make that decision in advance:</p>
+<ul>
+<li>For a feature not sure if you're going to release it and it's a pretty high profile launch, you might want to restrict how many of your users have actually seen it.</li>
+<li>If you're running a couple of different experiments at your company at the same time, you might not want to overlap.</li>
+<li>You may not want to dilute the effect of your experiment across a global population. So if you're analyzing an experiment for the first time, and it only affects English, you may want to actually do your analysis specific on English,</li>
+</ul>
+<p><strong>Targeting an Experiment</strong>:</p>
+<blockquote>
+<p>Filtering could also affect variability</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># New Zealand</span></span><br><span class="line">N_cont = <span class="number">6021</span></span><br><span class="line">X_cont = <span class="number">302</span></span><br><span class="line">N_exp = <span class="number">5979</span></span><br><span class="line">X_exp = <span class="number">374</span></span><br><span class="line"></span><br><span class="line">p_cont=X_cont/N_cont</span><br><span class="line">p_exp=X_exp/N_exp</span><br><span class="line">p_pool=(X_cont+X_exp)/(N_cont+N_exp)</span><br><span class="line">SE=math.sqrt((p_pool*(<span class="number">1</span>-p_pool)*(<span class="number">1</span>/N_cont+<span class="number">1</span>/N_exp)))</span><br><span class="line">d_hat=p_exp-p_cont</span><br><span class="line">m=<span class="number">1.96</span>*SE</span><br><span class="line">&gt; m,d_hat</span><br><span class="line">&gt; (<span class="number">0.00825068746366646</span>, <span class="number">0.012394485165776618</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Global</span></span><br><span class="line">N_cont = <span class="number">50000</span> + <span class="number">6021</span></span><br><span class="line">X_cont = <span class="number">2500</span> + <span class="number">302</span></span><br><span class="line">N_exp = <span class="number">50000</span> + <span class="number">5979</span></span><br><span class="line">X_exp = <span class="number">2500</span> + <span class="number">374</span></span><br><span class="line"></span><br><span class="line">p_cont=X_cont/N_cont</span><br><span class="line">p_exp=X_exp/N_exp</span><br><span class="line">p_pool=(X_cont+X_exp)/(N_cont+N_exp)</span><br><span class="line">SE=math.sqrt((p_pool*(<span class="number">1</span>-p_pool)*(<span class="number">1</span>/N_cont+<span class="number">1</span>/N_exp)))</span><br><span class="line">d_hat=p_exp-p_cont</span><br><span class="line">m=<span class="number">1.96</span>*SE</span><br><span class="line">&gt; m,d_hat</span><br><span class="line">&gt; (<span class="number">0.0025691881506085417</span>, <span class="number">0.0013237234004343165</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="population-v.s.-cohort">Population v.s. Cohort</h3>
+<p>Cohort: people who enter the experiment at the same time. You define an entering class and you only look at users who entered your experiment on both sides around the same time, and you go forward from there.</p>
+<p><strong>Cohorts</strong> are harder to analyze, limit your experiment to a subset of population, can affect variability .</p>
+<p>Want to use cohort instead of population:<strong>user stability</strong></p>
+<ul>
+<li>Looking for learning effects</li>
+<li>Examining user retention</li>
+<li>Want to increate user activity</li>
+<li>Anything that require users to be established</li>
+</ul>
+<h2 id="experiment-design-and-sizing">Experiment Design and Sizing</h2>
+<p><strong>How to reduce the size of experiments:</strong></p>
+<p>Experiment: change order of courses in the course list</p>
+<p>Metric: click-through-rate</p>
+<p>Unit-of-diversion: cookie</p>
+<p><span class="math inline">\(d_{min}=0.05\)</span>, <span class="math inline">\(\alpha=0.05\)</span>, <span class="math inline">\(\beta=0.2\)</span>, <span class="math inline">\(SE=0.0628\)</span> for 1000 page views</p>
+<p>Result: need 300,000 pageviews per group!</p>
+<p>Which strategies could reduce the number of page views?</p>
+<ol type="1">
+<li>Increase <span class="math inline">\(d_{min}\)</span>, <span class="math inline">\(\alpha\)</span>, or <span class="math inline">\(\beta\)</span></li>
+<li>Change unit of diversion to page view
+<ul>
+<li>Makes unit of diversion same as unit of analysis</li>
+<li>The variability of the metric might decrease and thus decrease the number of page views you need to be confident in your results</li>
+</ul></li>
+<li>Target experiment to specific traffic
+<ul>
+<li>Non-english traffic will dilute the results</li>
+<li>Could impact choice of practical significance boundrey
+<ul>
+<li>since you're only looking at a subset of the traffic, you might need a bigger change before it matters to the business;</li>
+<li>Or since your variablity is probably lower, you might want to detect smaller changes rather than decreasing the number of page views.</li>
+</ul></li>
+</ul></li>
+</ol>
+<p>How are you actually going to detect impact? What effect does that have on the size of the experiment when you really don't know what fraction of your population is going to be affected?</p>
+<ul>
+<li>run a pilot where you turn on the experiment for a little while and see who's affected, or you can even just use the first day or the first week of data to try to get a better guess at what fraction of your population you're really looking at.</li>
+</ul>
+<h2 id="duration-v.s.-exposure">Duration v.s. Exposure</h2>
+<p><strong>Practical considerations in experimental design</strong>:</p>
+<ol type="1">
+<li>Duration</li>
+<li>When to run the experiment</li>
+<li>Fraction of the traffic to send to the experiment</li>
+</ol>
+<p>The duration of your experiment, is related to the proportion of traffic that you're sending through your experiment.</p>
+<p><strong>Why not run on all of the traffic to get results quicker?</strong></p>
+<ul>
+<li>Safety: not sure if it's working on all browser or how the users will react</li>
+<li>Press: people blogging about features you might not keep</li>
+<li>Other sources of variablity : holiday, weekly variation</li>
+<li>Running multiple tasks at your company: to be comparable, run them at the same time on smaller percentages of traffic.</li>
+</ul>
+<p><strong>Note:</strong> There is weekly variation in traffic and metric, so it's better to run on mix of weekend and weekday days. For risky change, run longer with less traffic.</p>
+<h2 id="learning-effects">Learning Effects</h2>
+<p><strong>learning effects</strong> is basically when you want to measure user learning. Or effectively whether a user is adapting to a change or not.</p>
+<p>Two different types of learning effects</p>
+<ol type="1">
+<li>Change aversion &quot;I don't like anything.&quot;</li>
+<li>Knowledge effect &quot;Let me try everything around.&quot;</li>
+</ol>
+<p>When users first encounter a change they will react in one of these two ways, but will eventually plateau to a very different behavior.</p>
+<p><strong>Considerations when measure a learning effect:</strong></p>
+<ol type="1">
+<li><p>The key issue with trying to is <strong>time</strong>： It takes time for you just to actually adapt to a change and often times you don't have the luxury of taking that much time to make a decision.</p></li>
+<li>Choosing the unit of diversion correctly. - a cookie or a user ID</li>
+<li>Dosage: because a lot of the learning is based on not just a slight time but how often they see the change. Then you probably want to be using a cohort as opposed to just a population. - choose a cohort in both the experiment and the control based on either how long they've been exposed to the change or how many times they've seen it.</li>
+<li><p>risk and duration: both of those mean to run it through a small proportion of your users for a longer period of time.</p></li>
+</ol>
+<p><strong>pre-periods and post-periods</strong>:</p>
+<p>Before run your <strong>A/B test</strong>, you're on a <em>pre-period</em> on the exact same populations but they're receiving the exact same frequence. It's an <strong>A/A test</strong> on the same set of users.</p>
+<p>In the <strong>pre-period</strong>, if you measure any difference between your experiment and your control populations that difference is due to something else (system variability, user variability).<strong>Pre-period</strong> helps you know that any difference that you measure in your experiment and control is due to the experiment, and not due to any preexisting and inherent differences in your population.</p>
+<p>A <strong>post-period</strong> is saying, after I run my experiment, my control, I'm going to run another <em>A versus A test</em>. And then, what, what we can say is that if there are any differences in the experiment and the control populations after I've run my experiment, then I can attribute those differences to <strong>user learning</strong> that happened in the experiment period.</p>
+<h1 id="analyze-results-1">Analyze Results</h1>
+<h2 id="sanity-checks">Sanity Checks</h2>
+<p><strong>2 main types of checks:</strong></p>
+<ol type="1">
+<li><strong>Population sizing metrics</strong> based on your unit of diversion
+<ul>
+<li>Check your experiment population and your control populations are actually comparable.</li>
+</ul></li>
+<li><strong>Actual invariants:</strong> metrics that are same in the control and experiment groups and shouldn't change when you run your experiment</li>
+</ol>
+<p><strong>Step 1: Choosing invariant metircs</strong></p>
+<p><strong>Step 2: Checking invariants</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">	Run experiment for 2 weeks</span></span><br><span class="line"></span><br><span class="line">​	Unit of diversion: cookie</span><br><span class="line"></span><br><span class="line">​	Total control: 64454</span><br><span class="line"></span><br><span class="line">​	Total experiment: 61818</span><br><span class="line"></span><br><span class="line">​	How would you figure out if the difference is within expectations?</span><br><span class="line"></span><br><span class="line">​	Given: each cookie is randomly assigned to the control or experiment group with a prob of 0.5.</span><br></pre></td></tr></table></figure>
+<pre><code>1. Compute SD of binomial with $p=0.5$ of success. $SD=\sqrt{0.5 \cdot0.5/(64454+61818)}=0.0014$
+2. Multiple by z-score to get margin of error. $m=1.96*SD=0.0027$
+3. Compute confidence interval around 0.5. $ [0.4973, 0.5027]$
+4. Check whether observed fraction is within interval. $64454/(64454+61818)=0.5104$ Not within interval</code></pre>
+<p><strong>Step 3: what to do</strong></p>
+<ul>
+<li>Talk to engineers</li>
+<li>Try <em>slicing</em> to see if one particular slice is weird</li>
+<li>Check age of cookies - does one group has more new cookies?</li>
+</ul>
+<p><strong>What happens if one of your sanity checks fails</strong>: analyzing why your sanity checks fail</p>
+<ol type="1">
+<li>work with your engineers to understand is there something going on with the <em>experiment infrastructure</em>, <em>experiment set up</em>, <em>experiment diversion</em>.</li>
+<li><p><strong>retrospective analysis</strong>: Try and recreate experiment diversion from the data capture,</p></li>
+<li>use pre &amp; post periods
+<ul>
+<li>If you're in a pre-period,did I see the same changes in those invariance in my pre-period?
+<ul>
+<li>If I saw them in the pre-period and the experiment, that points to a problem with the experiment infrastructure, the set up, something along those lines.</li>
+<li>if you see the change only in your experiment but not in the pre-period, that points to something with the experiment itself (data capture or something along those lines).</li>
+</ul></li>
+</ul></li>
+</ol>
+<p><strong>The most common reasons for data not matching up:</strong></p>
+<ul>
+<li>data capture: Maybe the change triggers very rarely, and you capture it correctly in the experiment, but you don't capture quickly in the control.</li>
+<li>experiment's set up: Maybe you set up the filter for the experiment, but not the control.</li>
+<li>experiment system</li>
+</ul>
+<blockquote>
+<p>The key thing : if there really is a learning effect, then not very much change in the beginning, but it's increasing over time.</p>
+</blockquote>
+<blockquote>
+<p>Not a learning effect: a big change from the beginning</p>
+</blockquote>
+<h2 id="single-metric">Single Metric</h2>
+<p>Goal: make a business decision about whether your experiment has favorably impacted your metrics. Analytically, decide if you've observed a statistically significant result of your experiment.</p>
+<p><strong>How do you decide if the change was statistically significant?</strong>:</p>
+<ul>
+<li>Characterizing the metric, understanding how it behaves</li>
+<li>Use variability to estimate <strong>how long</strong> we needed to run the experiment for and <strong>size</strong> our experiment appropriately</li>
+<li>Use the results of last 2 steps to estimate the <strong>variability</strong> we need to analyze the A/B experiment</li>
+</ul>
+<p><strong>What if our results are not statistically significant?</strong>:</p>
+<ul>
+<li>Break down the result into different platforms, different days of the week -&gt; find bugs in your experiment setup &amp; give you a new hypothesis about how people are reacting to the experiment.</li>
+<li>Cross checking your results with other methods, like non parametric sign tests to compare the results to what you got from your parametric hypothesis test.</li>
+</ul>
+<h3 id="analysis-with-single-metric">Analysis with Single Metric</h3>
+<p><strong>Experiment I :</strong> change color and place of 'start now' button.</p>
+<p>Metric: click-through-rate</p>
+<p>Unit of diversion: cookie</p>
+<p><span class="math inline">\(X_{cont}=352\)</span>, <span class="math inline">\(N_{cont}=7370\)</span></p>
+<p><span class="math inline">\(X_{exp}=565\)</span>, <span class="math inline">\(N_{exp}=7270\)</span></p>
+<p><span class="math inline">\(d_{min}=0.01\)</span>, <span class="math inline">\(\alpha=0.05\)</span>, <span class="math inline">\(\beta=0.2\)</span></p>
+<p><em>Empirical SE</em>: <span class="math inline">\(0.0035\)</span> with 10000 page views in each group</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;SE \sim \sqrt{\frac{1}{N_1}+\frac{1}{N_2}} \\
+&amp;\frac{0.035}{\sqrt{\frac{1}{10000}+\frac{1}{10000}}}=\frac{SE}{\sqrt{\frac{1}{7370}+\frac{1}{7270}}} \\
+&amp;SE=0.0041 \\
+&amp;\hat{d}=\hat{r}_{exp}-\hat{r}_{cont}=\frac{565}{7270}-\frac{352}{7370}=0.03  \\
+&amp;m=1.96*0.0041=0.0080 \\
+&amp;Confidence\ Interval:[0.022,0.038]
+\end{align}
+\]</span> Recommandation: <strong>launch</strong></p>
+<p><strong>Sign Test:</strong></p>
+<p>​ Number of days: 7</p>
+<p>​ Number of days with positive change: 7</p>
+<p>​ If no difference, 50% chance of positive change each day</p>
+<p>​ (7 days too short, cannot assume normal by binomial)</p>
+<p>​ Two-tailed <strong>p-value</strong>: <em>0.0156</em> (the prob of observing a result at least this extreme by chance)</p>
+<p>​ - Since this is less than the chosen alpha of .05, the sign test agrees with the hypothesis test that this result is unlikely to happen by chance.</p>
+<p>​ Recommandation: <strong>launch</strong></p>
+<p><strong>Experiment II :</strong></p>
+<p>Metric: click-through-rate</p>
+<p><span class="math inline">\(d_{min}=0.01\)</span>, <span class="math inline">\(\alpha=0.05\)</span>,</p>
+<p>Empirical SE: <span class="math inline">\(0.0062\)</span> with 5000 page views in each group</p>
+<ul>
+<li><strong>Effect size:</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Xs_cont = [<span class="number">196</span>, <span class="number">200</span>, <span class="number">200</span>, <span class="number">216</span>, <span class="number">212</span>, <span class="number">185</span>, <span class="number">225</span>, <span class="number">187</span>, <span class="number">205</span>, <span class="number">211</span>, <span class="number">192</span>, <span class="number">196</span>, <span class="number">223</span>, <span class="number">192</span>]</span><br><span class="line">Ns_cont = [<span class="number">2029</span>, <span class="number">1991</span>, <span class="number">1951</span>, <span class="number">1985</span>, <span class="number">1973</span>, <span class="number">2021</span>, <span class="number">2041</span>, <span class="number">1980</span>, <span class="number">1951</span>, <span class="number">1988</span>, <span class="number">1977</span>, <span class="number">2019</span>, <span class="number">2035</span>, <span class="number">2007</span>]</span><br><span class="line">Xs_exp = [<span class="number">179</span>, <span class="number">208</span>, <span class="number">205</span>, <span class="number">175</span>, <span class="number">191</span>, <span class="number">291</span>, <span class="number">278</span>, <span class="number">216</span>, <span class="number">225</span>, <span class="number">207</span>, <span class="number">205</span>, <span class="number">200</span>, <span class="number">297</span>, <span class="number">299</span>]</span><br><span class="line">Ns_exp = [<span class="number">1971</span>, <span class="number">2009</span>, <span class="number">2049</span>, <span class="number">2015</span>, <span class="number">2027</span>, <span class="number">1979</span>, <span class="number">1959</span>, <span class="number">2020</span>, <span class="number">2049</span>, <span class="number">2012</span>, <span class="number">2023</span>, <span class="number">1981</span>, <span class="number">1965</span>, <span class="number">1993</span>]</span><br><span class="line">SE_emp=<span class="number">0.0062</span></span><br><span class="line">Ns_emp=<span class="number">5000</span></span><br><span class="line">SE=SE_emp/math.sqrt(<span class="number">1</span>/Ns_emp+<span class="number">1</span>/Ns_emp)*math.sqrt(<span class="number">1</span>/sum(Ns_cont)+<span class="number">1</span>/sum(Ns_exp))</span><br><span class="line">d_hat=sum(Xs_exp)/sum(Ns_exp)-sum(Xs_cont)/sum(Ns_cont)</span><br><span class="line">m=<span class="number">1.96</span>*SE</span><br><span class="line">ci_min,ci_max=d_hat-m,d_hat+m</span><br><span class="line">&gt; ci_min,ci_max</span><br><span class="line">&gt; (<span class="number">0.006465853496236934</span>, <span class="number">0.016736185710796242</span>)</span><br></pre></td></tr></table></figure>
+<p>Since the confidence level is larger than 0, it's statistically significant.</p>
+<ul>
+<li><strong>Sign test:</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ctr_cont=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(Xs_cont,Ns_cont)]</span><br><span class="line">ctr_exp=[i/j <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(Xs_exp,Ns_exp)]</span><br><span class="line"></span><br><span class="line">days=len(Xs_cont)</span><br><span class="line">positive_days=sum([exp&gt;cont <span class="keyword">for</span> exp,cont <span class="keyword">in</span> zip(ctr_exp,ctr_cont)])</span><br><span class="line">&gt; days,positive_days</span><br><span class="line">&gt; (<span class="number">14</span>, <span class="number">9</span>)</span><br></pre></td></tr></table></figure>
+<p>The two-tail P value is <span class="math inline">\(0.4240\)</span>. Since p-value is larger than alpha, it's not significant.</p>
+<h3 id="single-metric-gochas">Single Metric: Gochas</h3>
+<p><strong>What if the sign test and the hypothesis test don't agree?</strong></p>
+<p>Statistical reasons for counter-intuitive results: <strong>Simpson's paradox</strong></p>
+<blockquote>
+<p>Different subgroups in the data like user populations. Within each subgroup, the results are stable but when aggregated together, it's the mix of subgroups that actually drives your result.</p>
+</blockquote>
+<ul>
+<li>New users might be correlated with weekend use, experienced users who react differently are correlated with weekday use. Within each group, their behavior is stable. What drives the results of your experiment are how many people from each group.</li>
+</ul>
+<h2 id="multiple-metrics">Multiple Metrics</h2>
+<p><strong>What changes when you have multiple evaluation metrics instead of just one?</strong></p>
+<blockquote>
+<p>As you test more metrics, it becomes more likely that one of them will show a statistically significant result by chance.</p>
+</blockquote>
+<p>But the significant result shouldn't be repeatable. If you did the same experiment on another day or you slices or do some bootstrap analysis, you wouldn't see the same metric showing up as significant differences every time, it should occur randomly.</p>
+<p><strong>Multiple comparisons</strong>: adjusts your significance level, so that it accounts for how many metrics or how many different tests you're doing.</p>
+<ul>
+<li>Do it when you want automatic alerting that tells you one of my metrics was significantly different on this experiment.</li>
+</ul>
+<h3 id="tracking-multiple-metrics">Tracking Multiple Metrics</h3>
+<p>For 3 <em>independent</em> metrics, <span class="math inline">\(\alpha=0.05\)</span>, the chance of at least 1 false positive is <span class="math inline">\(P(FP≥1)=1-0.95^3=0.143\)</span></p>
+<p><span class="math inline">\(Overall\ \alpha=1-(1-\alpha)^{\#\ of\ metrics}\)</span></p>
+<p><strong>Problem:</strong> Probability of any False Positive increases as you increase number of metrics</p>
+<p><strong>Solution</strong>: Use higher confidence level for each metric</p>
+<ul>
+<li><strong>Method1:</strong> Assume <em>independence</em> of metrics</li>
+</ul>
+<p>​ <span class="math inline">\(\alpha_{overall}=1-(1-\alpha_{individual})^n\)</span>, calculate <span class="math inline">\(\alpha_{individual}\)</span> with specified <span class="math inline">\(\alpha_{overall}\)</span></p>
+<ul>
+<li><strong>Method2: Bonferroni Correction</strong>
+<ul>
+<li>Simple</li>
+<li>No assumption</li>
+<li><p>Conservative - guarantee to give <span class="math inline">\(\alpha_{overall}\)</span> at lease as small as specified</p></li>
+<li><span class="math inline">\(\alpha_{individual}=\frac{ \alpha_{overall}}{n}\)</span></li>
+<li><u>Problem:</u> Given metrics are correlated, and tend to move at the same time, this method is too conservative.</li>
+<li>Recommendation:
+<ul>
+<li>Rigorous answer: use a more sophisticated method like <a href="http://en.wikipedia.org/wiki/Closed_testing_procedure" target="_blank" rel="noopener">closed testing procedure</a>, the <a href="http://en.wikipedia.org/wiki/Bonferroni_bound" target="_blank" rel="noopener">Boole-Bonferroni bound</a>, and the <a href="http://en.wikipedia.org/wiki/Holm–Bonferroni_method" target="_blank" rel="noopener">Holm-Bonferroni method</a></li>
+<li>In practice: <strong>Judgment Call</strong>, possibly based on business strategy</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>Different Strategies:</strong></p>
+<ul>
+<li><p>Control probability that <em>any</em> metric shows a false positive <span class="math inline">\(\alpha_{overall}\)</span> -&gt; <strong>family wise error rate (FWER)</strong> (Overal alpha)</p></li>
+<li><p>Control false discovery rate (FDR):</p>
+<p><span class="math display">\[FDR=E[\frac{\#\ false\ positives }{\#\ rejections}]\]</span></p>
+<ul>
+<li>Out of all of the rejections of the null, that is, all of the metrics that you declare to have a statistically significant difference. How many of them had a real difference as opposed to how many were false positives?</li>
+<li>This really only makes sense if you have a huge number of metrics, say hundreds.</li>
+</ul></li>
+</ul>
+<p>e.g.: Suppose that you have 200 metrics that you're measuring and you capped the false discovery rate at 0.05. What this means is that you're okay with having 5 false positives and 95 true positives in <u>every experiment</u>. The family wise error rate, or the overall alpha in this case, would be one, since you have at least one false positive every time. But the false discovery rate is 0.05.</p>
+<h3 id="analyzing-multiple-metrics">Analyzing Multiple Metrics</h3>
+<p><strong>How do I actually make a recommendation?</strong></p>
+<ul>
+<li><p>You really have to understand how people are reacting to the change because you can't quantitatively evaluate which one is better.</p></li>
+<li><p>An alternative to using multiple metrics is to use an ‘Overall Evaluation Criterion’ (OEC).</p></li>
+</ul>
+<p><strong>How to choose a good OEC?</strong></p>
+<ul>
+<li>Start with some kind of business analysis (Our company, as a whole, wants to look at 25% revenue plus 75% increase usage of the site.)</li>
+<li>Run a whole bunch of different experiments and validate how they steer you.</li>
+</ul>
+<blockquote>
+<p>Having an OIC doesn't have to be a formal number. It's really just trying to encapsulate what your company cares about. And how much you're going to be balancing something like stay time and clicks.</p>
+</blockquote>
+<h2 id="drawing-conclusion">Drawing Conclusion</h2>
+<p>If you have statistically significant results, now the questions come down to</p>
+<ul>
+<li><p>Do you understand the change?</p></li>
+<li><p>Do you want to launch the change?</p></li>
+</ul>
+<p>What if your change has a positive impact on one slice of your users, but for another slice, there's no impact or there's a negative impact?</p>
+<ul>
+<li>Is it a question about having different users, and how much they like or don't like the change? Have you seen that effect in other experiments? Do you have a bug?</li>
+</ul>
+<p><strong>How do you decide whether to launch your change or not?</strong></p>
+<ul>
+<li><p>Do I have statistically significant and practically significant results in order to justify the change?</p></li>
+<li>Do I understand what that change has actually done with regards to user experience?</li>
+<li><p>Is it worth it?</p></li>
+</ul>
+<blockquote>
+<p><strong>The end goal is actually making that recommendation that shows your judgment.</strong></p>
+</blockquote>
+<h2 id="gochas-changes-over-time">Gochas: Changes Over Time</h2>
+<p>It's good practice to always do a ramp-up when you actually want to launch a change.</p>
+<p>The other thing is to remove all of the filters. So if you're only testing your change on English, for example, you want to test your change during your ramp-up on all users to check if there's been any incidental impact to unaffected users that you didn't test in the original experiment.</p>
+<p><strong>Complication:</strong> the effect may actually flatten out as you ramp up the change.</p>
+<p>Reasons of the effects not being repeatable:</p>
+<ol type="1">
+<li>seasonality effects, holidays
+<ul>
+<li><p>Capture seasonal / event-driven impacts: <strong>holdback</strong></p>
+<ul>
+<li>You launch your change to everyone except for a small holdback (a set of users), that don't get the change, and you continue comparing their behavior to the control. Now, in that case you should see the reverse of the impact that you saw in your experiment. And what you can do is you can track that over time until you're confident that your results are actually repeatable.</li>
+</ul></li>
+</ul></li>
+<li><strong>novelty effect</strong> or <strong>change aversion</strong>: as users discover or adopt your change, then their behavior can change and therefore the measured effects can change.
+<ul>
+<li><strong>Cohort analysis</strong></li>
+</ul></li>
+<li>If you don't control for the budgets properly, the effect can change as you ramp up.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<ol type="1">
+<li>Check that your experiment was set up properly, Look at your end variance.Check that your experiment metrics are actually looking sane.</li>
+<li>Remember you aren't just looking for statistical significance, you're really making a business decision.</li>
+<li>Can't actually forget the overall business analysis
+<ul>
+<li>Judgment call with regards to the user experience and the business:
+<ul>
+<li>What's the engineering cost of maintaining the change?</li>
+<li>Are there customer support or sales issues?</li>
+<li>What's the opportunity cost if you actually choose to launch the change relative to the rewards you're going to get from the change or potentially not launching the change?</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="policy-and-ethics-for-experiments">Policy and Ethics for Experiments</h1>
+<h2 id="four-principles">Four Principles</h2>
+<h3 id="risk">1. Risk</h3>
+<p>In the study, <em>what risk is the participant undertaking</em>? The main threshold is whether the risk exceeds that of “minimal risk”. Minimal risk is defined as the probability and magnitude of harm that a participant would encounter in <u>normal daily life</u>.</p>
+<h3 id="benefits">2. Benefits</h3>
+<p>It is important to be able to state what the benefit would be from completing the study.</p>
+<h3 id="alternatives">3. Alternatives</h3>
+<p>In online experiments, the issues to consider are what the other alternative services that a user might have, and what the switching costs might be, in terms of time, money, information, etc.</p>
+<h3 id="data-sensitivity">4. Data Sensitivity</h3>
+<p><em>What data is being collected, and what is the expectation of privacy and confidentiality</em>?</p>
+<ul>
+<li>For new data being collected and stored, how sensitive is the data and what are the internal safeguards for handling that data? E.g., what access controls are there, how are breaches to that security caught and managed, etc.?</li>
+<li>Then, for that data, how will it be used and how will participants’ data be protected? How are participants guaranteed that their data, which was collected for use in the study, will not be used for some other purpose? This becomes more important as the sensitivity of the data increases.</li>
+<li>Finally, what data may be published more broadly, and does that introduce any additional risk to the participants?</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ab-testing/" rel="tag"># ab-testing</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/c8b80037/" rel="next" title="Study Note: Exploratory Data Analysis ">
+                <i class="fa fa-chevron-left"></i> Study Note: Exploratory Data Analysis 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/8fdfc10f/" rel="prev" title="A/B Testing Final Project">
+                A/B Testing Final Project <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-ab-testing-isnt-good-for"><span class="nav-number">1.1.</span> <span class="nav-text">What A/B testing isn’t good for</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#metric-choice"><span class="nav-number">1.2.</span> <span class="nav-text">Metric Choice</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#how-to-compute-rate-probability"><span class="nav-number">1.2.1.</span> <span class="nav-text">How to compute rate &amp; probability ?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#review-distribution"><span class="nav-number">1.3.</span> <span class="nav-text">Review Distribution</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#binomial-distribution"><span class="nav-number">1.3.1.</span> <span class="nav-text">Binomial Distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#confidence-interval"><span class="nav-number">1.3.2.</span> <span class="nav-text">Confidence Interval</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#standard-deviation-of-binomial"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Standard deviation of binomial</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#useful-equations"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Useful equations</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hypothesis-testing"><span class="nav-number">1.4.</span> <span class="nav-text">Hypothesis Testing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#two-tailed-vs.-one-tailed-tests"><span class="nav-number">1.4.1.</span> <span class="nav-text">Two-tailed vs. one-tailed tests</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comparing-two-samples---pooled-standard-error"><span class="nav-number">1.5.</span> <span class="nav-text">Comparing two samples - Pooled Standard Error</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#practical-or-substantive-significance"><span class="nav-number">1.5.1.</span> <span class="nav-text">Practical or Substantive Significance</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#size-vs-power-trade-off"><span class="nav-number">1.6.</span> <span class="nav-text">Size vs Power trade-off</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#analyze-results"><span class="nav-number">1.6.1.</span> <span class="nav-text">Analyze Results</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#choosing-and-charaterizing-metrics"><span class="nav-number">2.</span> <span class="nav-text">Choosing and Charaterizing Metrics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#metric-definition"><span class="nav-number">2.1.</span> <span class="nav-text">Metric Definition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#refining-the-customer-funnel"><span class="nav-number">2.1.1.</span> <span class="nav-text">Refining the Customer Funnel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defining-metrics-other-techniques"><span class="nav-number">2.2.</span> <span class="nav-text">Defining Metrics: Other Techniques</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gathering-additional-data"><span class="nav-number">2.2.1.</span> <span class="nav-text">Gathering Additional Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#applying-other-techniques-on-difficult-metrics"><span class="nav-number">2.2.2.</span> <span class="nav-text">Applying Other Techniques on Difficult Metrics</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#metric-definitions-data-capture"><span class="nav-number">2.3.</span> <span class="nav-text">Metric definitions &amp; Data Capture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#filtering-and-segmenting"><span class="nav-number">2.3.1.</span> <span class="nav-text">Filtering and Segmenting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary-metrics"><span class="nav-number">2.4.</span> <span class="nav-text">Summary Metrics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sensitivity-and-robustness"><span class="nav-number">2.5.</span> <span class="nav-text">Sensitivity and Robustness</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#absolute-vs.-relative-difference"><span class="nav-number">2.6.</span> <span class="nav-text">Absolute vs. Relative difference</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#relative-differences-in-probabilities"><span class="nav-number">2.6.0.0.0.1.</span> <span class="nav-text">Relative differences in probabilities</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#variability"><span class="nav-number">2.7.</span> <span class="nav-text">Variability</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#non-parametric-methods"><span class="nav-number">2.7.1.</span> <span class="nav-text">Non-parametric methods</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#design-an-experiment"><span class="nav-number">3.</span> <span class="nav-text">Design an Experiment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#unit-of-diversion"><span class="nav-number">3.1.</span> <span class="nav-text">Unit of Diversion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#consistency-of-diversion"><span class="nav-number">3.1.1.</span> <span class="nav-text">Consistency of Diversion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unit-of-analysis-v.s.-unit-of-diversion"><span class="nav-number">3.1.2.</span> <span class="nav-text">Unit of Analysis v.s. Unit of Diversion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choose-population"><span class="nav-number">3.2.</span> <span class="nav-text">Choose Population</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#target-population"><span class="nav-number">3.2.1.</span> <span class="nav-text">Target Population</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#population-v.s.-cohort"><span class="nav-number">3.2.2.</span> <span class="nav-text">Population v.s. Cohort</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#experiment-design-and-sizing"><span class="nav-number">3.3.</span> <span class="nav-text">Experiment Design and Sizing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#duration-v.s.-exposure"><span class="nav-number">3.4.</span> <span class="nav-text">Duration v.s. Exposure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-effects"><span class="nav-number">3.5.</span> <span class="nav-text">Learning Effects</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#analyze-results-1"><span class="nav-number">4.</span> <span class="nav-text">Analyze Results</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sanity-checks"><span class="nav-number">4.1.</span> <span class="nav-text">Sanity Checks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#single-metric"><span class="nav-number">4.2.</span> <span class="nav-text">Single Metric</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#analysis-with-single-metric"><span class="nav-number">4.2.1.</span> <span class="nav-text">Analysis with Single Metric</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#single-metric-gochas"><span class="nav-number">4.2.2.</span> <span class="nav-text">Single Metric: Gochas</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiple-metrics"><span class="nav-number">4.3.</span> <span class="nav-text">Multiple Metrics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tracking-multiple-metrics"><span class="nav-number">4.3.1.</span> <span class="nav-text">Tracking Multiple Metrics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#analyzing-multiple-metrics"><span class="nav-number">4.3.2.</span> <span class="nav-text">Analyzing Multiple Metrics</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drawing-conclusion"><span class="nav-number">4.4.</span> <span class="nav-text">Drawing Conclusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gochas-changes-over-time"><span class="nav-number">4.5.</span> <span class="nav-text">Gochas: Changes Over Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary"><span class="nav-number">4.6.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#policy-and-ethics-for-experiments"><span class="nav-number">5.</span> <span class="nav-text">Policy and Ethics for Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#four-principles"><span class="nav-number">5.1.</span> <span class="nav-text">Four Principles</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#risk"><span class="nav-number">5.1.1.</span> <span class="nav-text">1. Risk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#benefits"><span class="nav-number">5.1.2.</span> <span class="nav-text">2. Benefits</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alternatives"><span class="nav-number">5.1.3.</span> <span class="nav-text">3. Alternatives</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-sensitivity"><span class="nav-number">5.1.4.</span> <span class="nav-text">4. Data Sensitivity</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

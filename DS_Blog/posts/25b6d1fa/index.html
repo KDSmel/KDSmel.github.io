@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Clustering 1. Describe the k-means algorithm. K-means clustering is a simple and elegant approach for partitioning a data set into K distinct, non-overlapping clusters. The idea behind K-means clust">
+<meta name="keywords" content="Interview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning Q&amp;A - Part IV: Clustering &amp; Bayesian">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/25b6d1fa/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Clustering 1. Describe the k-means algorithm. K-means clustering is a simple and elegant approach for partitioning a data set into K distinct, non-overlapping clusters. The idea behind K-means clust">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/25b6d1fa/1.png">
+<meta property="og:updated_time" content="2019-10-19T23:13:34.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Machine Learning Q&amp;A - Part IV: Clustering &amp; Bayesian">
+<meta name="twitter:description" content="Clustering 1. Describe the k-means algorithm. K-means clustering is a simple and elegant approach for partitioning a data set into K distinct, non-overlapping clusters. The idea behind K-means clust">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/25b6d1fa/1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/25b6d1fa/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Machine Learning Q&A - Part IV: Clustering & Bayesian | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/25b6d1fa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Machine Learning Q&A - Part IV: Clustering & Bayesian
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-17 15:22:00" itemprop="dateCreated datePublished" datetime="2019-06-17T15:22:00-05:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-10-19 18:13:34" itemprop="dateModified" datetime="2019-10-19T18:13:34-05:00">2019-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">8.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="clustering">Clustering</h2>
+<h3 id="describe-the-k-means-algorithm.">1. Describe the k-means algorithm.</h3>
+<p><strong>K-means clustering</strong> is a simple and elegant approach for partitioning a data set into K distinct, <strong><em>non-overlapping</em></strong> clusters.</p>
+<p>The idea behind <strong>K-means clustering</strong> is that a <em>good</em> clustering is one for which the <strong><em>within-cluster</em></strong> <strong><em>variation</em></strong> is as small as possible.</p>
+<p>The <strong>within-cluster variation</strong> for cluster <span class="math inline">\(C_k\)</span> is a measure <span class="math inline">\(W(C_k)\)</span> of the amount by which the observations within a cluster differ from each other.</p>
+<a id="more"></a>
+<p><strong>Define the within-cluster variation</strong>: <strong><em>Euclidean distance</em></strong>: <span class="math display">\[
+W(C_k)=\frac{1}{|C_k|}\sum_{i,i^{&#39;}\in C_k}\sum_{j=1}^p(x_{ij}-x_{i^{&#39;}j})^2
+\]</span></p>
+<ul>
+<li>where <span class="math inline">\(|C_k|\)</span> denotes the number of observations in the kth cluster.</li>
+<li>The within-cluster variation for the kth cluster is <em>the sum of all of the pairwise squared Euclidean distances between the observations in the kth cluster</em>, divided by the total number of observations in the kth cluster.</li>
+</ul>
+<p><strong>Objective funtion</strong>: <span class="math display">\[
+\min_{C_1,...,C_K}\left\{ \sum_{i=1}^K\frac{1}{|C_k|}\sum_{i,i^{&#39;}\in C_k}\sum_{j=1}^p(x_{ij}-x_{i^{&#39;}j})^2\right\}
+\]</span></p>
+<ul>
+<li>partition the observations into K clusters such that the total within-cluster variation, summed over all K clusters, is <em>as small as possible</em>.</li>
+</ul>
+<p><strong>Algorithm</strong></p>
+<p><img src="./1.png" width="600"></p>
+<p>In the algorithm above, <span class="math inline">\(k\)</span> (a parameter of the algorithm) is the number of clusters we want to find; and the cluster <strong>centroids</strong> <span class="math inline">\(\mu_j\)</span> represent our current guesses for the positions of the centers of the clusters. To initialize the cluster centroids, we could choose <span class="math inline">\(k\)</span> training examples randomly, and set the cluster centroids to be equal to the values of these k examples. (Other initialization methods are also possible.)</p>
+<p>The inner-loop of the algorithm repeatedly carries out two steps:</p>
+<ul>
+<li>“Assigning” each training example <span class="math inline">\(x^{(i)}\)</span> to the closest cluster centroid <span class="math inline">\(\mu_j\)</span>, and</li>
+<li>Moving each cluster centroid <span class="math inline">\(\mu_j\)</span> to the mean of the points assigned to it.</li>
+</ul>
+<p><strong>Local optimum</strong> : This means that as the algorithmis run, the clustering obtained will continually improve until the result no longer changes; the objective will never increase.</p>
+<ul>
+<li>It is important to run the algorithm multiple times from different random initial configurations, because the results obtained will depend on the initial (random) cluster assignmentof each observation in Step 1 of Algorithm 10.1</li>
+</ul>
+<h3 id="what-is-distortion-function-is-it-convex-or-non-convex">2. What is distortion function? Is it convex or non-convex?</h3>
+<p><strong>Distortion function</strong>: <span class="math display">\[
+J(c,\mu)=\sum_{i=1}^n ||x^{(i)}-\mu_{c^{(i)}}||^2
+\]</span> <span class="math inline">\(J\)</span> measures the sum of squared distances between each training example <span class="math inline">\(x^{(i)}\)</span> and the cluster centroid <span class="math inline">\(\mu_{c^{(i)}}\)</span> to which it has been assigned.</p>
+<ul>
+<li>k-means is exactly <em>coordinate descent</em> 坐标下降 on <span class="math inline">\(J\)</span>. Specifically, the inner-loop of k-means repeatedly minimizes <span class="math inline">\(J\)</span> with respect to <span class="math inline">\(c\)</span> while holding <span class="math inline">\(\mu\)</span> fixed, and then minimizes <span class="math inline">\(J\)</span> with respect to <span class="math inline">\(\mu\)</span> while holding <span class="math inline">\(c\)</span> fixed. Thus,<span class="math inline">\(J\)</span> must monotonically decrease, and the value of <span class="math inline">\(J\)</span> must converge.</li>
+</ul>
+<p>The distortion function <span class="math inline">\(J\)</span> is a <strong><em>non-convex</em></strong> function, and so coordinate descent on <span class="math inline">\(J\)</span> is not guaranteed to converge to the global minimum.</p>
+<h3 id="describe-the-em-algorithm-intuitively.">3. Describe the EM algorithm intuitively.</h3>
+<ol start="4" type="1">
+<li>What is the Gaussian Mixture Model?</li>
+<li>What are the two steps of the EM algorithm</li>
+<li>Compare GMM vs GDA.</li>
+</ol>
+<h2 id="bayesian-machine-learning">Bayesian Machine Learning</h2>
+<h3 id="what-are-the-differences-between-bayesian-and-freqentist-approach-for-machine-learning">1. What are the differences between “Bayesian” and “Freqentist” approach for Machine Learning?</h3>
+<p>The <strong>Bayesian</strong> approach differs from the standard (&quot;<strong>frequentist</strong>&quot;) method for inference in its use of a <em>prior distribution</em> to express the uncertainty present before seeing the data, and to allow the uncertainty remaining after seeing the data to be expressed in the form of a <em>posterior distribution</em>.</p>
+<p>Given a specific set of data, the <strong>frequentist</strong> believes that there is a true, underlying distribution from which said data was generated. The inability to get the exact parameters is a function of finite sample size. The <strong>Bayesian</strong>, on the other hand, think that we start with some assumption about the parameters (even if unknowingly) and use the data to refine our opinion about those parameters.</p>
+<ul>
+<li><p>The <strong>Bayesian</strong> probability measures a &quot;degree of belief&quot;. It pretty much matches our every-day intuitive understanding of probability,</p></li>
+<li><p>The <strong>frequentists</strong> interpretation needs some explanation. Frequentists can assign probabilities only to events/obervations that come from repeatable experiments. With &quot;<em>probability of an event</em>&quot; they mean the relative frequency of the event occuring in an infinitively long series of repetitions. For instance, when a frequentists says that the probability for &quot;heads&quot; in a coin toss is 0.5 (50%) he means that in infinititively many such coin tosses, 50% of the coins will show &quot;head&quot;.</p></li>
+</ul>
+<p><strong>Frequentist:</strong> best suited to falsify a hypothesis <strong>Bayesian:</strong> best suited to (re)allocate the credibility of a statement</p>
+<h4 id="downsides-of-frequentists">Downsides of Frequentists</h4>
+<ul>
+<li><p>Frequentists approach relies on data more than Bayesian as we totally ignore our knowledge or logical thinking which have been introduced in a form of prior probability.</p></li>
+<li><p>P-value does not provide the probability of your hypothesis to be collect. It only avoids the most extreme value that seems to be rare. It sometimes make the situation difficult as you may find it challenging to explain the actual meaning of value. Whereas, the posterior probability describes in percentage how likely your hypothesis is correct based on our prior knowledge.</p></li>
+</ul>
+<h4 id="downsides-of-bayesians">Downsides of Bayesians</h4>
+<ul>
+<li>Bayesian Statistic requires more mathematical knowledge since the formula requires us to deduce two probability distributions.</li>
+<li>What if your prior has become meaningless as the logic we have is no longer valid? (Some articles suggest that the prior at early stage can be any number as it can be updated as more information comes in)</li>
+</ul>
+<h3 id="when-will-you-use-bayesian-methods-instead-of-frequentist-methods">2. When will you use Bayesian methods instead of Frequentist methods?</h3>
+<p>Small dataset, large feature set</p>
+<h3 id="compare-maximum-likelihood-and-maximum-a-posteriori-estimation.">3. Compare maximum likelihood and maximum a posteriori estimation.</h3>
+<p><strong><em>MLE</em></strong>:</p>
+<p>Likelihood function: <span class="math inline">\(P(X|\theta)\)</span></p>
+<p>MLE for θ, the parameter we want to infer: <span class="math display">\[
+\begin{align}
+\theta_{MLE}&amp;=\arg \max_\theta P(X|\theta) \\
+&amp;=\arg \max_\theta \prod_i P(x_i|\theta)
+\end{align}
+\]</span> As taking a product of some numbers less than 1 would approaching 0 as the number of those numbers goes to infinity, it would be not practical to compute, because of computation underflow. Hence, we will instead work in the log space, as logarithm is monotonically increasing, so maximizing a function is equal to maximizing the log of that function. <span class="math display">\[
+\begin{align}
+\theta_{MLE}&amp;=\arg \max_\theta \log P(X|\theta) \\
+&amp;=\arg \max_\theta \log \prod_i P(x_i|\theta) \\
+&amp;=\arg \max_\theta \sum_i \log  P(x_i|\theta)
+\end{align}
+\]</span> To use this framework, we just need to derive the log likelihood of our model, then maximizing it with regard of θθ using our favorite optimization algorithm like Gradient Descent.</p>
+<p><strong><em>MAP</em></strong>:</p>
+<p>MAP usually comes up in Bayesian setting. Because, as the name suggests, it works on a posterior distribution, not only the likelihood.</p>
+<p>Bayes’ rule: <span class="math display">\[
+P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)} \\
+\propto P(X|\theta)P(\theta)
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\theta_{MAP}&amp;=\arg \max_\theta P(X|\theta) P(\theta) \\
+&amp;=\arg \max_\theta \log P(X|\theta) P(\theta) \\
+&amp;=\arg \max_\theta \log \prod_i P(x_i|\theta) P(\theta)\\
+&amp;=\arg \max_\theta \sum_i \log  P(x_i|\theta)P(\theta) 
+\end{align}
+\]</span></p>
+<p>Comparing both MLE and MAP equation, the only thing differs is the <strong>inclusion of prior P(θ)</strong> in MAP. What it means is that, <strong>the likelihood is now weighted with some weight coming from the prior</strong>.</p>
+<p>Let’s consider what if we use the simplest prior in our MAP estimation, i.e. <strong><em>uniform prior.</em></strong> This means, we assign equal weights everywhere, on all possible values of the θ. For example ,our prior P(θ) is <span class="math inline">\(\frac{1}{6}\)</span> <span class="math display">\[
+\begin{align}
+\theta_{MAP} &amp;=\arg \max_\theta \sum_i \log  P(x_i|\theta)P(\theta) \\
+&amp;= \arg \max_\theta \sum_i \log  P(x_i|\theta) const \\
+&amp;= \arg \max_\theta \sum_i \log  P(x_i|\theta) \\
+&amp;= \theta_{MLE}
+\end{align}
+\]</span></p>
+<p><strong>Ref</strong>:</p>
+<p><a href="https://github.com/Sroy20/machine-learning-interview-questions" target="_blank" rel="noopener">machine-learning-interview-questions</a></p>
+<p><a href="%5Bhttp://cs229.stanford.edu/notes-spring2019/cs229-notes7a.pdf%5D(http://cs229.stanford.edu/notes-spring2019/cs229-notes7a.pdf)">CS229 Lecture notes: Unsupervised Learning, k-means clustering</a></p>
+<p><a href="%5Bhttp://cs229.stanford.edu/notes-spring2019/cs229-notes7b.pdf%5D(http://cs229.stanford.edu/notes-spring2019/cs229-notes7b.pdf)">CS229 Lecture notes: Mixtures of Gaussians and the EM algorithm</a></p>
+<p><a href="https://medium.com/@yongddeng/a-meaningless-debate-frequentists-vs-bayesians-7317317b458f" target="_blank" rel="noopener">A Meaningless Debate: Frequentists vs Bayesians</a></p>
+<p><a href="https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading20.pdf" target="_blank" rel="noopener">Comparison of frequentist and Bayesian inference</a></p>
+<p><a href="https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/" target="_blank" rel="noopener">MLE vs MAP: the connection between Maximum Likelihood and Maximum A Posteriori Estimation</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Interview/" rel="tag"># Interview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/c8f688ba/" rel="next" title="Machine Learning Q&A Part III: SVM">
+                <i class="fa fa-chevron-left"></i> Machine Learning Q&A Part III: SVM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/c7bd9d66/" rel="prev" title="Deep Learning Q&A Part I: UAT, Motivation">
+                Deep Learning Q&A Part I: UAT, Motivation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#clustering"><span class="nav-number">1.</span> <span class="nav-text">Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#describe-the-k-means-algorithm."><span class="nav-number">1.1.</span> <span class="nav-text">1. Describe the k-means algorithm.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-distortion-function-is-it-convex-or-non-convex"><span class="nav-number">1.2.</span> <span class="nav-text">2. What is distortion function? Is it convex or non-convex?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#describe-the-em-algorithm-intuitively."><span class="nav-number">1.3.</span> <span class="nav-text">3. Describe the EM algorithm intuitively.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bayesian-machine-learning"><span class="nav-number">2.</span> <span class="nav-text">Bayesian Machine Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-are-the-differences-between-bayesian-and-freqentist-approach-for-machine-learning"><span class="nav-number">2.1.</span> <span class="nav-text">1. What are the differences between “Bayesian” and “Freqentist” approach for Machine Learning?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#downsides-of-frequentists"><span class="nav-number">2.1.1.</span> <span class="nav-text">Downsides of Frequentists</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#downsides-of-bayesians"><span class="nav-number">2.1.2.</span> <span class="nav-text">Downsides of Bayesians</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#when-will-you-use-bayesian-methods-instead-of-frequentist-methods"><span class="nav-number">2.2.</span> <span class="nav-text">2. When will you use Bayesian methods instead of Frequentist methods?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compare-maximum-likelihood-and-maximum-a-posteriori-estimation."><span class="nav-number">2.3.</span> <span class="nav-text">3. Compare maximum likelihood and maximum a posteriori estimation.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

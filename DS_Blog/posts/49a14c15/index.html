@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Scaling DFS Big data storage:  Scale up (vertical scaling): get yourself a bigger hard drive Lower latency Scale out (horizo">
+<meta name="keywords" content="HDFS,Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DFS, HDFS, Architecture, Scaling problem">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/49a14c15/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Scaling DFS Big data storage:  Scale up (vertical scaling): get yourself a bigger hard drive Lower latency Scale out (horizo">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_11.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_12.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_13.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_14.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_15.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_16.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_17.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_18.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_19.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_20.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_21.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_22.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_23.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_24.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_25.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_26.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_28.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_29.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_30.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_30.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_31.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_32.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_33.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_34.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_35.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_36.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_37.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_38.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_39.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week40.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_41.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week41.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week42.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/49a14c15/week43.png">
+<meta property="og:updated_time" content="2019-06-28T21:31:20.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DFS, HDFS, Architecture, Scaling problem">
+<meta name="twitter:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  Scaling DFS Big data storage:  Scale up (vertical scaling): get yourself a bigger hard drive Lower latency Scale out (horizo">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/49a14c15/week_1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/49a14c15/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>DFS, HDFS, Architecture, Scaling problem | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/49a14c15/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DFS, HDFS, Architecture, Scaling problem
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-27 18:04:59" itemprop="dateCreated datePublished" datetime="2019-06-27T18:04:59-05:00">2019-06-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-28 16:31:20" itemprop="dateModified" datetime="2019-06-28T16:31:20-05:00">2019-06-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">17k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">15 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>This is course note of <a href="https://www.coursera.org/learn/big-data-essentials" target="_blank" rel="noopener">Big Data Essentials: HDFS, MapReduce and Spark RDD</a></p>
+</blockquote>
+<h1 id="scaling-dfs">Scaling DFS</h1>
+<h2 id="big-data-storage">Big data storage:</h2>
+<ul>
+<li>Scale up (vertical scaling): get yourself a bigger hard drive</li>
+<li>Lower latency</li>
+<li>Scale out (horizontal scaling)</li>
+<li>Higher latency</li>
+<li>Problem: one node get out of service 3 years averagely</li>
+</ul>
+<p>-&gt; Distributed file system</p>
+<a id="more"></a>
+<p><img src="./week_1.png" width="600"></p>
+<h2 id="google-file-system">Google File System:</h2>
+<p><strong>Keys:</strong> - components failures are a norm (→ replication) - even space utilisation: all files splited into blocks of fixed size, about 100mb - write-once-read-many: it's not allowed to modify in the middle, as it drastically simplifies API and internal implementation of a distributed file system.</p>
+<p><strong>Replication:</strong> <img src="./week_2.png" width="600"> &gt; S.txt and B.txt. They are both split into equal sized blocks, and then distributed over a different machine, with replications. Storage machines are called <em>channel servers</em>, or <em>data nodes</em>.</p>
+<p><strong>Metadata:</strong> include administrative information about creation time, access properties...</p>
+<p><strong>Master node:</strong> stores all metadata in memory; enable to request metadata with minimal latency</p>
+<h2 id="hadoop-distributed-file-system">Hadoop Distributed File System</h2>
+<blockquote>
+<p>an open source implementation of Google File System</p>
+</blockquote>
+<p><strong>Server roles</strong>: 1. Namenode: master node 2. Datanode</p>
+<p><img src="./week_3.png" width="500"></p>
+<p>HDFS client provides command line interface to communicate with that distributed file system -&gt;no need to write any code to access data.</p>
+<h3 id="how-to-read-files-from-hdfs">How to read files from HDFS?</h3>
+<p><img src="./week_4.png" width="600"></p>
+<ol type="1">
+<li><p>Request name node to get information about file blocks' locations. &gt;These blocks are distributed over different machines, but all of this complexity is hidden behind HDFS API.</p></li>
+<li><p>User only sees a continuous stream of data. &gt;If at some point a datanode you retrieve data from died you get this data from another replica without bothering users about it.</p></li>
+<li><p>You will get data from the closest machine.</p></li>
+</ol>
+<h4 id="closeness">Closeness</h4>
+<blockquote>
+<p>data center topology; it depends on the physical distance and unpredictable system load such as metric overutilization</p>
+</blockquote>
+<p><img src="./week_5.png" width="600"></p>
+<ul>
+<li>d=0: request data from HDFS, and this data is available on the same machine, then you can use data locality to read data directly from hard drive without any extra RPC codes.</li>
+<li>d=2: a datanode is located in the same rack</li>
+<li>d=4: read data from another rack</li>
+<li>d=6: the data is allocated in another data center</li>
+</ul>
+<h3 id="how-to-write-files-into-hdfs">How to write files into HDFS?</h3>
+<h4 id="redundancy-model">Redundancy model:</h4>
+<blockquote>
+<p>When you write a block of data into HDFS, Hadoop distributes replicas over the storage.</p>
+</blockquote>
+<p><strong>first replica</strong>: located on the same node if write data from a DataNode machin; otw, the first DataNode to put replica is chosen by random.</p>
+<p><strong>second replica</strong>: placed in a different rack. If this racks goes down (power supply problems), you will access data from another rack.</p>
+<p><strong>third replica</strong>: located on a different machine in the same rack as the second replica. You don't pay for extra between rack network utilization as the third replica is copied from the second data node.</p>
+<p><strong>further replicas</strong>: applies on the random nodes in the cluster</p>
+<p><img src="./week_6.png" width="400"></p>
+<h4 id="data-flow-of-writing-data">Data flow of writing data</h4>
+<p><img src="./week_7.png" width="500"></p>
+<ol type="1">
+<li><p>HDFS client request and name node via RPC protocol. &gt; The name node validates if you have rights to create a file and there are no naming conflicts.</p></li>
+<li><p>HDFS client requests a list of datanodes to put a fraction of blocks of the file. &gt; These datanodes form a pipeline as your first client sends packets of data to the closest datanode. The later one transfers copies of packets through a datanode pipeline. As soon as packet is on all of the datanodes, datanodes send acknowledgment packets back.</p></li>
+</ol>
+<p><strong>If something goes wrong</strong> - then if the client closes the datanode pipeline, marks the misbehaving datanode bad and requests a replacement for the bad datanodes from a name node. So a new data node pipeline will be organized, and the process of writing the file to HDFS will continue.</p>
+<h4 id="what-happens-with-failure-blocks">What happens with failure blocks?</h4>
+<p><img src="./week_8.png" width="600"> Datanode serves a state machine for each block. Whenever a datanode recovers from its own failure, or failures of other datanodes in a pipeline, you can be sure that all the necessary replicas will be recovered. And unnecessary ones will be removed.</p>
+<h1 id="block-and-replica-states">Block and Replica States</h1>
+<p><strong>Replica</strong> : a physical data storage on a data node.There are usually several replicas with the same content on different data nodes.</p>
+<p><strong>Block</strong>: a meta-information storage on a name node and provides information about replica's locations and their states.</p>
+<p>Both replica and block have their own states. <img src="./week_9.png" width="400"></p>
+<p><strong>Data node replica's states</strong>: Finalized, Replica Being Written to, Replica Under Recovery, Replica Waiting to be Recovered, Temporary</p>
+<p><strong>Name node replica's states</strong>:</p>
+<p><strong>Difference of Datanode &amp; Namenode</strong>: a block state is stored in memory, it doesn't persist on any disk.</p>
+<h2 id="datanode-state-finalized">Datanode State: Finalized</h2>
+<p><img src="./week_11.png" width="450"></p>
+<p><strong>Finalized state</strong>: the content of this replica is frozen - Meaning: meta-information for this block on name node is aligned with all the corresponding replica's states and data.</p>
+<ul>
+<li><p><strong>Read consistency</strong>: you can safely read data from any data node and you will get exactly the same content.</p></li>
+<li><strong>Generation Stamp(GS)</strong>: Each block of data has a version number called Generation Stamp. All of finalized replicas have the same GS number which can only increase over time. <img src="./week_10.png" width="600"></li>
+<li><p>It happens during error <em>recovery process</em> or during <em>data appending to a block</em>.</p></li>
+</ul>
+<h2 id="datanode-state-replica-being-written">Datanode State: Replica Being Written</h2>
+<p><img src="./week_12.png" width="450"></p>
+<p><strong>RBW</strong>:the state of the last block of an open file or a file which was reopened for appending.</p>
+<ul>
+<li>Different data nodes can return to use a different set of bytes. In short, bytes that are acknowledged by the downstream data nodes in a pipeline are visible for a reader of this replica.</li>
+<li>Data node on disk data and name node meta-information may not match during this state.</li>
+<li><strong>Data Durability</strong>: In case of any failure data node will try to preserve as many bytes as possible.</li>
+</ul>
+<h2 id="datanode-state-replica-waiting-to-be-recovered">Datanode State: Replica Waiting to be Recovered</h2>
+<p><img src="./week_13.png" width="450"></p>
+<p><strong>RWR</strong>: a state of all Being Written replicas after data node failure and recovery after a system reboot or after Pacer.sys or BSOD,</p>
+<ul>
+<li>RWR replicas will not be in any data node pipeline and therefore will not receive any new data packets.</li>
+<li>RWR either become <strong><em>outdated and should be discarded</em></strong>, or they will participate in a special recovery process called a <strong><em>lease recovery</em></strong> if the client also dies.</li>
+</ul>
+<p>HDFS client requests a <em>lease</em> from a name node to have an exclusive access to write or append data to a file. In case of HDFS client lease expiration, replica transition to a RUR state.</p>
+<h2 id="datanode-state-replica-under-recovery">Datanode State: Replica Under Recovery</h2>
+<p><img src="./week_14.png" width="450"></p>
+<p><strong>RUR</strong> (Replica Under Recovery): HDFS client requests a <strong><em>lease</em></strong> from a name node to have an exclusive access to write or append data to a file. In case of HDFS client <strong><em>lease expiration</em></strong>(usually happens during the client's site failure), replica transition to a RUR state.</p>
+<h2 id="datanode-state-temporary">Datanode State: Temporary</h2>
+<p><img src="./week_15.png" width="450"></p>
+<p><strong>Temporary</strong>: As data grows and different nodes are added or removed from a cluster, data can become unevenly distributed over the cluster nodes. A Hadoop administrator can spawn a process of data re-balancing or a data engineer can request increasing of the replication factor of data for the sake of durability. In these cases new generated replicas will be in a state called temporary.</p>
+<ul>
+<li>Similar to RBW except the fact that this data is not visible to user unless finalized.</li>
+<li>In case of failure, the whole chunk of data is removed without any intermediate recovery state.</li>
+</ul>
+<h2 id="namenode-state-under-construction">Namenode State: Under Construction</h2>
+<p><img src="./week_16.png" width="450"></p>
+<p><strong>Under Construction</strong>: opens a file for writing, name node creates the corresponding block with the <em>under_construction</em> state; opens a file for append name node also transition this block to the state <em>under_construction</em>.</p>
+<ul>
+<li>always the last block of a file</li>
+<li>it's length and generation stamp are mutable</li>
+</ul>
+<h2 id="namenode-state-under-recovery">Namenode State: Under Recovery</h2>
+<p><img src="./week_17.png" width="450"></p>
+<p>Name node block keeps track of write pipeline. It means that it contains information about all RBW and RWR replicas. Replicas transitions from RWR to recovery RUR state when the client dies. Even more generally it happens when a client's lease expires. Consequently, the corresponding block transitions from under_construction to under_recovery state. <img src="./week_18.png" width="450"></p>
+<h2 id="namenode-state-committed">Namenode State: Committed</h2>
+<p><img src="./week_19.png" width="450"> The under_construction block transitions to a committed state when a client successfully requests name node to close a file or to create a new consecutive block of data.</p>
+<p>The committed state means that there are already some finalized replicas but not all of them. For this reason in order to serve a read request, the committed block needs to keep track of RBW replicas, until all the replicas are transitioned to the finalized state and HDFS client will be able to close the file.</p>
+<h2 id="namenode-state-final-complete">Namenode State: Final Complete</h2>
+<p><img src="./week_20.png" width="500"></p>
+<p><strong>Final complete state</strong> of a block: a state where all the replicas are in the finalized state and therefore they have identical visible length and generation stamps.</p>
+<ul>
+<li>Only when all the blocks of a file are complete the file can be closed.</li>
+</ul>
+<h2 id="namenode-state-open-file">Namenode State: Open File</h2>
+<p><strong>Open File state</strong>: In case of name node restart, it has to restore the open file state. All the blocks of the un-closed file are loaded as complete except the last block which is loaded as under_construction.</p>
+<p>Then recovery procedures will start to work.</p>
+<p><strong>Recovery</strong>: replica recovery, block recovery, lease recovery, and pipeline recovery.</p>
+<h1 id="recovery-process">Recovery Process</h1>
+<h2 id="block-recovery">Block Recovery</h2>
+<p><strong>Goal</strong>: NameNode has to ensure that all of the corresponding replicas of a block will transition to a common state logically and physically.</p>
+<p><strong>physically</strong>: all the correspondent replicas should have the same on disk content.</p>
+<p>To accomplish it,</p>
+<ol type="1">
+<li><p><strong>primary datanode(PD)</strong>: NameNode chooses a primary datanode called PD in a design document. PD should contain a replica for the target block. <img src="./week_21.png" width="600"></p></li>
+<li><p>PD request from a NameNode, a new generation stamp, information and location of other replicas for recovery process.</p></li>
+</ol>
+<p><img src="./week_22.png" width="600"></p>
+<ol start="3" type="1">
+<li>PD connects each relevant DataNodes to participate in the <strong>replica recovery process</strong>.During this phase, all the necessary information or data is propagated through the pipeline.</li>
+</ol>
+<p><strong>Replica recover process</strong> includes: - Aborting active clients right into a replica. - Aborting the previous replica of block recovery process, and participating in final replica size agreement process. <img src="./week_23.png" width="600"></p>
+<ol start="4" type="1">
+<li>As the last step, PD notifies NameNode about the result, success or failure. In case of failure, NameNode could retry block recovery process. <img src="./week_24.png" width="600"></li>
+</ol>
+<h2 id="lease-recovery">Lease Recovery</h2>
+<blockquote>
+<p>Block recovery process could happen only as a part of the lease recovery process.</p>
+</blockquote>
+<p>Lease manager manages all the leases at the NameNode. HDFS clients request at least every time they would like to write, or append to a file. <img src="./week_25.png" width="600"></p>
+<h3 id="conditions-of-starting-lease-recovery-process">Conditions of starting lease recovery process</h3>
+<p>Lease manager maintains a soft and a hard limit. If a current lease holder doesn't renew his lease during the soft limit timeout, then another client will be able to take over this lease. In this case and in the case of reaching a hard limit, the process of lease recovery will begin. <img src="./week_26.png" width="600"> <img src="./week_28.png" width="600"></p>
+<p><strong>Necessity:</strong> to close open files for the sake of the client.</p>
+<p><strong>Gurantees to be reached</strong>:</p>
+<ul>
+<li><p><strong>concurrency control</strong>: Even if a client is still alive, it won't be able to write data to a file</p></li>
+<li><p><strong>consistency guarantee</strong>: All replicas should draw back to a consistence state to have the same on-disk data and generation stamp.</p></li>
+</ul>
+<p><img src="./week_29.png" width="600"></p>
+<h3 id="lease-recovery-process">Lease recovery process</h3>
+<p><img src="./week_30.png" width="600"></p>
+<ol type="1">
+<li>Lease recovery starts with a <strong>lease renew</strong>.</li>
+</ol>
+<p>New files lease holder should have the ability to take ownership of any other user's lease. The name of the super user is DFS. Therefore, all the other client request such as get new generation stamp, get new block, close file from other clients to this pass will be rejected.</p>
+<ol start="2" type="1">
+<li><p>NameNode gets the lease of DataNodes which contains the last block of a file, and sends a primary DataNode and starts a block recovery process. <img src="./week_30.png" width="600"></p></li>
+<li><p>As soon as block recovery process finishes, the NameNode is notified by PD about the outcome. Updates blocking for, and removes the lease for a file.</p></li>
+</ol>
+<p><img src="./week_31.png" width="600"></p>
+<h2 id="pipeline-recovery">Pipeline Recovery</h2>
+<h3 id="pipeline">Pipeline</h3>
+<p>When you write to an HDFS file, HDFS client writes data block by block. Each block is constructed through a <strong>write pipeline</strong>, as the first client breaks down block into pieces called <strong>packets</strong>. These packets are propagated to the DataNodes through the pipeline.</p>
+<blockquote>
+<p>Three stages: Pipeline setup, data streaming, and close</p>
+</blockquote>
+<ul>
+<li>bold lines: data packets</li>
+<li>doted lines: acknowledge messages</li>
+<li>regular lines: control messages.</li>
+</ul>
+<p><img src="./week_32.png" width="600"></p>
+<h4 id="setup">Setup</h4>
+<p>a clients sends a setup message down to the pipeline. Each DataNode opens a replica for writing and sends ack message back upstream with the pipeline. <img src="./week_33.png" width="600"></p>
+<h4 id="data-streaming">Data streaming</h4>
+<p>Data streaming stage is defined by time range from t1 to t2, where t1 is the time when a client to receives the acknowledgement message for the top stage. And t2 is the time when the client receives the acknowledgement message for all the block packets. <img src="./week_34.png" width="600"></p>
+<ul>
+<li><p>data is buffered on the client site to form a packet, then propagated through the DataNode pipeline.</p></li>
+<li><p>Next packet can be sent even before the acknowledgment of the previous packet is received.</p></li>
+</ul>
+<p><strong>flush</strong>: synchronous packets and used as synchronization points for the DataNode right.</p>
+<p><img src="./week_35.png" width="600"></p>
+<h4 id="close">Close</h4>
+<p>Finalize replicas and shut down the pipeline.</p>
+<p><img src="./week_36.png" width="600"></p>
+<ul>
+<li>All of the DataNodes in the pipeline change the replica state to the finalized.</li>
+<li>Report the state to a NameNode and send the acknowledgement message upstream.</li>
+</ul>
+<h3 id="pipeline-recovery-process">Pipeline recovery process</h3>
+<p>Pipeline recovery can be initiated during each of these stages.</p>
+<h4 id="setup-failure">Setup failure</h4>
+<p>A failure happens during writing to a new file, abandon DataNode pipeline and request a new one from scratch <img src="./week_37.png" width="600"></p>
+<p>In this case, some packets can be resent but they will not be extra disk IO overhead for DataNodes that already saved this packet on disk. Once the client detects a failure during close stage, it rebuilds a pipeline with good DataNodes. Bumps generation stamp and requests to finalize replicas.</p>
+<h4 id="data-streaming-failure">Data streaming failure</h4>
+<p>If DataNode is not able to continue process packets appropriately,then it allots the DataNode pipeline about it, by closing all the connections.</p>
+<p>When HDFS client detects a fire, it stops sending new packets to the existing pipeline, request a new generation stamp from a NameNode, and rebuilds a pipeline from good DataNodes. &gt; In this case, some packets can be resent but there will not be extra disk IO overhead for DataNodes that already saved this packet on disk.</p>
+<p>All DataNodes keep track of bytes received, bytes written to a disk and bytes acknowledged. <img src="./week_38.png" width="600"></p>
+<h4 id="close-failure">Close failure</h4>
+<p>Once the client detects a failure during close stage, it rebuilds a pipeline with good DataNodes. Bumps generation stamp and requests to finalize replicas. <img src="./week_39.png" width="600"></p>
+<h1 id="hdfs-client">HDFS Client</h1>
+<h1 id="namenode-architecture">Namenode Architecture</h1>
+<p><strong>NameNode</strong>: a service responsible for keeping hierarchy of folders and files.</p>
+<ul>
+<li>NameNode stores all of this data in memory.</li>
+</ul>
+<p><img src="./week40.png" width="600"></p>
+<h2 id="capacity">Capacity</h2>
+<p>For example: 10 petabytes of data.</p>
+<p><strong>Capacity for data nodes:</strong> - In HDFS, all data is usually stored with replication factor three. &gt; So, you can request to buy approximately 15,000 of two terabyte hard drives.</p>
+<ul>
+<li>On average, 15 hard drives will die every day. &gt;So, you should request at least 1000 extra hard drives for several months of research.</li>
+</ul>
+<p><strong>Capacity for meta information in memory:</strong></p>
+<ul>
+<li><p><strong>Small files problem:</strong> Storing lot of small files which are extremely smaller than the block size cannot be efficiently handled by HDFS. Reading through small files involve lots of seeks and lots of hopping between data node to data node, which is inturn inefficient data processing.</p></li>
+<li><p><strong>128 megabyte</strong> of data was once chosen as a default block size.</p></li>
+</ul>
+<blockquote>
+<p>WHY? It is one choice to have less than one percent overhead for reading the random block of data from a hard drive, and keeping block size small at the same time.</p>
+</blockquote>
+<p><img src="./week_41.png" width="600"></p>
+<p>10 petabytes data will consume at least 35 gigabyte of RAM on the NameNode.</p>
+<h2 id="failure">Failure</h2>
+<p><strong>NameNode server is a single point of failure.</strong> &gt; In case this service goes down, the whole HDFS storage becomes unavailable, even for read-only operations.</p>
+<p>Technical tricks to make NameNode decisions durable and to speed up NameNode recovery process: - write-ahead log (WAL): strategy to persist matter information modifications. This log is called the edit log. It can be replicated to different hard drives. It is also usually replicated to an NFS storage.</p>
+<ul>
+<li><p>NFS storage:you will be able to tolerate full NameNode crash</p></li>
+<li><p><strong>fsimage</strong>: have a snapshot of memory at some point in time from which you can replay transaction stored in the edit log.</p></li>
+</ul>
+<p><img src="./week41.png" width="600"></p>
+<p><strong>secondary NameNode</strong></p>
+<blockquote>
+<p>tackle the problem that edit log grows fast, replay of one week of transactions from edit log will take several hours to boot a NameNode</p>
+</blockquote>
+<p>Secondary NameNode, or better to say, checkpoint NameNodes, compacts the edit log by creating a new fsimage.</p>
+<p>New fsimage is made of all the fsimage by applying all stored transactions in edit log.</p>
+<ul>
+<li>secondary NameNode consumes the same amount of RAM to build a new fsimage.</li>
+<li>secondary NameNode was considered a badly named service.</li>
+<li>secondary NameNode <span class="math inline">\(\neq\)</span> backup NameNode</li>
+</ul>
+<p><img src="./week42.png" width="600"></p>
+<h2 id="evaluate">Evaluate</h2>
+<p>Evaluate how long it takes to read 10 petabytes of data from a hard drive with similar reading speed:</p>
+<p><img src="./week43.png" width="600"></p>
+<p>The amount of drives in your cluster has a linear relation to the speed of data processing</p>
+<h2 id="summary">Summary</h2>
+<ol type="1">
+<li>explain and reason about HDFS Namenode architecture: (RAM; fsimage + edit log; block size)</li>
+<li>estimate required resources for a Hadoop cluster</li>
+<li>explain what small files problem is and where a bottleneck is</li>
+<li>list differences between different types of Namenodes (Secondary / Checkpoint / Backup</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/HDFS/" rel="tag"># HDFS</a>
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/b89c7c35/" rel="next" title="Machine Learning Q&A: Basic">
+                <i class="fa fa-chevron-left"></i> Machine Learning Q&A: Basic
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/4fe20312/" rel="prev" title="Apache Spark: Basic Concepts">
+                Apache Spark: Basic Concepts <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#scaling-dfs"><span class="nav-number">1.</span> <span class="nav-text">Scaling DFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#big-data-storage"><span class="nav-number">1.1.</span> <span class="nav-text">Big data storage:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#google-file-system"><span class="nav-number">1.2.</span> <span class="nav-text">Google File System:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hadoop-distributed-file-system"><span class="nav-number">1.3.</span> <span class="nav-text">Hadoop Distributed File System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#how-to-read-files-from-hdfs"><span class="nav-number">1.3.1.</span> <span class="nav-text">How to read files from HDFS?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#closeness"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Closeness</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how-to-write-files-into-hdfs"><span class="nav-number">1.3.2.</span> <span class="nav-text">How to write files into HDFS?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#redundancy-model"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Redundancy model:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data-flow-of-writing-data"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Data flow of writing data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#what-happens-with-failure-blocks"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">What happens with failure blocks?</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block-and-replica-states"><span class="nav-number">2.</span> <span class="nav-text">Block and Replica States</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#datanode-state-finalized"><span class="nav-number">2.1.</span> <span class="nav-text">Datanode State: Finalized</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datanode-state-replica-being-written"><span class="nav-number">2.2.</span> <span class="nav-text">Datanode State: Replica Being Written</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datanode-state-replica-waiting-to-be-recovered"><span class="nav-number">2.3.</span> <span class="nav-text">Datanode State: Replica Waiting to be Recovered</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datanode-state-replica-under-recovery"><span class="nav-number">2.4.</span> <span class="nav-text">Datanode State: Replica Under Recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datanode-state-temporary"><span class="nav-number">2.5.</span> <span class="nav-text">Datanode State: Temporary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#namenode-state-under-construction"><span class="nav-number">2.6.</span> <span class="nav-text">Namenode State: Under Construction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#namenode-state-under-recovery"><span class="nav-number">2.7.</span> <span class="nav-text">Namenode State: Under Recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#namenode-state-committed"><span class="nav-number">2.8.</span> <span class="nav-text">Namenode State: Committed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#namenode-state-final-complete"><span class="nav-number">2.9.</span> <span class="nav-text">Namenode State: Final Complete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#namenode-state-open-file"><span class="nav-number">2.10.</span> <span class="nav-text">Namenode State: Open File</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#recovery-process"><span class="nav-number">3.</span> <span class="nav-text">Recovery Process</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block-recovery"><span class="nav-number">3.1.</span> <span class="nav-text">Block Recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lease-recovery"><span class="nav-number">3.2.</span> <span class="nav-text">Lease Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#conditions-of-starting-lease-recovery-process"><span class="nav-number">3.2.1.</span> <span class="nav-text">Conditions of starting lease recovery process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lease-recovery-process"><span class="nav-number">3.2.2.</span> <span class="nav-text">Lease recovery process</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipeline-recovery"><span class="nav-number">3.3.</span> <span class="nav-text">Pipeline Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline"><span class="nav-number">3.3.1.</span> <span class="nav-text">Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setup"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">Setup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data-streaming"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">Data streaming</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#close"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">Close</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline-recovery-process"><span class="nav-number">3.3.2.</span> <span class="nav-text">Pipeline recovery process</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setup-failure"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">Setup failure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data-streaming-failure"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">Data streaming failure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#close-failure"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">Close failure</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hdfs-client"><span class="nav-number">4.</span> <span class="nav-text">HDFS Client</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#namenode-architecture"><span class="nav-number">5.</span> <span class="nav-text">Namenode Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#capacity"><span class="nav-number">5.1.</span> <span class="nav-text">Capacity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#failure"><span class="nav-number">5.2.</span> <span class="nav-text">Failure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#evaluate"><span class="nav-number">5.3.</span> <span class="nav-text">Evaluate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary"><span class="nav-number">5.4.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
