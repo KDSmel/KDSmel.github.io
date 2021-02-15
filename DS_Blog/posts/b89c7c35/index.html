@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. Can you state Tom Mitchell&apos;s definition of learning and discuss T, P and E? Mitchell (1997) provides the definition “A computer program is said to learn from experience E with respect to some class">
+<meta name="keywords" content="Interview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning Q&amp;A: Basic">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/b89c7c35/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="1. Can you state Tom Mitchell&apos;s definition of learning and discuss T, P and E? Mitchell (1997) provides the definition “A computer program is said to learn from experience E with respect to some class">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/b89c7c35/1.png">
+<meta property="og:updated_time" content="2019-10-19T23:14:00.821Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Machine Learning Q&amp;A: Basic">
+<meta name="twitter:description" content="1. Can you state Tom Mitchell&apos;s definition of learning and discuss T, P and E? Mitchell (1997) provides the definition “A computer program is said to learn from experience E with respect to some class">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/b89c7c35/1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/b89c7c35/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Machine Learning Q&A: Basic | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/b89c7c35/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Machine Learning Q&A: Basic
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-17 17:49:31" itemprop="dateCreated datePublished" datetime="2019-06-17T17:49:31-05:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-10-19 18:14:00" itemprop="dateModified" datetime="2019-10-19T18:14:00-05:00">2019-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">18k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">16 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="can-you-state-tom-mitchells-definition-of-learning-and-discuss-t-p-and-e">1. Can you state Tom Mitchell's definition of learning and discuss T, P and E?</h3>
+<p>Mitchell (1997) provides the definition “A computer program is said to learn from <strong>experience E</strong> with respect to some class of <strong>tasks T</strong> and <strong>performance measure P</strong>, if its performance at tasks in <strong>T</strong>, as measured by <strong>P</strong>, improves with experience <strong>E</strong>.</p>
+<a id="more"></a>
+<h3 id="what-can-be-different-types-of-tasks-encountered-in-machine-learning">2. What can be different types of tasks encountered in Machine Learning?</h3>
+<p>Classification, regression, Machine translation, Anomaly detection, Density estimation or probability mass function estimation</p>
+<h3 id="consider-linear-regression.-what-are-t-p-and-e">3. Consider linear regression. What are T, P and E?</h3>
+<p>Task T : to predict y from <span class="math inline">\(x\)</span> by outputting <span class="math inline">\(\hat{y} = \mathbf{w}^T\mathbf{x}\)</span>.</p>
+<p>Performance P: compute the mean squared error of the model on the test set. <span class="math display">\[
+MSE_{test}=\frac{1}{m}||\hat{y}^{test}-y^{test}||^2_2
+\]</span> Experience E: training set <span class="math inline">\((X^{train}, y^{train})\)</span>.</p>
+<h3 id="what-are-supervised-unsupervised-semi-supervised-self-supervised-multi-instance-learning-and-reinforcement-learning">4. What are supervised, unsupervised, semi-supervised, self-supervised, multi-instance learning, and reinforcement learning?</h3>
+<p><strong><em>Supervised learning:</em></strong> Training a model from input data and its corresponding labels.</p>
+<p><strong><em>Unsupervised learning:</em></strong> Training a model to find patterns in a dataset, typically an unlabeled dataset.</p>
+<p><strong><em>Semi-supervised learning:</em></strong> Training a model on data where some of the training examples have labels but others don’t. One technique for semi-supervised learning is to infer labels for the unlabeled examples, and then to train on the inferred labels to create a new model. Semi-supervised learning can be useful if labels are expensive to obtain but unlabeled examples are plentiful.</p>
+<p><strong><em>Self-supervised learning:</em></strong> a relatively recent learning technique (in machine learning) where the <strong>training data is automatically labelled</strong>. It is still supervised learning, but the datasets do not need to be manually labelled by human, but they can e.g. be labelled by finding and exploiting the relations (or correlations) between different input signals (input coming e.g. from different sensor modalities).</p>
+<p><strong><em>Multi-instance learning:</em></strong> a type of supervised learning. Instead of receiving a set of instances which are individually labeled, <strong>the learner receives a set of labeled <em>bags</em>, each containing many instances.</strong> In the simple case of multiple-instance <em>binary classification</em>, a bag may be labeled negative if all the instances in it are negative. On the other hand, a bag is labeled positive if there is at least one instance in it which is positive. From a collection of labeled bags, the learner tries to either (i) induce a concept that will label individual instances correctly or (ii) learn how to label bags without inducing the concept.</p>
+<p><strong><em>Reinforcement learning:</em></strong> A machine learning approach to <strong>maximize an ultimate reward</strong> through feedback (rewards and punishments) after a sequence of actions. For example, the ultimate reward of most games is victory. Reinforcement learning systems can become expert at playing complex games by evaluating sequences of previous game moves that ultimately led to wins and sequences that ultimately led to losses.</p>
+<p><strong><em>Reinforcement learning</em></strong> is learning what to do---how to map situations to actions---so as to maximize a numerical reward signal</p>
+<h3 id="prove-that-for-linear-regression-mse-can-be-derived-from-maximal-likelihood-by-proper-assumptions.">5. Prove that for linear regression MSE can be derived from maximal likelihood by proper assumptions.</h3>
+<p><strong>Probabilistic assumption</strong>:</p>
+<ul>
+<li>Assume that the target variables and the inputs are related via the equation:</li>
+</ul>
+<p><span class="math display">\[
+y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}
+\]</span></p>
+<p>where <span class="math inline">\(\epsilon^{(i)}\)</span> is an error term that captures either unmodeled effects (such as if there are some features very pertinent to predicting housing price, but that we’d left out of the regression), or random noise.</p>
+<ul>
+<li><p>Assume <span class="math inline">\(\epsilon^{(i)}\)</span> are distributed IID (independently and identically distributed) according to a Gaussian distribution (also called a Normal distribution) mean zero and some variance <span class="math inline">\(\sigma^2\)</span></p>
+<ul>
+<li><p>The density of <span class="math inline">\(\epsilon^{(i)}\)</span> is: <span class="math display">\[
+p(\epsilon^{(i)})=\frac{1}{\sqrt{2\pi}\sigma}\exp \left(-\frac{(\epsilon^{(i)})^2}{2\sigma^2}\right)
+\]</span></p></li>
+<li><p>This implies that:</p></li>
+</ul>
+<p><span class="math display">\[
+p(y^{(i)}|x^{(i)};\theta)=\frac{1}{\sqrt{2\pi}\sigma}\exp \left(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}\right)
+\]</span></p></li>
+</ul>
+<p><strong>Likelihood function</strong>: <span class="math display">\[
+L(\theta)=L(\theta|\mathbf{X},\mathbf{y})=p(\mathbf{y}|\mathbf{X};\theta)
+\]</span> <span class="math inline">\(p(\mathbf{y}|\mathbf{X};\theta)\)</span>: This quantity is typically viewed a function of <span class="math inline">\(\mathbf{y}\)</span> (and perhaps X), for a fixed value of θ.</p>
+<p>By the independence assumption on the <span class="math inline">\(\epsilon^{(i)}\)</span>’s (and hence also the <span class="math inline">\(y^{(i)}\)</span>’s given the <span class="math inline">\(x^{(i)}\)</span> ’s), this can also be written: <span class="math display">\[
+\begin{align}
+L(\theta)&amp;= \prod_{i=1}^n p(y^{(i)}|x^{(i)};\theta) \\
+&amp;=\prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma}\exp \left(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}\right)
+\end{align}
+\]</span> The principal of <strong><em>maximum likelihood</em></strong> says that we should choose <span class="math inline">\(θ\)</span> so as to make the data as high probability as possible <span class="math inline">\(\rightarrow\)</span> maximize <span class="math inline">\(L(θ)\)</span>.</p>
+<p>Instead of maximizing <span class="math inline">\(L(θ)\)</span>, we can also maximize any strictly increasing function of $L(θ) $ <span class="math inline">\(\rightarrow\)</span> <strong>log likelihood</strong> <span class="math inline">\(ℓ(θ)\)</span>: <span class="math display">\[
+\begin{align}
+ℓ(θ)=\log L(\theta)&amp;=\log \prod_{i=1}^n p(y^{(i)}|x^{(i)};\theta) \\
+&amp;=\sum_{i=1}^n \log \frac{1}{\sqrt{2\pi}\sigma}\exp \left(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2}\right) \\
+&amp;= n\log\frac{1}{\sqrt{2\pi}\sigma}-\frac{1}{2\sigma^2} \sum_{i=1}^n (y^{(i)}-\theta^Tx^{(i)})^2
+\end{align}
+\]</span> Hense, maximizing <span class="math inline">\(ℓ(θ)\)</span> gives the same answer as minimizing <span class="math display">\[
+\frac{1}{2}\sum_{i=1}^n(h_\theta(x^{(i)})-y^{(i)})^2 =J(\theta)
+\]</span> To summarize: Under the previous probabilistic assumptions on the data, least-squares regression corresponds to finding the maximum likelihood estimate of θ. Note also that, in our previous discussion, our final choice of θ did not depend on what was <span class="math inline">\(\sigma^2\)</span> , and indeed we’d have arrived at the same result even if <span class="math inline">\(\sigma^2\)</span> were unknown.</p>
+<h3 id="derive-the-normal-equation-for-linear-regression.">6. Derive the normal equation for linear regression.</h3>
+<p>Linear function: <span class="math display">\[
+h_θ(x) = θ_0 + θ_1x_1 + θ_2x_2=θ^Tx
+\]</span> Least-squares cost function: <span class="math display">\[
+J(\theta)=\frac{1}{2}\sum_{i=1}^n(h_\theta(x^{(i)})-y^{(i)})^2
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{X}&amp;=\begin{bmatrix}- (x^{(1)})^T -  \\- (x^{(2)})^T - \\ ...\\- (x^{(n)})^T -\end{bmatrix} \\
+\mathbf{y}&amp;=\begin{bmatrix} y^{(1)} \\y^{(2)} \\... \\y^{(n)}\end{bmatrix}   \\
+\mathbf{X}\theta-\mathbf{y}&amp;=\begin{bmatrix} (x^{(1)})^T\theta-y^{(1)} \\(x^{(2)})^T\theta-y^{(2)} \\... \\(x^{(n)})^T\theta-y^{(n)}\end{bmatrix} \\
+&amp;=\begin{bmatrix} (h_\theta(x^{(1)})-y^{(1)} \\h_\theta(x^{(2)})-y^{(2)} \\... \\h_\theta(x^{(1)})-y^{(n)}\end{bmatrix}
+\end{align}
+\]</span> For a vector <span class="math inline">\(z\)</span>, we have that: <span class="math inline">\(z^Tz=\sum_i z^2_i\)</span> <span class="math display">\[
+\frac{1}{2}(\mathbf{X}\theta-\mathbf{y})^T(\mathbf{X}\theta-\mathbf{y})=\frac{1}{2}\sum_{i=1}^n(h_\theta(x^{(i)})-y^{(i)})^2 =J(\theta)
+\]</span> We know that: <span class="math display">\[
+\begin{align}
+\frac{\partial f(A)}{\partial A^T}&amp;=(\frac{\partial f(A)}{\partial A})^T \\
+\frac{\partial \mathbf{y}^T\mathbf{A}\mathbf{x}}{\partial \mathbf{x}}&amp;=\mathbf{y}^T\mathbf{A} \\
+\frac{\partial \mathbf{y}^T\mathbf{A}\mathbf{x}}{\partial \mathbf{y}}&amp;=\frac{\partial \mathbf{x}^T\mathbf{A}^T\mathbf{y}}{\partial \mathbf{y}}=\mathbf{x}^T\mathbf{A}^T \\
+\frac{\partial \mathbf{x}^T\mathbf{A}\mathbf{x}}{\partial \mathbf{x}}&amp;=\mathbf{x}^T\mathbf{A}^T +\mathbf{x}^T\mathbf{A}=\mathbf{x}^T（\mathbf{A}^T +\mathbf{A}）\\
+\end{align}
+\]</span> To minimize <span class="math inline">\(J\)</span>, let’s find its derivatives with respect to <span class="math inline">\(θ\)</span>: <span class="math display">\[
+\begin{align}
+\frac{\partial J(\theta)}{\partial \theta}&amp;= \frac{\partial \frac{1}{2}(\mathbf{X}\theta-\mathbf{y})^T(\mathbf{X}\theta-\mathbf{y})}{\partial \theta}\\
+&amp;= \frac{1}{2}\frac{\partial (\theta^T\mathbf{X}^T\mathbf{X}\theta-\theta^T\mathbf{X}^T\mathbf{y}-\mathbf{y}^T\mathbf{X}\theta+\mathbf{y}^T\mathbf{y})}{\partial \theta} \\
+&amp;=\frac{1}{2}\frac{\partial (\theta^T\mathbf{X}^T\mathbf{X}\theta-\theta^T\mathbf{X}^T\mathbf{y}-\mathbf{y}^T\mathbf{X}\theta+\mathbf{y}^T\mathbf{y})}{\partial \theta} \\
+&amp;=\frac{1}{2} (\theta^T\mathbf{X}^T\mathbf{X}+\theta^T\mathbf{X}^T\mathbf{X}-\mathbf{y}^T\mathbf{X}-\mathbf{y}^T\mathbf{X}  )\\
+&amp;=\frac{1}{2}(\mathbf{X}^T\mathbf{X}\theta-2\mathbf{y}^T\mathbf{X}) \\
+&amp;=\mathbf{X}^T\mathbf{X}\theta-\mathbf{X}^T\mathbf{y}=0
+\end{align}
+\]</span> <strong><em>Normal Equation</em></strong>: <span class="math display">\[
+\theta=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
+\]</span></p>
+<h3 id="why-is-a-validation-set-necessary">7. Why is a validation set necessary?</h3>
+<p>Let's assume that you are training a model whose performance depends on a set of hyperparameters. In the case of a neural network, these parameters may be for instance the learning rate or the number of training iterations.</p>
+<p>Given a choice of hyperparameter values, you use the <strong>training</strong> set to train the model. But, how do you set the values for the hyperparameters? That's what the <strong>validation</strong> set is for. You can use it to evaluate the performance of your model for different combinations of hyperparameter values (e.g. by means of a grid search process) and keep the best trained model.</p>
+<p>But, how does your selected model compares to other different models? Is your neural network performing better than, let's say, a random forest trained with the same combination of training/test data? You cannot compare based on the validation set, because that validation set was part of the fitting of your model. You used it to select the hyperparameter values!</p>
+<p>The <strong>test</strong> set allows you to compare different models in an unbiased way, by basing your comparisons in data that were not use in any part of your training/hyperparameter selection process.</p>
+<h3 id="what-is-the-no-free-lunch-theorem-in-connection-to-machine-learning">8. What is the no free lunch theorem in connection to Machine Learning?</h3>
+<p>The <strong><em>no free lunch theorem</em></strong> for machine learning (Wolpert, 1996) states that, <strong>averaged over</strong> <strong>all possible data generating distributions, every classification algorithm has the</strong> <strong>same error rate when classifying previously unobserved points</strong>. In other words, in some sense, <strong>no machine learning algorithm is universally any better than any</strong> <strong>other.</strong> The most sophisticated algorithm we can conceive of has the same average performance (over all possible tasks) as merely predicting that every point belongs to the same class.</p>
+<p>Fortunately, these results hold only when we average over all possible data generating distributions. **If we make assumptions about the kinds of probability<em> distributions we encounter in real-world applications,</em> then we can design learning algorithms that perform well on these distributions.</p>
+<p>This means that the goal of machine learning research is not to seek a universal learning algorithm or the absolute best learning algorithm. Instead, <em>our goal is to</em> <em>understand what kinds of distributions are relevant to the “real world” that an AI</em> <em>agent experiences,</em> and what kinds of machine learning algorithms perform well on data drawn from the kinds of data generating distributions we care about.</p>
+<h3 id="discuss-training-error-test-error-generalization-error-overfitting-and-underfitting.">9. Discuss training error, test error, generalization error, overfitting, and underfitting.</h3>
+<p><strong><em>overfitting:</em></strong> the gap between the training error and test error is too large</p>
+<p><strong><em>underfitting:</em></strong> the model is not able to obtain a sufficiently low error value on the training set</p>
+<p><strong><em>training error:</em></strong> when training a machine learning model, we have access to a training set, we can compute some error measure on the training set</p>
+<p><strong><em>generalization error/test error:</em></strong> the expected value of the error on a new input. Here the expectation is taken across different possible inputs, drawn from the distribution of inputs we expect the system to encounter in practice</p>
+<p><img src="./1.png" width="600"></p>
+<h3 id="compare-representational-capacity-vs.-effective-capacity-of-a-model.">10. Compare representational capacity vs. effective capacity of a model.</h3>
+<ul>
+<li><strong>Representational capacity</strong> - the functions which the model <em>can</em> learn; The model specifies which <strong>family of functions</strong> the learning algorithm can choose from when varying the parameters in order to reduce a training objective.</li>
+<li><strong>Effective capacity</strong> - in practice, a learning algorithm is not likely to find the <em>best</em> function out of the possible functions it can learn, though it can learn one that performs exceptionally well - those functions that the learning algorithm is capable of finding defines the model's <em>effective</em> capacity.</li>
+</ul>
+<p>These additional limitations, such as the imperfection of the optimization algorithm, mean that the learning algorithm’s <strong><em>effective capacity</em></strong> may be less than the <strong><em>representational capacity</em></strong> of the model family</p>
+<h3 id="what-is-an-ideal-model-what-is-bayes-error-what-isare-the-sources-of-bayes-error-occur">11. What is an ideal model? What is Bayes error? What is/are the source(s) of Bayes error occur?</h3>
+<p><strong><em>The ideal model</em></strong>: is an oracle that simply knows the true probability distribution that generates the data.</p>
+<ul>
+<li>Even such a model will still incur some error on many problems, because there may still be some noise in the distribution. In the case of supervised learning, the mapping from <span class="math inline">\(x\)</span> to <span class="math inline">\(y\)</span> may be inherently stochastic, or <span class="math inline">\(y\)</span> may be a deterministic function that involves other variables besides those included in <span class="math inline">\(x\)</span>.</li>
+</ul>
+<p><strong><em>Bayes error</em></strong>: the lowest possible prediction error that can be achieved and is the same as irreducible error. ; The error incurred by an oracle making predictions from the true distribution p(x, y).</p>
+<p><strong><em>Source(s) of Bayes error occur</em></strong>: noise in the distribution if the process is random</p>
+<h3 id="what-are-nonparametric-models-what-is-nonparametric-learning">12. What are nonparametric models? What is nonparametric learning?</h3>
+<p>Parametric models: learn a function described by a parameter vector whose size is finite and fixed before any data is observed (linear regression)</p>
+<p>Non-parametric models: assume that the data distribution cannot be defined in terms of a finite set of parameters. But they can often be defined by assuming an infinite dimensional <span class="math inline">\(\theta\)</span> . Usually we think of <span class="math inline">\(\theta\)</span> as a function (nearest neighbor regression)</p>
+<h3 id="what-is-regularization-intuitively-what-does-regularization-do-during-the-optimization-procedure">13. What is regularization? Intuitively, what does regularization do during the optimization procedure?</h3>
+<p><strong><em>Regularization</em></strong> is any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error.</p>
+<p>We regularize a model that learns a function <span class="math inline">\(f(x; θ)\)</span> by adding a penalty called a <strong>regularizer</strong> to the cost function. <strong>Expressing preferences for one function over another</strong> implicitly and explicitly is a more general way of controlling a model’s capacity than including or excluding members from the hypothesis space.</p>
+<h3 id="what-is-weight-decay-what-is-it-added">14. What is weight decay? What is it added?</h3>
+<p><strong><em>Weight decay</em></strong> is an additional term that causes the weights to exponentially decay to zero.</p>
+<p>To perform linear regression with <strong>weight decay</strong>, we minimize a sum comprising both the mean squared error on the training and a criterion <span class="math inline">\(J (w)\)</span> that expresses a preference for the weights to have smaller squared L2 norm. Specifically, <span class="math display">\[
+J(w) = MSE_{train} + λ\mathbf{w}^T\mathbf{w}
+\]</span> Minimizing <span class="math inline">\(J(w)\)</span> results in a choice of weights that make a tradeoff between fitting the training data and being small. This gives us solutions that have a smaller slope, or put weight on fewer of the features.</p>
+<h3 id="what-is-a-hyperparameter-how-do-you-choose-which-settings-are-going-to-be-hyperparameters-and-which-are-going-to-be-learnt">15. What is a hyperparameter? How do you choose which settings are going to be hyperparameters and which are going to be learnt?</h3>
+<p><strong>Hyperparameter</strong>: Most machine learning algorithms have several settings that we can use to control the behavior of the learning algorithm.</p>
+<ul>
+<li>The values of hyperparameters are not adapted by the learning algorithm itself</li>
+</ul>
+<p>Sometimes a setting is chosen to be a hyperparameter that the learning algorithm does not learn because it is <strong>difficult to optimize</strong> or it is not appropriate to learn that hyperparameter on the training set. This applies to all hyperparameters that control model capacity. If learned on the training set, such hyperparameters would always choose the maximum possible model capacity, resulting in <strong>overfitting</strong></p>
+<h3 id="why-is-maximal-likelihood-the-preferred-estimator-in-ml">16. Why is maximal likelihood the preferred estimator in ML?</h3>
+<p>The main appeal of the maximum likelihood estimator is that it can be shown to be the best estimator asymptotically, as the number of examples m → ∞, in terms of its rate of convergence as m increases</p>
+<p>Under appropriate conditions, the maximum likelihood estimator has the property of :</p>
+<ul>
+<li><strong>consistency</strong>: as the number of training examples approaches infinity, the maximum likelihood estimate of a parameter converges to the true value of the parameter. <span class="math inline">\(\hat{\theta} \rightarrow^{n \rightarrow \infin} \theta\)</span>.</li>
+<li><strong>efficiency</strong>: the Cramér-Rao lower bound (Rao, 1945; Cramér, 1946) shows that no consistent estimator has a lower mean squared error <span class="math inline">\(Var(\hat{\theta}_n)\)</span> than the maximum likelihood estimator</li>
+</ul>
+<p>When the number of examples is small enough to yield overfitting behavior, regularization strategies such as weight decay may be used to obtain a biased version of maximum likelihood that has less variance when training data is limited.</p>
+<h3 id="under-what-conditions-do-the-maximal-likelihood-estimator-guarantee-consistency">17. Under what conditions do the maximal likelihood estimator guarantee consistency?</h3>
+<ol type="1">
+<li>The true distribution <span class="math inline">\(p_{data}\)</span> must lie within the model family <span class="math inline">\(p_{model}(·; θ)\)</span>. Otherwise, no estimator can recover <span class="math inline">\(p_{data}\)</span>.</li>
+<li>The true distribution <span class="math inline">\(p_{data}\)</span> must correspond to exactly one value of <span class="math inline">\(θ\)</span>. Otherwise, maximum likelihood can recover the correct <span class="math inline">\(p_{data}\)</span> , but will not be able to determine which value of <span class="math inline">\(θ\)</span> was used by the data generating processing.</li>
+</ol>
+<h3 id="what-do-you-mean-by-affine-transformation-discuss-affine-vs.-linear-transformation.">18. What do you mean by affine transformation? Discuss affine vs. linear transformation.</h3>
+<p>A function 𝑓 is linear if <span class="math inline">\(𝑓(𝑎𝑥+𝑏𝑦)=𝑎𝑓(𝑥)+𝑏𝑓(𝑦)\)</span> for all relevant values of 𝑎, 𝑏, 𝑥 and 𝑦.</p>
+<p>A function 𝑔 is affine if <span class="math inline">\(𝑔(𝑥)=𝑓(𝑥)+𝑐\)</span> for some linear function 𝑓 and constant 𝑐. Note that we allow 𝑐=0, which implies that every linear function is an affine function.</p>
+<ol type="1">
+<li>All linear transformations are affine transformations.</li>
+<li>Not all affine transformations are linear transformations.</li>
+<li>It can be shown that any affine transformation 𝐴:𝑈→𝑉 can be written as 𝐴(𝑥)=𝐿(𝑥)+𝑣0, where 𝑣0 is some vector from 𝑉 and 𝐿:𝑈→𝑉 is a linear transformation.</li>
+</ol>
+<p>Discuss VC dimension.</p>
+<p>The VC dimension measures the capacity of a binary classifier. The VC dimension is defined as being the largest possible value of m for which there exists a training set of m different x points that the classifier can label arbitrarily.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Interview/" rel="tag"># Interview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/c7bd9d66/" rel="next" title="Deep Learning Q&A Part I: UAT, Motivation">
+                <i class="fa fa-chevron-left"></i> Deep Learning Q&A Part I: UAT, Motivation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/49a14c15/" rel="prev" title="DFS, HDFS, Architecture, Scaling problem">
+                DFS, HDFS, Architecture, Scaling problem <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#can-you-state-tom-mitchells-definition-of-learning-and-discuss-t-p-and-e"><span class="nav-number">1.</span> <span class="nav-text">1. Can you state Tom Mitchell&#39;s definition of learning and discuss T, P and E?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-can-be-different-types-of-tasks-encountered-in-machine-learning"><span class="nav-number">2.</span> <span class="nav-text">2. What can be different types of tasks encountered in Machine Learning?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#consider-linear-regression.-what-are-t-p-and-e"><span class="nav-number">3.</span> <span class="nav-text">3. Consider linear regression. What are T, P and E?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-are-supervised-unsupervised-semi-supervised-self-supervised-multi-instance-learning-and-reinforcement-learning"><span class="nav-number">4.</span> <span class="nav-text">4. What are supervised, unsupervised, semi-supervised, self-supervised, multi-instance learning, and reinforcement learning?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prove-that-for-linear-regression-mse-can-be-derived-from-maximal-likelihood-by-proper-assumptions."><span class="nav-number">5.</span> <span class="nav-text">5. Prove that for linear regression MSE can be derived from maximal likelihood by proper assumptions.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#derive-the-normal-equation-for-linear-regression."><span class="nav-number">6.</span> <span class="nav-text">6. Derive the normal equation for linear regression.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-is-a-validation-set-necessary"><span class="nav-number">7.</span> <span class="nav-text">7. Why is a validation set necessary?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-the-no-free-lunch-theorem-in-connection-to-machine-learning"><span class="nav-number">8.</span> <span class="nav-text">8. What is the no free lunch theorem in connection to Machine Learning?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#discuss-training-error-test-error-generalization-error-overfitting-and-underfitting."><span class="nav-number">9.</span> <span class="nav-text">9. Discuss training error, test error, generalization error, overfitting, and underfitting.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compare-representational-capacity-vs.-effective-capacity-of-a-model."><span class="nav-number">10.</span> <span class="nav-text">10. Compare representational capacity vs. effective capacity of a model.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-an-ideal-model-what-is-bayes-error-what-isare-the-sources-of-bayes-error-occur"><span class="nav-number">11.</span> <span class="nav-text">11. What is an ideal model? What is Bayes error? What is/are the source(s) of Bayes error occur?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-are-nonparametric-models-what-is-nonparametric-learning"><span class="nav-number">12.</span> <span class="nav-text">12. What are nonparametric models? What is nonparametric learning?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-regularization-intuitively-what-does-regularization-do-during-the-optimization-procedure"><span class="nav-number">13.</span> <span class="nav-text">13. What is regularization? Intuitively, what does regularization do during the optimization procedure?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-weight-decay-what-is-it-added"><span class="nav-number">14.</span> <span class="nav-text">14. What is weight decay? What is it added?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-a-hyperparameter-how-do-you-choose-which-settings-are-going-to-be-hyperparameters-and-which-are-going-to-be-learnt"><span class="nav-number">15.</span> <span class="nav-text">15. What is a hyperparameter? How do you choose which settings are going to be hyperparameters and which are going to be learnt?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why-is-maximal-likelihood-the-preferred-estimator-in-ml"><span class="nav-number">16.</span> <span class="nav-text">16. Why is maximal likelihood the preferred estimator in ML?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#under-what-conditions-do-the-maximal-likelihood-estimator-guarantee-consistency"><span class="nav-number">17.</span> <span class="nav-text">17. Under what conditions do the maximal likelihood estimator guarantee consistency?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-do-you-mean-by-affine-transformation-discuss-affine-vs.-linear-transformation."><span class="nav-number">18.</span> <span class="nav-text">18. What do you mean by affine transformation? Discuss affine vs. linear transformation.</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

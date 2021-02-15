@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Some notation: \[ \begin{align} \theta^Tx=\sum_{i=1}^n \theta_ix_i \tag{weighted sum} \\ \sigma(z)=\frac{1}{1+e^{-z}} \tag{sigmoid function} \end{align} \]">
+<meta name="keywords" content="Logistic Regression,Classification">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Logistic Regression">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/b358d10f/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Some notation: \[ \begin{align} \theta^Tx=\sum_{i=1}^n \theta_ix_i \tag{weighted sum} \\ \sigma(z)=\frac{1}{1+e^{-z}} \tag{sigmoid function} \end{align} \]">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/b358d10f/3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/b358d10f/4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/b358d10f/5.png">
+<meta property="og:updated_time" content="2020-09-13T22:11:01.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Logistic Regression">
+<meta name="twitter:description" content="Some notation: \[ \begin{align} \theta^Tx=\sum_{i=1}^n \theta_ix_i \tag{weighted sum} \\ \sigma(z)=\frac{1}{1+e^{-z}} \tag{sigmoid function} \end{align} \]">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/b358d10f/3.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/b358d10f/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Logistic Regression | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/b358d10f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Logistic Regression
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-19 17:59:42" itemprop="dateCreated datePublished" datetime="2019-10-19T17:59:42-05:00">2019-10-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-09-13 17:11:01" itemprop="dateModified" datetime="2020-09-13T17:11:01-05:00">2020-09-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">9.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Some notation: <span class="math display">\[
+\begin{align}
+\theta^Tx=\sum_{i=1}^n \theta_ix_i \tag{weighted sum} \\
+\sigma(z)=\frac{1}{1+e^{-z}} \tag{sigmoid function}
+\end{align}
+\]</span> <a id="more"></a></p>
+<h1 id="logistic-regression-overview">Logistic Regression Overview</h1>
+<p><strong>Logistic Regression</strong> is a classification algorithm that works by trying to learn a function that approximates <span class="math inline">\(P(Y|X)\)</span>. It makes the central assumption that $ P(Y|X) $ can be <strong><em>approximated as a sigmoid function applied to a linear combination of input features</em></strong>(important!).</p>
+<p>Mathematically, for a single training datapoint <span class="math inline">\((x, y)\)</span> Logistic Regression assumes: <span class="math display">\[
+P(Y = 1|\mathbf{X = x}) = σ(z) \text{,  where } z = θ_0 +\sum_{i=1}^mθ_ix_i
+\]</span> This assumption is often written in the equivalent forms: <span class="math display">\[
+P(Y = 1|\mathbf{X = x}) = σ(\theta^T\mathbf{x}) \tag{where we alwyas set $x_0$ to be 1}\\
+P(Y = 0|\mathbf{X = x}) = 1-σ(\theta^T\mathbf{x})
+\]</span> Using these equations for probability of <span class="math inline">\(Y|X\)</span> we can create an algorithm that select values of <span class="math inline">\(\theta\)</span> that maximize that probability for all data.</p>
+<h2 id="logistic-regression-assumption">Logistic Regression Assumption</h2>
+<ol type="1">
+<li>Binary logistic regression requires the dependent variable to be binary</li>
+<li>Observations to be independent of each other. In other words, the observations should not come from repeated measurements or matched data.</li>
+<li>Little or no <strong>multicollinearity</strong> among the independent variables. This means that the independent variables should not be too highly correlated with each other.</li>
+<li>Linearity of independent variables and <strong>log odds</strong>.</li>
+<li>Typically requires a large sample size.</li>
+</ol>
+<h2 id="log-likelihood">Log Likelihood</h2>
+<p>To start, here is a super slick way of writing the <strong>probability of one datapoint</strong>: <span class="math display">\[
+P(Y=y|X=\mathbf{x})=\sigma(\theta^T\mathbf{x})^y \cdot[1-\sigma(\theta^T\mathbf{x})]^{1-y}
+\]</span> Since each datapoint is <em>independent</em>, the <strong>probability of all the data (likelihood)</strong> is: <span class="math display">\[
+\begin{align}
+l(\theta)&amp;=\prod_{i=1}^n P(Y=y^{(i)}| X=\mathbf{x}^{(i)}) \\
+&amp;=\prod_{i=1}^n \sigma(\theta^T\mathbf{x}^{(i)})^{y^{(i)}} \cdot[1-\sigma(\theta^T\mathbf{x})^{(i)}]^{1-y^{(i)}}
+\end{align}
+\]</span> Take the log, then you get the <strong>Log Likelihood</strong> for Logistic Regression. <span class="math display">\[
+ll(\theta)=\sum_{i=1}^n y^{(i)}\log{\sigma(\theta^T\mathbf{x}^{(i)})}+(1-y^{(i)})\log{[1-\sigma(\theta^T\mathbf{x}^{(i)})]}
+\]</span> <strong>Odds</strong> <span class="math display">\[
+\frac{\sigma(z)}{1-\sigma(z)}=\frac{y}{1-y}=e^{\theta^T\mathbf{x}}
+\]</span> Take on any value between 0 and <span class="math inline">\(∞\)</span>.</p>
+<p><strong>Log-odds (Logit)</strong> <span class="math display">\[
+\begin{align}
+\log{\frac{\sigma(z)}{1-\sigma(z)}}=\log{\frac{y}{1-y}} =\theta ^T\mathbf{x}
+\end{align}
+\]</span></p>
+<ul>
+<li><strong>logit</strong> is linear in <span class="math inline">\(\mathbf{x}\)</span>.
+<ul>
+<li><p>There is not a straight-line relationship between <span class="math inline">\(\sigma(\theta^T \mathbf{x})\)</span> and <span class="math inline">\(\mathbf{x}\)</span>,</p></li>
+<li><p>The rate of change in <span class="math inline">\(\sigma(\theta^T \mathbf{x})\)</span> per unit change in <span class="math inline">\(X\)</span> depends on the current value of $ $.</p></li>
+</ul></li>
+</ul>
+<h2 id="gradient-of-log-likelihood">Gradient of Log Likelihood</h2>
+<p>Now that we have a function for <strong>log-likelihood</strong>, we simply need to chose the values of <span class="math inline">\(\theta\)</span> that maximize it.</p>
+<p>To start, here is the definition for the derivative of sigma with respect to its inputs: <span class="math display">\[
+\frac{\partial}{\partial z}\sigma(z)=\sigma(z)[1-\sigma(z)] 
+\]</span></p>
+<p>Here is the partial derivative of log-likelihood with respect to each parameter <span class="math inline">\(θ_j\)</span>: <span class="math display">\[
+\begin{align}
+\frac{\partial ll(\theta)}{\partial\theta_j}&amp;=\frac{\partial}{\partial \theta_j}y\log{\sigma(\theta^T\mathbf{x})} +\frac{\partial}{\partial \theta_j}(1-y)\log{[1-\sigma(\theta^T\mathbf{x})]} \\
+&amp;=[\frac{y}{\sigma(\theta^Tx)}-\frac{1-y}{1-\sigma(\theta^Tx)}] \frac{\partial}{\partial \theta_j}\sigma(\theta^Tx)  \\
+&amp;=[\frac{y}{\sigma(\theta^Tx)}-\frac{1-y}{1-\sigma(\theta^Tx)} ]\sigma(\theta^Tx)[1-\sigma(\theta^Tx)]x_j \\
+&amp;=\frac{y-\sigma(\theta^Tx)}{\sigma(\theta^Tx)[1-\sigma(\theta^Tx)]}\sigma(\theta^Tx)[1-\sigma(\theta^Tx)]x_j \\
+&amp;=[y-\sigma(\theta^Tx)]x_j \\
+&amp;=\sum_{i=1}^n[y^{(i)}-\sigma(\theta^T\mathbf{x}^{(i)})]x_j^{(i)}
+\end{align}
+\]</span> Because the derivative of sums is the sum of derivatives, the gradient of theta is simply the sum of this term for each training datapoint.</p>
+<h2 id="gradient-ascent-optimization">Gradient Ascent Optimization</h2>
+<p>In the case of logistic regression we can’t solve for <span class="math inline">\(θ\)</span> mathematically. Instead we use a computer to chose <span class="math inline">\(θ\)</span>. To do so we employ an algorithm called <strong>gradient ascent</strong>.</p>
+<p><strong>Gradient ascent</strong> claims that if you <strong><em>continuously take small steps in the direction of your gradient, you will eventually make it to a local maxima</em></strong>. In the case of Logistic Regression you can prove that the result will always be a <u>global maxima</u>. <span class="math display">\[
+\begin{align}
+\theta_j^{new} &amp;= \theta_j^{old}+\eta\cdot\frac{\partial ll(\theta^{old})}{\partial \theta_j^{old}} \\
+&amp;=\theta_j^{old}+\eta\cdot \sum_{i=1}^n[y^{(i)}-\sigma(\theta^T\mathbf{x}^{(i)})]x_j^{(i)}
+\end{align}
+\]</span> Where <span class="math inline">\(η\)</span> is the magnitude of the step size that we take. If you keep updating <span class="math inline">\(θ\)</span> using the equation above you will converge on the best values of <span class="math inline">\(θ\)</span>!</p>
+<h2 id="regularized-logistic-regression">Regularized Logistic Regression</h2>
+<p>Cost Function: <span class="math display">\[
+J(\theta)=-[\frac{1}{m}\sum_{i=1}^my^{(i)}\log{\sigma(\theta^Tx^{(i)})}+(1-y^{(i)})\log{(1-\sigma(\theta^Tx^{(i)}))}]+\frac{\lambda}{2m}\sum_{j=1}^n \theta_j^2
+\]</span> The second sum, <span class="math inline">\(\sum_{j=1}^n \theta_j^2\)</span> <strong>means to explicitly exclude</strong> the bias term, <span class="math inline">\(\theta_0\)</span></p>
+<ul>
+<li>I.e. the <span class="math inline">\(θ\)</span> vector is indexed from 0 to n (holding n+1 values, <span class="math inline">\(\theta_0\)</span> through <span class="math inline">\(\theta_n\)</span>), and this sum explicitly skips <span class="math inline">\(\theta_0\)</span>, by running from 1 to n, skipping 0. Thus, when computing the equation, we should continuously update the two following equations: $$ <span class="math display">\[\begin{align}
+\text{Gradient descent:} \\
+\text{Repeat \{ } \\
+&amp; \theta_0:=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^m(\sigma(\theta^Tx^{(i)})-y^{(i)})x_0^{(i)} \\
+&amp; \theta_j:=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^m(\sigma(\theta^Tx^{(i)})-y^{(i)})x_j^{(i)}+ \frac{\lambda}{m}\theta_j] \\
+\text{\} } \\
+
+\end{align}\]</span> $$</li>
+</ul>
+<h2 id="logistic-regression-v.s.-bernoulli">Logistic Regression v.s. Bernoulli</h2>
+<p>Logistic regression assumes the response is <strong>conditionally Bernoulli distributed</strong>, given the values of the features <span class="math display">\[
+y |X \sim Bernoulli(p=\sigma(\theta^Tx))
+\]</span></p>
+<h1 id="qa">Q&amp;A</h1>
+<h5 id="what-is-a-logistic-function">What is a logistic function?</h5>
+<p><span class="math display">\[
+\sigma(z)=\frac{1}{1+e^{-z}} \in [0,1] \text{, where } z \in(-\infty,\infty)
+\]</span></p>
+<h5 id="why-sigmoid-function"><strong>Why sigmoid function?</strong></h5>
+<p>One of the nice properties of logistic regression is that the sigmoid function outputs the conditional probabilities of the prediction, the class probabilities.</p>
+<h5 id="why-not-linear-regression"><strong>Why Not Linear Regression?</strong></h5>
+<p>Linear regression is not appropriate in the case of a qualitative response.</p>
+<p><strong>Reason:</strong> there is no natural way to convert a qualitative response variable with more than two levels into a quantitative response that is ready for linear regression.</p>
+<h5 id="logistic-regression-v.s.">Logistic regression v.s. ?</h5>
+<p><strong>LR v.s. Linear Regression</strong></p>
+<ul>
+<li><p>LR fitting use maximum likelihood; linear regression use lease squares</p></li>
+<li>LR - classification; linear - regression</li>
+<li>Both under Generalized Linear Models
+<ul>
+<li>Linear: <span class="math inline">\(h_\theta(x)=E[y|x;\theta]=\mu=\theta^Tx\)</span></li>
+<li>LR: <span class="math inline">\(h_\theta(x)=E[y|x;\theta]=\frac{1}{1+e^{-\theta^Tx}}\)</span></li>
+</ul></li>
+</ul>
+<p><strong>LR v.s. SVM</strong></p>
+<ul>
+<li>Both classification models, both Discriminative Model(conditional models)</li>
+<li>LR use cross-entropy; SVM use Hinge loss</li>
+<li>SVM tries to finds the “best” margin (distance between the line and the support vectors) that separates the classes and this reduces the risk of error on the data, while logistic regression does not, instead it can have different decision boundaries with different weights that are near the optimal point.</li>
+<li>The risk of overfitting is less in SVM, while Logistic regression is vulnerable to overfitting.</li>
+</ul>
+<h1 id="multiple-logistic-regression">Multiple Logistic Regression</h1>
+<p>We now consider the problem of predicting a binary response using multiple predictors</p>
+<p><strong>Log-odds (Logit)</strong></p>
+<p><span class="math display">\[
+\begin{align}
+\log{\frac{p(X)}{1-p(X)}}=\beta_0+\sum_{i=1}^p\beta_iX
+\end{align}
+\]</span> where X = (X1, . . .,Xp) are p predictors</p>
+<p><strong>Logistic function:</strong></p>
+<p><span class="math display">\[
+\begin{align}
+p(X)=\frac{e^{\beta_0+\sum_{i=1}^p\beta_iX}}{1+e^{\beta_0+\sum_{i=1}^p\beta_iX}} \\
+\frac{p(X)}{1-p(X)}=e^{\beta_0+\sum_{i=1}^p\beta_iX}
+\end{align}
+\]</span></p>
+<h2 id="confounding">Confounding</h2>
+<p>In single variable setting: <img src="./3.png" width="600"></p>
+<p>In multiple variables setting: <img src="./4.png" width="600"></p>
+<blockquote>
+<p>How is it possible for student status to be associated with an increase in probability of default in Table 4.2 and a decrease in probability of default in Table 4.3?</p>
+</blockquote>
+<p><img src="./5.png" width="600"></p>
+<ul>
+<li>The positive coefficient for student in the single variable logistic regression : the overall student default rate is higher than the non-student default rate</li>
+<li>The negative coefficient for student in the multiple logistic regression: for a fixed value of balance and income, a student is less likely to default than a non-student.</li>
+</ul>
+<p><strong>Reason</strong>:The variables <em>student</em> and <em>balance</em> are correlated.</p>
+<p><strong>Intuition</strong>: A student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the same credit card balance! <span class="math display">\[
+\text{NLL} = -\frac{1}{N} \left[
+                \left(
+                    \sum_{i=0}^N y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i)
+                \right) - R(\mathbf{b}, \gamma)
+            \right]
+\]</span></p>
+<hr>
+<p><strong>Ref:</strong></p>
+<p>James, Gareth, et al. <em>An introduction to statistical learning</em>. Vol. 112. New York: springer, 2013.</p>
+<p>Hastie, Trevor, et al. &quot;The elements of statistical learning: data mining, inference and prediction.&quot; <em>The Mathematical Intelligencer</em> 27.2 (2005): 83-85</p>
+<p><a href="https://www.coursera.org/lecture/machine-learning/classification-wlPeP" target="_blank" rel="noopener">Coursera Machine Learning course</a></p>
+<p>https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/pdfs/40%20LogisticRegression.pdf</p>
+<p>https://www.statisticssolutions.com/assumptions-of-logistic-regression/</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Logistic-Regression/" rel="tag"># Logistic Regression</a>
+          
+            <a href="/tags/Classification/" rel="tag"># Classification</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/4df00c7b/" rel="next" title="Study Note: Linear Regression Part II - Potential Problems">
+                <i class="fa fa-chevron-left"></i> Study Note: Linear Regression Part II - Potential Problems
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/5b711fed/" rel="prev" title="Study Note: Linear Discriminant Analysis, ROC & AUC, Confusion Matrix">
+                Study Note: Linear Discriminant Analysis, ROC & AUC, Confusion Matrix <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#logistic-regression-overview"><span class="nav-number">1.</span> <span class="nav-text">Logistic Regression Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#logistic-regression-assumption"><span class="nav-number">1.1.</span> <span class="nav-text">Logistic Regression Assumption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-likelihood"><span class="nav-number">1.2.</span> <span class="nav-text">Log Likelihood</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gradient-of-log-likelihood"><span class="nav-number">1.3.</span> <span class="nav-text">Gradient of Log Likelihood</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gradient-ascent-optimization"><span class="nav-number">1.4.</span> <span class="nav-text">Gradient Ascent Optimization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#regularized-logistic-regression"><span class="nav-number">1.5.</span> <span class="nav-text">Regularized Logistic Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logistic-regression-v.s.-bernoulli"><span class="nav-number">1.6.</span> <span class="nav-text">Logistic Regression v.s. Bernoulli</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#qa"><span class="nav-number">2.</span> <span class="nav-text">Q&amp;A</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#what-is-a-logistic-function"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">What is a logistic function?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#why-sigmoid-function"><span class="nav-number">2.0.0.0.2.</span> <span class="nav-text">Why sigmoid function?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#why-not-linear-regression"><span class="nav-number">2.0.0.0.3.</span> <span class="nav-text">Why Not Linear Regression?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#logistic-regression-v.s."><span class="nav-number">2.0.0.0.4.</span> <span class="nav-text">Logistic regression v.s. ?</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#multiple-logistic-regression"><span class="nav-number">3.</span> <span class="nav-text">Multiple Logistic Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#confounding"><span class="nav-number">3.1.</span> <span class="nav-text">Confounding</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

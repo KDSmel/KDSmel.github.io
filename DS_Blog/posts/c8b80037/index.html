@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="My study note of the book Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python - Chapter 1 Exploratory Data Analysis .">
+<meta name="keywords" content="EDA,Statistics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Exploratory Data Analysis ">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/c8b80037/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="My study note of the book Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python - Chapter 1 Exploratory Data Analysis .">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_10.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_11.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_12.png">
+<meta property="og:updated_time" content="2020-04-29T12:20:08.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Exploratory Data Analysis ">
+<meta name="twitter:description" content="My study note of the book Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python - Chapter 1 Exploratory Data Analysis .">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/c8b80037/1.EDA_1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/c8b80037/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Exploratory Data Analysis  | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/c8b80037/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Exploratory Data Analysis 
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-04-29 04:58:33 / Modified: 07:20:08" itemprop="dateCreated datePublished" datetime="2020-04-29T04:58:33-05:00">2020-04-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/Practical-Statistics-for-DS/" itemprop="url" rel="index"><span itemprop="name">Practical Statistics for DS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">11k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">10 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>My study note of the book <em>Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python - Chapter 1 Exploratory Data Analysis</em> .</p>
+<a id="more"></a>
+<h1 id="estimates-of-location">Estimates of Location</h1>
+<p><strong>Trimmed mean</strong>: calculate by dropping a fixed number of sorted values at each end and then taking an average of the remaining values</p>
+<ul>
+<li><span class="math inline">\(\bar{x}= \frac{\sum_{i=p+1}^{n-p}x_{(i)}}{n-2p}\)</span></li>
+<li>Eliminates the influence of extreme values</li>
+</ul>
+<p><strong>Weighted mean</strong>: calculate by multiplying each data value <span class="math inline">\(x_i\)</span> by a user-specified weight <span class="math inline">\(w_i\)</span> and dividing their sum by the sum of the weights.</p>
+<ul>
+<li><p><span class="math inline">\(\bar{x}_w=\frac{\sum_{i=1}^nx_iw_i}{\sum_{i=1}^nw_i}\)</span></p></li>
+<li>Motivations for using a weighted mean:
+<ul>
+<li>Some values are intrinsically more variable than others, and highly variable observations are given a lower weight.</li>
+<li>The data collected does not equally represent the different groups that we are interested in measuring.</li>
+</ul></li>
+</ul>
+<p><strong>Weighted median</strong>: first sort the data, although each data value has an associated weight. Instead of the middle number, the weighted median is a value such that the sum of the weights is equal for the lower and upper halves of the sorted list.</p>
+<h2 id="robust-estimate-of-location"><em>Robust</em> estimate of location</h2>
+<p><strong>median</strong>: a <em>robust</em> estimate of location since it is not influenced by <em>outliers</em> (extreme cases) that could skew the results.</p>
+<p><strong>trimmed mean</strong>: widely used to avoid the influence of outliers.</p>
+<ul>
+<li>A compromise between the median and the mean: it is robust to extreme values in the data, but uses more data to calculate the estimate for location.</li>
+</ul>
+<h1 id="estimates-of-variability">Estimates of Variability</h1>
+<p><strong><em>Variability</em></strong>, also referred to as <em>dispersion</em>, measures whether the data values are tightly clustered or spread out.</p>
+<p><strong>Mean absolute deviation</strong>: <span class="math inline">\(\frac{\sum_{i=1}^n|x_i-\bar{x}|}{n}\)</span>, where <span class="math inline">\(x_i\)</span> is the sample mean.</p>
+<p><strong>Variance</strong>: <span class="math inline">\(s^2=\frac{\sum_{i=1}^n(x_i-\bar{x})^2}{n-1}\)</span></p>
+<blockquote>
+<p>If you use the intuitive denominator of <em>n</em> in the variance formula, you will underestimate the true value of the variance and the standard deviation in the population. This is referred to as a <em>biased</em> estimate. However, if you divide by <em>n</em> – 1 instead of <em>n</em>, the variance becomes an <em>unbiased</em> estimate.</p>
+<p>To fully explain why using <em>n</em> leads to a biased estimate involves the notion of <em>degrees of freedom</em>, which takes into account the number of constraints in computing an estimate. In this case, there are <em>n</em> – 1 degrees of freedom since there is one constraint: the standard deviation depends on calculating the sample mean.</p>
+</blockquote>
+<p><strong>Standard deviation</strong>: <span class="math inline">\(s=\sqrt{variance}\)</span></p>
+<ul>
+<li>SD is much easier to interpret than the variance since it is on the same scale as the original data.</li>
+<li>SD is preferred in statistics over the mean absolute deviation b.o. working with squared values is much more convenient than absolute values, especially for statistical models.</li>
+<li>The variance and SD are especially sensitive to outliers since they are based on the squared deviations.</li>
+</ul>
+<h2 id="robust-estimate-of-variability"><em>Robust</em> estimate of variability</h2>
+<p><strong><em>Median absolute deviation</em></strong> from the median (MAD): <span class="math inline">\(Median(|x_1-m|,|x_2-m|,...,|x_N-m|)\)</span>, where <em>m</em> is the median.</p>
+<ul>
+<li>Sometimes, the <em>median absolute deviation</em> is multiplied by a constant scaling factor to put the MAD on the same scale as the SD in the case of a <em>normal distribution</em>. The commonly used factor of 1.4826 means that 50% of the normal distribution fall within the range <span class="math inline">\(\pm MAD\)</span></li>
+</ul>
+<h3 id="estimates-based-on-percentiles"><strong>Estimates Based on Percentiles</strong></h3>
+<p>A different approach to estimating <em>dispersion</em> is based on looking at the spread of the <em>sorted data</em>.</p>
+<blockquote>
+<p><em>order statistics</em></p>
+</blockquote>
+<p><strong>Range</strong>: (the most basic) the difference between the largest and smallest numbers</p>
+<ul>
+<li>Extremely sensitive to outliers and not very useful as a general measure of dispersion in the data.</li>
+</ul>
+<p><strong>Percentiles</strong>: the <em>P</em>th percentile is a value such that at least <em>P</em> percent of the values take on this value or less and at least (100 – <em>P</em>) percent of the values take on this value or more.</p>
+<ul>
+<li>e.g. - to find the 80th percentile, sort the data. Then, starting with the smallest value, proceed 80 percent of the way to the largest value. Note that the median is the same thing as the 50th percentile.</li>
+<li>Essentially the same as a <strong><em>quantile</em></strong>, with quantiles indexed by fractions (so the .8 quantile is the same as the 80th percentile).</li>
+</ul>
+<p><strong>Interquartile range</strong>(IQR): the difference between the 25th percentile and the 75th percentile</p>
+<h1 id="exploring-the-data-distribution">Exploring the Data Distribution</h1>
+<h2 id="percentiles-and-boxplots"><strong>Percentiles and Boxplots</strong></h2>
+<p><strong><em>Quartiles</em></strong> (25th, 50th, and 75th percentiles) and the <strong><em>deciles</em></strong> (the 10th, 20th, ..., 90th percentiles). Percentiles are especially valuable for summarizing the <strong><em>tails</em></strong> (the outer range) of the distribution</p>
+<center>
+<img src="./1.EDA_1.png" width="500">
+</center>
+<p><strong><em>Boxplots</em></strong>: based on percentiles and give a quick way to visualize the distribution of data.</p>
+<center>
+<img src="./1.EDA_2.png" width="300">
+</center>
+<ul>
+<li>From this boxplot we can immediately see that the median state population is about 5 million, half the states fall between about 2 million and about 7 million, and there are some high population outliers.</li>
+<li>The top and bottom of the box are the 75th and 25th percentiles, respectively. The median is shown by the horizontal line in the box. The dashed lines, referred to as <em>whiskers</em>, extend from the top and bottom of the box to indicate the range for the bulk of the data.</li>
+<li>Any data outside of the whiskers is plotted as single points or circles (often considered outliers).</li>
+</ul>
+<h2 id="frequency-tables-and-histograms">Frequency Tables and Histograms</h2>
+<p><strong>Frequency table</strong> of a variable divides up the variable range into <em>equally spaced</em> segments and tells us how many values fall within each segment.</p>
+<p>The function <code>pandas.cut</code> creates a series that maps the values into the segments. Using the method <code>value_counts</code>, we get the frequency table:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">binnedPopulation = pd.cut(state[<span class="string">'Population'</span>], <span class="number">10</span>)</span><br><span class="line">binnedPopulation.value_counts()</span><br></pre></td></tr></table></figure>
+<p><strong>Frequency tables v.s. Percentiles</strong></p>
+<p>Both frequency tables and percentiles summarize the data by creating bins. In general,</p>
+<ul>
+<li>quartiles and deciles will have the same count in each bin (equal-count bins), but the bin sizes will be different.</li>
+<li>The frequency table will have different counts in the bins (equal-size bins), and the bin sizes will be the same.</li>
+</ul>
+<p><strong>Histogram</strong>: visualize a frequency table, with bins on the x- axis and the data count on the y-axis.</p>
+<ul>
+<li>Empty bins are included in the graph.</li>
+<li>Bins are of equal width.</li>
+<li>The number of bins (or, equivalently, bin size) is up to the user.</li>
+<li>Bars are contiguous—no empty space shows between bars, unless there is an empty bin.</li>
+</ul>
+<center>
+<img src="./1.EDA_3.png" width="300">
+</center>
+<p><strong>STATISTICAL MOMENTS</strong></p>
+<p>In statistical theory, <strong><em>location</em></strong> and <strong><em>variability</em></strong> are referred to as the <em>first</em> and <em>second</em> <strong><em>moments</em></strong> of a distribution. The <em>third</em> and <em>fourth</em> moments are called <strong><em>skewness</em></strong> and <strong><em>kurtosis</em></strong>.</p>
+<ul>
+<li><strong>Skewness</strong> refers to whether the data is skewed to larger or smaller values</li>
+<li><strong>Kurtosis</strong> indicates the propensity of the data to have extreme values.</li>
+</ul>
+<p>Generally, metrics are not used to measure skewness and kurtosis; instead, these are discovered through visual displays.</p>
+<h2 id="density-plots-and-estimates">Density Plots and Estimates</h2>
+<p><strong>Density plot</strong> can be thought of as a smoothed <em>histogram</em>, although it is typically computed directly from the data through a <em>kernel density estimate</em>.</p>
+<ul>
+<li>A key distinction from the histogram plotted in Figure 1-3 is the <em>scale of the y-axis</em>: a density plot corresponds to plotting the histogram as a <strong><em>proportion</em></strong> rather than <strong><em>counts</em></strong>. Note that the total area under the density curve = 1, and instead of counts in bins you calculate areas under the curve between any two points on the x-axis, which correspond to the proportion of the distribution lying between those two points.</li>
+</ul>
+<center>
+<img src="./1.EDA_4.png" width="300">
+</center>
+<h1 id="exploring-binary-and-categorical-data">Exploring Binary and Categorical Data</h1>
+<p><strong><em>Categorical data</em></strong> is typically summed up in proportions and can be visualized in a bar chart or pie chart.</p>
+<ul>
+<li>Categories might represent distinct things (apples and oranges, male and female), levels of a factor variable (low, medium, and high), or numeric data that has been binned.</li>
+</ul>
+<p><strong>Mode</strong>: the value—or values in case of a tie—that appears most often in the data - simple summary statistic for categorical data.</p>
+<p><strong>Expected Value</strong>: A special type of categorical data is data in which the categories represent or can be mapped to discrete values on the same scale. This data can be summed up in a single “expected value,” which is a form of <em>weighted mean</em>, in which the weights are probabilities.</p>
+<p>The expected value is calculated as follows:</p>
+<ol type="1">
+<li>Multiply each outcome by its probability of occurrence.</li>
+<li>Sum these values.</li>
+</ol>
+<h1 id="correlation"><strong>Correlation</strong></h1>
+<p><strong>Correlation coefficient</strong>: gives an estimate of the correlation between two variables that always lies on the same scale.</p>
+<ul>
+<li><strong><em>Pearson’s correlation coefficient</em></strong>: <span class="math inline">\(r=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{(n-1)s_xs_y}=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum(x_i-\bar{x})^2}\sqrt{\sum(y_i-\bar{y})^2}} \in [-1,+1]\)</span></li>
+<li>Variables can have an association that is <strong><em>nonlinear</em></strong>, in which case the correlation coefficient may not be a useful metric.</li>
+</ul>
+<p><strong>Correlation matrix</strong>: A table where the variables are shown on both rows and columns, and the cell values are the <strong>correlations</strong> between the variables.</p>
+<center>
+<img src="./1.EDA_5.png" width="500">
+</center>
+<p><strong>Scatterplots</strong>: The standard way to visualize the relationship between two measured data variables. The x-axis represents one variable and the y-axis another, and each point on the graph is a record.</p>
+<center>
+<img src="./1.EDA_6.png" width="300">
+</center>
+<h1 id="exploring-two-or-more-variables">Exploring Two or More Variables</h1>
+<h2 id="two-numeric-variables">Two Numeric Variables</h2>
+<p><strong>Hexagonal binning</strong>: A plot of two numeric variables with the records binned into hexagons.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ax = kc_tax0.plot.hexbin(x=<span class="string">'SqFtTotLiving'</span>,</span><br><span class="line">y=<span class="string">'TaxAssessedValue'</span>,</span><br><span class="line">                         gridsize=<span class="number">30</span>, sharex=<span class="literal">False</span>, figsize=</span><br><span class="line">(<span class="number">5</span>, <span class="number">4</span>))</span><br><span class="line">ax.set_xlabel(<span class="string">'Finished Square Feet'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'Tax-Assessed Value'</span>)</span><br></pre></td></tr></table></figure>
+<center>
+<img src="./1.EDA_7.png" width="300">
+</center>
+<p><strong>Contour plot</strong>: A plot showing the density of two numeric variables like a topographical map. The contours are essentially a topographical map to two variables; each contour band represents a specific density of points, increasing as one nears a “peak.”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax = sns.kdeplot(kc_tax0.SqFtTotLiving,</span><br><span class="line">kc_tax0.TaxAssessedValue, ax=ax)</span><br><span class="line">ax.set_xlabel(<span class="string">'Finished Square Feet'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'Tax-Assessed Value'</span>)</span><br></pre></td></tr></table></figure>
+<center>
+<img src="./1.EDA_8.png" width="300">
+</center>
+<h2 id="two-categorical-variables">Two Categorical Variables</h2>
+<p><strong>Contingency table</strong>: A tally of counts between two or more categorical variables.</p>
+<center>
+<img src="./1.EDA_9.png" width="400">
+</center>
+<h2 id="categorical-and-numeric-data">Categorical and Numeric Data</h2>
+<p><strong>Boxplots</strong> : a simple way to visually compare the distributions of a numeric variable grouped according to a categorical variable.</p>
+<center>
+<img src="./1.EDA_10.png" width="300">
+</center>
+<p><strong>Violin plot</strong>: Similar to a boxplot but plots the density estimate with the density on the y- axis.</p>
+<ul>
+<li>The advantage of a violin plot is that it can show nuances in the distribution that aren’t perceptible in a boxplot: the violin plot shows a concentration in the distribution near zero for Alaska and, to a lesser extent, Delta. This phenomenon is not as obvious in the boxplot.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ax = sns.violinplot(airline_stats.airline,</span><br><span class="line">airline_stats.pct_carrier_delay,</span><br><span class="line">                    inner=<span class="string">'quartile'</span>, color=<span class="string">'white'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'Daily % of Delayed Flights'</span>)</span><br></pre></td></tr></table></figure>
+<center>
+<img src="./1.EDA_11.png" width="300">
+</center>
+<h1 id="visualizing-multiple-variables">Visualizing Multiple Variables</h1>
+<blockquote>
+<p>The concept of <em>conditioning</em> variables (in this case, zip code)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">zip_codes = [<span class="number">98188</span>, <span class="number">98105</span>, <span class="number">98108</span>, <span class="number">98126</span>]</span><br><span class="line">kc_tax_zip = kc_tax0.loc[kc_tax0.ZipCode.isin(zip_codes),:]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hexbin</span><span class="params">(x, y, color, **kwargs)</span>:</span></span><br><span class="line">	cmap = sns.light_palette(color, as_cmap=<span class="literal">True</span>) </span><br><span class="line">  plt.hexbin(x, y, gridsize=<span class="number">25</span>, cmap=cmap, **kwargs)</span><br><span class="line"></span><br><span class="line">g = sns.FacetGrid(kc_tax_zip, col=<span class="string">'ZipCode'</span>, col_wrap=<span class="number">2</span>)</span><br><span class="line">g.map(hexbin, <span class="string">'SqFtTotLiving'</span>, <span class="string">'TaxAssessedValue'</span>,</span><br><span class="line">      extent=[<span class="number">0</span>, <span class="number">3500</span>, <span class="number">0</span>, <span class="number">700000</span>])</span><br><span class="line">g.set_axis_labels(<span class="string">'Finished Square Feet'</span>, <span class="string">'Tax-Assessed</span></span><br><span class="line"><span class="string">Value'</span>)</span><br><span class="line">g.set_titles(<span class="string">'Zip code &#123;col_name:.0f&#125;'</span>)</span><br></pre></td></tr></table></figure>
+<center>
+<img src="./1.EDA_12.png" width="300">
+</center>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/EDA/" rel="tag"># EDA</a>
+          
+            <a href="/tags/Statistics/" rel="tag"># Statistics</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/781a431b/" rel="next" title="October 2019 | 十月日志">
+                <i class="fa fa-chevron-left"></i> October 2019 | 十月日志
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/17c5bb19/" rel="prev" title="Study Notes of Udacity A/B Testing">
+                Study Notes of Udacity A/B Testing <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#estimates-of-location"><span class="nav-number">1.</span> <span class="nav-text">Estimates of Location</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#robust-estimate-of-location"><span class="nav-number">1.1.</span> <span class="nav-text">Robust estimate of location</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#estimates-of-variability"><span class="nav-number">2.</span> <span class="nav-text">Estimates of Variability</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#robust-estimate-of-variability"><span class="nav-number">2.1.</span> <span class="nav-text">Robust estimate of variability</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#estimates-based-on-percentiles"><span class="nav-number">2.1.1.</span> <span class="nav-text">Estimates Based on Percentiles</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exploring-the-data-distribution"><span class="nav-number">3.</span> <span class="nav-text">Exploring the Data Distribution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#percentiles-and-boxplots"><span class="nav-number">3.1.</span> <span class="nav-text">Percentiles and Boxplots</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#frequency-tables-and-histograms"><span class="nav-number">3.2.</span> <span class="nav-text">Frequency Tables and Histograms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#density-plots-and-estimates"><span class="nav-number">3.3.</span> <span class="nav-text">Density Plots and Estimates</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exploring-binary-and-categorical-data"><span class="nav-number">4.</span> <span class="nav-text">Exploring Binary and Categorical Data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#correlation"><span class="nav-number">5.</span> <span class="nav-text">Correlation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exploring-two-or-more-variables"><span class="nav-number">6.</span> <span class="nav-text">Exploring Two or More Variables</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#two-numeric-variables"><span class="nav-number">6.1.</span> <span class="nav-text">Two Numeric Variables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#two-categorical-variables"><span class="nav-number">6.2.</span> <span class="nav-text">Two Categorical Variables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#categorical-and-numeric-data"><span class="nav-number">6.3.</span> <span class="nav-text">Categorical and Numeric Data</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#visualizing-multiple-variables"><span class="nav-number">7.</span> <span class="nav-text">Visualizing Multiple Variables</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+

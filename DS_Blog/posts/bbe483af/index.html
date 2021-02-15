@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  The world of the efficient MapReduce is based on three whales. Combiner, Partitioner, and Comparator. Combiner To change the">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop MapReduce Application Tuning">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/bbe483af/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  The world of the efficient MapReduce is based on three whales. Combiner, Partitioner, and Comparator. Combiner To change the">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb61.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt8.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/pt9.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/cp1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/se2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/se1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/se3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/se4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/se5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/se7.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/comp1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/comp2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/comp3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/bbe483af/comp4.png">
+<meta property="og:updated_time" content="2019-06-28T21:20:14.467Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop MapReduce Application Tuning">
+<meta name="twitter:description" content="This is course note of Big Data Essentials: HDFS, MapReduce and Spark RDD  The world of the efficient MapReduce is based on three whales. Combiner, Partitioner, and Comparator. Combiner To change the">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/bbe483af/cb1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/bbe483af/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hadoop MapReduce Application Tuning | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/bbe483af/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop MapReduce Application Tuning
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-27 18:12:33" itemprop="dateCreated datePublished" datetime="2019-06-27T18:12:33-05:00">2019-06-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-28 16:20:14" itemprop="dateModified" datetime="2019-06-28T16:20:14-05:00">2019-06-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Big-Data/" itemprop="url" rel="index"><span itemprop="name">Big Data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">7.9k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">7 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>This is course note of <a href="https://www.coursera.org/learn/big-data-essentials" target="_blank" rel="noopener">Big Data Essentials: HDFS, MapReduce and Spark RDD</a></p>
+</blockquote>
+<p><strong>The world of the efficient MapReduce is based on three whales. Combiner, Partitioner, and Comparator.</strong></p>
+<h1 id="combiner">Combiner</h1>
+<p>To change the usage of these IO operations and network bandwidth, you can use <strong>combiner</strong> to squash several items into one.</p>
+<a id="more"></a>
+<p><img src="./cb1.png" width="600"></p>
+<p>Combiner: - expects an input in the form of the reducer input and it has the same output signature as a mapper. - can be applied arbitrarily number of times between map and reduce phases. - A combiner should not change a type and format of a key and value</p>
+<p><img src="./cb2.png" width="600"></p>
+<p>In the word count application, there is no difference between the combiner and the reducer. So you can easily call it with the following arguments.</p>
+<p><img src="./cb3.png" width="600"></p>
+<h2 id="example-mean-value">Example: Mean Value</h2>
+<blockquote>
+<p>count how many times on average you see a word in an article</p>
+</blockquote>
+<ul>
+<li>Mapper.py: print a pair containing the number of articles processed and the cumulative amount of words</li>
+</ul>
+<p><img src="./cb4.png" width="600"></p>
+<ul>
+<li>Reducer: memorize not only the number of occurrences but also the number of articles.</li>
+</ul>
+<p><img src="./cb5.png" width="600"></p>
+<ul>
+<li>Combiner: It could help us to speed up calculations, for the whole MapReduce job, as you will use less IO resources <img src="./cb61.png" width="600"></li>
+</ul>
+<h2 id="example-median">Example: Median</h2>
+<p>you have to get the whole dataset in place. So, the combiner is out of help in this case.</p>
+<p>it's not always possible to speed up calculations with the combiner. <img src="./cb7.png" width="600"></p>
+<h1 id="partitioner">Partitioner</h1>
+<p>Partitioner is used to calculate a reducer index for each (key, value) pair</p>
+<p>Collocation 搭配字詞</p>
+<blockquote>
+<p>To find collocations of size two in a data sets, you need to count Bigrams.</p>
+</blockquote>
+<p><strong>Mapper:</strong> The following mapper will emit a sequence of bigrams followed aggregation during their use phase.</p>
+<p><img src="./pt1.png" width="600"></p>
+<p>Hadoop MapReduce frame work will distribute and sort data by the first word. Because everything before the first tab character is considered a key.</p>
+<p><strong>Reducer:</strong> To sort data by the second word, you can update reducer.py to count all bigrams for the first corresponding word in memory--&gt;memory consuming. <img src="./pt2.png" width="600"></p>
+<p>output of these MapReduce application which validates that New York bigram is a collocation <img src="./pt3.png" width="600"></p>
+<p>In addition to the unnecessary memory consumption there would be uneven lot on the reducers.</p>
+<p>The benefit of MapReduce: it provides functionality to <strong>parallelized work.</strong></p>
+<p>e.g. In a default scenario you will have the far more lot on the reducer that will be busy processing this article <code>The</code>. But you have no need to send all of the bigrams starting with <code>The</code> to one reducer as you do calculations for each pair of words independently. <img src="./pt4.png" width="600"></p>
+<p>** partitioner**: &gt; In this case you would like to split the line into key value pairs by the second tab character.</p>
+<p><img src="./pt5.png" width="600"></p>
+<ul>
+<li>complete this MapReduce job faster due to better parallelism.</li>
+<li>bigrams starting with any arbitrary word allocated in different files.</li>
+</ul>
+<h2 id="example-ipv4-network-addresses">Example: IPv4 network addresses</h2>
+<p>IPv4 address contains four numbers called Octets delimited by dots.</p>
+<p><img src="./pt6.png" width="600"></p>
+<p>You can specify what a delimiter is and set number of fields related to a key. MapReduce framework will substitute this particular delimiter between num and num+1 fields to a tab character without any changes in your streaming scripts.</p>
+<p>In this example, - I would like to split the output from the streaming mapper by the first dot. - And from the reducers stream and output, I substituted the next but one dot with a key value MapReduce delimiter, which is a tab character.</p>
+<p><img src="./pt7.png" width="600"></p>
+<blockquote>
+<p>To partition IPv4 addresses by the second character of a first octet</p>
+</blockquote>
+<ul>
+<li>specify the field index and the starting character index in the start position</li>
+<li>specify the field index and the character index in the end position.</li>
+</ul>
+<p><img src="./pt8.png" width="600"></p>
+<p>I have to set a special partitioner called KeyFieldBasedPartitioner.</p>
+<p><em>Bigger picture</em>: the whole pipeline of MapReduce application execution</p>
+<p><img src="./pt9.png" width="400"></p>
+<p>You have mappers at the top. Then the data goes through combiners, then it is distributed by the partitioner. Finally there is a reduced phase.</p>
+<h1 id="comparator">Comparator</h1>
+<p>All the keys in MapReduce implement writable comparable interface.</p>
+<p><strong>Comparable</strong> means that you can specify the rule according to which one key is bigger than another.</p>
+<p>By default, you have the keys sorted by increasing order. For some applications, you would like to store them in a reverse order.</p>
+<p>comparator compares records for sorting, it is not an optimization</p>
+<h2 id="example-ipv4-network-addresses-1">Example: IPv4 network addresses</h2>
+<blockquote>
+<p>To sort octets of IPV4 address by the second octet in an increasing order, and by the third octate in a reverse order.</p>
+</blockquote>
+<p><img src="./cp1.png" width="450"></p>
+<h1 id="speculative-execution-backup-tasks">Speculative Execution / Backup Tasks</h1>
+<blockquote>
+<p>reduce your total waiting time by a factor of two</p>
+</blockquote>
+<p>One of the most common problems that causes a MapReduce application to wait longer for a job completion is a <strong>straggler</strong>--a machine that takes an unusually long time to complete one of the last few tasks in the computation. <img src="./se2.png" width="450"></p>
+<p>The solution of straggler: <strong>Backup Tasks</strong></p>
+<p><img src="./se1.png" width="450"> Due to the deterministic behavior of the Mapper and Reducer, you can easily re-execute straggler body of work on other node.</p>
+<p>In this case, the worker which processes data, they first outputs data to a distributed file system. All the other concurrent executions will be killed.</p>
+<p>Of course, the MapReduce framework is not going to have a copy for each running task. It is only used when a MapReducer application is close to completion.</p>
+<h2 id="tuning">Tuning:</h2>
+<p><img src="./se3.png" width="450"></p>
+<ul>
+<li>Speculative Execution is set by default to true. set these flags to false if you don't allow multiple instances of some map or reduce task to be executed in parallel.</li>
+</ul>
+<p><img src="./se4.png" width="450"></p>
+<ul>
+<li>These two flags can be used to specify the allowed number of running backup tasks at each point in the stream of the time and overall.</li>
+</ul>
+<p><img src="./se5.png" width="450"></p>
+<ul>
+<li>you can tune timeouts in milliseconds that will limit the time of your waiting till the next round of speculation.</li>
+</ul>
+<p>If you have successfully managed to speed up the process with speculation, then you should be able to find concurrent tasks killed by speculation on job trigger. <img src="./se7.png" width="550"></p>
+<h1 id="compression">Compression</h1>
+<p>You can balance the process and capacity by the data <strong>compression</strong>.</p>
+<p>Data compression is essentially a trade-off between - the disk I/O required to read and write data - The network bandwidth required to send data across the network - the in-memory calculation capacity(speed and usage of CPU and RAM). - ability of archives to be splitted by Hadoop</p>
+<p>The correct balance of these factors depends on the characteristics of your cluster, your data, your applications, or usage patterns, and the weather forecast.</p>
+<blockquote>
+<p>Data located in HDFS can be compressed. There is a shuffle and sort phase between map and the reduce where you can compress the <em>intermediate data.</em>--&gt;optimization</p>
+</blockquote>
+<p><img src="./comp1.png" width="600"></p>
+<ul>
+<li>Splittable column means that you can cut a file at any place and find the location for the next or the previous valid record.</li>
+<li>Native libraries that provide implementation of compression and decompression functionality, usually also support an option to choose a trade-off between speed or space optimization.</li>
+</ul>
+<p><strong>Pros &amp; Cons:</strong> - gzip file is a deflate file with extra headers and a footer. - bzip is more aggressive for space requirements, but consequently, it's slower during the compression. - lzo files can be used where you read data far more frequently than write. - You can provide index files for lzo files to make them splittable. - Snappy,even more faster decompression, but you will only be able to split this file records.</p>
+<p>A <strong>Hadoop codec</strong> is an implementation of a compression, decompression algorithm.</p>
+<p><img src="./comp2.png" width="600"></p>
+<p>You can specify the compression parameters for intermediate data for output or for both</p>
+<p><img src="./comp3.png" width="600"></p>
+<p><strong>Rules of thumb</strong>: 1. <em>gzip</em> or <em>bzip</em> are a good choice for <strong>cold data</strong>, which is accessed infrequently. 2. <em>bzip</em> produce more compression than <em>gzip</em> for some kinds of files at the cost of some speed when compressing and decompressing. 3. <em>Snappy</em> or <em>lzo</em> are a better choice for <strong>hot data</strong>, which is accessed frequently. 4. <em>Snappy</em> often performs better than <em>lzo</em>. 5. For MapReduce, we can use bzip and lzo formats, if you would like to have your data splittable. 6. <em>Snappy</em> and <em>gzip</em> formats are not splittable at file level compression. But you can use block level compression and splittable container formats such as <em>Avro</em> or <em>SequenceFile</em>--&gt; process the blocks in parallel using MapReduce</p>
+<p><img src="./comp4.png" width="600"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/6d5a8880/" rel="next" title="Apache Spark: Advanced Topics">
+                <i class="fa fa-chevron-left"></i> Apache Spark: Advanced Topics
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/f53c188b/" rel="prev" title="Hadoop MapReduce Streaming Application in Python">
+                Hadoop MapReduce Streaming Application in Python <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#combiner"><span class="nav-number">1.</span> <span class="nav-text">Combiner</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-mean-value"><span class="nav-number">1.1.</span> <span class="nav-text">Example: Mean Value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example-median"><span class="nav-number">1.2.</span> <span class="nav-text">Example: Median</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#partitioner"><span class="nav-number">2.</span> <span class="nav-text">Partitioner</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-ipv4-network-addresses"><span class="nav-number">2.1.</span> <span class="nav-text">Example: IPv4 network addresses</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#comparator"><span class="nav-number">3.</span> <span class="nav-text">Comparator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example-ipv4-network-addresses-1"><span class="nav-number">3.1.</span> <span class="nav-text">Example: IPv4 network addresses</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#speculative-execution-backup-tasks"><span class="nav-number">4.</span> <span class="nav-text">Speculative Execution / Backup Tasks</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tuning"><span class="nav-number">4.1.</span> <span class="nav-text">Tuning:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#compression"><span class="nav-number">5.</span> <span class="nav-text">Compression</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
