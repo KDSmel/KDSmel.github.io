@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Introduction to Model Selection Setting:  In the regression setting, the standard linear model \(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\) In the chapters that follow, we consider some approaches">
+<meta name="keywords" content="Model Selection">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Study Note: Model Selection and Regularization (Ridge &amp; Lasso)">
+<meta property="og:url" content="https://nancyyanyu.github.io/posts/a065f58f/index.html">
+<meta property="og:site_name" content="Nancy&#39;s Notes">
+<meta property="og:description" content="Introduction to Model Selection Setting:  In the regression setting, the standard linear model \(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\) In the chapters that follow, we consider some approaches">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/best_subset.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/1.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/2.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/3.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/4.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/5.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/6.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/lass_ridge.png">
+<meta property="og:image" content="https://nancyyanyu.github.io/posts/a065f58f/12%202.png">
+<meta property="og:updated_time" content="2019-10-19T23:21:22.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Study Note: Model Selection and Regularization (Ridge &amp; Lasso)">
+<meta name="twitter:description" content="Introduction to Model Selection Setting:  In the regression setting, the standard linear model \(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\) In the chapters that follow, we consider some approaches">
+<meta name="twitter:image" content="https://nancyyanyu.github.io/posts/a065f58f/best_subset.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Nancy's Notes" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://nancyyanyu.github.io/posts/a065f58f/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Study Note: Model Selection and Regularization (Ridge & Lasso) | Nancy's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Nancy's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code changes world!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-ml">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-big-data">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-journal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nancyyanyu.github.io/posts/a065f58f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nancy Yan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nancy's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Study Note: Model Selection and Regularization (Ridge & Lasso)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-19 18:02:42 / Modified: 18:21:22" itemprop="dateCreated datePublished" datetime="2019-10-19T18:02:42-05:00">2019-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">27k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">24 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="introduction-to-model-selection">Introduction to Model Selection</h1>
+<p><strong>Setting:</strong></p>
+<ul>
+<li><p>In the regression setting, the standard linear model <span class="math inline">\(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\)</span></p></li>
+<li><p>In the chapters that follow, we consider some approaches for extending the linear model framework.</p></li>
+</ul>
+<p><strong>Reason of using other fitting procedure than lease squares</strong>:</p>
+<ul>
+<li><strong><em>Prediction Accuracy:</em></strong>
+<ul>
+<li>Provided that the true relationship between the response and the predictors is approximately linear, the least squares estimates will have low bias.</li>
+<li>If n <span class="math inline">\(\gg\)</span> p, least squares estimates tend to also have low variance <span class="math inline">\(\Rightarrow\)</span> perform well on test data.</li>
+<li>If n is not much larger than p, least squares fit has large variance <span class="math inline">\(\Rightarrow\)</span> overfitting <span class="math inline">\(\Rightarrow\)</span> consequently poor predictions on test data</li>
+<li>If p &gt; n, no more unique least squares coefficient estimate: the <strong>variance is infinite</strong> so the method cannot be used at all</li>
+</ul>
+<p>By <strong>constraining</strong> or <strong>shrinking</strong> the estimated coefficients, we can often substantially reduce the variance at the cost of a negligible increase in bias.</p></li>
+<li><strong><em>Model Interpretability</em></strong>：
+<ul>
+<li>irrelevant variables leads to unnecessary complexity in the resulting model. By removing these variables—that is, by setting the corresponding coefficient estimates to zero—we can obtain a model that is more easily interpreted.</li>
+<li>least squares is extremely unlikely to yield any coefficient estimates that are exactly zero <span class="math inline">\(\Rightarrow\)</span> <strong>feature selection</strong></li>
+</ul></li>
+</ul>
+<p><strong>Alternatives of lease squares:</strong></p>
+<ol type="1">
+<li>Subset Selection</li>
+<li>Shrinkage</li>
+<li><a href="https://nancyyanyu.github.io/posts/cac93a23/">Dimension Reduction</a></li>
+</ol>
+<a id="more"></a>
+<h1 id="subset-selection">Subset Selection</h1>
+<h4 id="drawbacks-of-least-squares-estimates">Drawbacks of least squares estimates:</h4>
+<ul>
+<li><em>prediction accuracy</em>: the least squares estimates often have low bias but large variance. Prediction accuracy can sometimes be improved by shrinking or setting some coeﬃcients to zero.By doing so we sacriﬁce a little bit of bias to reduce the variance of the predicted values, and hence may improve the overall prediction accuracy.</li>
+<li><em>interpretation</em>: With a large number of predictors, we often would like to determine a smaller subset that exhibit the strongest eﬀects. In order to get the “big picture,” we are willing to sacriﬁce some of the small details.</li>
+</ul>
+<h2 id="best-subset-selection">Best Subset Selection</h2>
+<p>Best subset regression ﬁnds for each k ∈{0, 1, 2,...,p} the subset of size k that gives smallest residual sum of squares.</p>
+<p>We choose the smallest model that minimizes an estimate of the expected prediction error.</p>
+<p><img src="./best_subset.png" width="600"></p>
+<blockquote>
+<p>FIGURE 3.5.All possible subset models for the prostate cancer example. At each subset size is shown the residual sum-of-squares for each model of that size.</p>
+</blockquote>
+<p><strong>Approach</strong></p>
+<ol type="1">
+<li>fit a separate least squares regression best subset for each possible combination of the p predictors. That is, we fit all p models selection that contain exactly one predictor, all <span class="math inline">\(\left(\begin{array}{c}p\\ 2\end{array}\right)= p(p−1)/2\)</span> models that contain exactly two predictors, and so forth.</li>
+<li>We then look at all of the resulting models, with the goal of identifying the one that is best.</li>
+</ol>
+<p><img src="./1.png" width="600"></p>
+<p><strong>Note</strong></p>
+<ul>
+<li><span class="math inline">\(RSS\)</span> of these p + 1 models decreases monotonically, and the <span class="math inline">\(R2\)</span> increases monotonically, as the number of features included in the models increases. Therefore, if we use these statistics to select the best model, then we will always end up with a model involving all of the variables</li>
+<li>The problem of selecting the best model from among the <span class="math inline">\(2^p\)</span> possibilities considered by best subset selection is not trivial.</li>
+</ul>
+<h2 id="stepwise-selection">Stepwise Selection</h2>
+<blockquote>
+<p>Rather than search through all possible subsets (which becomes infeasible for p much larger than 40), we can seek a good path through them.</p>
+</blockquote>
+<h3 id="forward-stepwise-selection">Forward Stepwise Selection</h3>
+<p><strong>Forward-stepwise selection</strong> starts with the intercept, and then sequentially adds into the model the predictor that most improves the ﬁt.</p>
+<p>Forward-stepwise selection is a <em>greedy algorithm</em>, producing a nested sequence of models. In this sense it might seem sub-optimal compared to best-subset selection.</p>
+<h4 id="advantages">Advantages:</h4>
+<ul>
+<li><strong>Computational</strong>: for large p we cannot compute the best subset sequence, but we can always compute the forward stepwise sequence</li>
+<li><strong>Statistical</strong>: a price is paid in variance for selecting the best subset of each size; forward stepwise is a more constrained search, and will have lower variance, but perhaps more bias</li>
+</ul>
+<p><strong>Approach</strong></p>
+<ol type="1">
+<li><strong>Forward stepwise selection</strong> begins with a model containing no predictors, and then adds predictors to the model, one-at-a-time, until all of the predictors are in the model.</li>
+<li>In particular, at each step the variable that gives the greatest additional improvement to the fit is added to the model.</li>
+</ol>
+<p><img src="./2.png" width="600"></p>
+<p><strong>Forward Stepwise Selection V.S. Best Subset Selection</strong></p>
+<ul>
+<li>Forward stepwise selection’s computational advantage over best subset selection is clear.</li>
+<li>Forward stepwise is not guaranteed to find the best possible model out of all <span class="math inline">\(2^p\)</span> models containing subsets of the p predictors.</li>
+</ul>
+<h3 id="backward-stepwise-selection">Backward Stepwise Selection</h3>
+<p><strong>Backward-stepwise selection</strong> starts with the full model, and sequentially deletes the predictor that has the least impact on the ﬁt. The candidate for dropping is the variable with the smallest Z-score</p>
+<p><strong>Approach</strong></p>
+<ol type="1">
+<li><strong>Backward Stepwise Selection</strong> begins with the full least squares model containing all p predictors, and then iteratively removes the least useful predictor, one-at-a-time</li>
+</ol>
+<p><img src="./3.png" width="600"></p>
+<p><strong>Backward Stepwise Selection V.S. Forward Stepwise Selection</strong>:</p>
+<ul>
+<li>Like forward stepwise selection, the backward selection approach searches through only 1+p(p+1)/2 models, and so can be applied in settings where p is too large to apply best subset selection.</li>
+<li>Like forward stepwise selection, backward stepwise selection is not guaranteed to yield the best model containing a subset of the p predictors.</li>
+<li>Backward selection requires that the number of samples n is larger than the number of variables p (so that the full model can be fit). In contrast, forward stepwise can be used even when n &lt; p, and so is the only viable subset method when p is very large.</li>
+</ul>
+<h3 id="hybrid-approaches">Hybrid Approaches</h3>
+<p><strong>Approach</strong></p>
+<ol type="1">
+<li>Variables are added to the model sequentially, in analogy to forward selection.</li>
+<li>However, after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model fit.</li>
+</ol>
+<p><strong>Note</strong></p>
+<p>Such an approach attempts to more closely mimic best subset selection while retaining the computational advantages of forward and backward stepwise selection.</p>
+<h2 id="choosing-the-optimal-model">Choosing the Optimal Model</h2>
+<p>The training error can be a poor estimate of the test error. Therefore, RSS and R2 are not suitable for selecting the best model among a collection of models with different numbers of predictors.</p>
+<p><strong>2 Methods</strong>:</p>
+<ol type="1">
+<li><em>indirectly</em> estimate test error by making an adjustment to the training error to account for the bias due to overfitting.</li>
+<li><em>directly</em> estimate the test error, using either a validation set approach or a cross-validation approach</li>
+</ol>
+<h3 id="c_p-aic-bic-adjusted-r2"><span class="math inline">\(C_p\)</span>, <span class="math inline">\(AIC\)</span>, <span class="math inline">\(BIC\)</span>, Adjusted <span class="math inline">\(R^2\)</span></h3>
+<ul>
+<li>the training set MSE is generally an underestimate of the test MSE. (Recall that MSE = RSS/n.)</li>
+<li>the training error will decrease as more variables are included in the model, but the test error may not.</li>
+<li>Therefore, training set RSS and training set R2 cannot be used to select from among a set of models with different numbers of variables.</li>
+</ul>
+<h4 id="c_p"><span class="math inline">\(C_p\)</span></h4>
+<p><span class="math inline">\(C_p\)</span> estimate of test MSE: <span class="math display">\[
+\begin{align}
+C_p=\frac{1}{n}(RSS+2d\hat{\sigma}^2)
+\end{align}
+\]</span> where <span class="math inline">\(\hat{\sigma}^2\)</span> is an estimate of the variance of the error <span class="math inline">\(\epsilon\)</span></p>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>The <span class="math inline">\(C_p\)</span> statistic adds a penalty of <span class="math inline">\(2d\hat{\sigma}^2\)</span> to the training RSS in order to adjust for the fact that the training error tends to underestimate the test error.</li>
+<li>The penalty increases as the number of predictors in the model increases; this is intended to adjust for the corresponding decrease in training RSS.</li>
+<li>If <span class="math inline">\(\hat{\sigma}^2\)</span> is an unbiased estimate of <span class="math inline">\(\sigma^2\)</span> in, then <span class="math inline">\(C_p\)</span> is an unbiased estimate of test MSE</li>
+<li>When determining which of a set of models is best, we choose the model with the lowest <span class="math inline">\(C_p\)</span> value.</li>
+</ul>
+<h4 id="aic">AIC</h4>
+<p>The AIC criterion is defined for a large class of models fit by maximum likelihood. In the case of the model <span class="math inline">\(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\)</span> with Gaussian errors, maximum likelihood and least squares are the same thing.</p>
+<p>In this case AIC is given by <span class="math display">\[
+\begin{align}
+AIC=\frac{1}{n\hat{\sigma}^2}(RSS+2d\hat{\sigma}^2)
+\end{align}
+\]</span> For least squares models, Cp and AIC are proportional to each other</p>
+<h4 id="bic">BIC</h4>
+<p>For the least squares model with d predictors, the BIC is, up to irrelevant constants, given by <span class="math display">\[
+\begin{align}
+BIC=\frac{1}{n}(RSS+\log(n)d\hat{\sigma}^2)
+\end{align}
+\]</span> Since log(n) &gt; 2 for any n &gt; 7, the BIC statistic generally places a heavier penalty on models with many variables, and hence results in the selection of smaller models than Cp.</p>
+<h4 id="adjusted-r2">Adjusted <span class="math inline">\(R^2\)</span></h4>
+<p>Recall: <span class="math display">\[
+\begin{align}
+R^2=1 − RSS/TSS=1-\frac{RSS}{\sum(y_i-\bar{y})^2}
+\end{align}
+\]</span> <strong>TSS</strong>: total sum of squares for the response</p>
+<p>For a least squares model with d variables, <strong>the adjusted R2</strong> statistic is calculated as <span class="math display">\[
+Adjusted  \, R^2=1 − \frac{RSS/(n-d-1)}{TSS/(n-1)}
+\]</span> <strong>Note</strong>:</p>
+<ul>
+<li>a large value of adjusted R2 indicates a model with a small test error. Maximizing the adjusted R2 is equivalent to minimizing <span class="math inline">\(RSS/(n−d−1)\)</span></li>
+<li><span class="math inline">\(RSS/(n−d−1)\)</span> may increase or decrease, due to the presence of d in the denominator.</li>
+</ul>
+<p><strong>Intuition</strong>:</p>
+<ul>
+<li>once all of the correct variables have been included in the model, adding additional noise variables will lead to only a very small decrease in RSS</li>
+<li>Unlike the R2 statistic, the adjusted R2 statistic pays a price for the inclusion of unnecessary variables in the model</li>
+</ul>
+<h3 id="validation-and-cross-validation">Validation and Cross-Validation</h3>
+<p>As an alternative to the approaches just discussed, we can compute the validation set error or the cross-validation error for each model under consideration, and then select the model for which the resulting estimated test error is smallest.</p>
+<p><strong>Advantage over <span class="math inline">\(C_p, AIC, BIC\)</span></strong>:</p>
+<ul>
+<li>Direct estimate of the test error, and makes fewer assumptions about the true underlying model.</li>
+<li>Used in a wider range of model selection tasks, even in cases where it is hard to pinpoint the model degrees of freedom or hard to estimate the error variance σ2.</li>
+</ul>
+<p><strong>One-standard-error rule</strong>: We first calculate the standard error of the estimated test MSE for each model size, and then select the smallest model for which the estimated test error is within one standard error of the lowest point on the curve.</p>
+<ul>
+<li><strong>Rationale</strong>: if a set of models appear to be more or less equally good, then we might as well choose the simplest model</li>
+</ul>
+<h1 id="shrinage-methods">Shrinage Methods</h1>
+<h2 id="ridge-regression">Ridge Regression</h2>
+<p><strong>Ridge regression</strong> shrinks the regression coeﬃcients by imposing a penalty on their size.The ridge coeﬃcients minimize a penalized residual sum of squares: <span class="math display">\[
+\begin{align}
+\hat{\beta}^{ridge}=argmin_\beta {\sum_{i=1}^N(y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j)^2+\lambda\sum_{j=1}^p\beta_j^2}
+\end{align}
+\]</span></p>
+<ul>
+<li>λ ≥ 0 is a complexity parameter that controls the amount of shrinkage</li>
+</ul>
+<p>Writing the criterion in matrix form: <span class="math display">\[
+\begin{align}
+RSS(\lambda)=(\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)+\lambda\beta^T\beta
+\end{align}
+\]</span> The ridge regression solutions: <span class="math display">\[
+\begin{align}
+\hat{\beta}^{ridge}=(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}
+\end{align}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mathbf{I}\)</span> is the p×p identity matrix</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>the ridge regression solution is again a linear function of <span class="math inline">\(\mathbf{y}\)</span>;</li>
+<li>The solution adds a positive constant to the diagonal of <span class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> before inversion, which makes the problem nonsingular.</li>
+</ul>
+<p>Recall least squares: <span class="math display">\[
+\begin{align}
+RSS=\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j \right)^2
+\end{align}
+\]</span> <strong>Ridge regression</strong> coefficient estimates <span class="math inline">\(\hat{\beta}^R\)</span> are the values that minimize <span class="math display">\[
+\begin{align}
+\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j \right)^2+\lambda\sum_{j=1}^p\beta_j^2=RSS+\lambda\sum_{j=1}^p\beta_j^2
+\end{align}
+\]</span></p>
+<p><strong>Trade-off:</strong></p>
+<ol type="1">
+<li>Ridge regression seeks coefficient estimates that fit the data well, by making the RSS small.</li>
+<li><strong>shrinkage penalty</strong> <span class="math inline">\(\lambda\sum_{j=1}^p\beta_j^2\)</span> is small when β1, . . . , βp are close to zero, and so it has the effect of shrinking the estimates of βj towards zero</li>
+</ol>
+<p><strong>Standardization</strong>:</p>
+<ul>
+<li><p><strong>scale equivariant</strong>: The standard least squares coefficient estimates are scale equivariant: multiplying Xj by a constant c simply leads to a scaling of the least squares coefficient estimates by a factor of 1/c.</p></li>
+<li><p><span class="math inline">\(X_{j,\lambda}^\beta\)</span> will depend not only on the value of λ, but also on the scaling of the jth predictor, and the scaling of the other predictors. It is best to apply ridge regression after standardizing the predictors <span class="math display">\[
+\begin{align}
+\tilde{x}_{ij}=\frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}}
+\end{align}
+\]</span> The denominator is the estimated standard deviation of the jth predictor</p>
+<p>The denominator is the estimated standard deviation of the jth predictor</p></li>
+</ul>
+<h3 id="ridge-regression-improves-over-least-squares">Ridge Regression Improves Over Least Squares</h3>
+<ol type="1">
+<li><strong>bias-variance trade-off</strong></li>
+</ol>
+<ul>
+<li>Ridge regression’s advantage over least squares is rooted in the bias-variance trade-off. As λ increases, the flexibility of the ridge regression fit decreases, leading to decreased variance but increased bias.</li>
+<li>At the least squares coefficient estimates, which correspond to ridge regression with λ = 0, the variance is high but there is no bias. But as λ increases, the shrinkage of the ridge coefficient estimates leads to a substantial reduction in the variance of the predictions, at the expense of a slight increase in bias. <img src="./4.png" width="600"></li>
+</ul>
+<blockquote>
+<p>Ridge regression works best in situations where the least squares estimates have high variance</p>
+</blockquote>
+<ol start="2" type="1">
+<li><strong>computational advantages over best subset selection</strong></li>
+</ol>
+<h3 id="singular-value-decomposition-svd">Singular value decomposition (SVD)</h3>
+<p>The <strong>singular value decomposition (SVD)</strong> of the centered input matrix X gives us some additional insight into the nature of ridge regression. The SVD of the N × p matrix X has the form: <span class="math display">\[
+\begin{align}
+X=UDV^T
+\end{align}
+\]</span></p>
+<ul>
+<li>U: N×p orthogonal matrices, with the columns of U spanning the column space of X</li>
+<li>V: p×p orthogonal matrices, the columns of V spanning the row space of X</li>
+<li>D: p×p diagonal matrix, with diagonal entries d1 ≥ d2 ≥···≥ dp ≥ 0 called the singular values of X. If one or more values dj =0,X is singular</li>
+</ul>
+<p>least squares ﬁtted vector: <span class="math display">\[
+\begin{align}
+\mathbf{X}\hat{\beta}^{ls}&amp;=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} \\
+&amp;=UDV^T (VD^TU^TUDV^T)^{-1}VD^TU^Ty \\
+&amp;=UDV^T (VD^TDV^T)^{-1}VD^TU^Ty \\
+&amp;=UDV^T (V^T)^{-1}D^{-1}(D^T)^{-1}V^{-1}VD^TU^Ty \\
+&amp;=\mathbf{U}\mathbf{U}^T\mathbf{y}
+\end{align}
+\]</span> Note: <span class="math inline">\(\mathbf{U}^T\mathbf{y}\)</span> are the coordinates of y with respect to the orthonormal basis U.</p>
+<p>The ridge solutions: <span class="math display">\[
+\begin{align}
+\mathbf{X}\hat{\beta}^{ridge}&amp;=\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y} \\
+&amp;=UD(D^2+\lambda\mathbf{I})^{-1}D^TU^Ty \\
+&amp;=\sum_{j=1}^p\mathbf{u}_j\frac{d^2_j}{d^2_j+\lambda}\mathbf{u}^T_j\mathbf{y}
+\end{align}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mathbf{u}_j\)</span> are the columns of U</li>
+</ul>
+<p>Note: ridge regression computes the coordinates of y with respect to the orthonormal basis U. It then shrinks these coordinates by the factors <span class="math inline">\(\frac{d^2_j}{d^2_j+\lambda}\)</span></p>
+<h4 id="what-does-a-small-value-of-d2_j-mean">What does a small value of <span class="math inline">\(d^2_j\)</span> mean?</h4>
+<p>The SVD of the centered matrix X is another way of expressing the <strong>principal components</strong> of the variables in X. The sample covariance matrix is given by <span class="math inline">\(S=X^TX/N\)</span>, we have</p>
+<p><strong>Eigen decomposition of <span class="math inline">\(X^TX\)</span>:</strong> <span class="math display">\[
+\begin{align}
+\mathbf{X}^T\mathbf{X}=VD^TU^TUDV^T=VD^2V^T
+\end{align}
+\]</span> The eigenvectors <span class="math inline">\(v_j\)</span> (columns of V) are also called the <strong>principal components</strong> (or Karhunen–Loeve) directions of X. The ﬁrst principal component direction <span class="math inline">\(v_1\)</span> has the property that <span class="math inline">\(z_1=Xv_1\)</span> has the largest sample variance amongst all normalized linear combinations of the columns of X, which is: <span class="math display">\[
+\begin{align}
+Var(z_1)=Var(Xv_1)=\frac{d^2_1}{N}
+\end{align}
+\]</span> and in fact <span class="math inline">\(z_1=Xv_1=u_1d_1\)</span>. The derived variable <span class="math inline">\(z_1\)</span> is called the ﬁrst principal component of X, and hence <span class="math inline">\(u_1\)</span> is the normalized ﬁrst principal component.Subsequent principal components <span class="math inline">\(z_j\)</span> have maximum variance <span class="math inline">\(\frac{d^2_j}{N}\)</span>, subject to being orthogonal to the earlier ones.</p>
+<p>Hence the small singular values <span class="math inline">\(d_j\)</span> correspond to directions in the column space of X having small variance, and ridge regression shrinks these directions the most.</p>
+<h3 id="eﬀective-degrees-of-freedom">Eﬀective degrees of freedom</h3>
+<p><span class="math display">\[
+\begin{align}
+df(\lambda)&amp;=tr[\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T] \\
+&amp;=tr[\mathbf{H}\lambda] \\
+&amp;=\sum^p_{j=1}\frac{d^2_j}{d^2_j+\lambda}
+\end{align}
+\]</span></p>
+<p>This monotone decreasing function of λ is the eﬀective degrees of freedom of the ridge regression ﬁt. Usually in a linear-regression ﬁt with p variables,the degrees-of-freedom of the ﬁt is p, the number of free parameters.</p>
+<p>Note that</p>
+<blockquote>
+<p>df(λ)= p as λ = 0 (no regularization)</p>
+</blockquote>
+<blockquote>
+<p>df(λ) → 0 as λ →∞.</p>
+</blockquote>
+<h2 id="the-lasso">The Lasso</h2>
+<p>The lasso coefficients, <span class="math inline">\(\hat{\beta}_\lambda^L\)</span>, minimize the quantity <span class="math display">\[
+\begin{align}
+\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j \right)^2+\lambda\sum_{j=1}^p|\beta_j|=RSS+\lambda\sum_{j=1}^p|\beta_j|
+\end{align}
+\]</span></p>
+<p>The lasso is a shrinkage method like ridge, with subtle but important differences.The lasso estimate is deﬁned by: <span class="math display">\[
+\begin{align}
+\hat{\beta}^{lasso}&amp;=argmin_\beta\sum_{i=1}^N(y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j)^2 \\
+&amp; s.t. \sum_{j=1}^p|\beta_j|\leq t
+\end{align}
+\]</span> Lasso problem in <em>Lagrangian form</em>: <span class="math display">\[
+\begin{align}
+\hat{\beta}^{lasso}&amp;=argmin_\beta\{ \sum_{i=1}^N(y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j)^2+\lambda\sum_{j=1}^p|\beta_j| \}
+\end{align}
+\]</span></p>
+<h4 id="section"></h4>
+<h3 id="another-formulation-for-ridge-regression-and-the-lasso">Another Formulation for Ridge Regression and the Lasso</h3>
+<p>The lasso and ridge regression coefficient estimates solve the problems <span class="math display">\[
+\begin{align}
+minimize_\beta \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j \right)^2\right\}\,\, subject\, to \, \sum_{j=1}^p|\beta_j|\leq s \\
+minimize_beta \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j \right)^2\right\}\,\, subject\, to \, \sum_{j=1}^p\beta_j^2\leq s
+\end{align}
+\]</span> When we perform the lasso we are trying to find the set of coefficient estimates that lead to the smallest RSS, subject to the constraint that there is a budget s for how large <span class="math inline">\(\sum_{j=1}^p|\beta_j|\)</span> can be. When s is extremely large, then this budget is not very restrictive, and so the coefficient estimates can be large</p>
+<p><strong>A close connection between the lasso, ridge regression, and best subset selection</strong>:</p>
+<p>best subset selection is equivelant to : <span class="math display">\[
+\begin{align}
+minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j \right)^2\right\}\,\, subject\, to \, \sum_{j=1}^pI(\beta_j\neq 0)\leq s
+\end{align}
+\]</span> Therefore, we can interpret <strong>ridge regression</strong> and <strong>the lasso</strong> as computationally feasible alternatives to <strong>best subset selection</strong>.</p>
+<h3 id="the-variable-selection-property-of-the-lasso">The Variable Selection Property of the Lasso</h3>
+<p>The lasso and ridge regression coefficient estimates are given by the first point at which an ellipse contacts the constraint region.</p>
+<p><strong>ridge regression</strong>: <strong>circular</strong> constraint with no sharp points, so the ridge regression coefficient estimates will be exclusively non-zero.</p>
+<p><strong>the lasso</strong>: constraint has <strong>corners</strong> at each of the axes, and so the ellipse will often intersect the constraint region at an axis.</p>
+<ul>
+<li>the <span class="math inline">\(l_1\)</span> penalty has the effect of forcing some of the coefficient estimates to be exactly equal to zero when the tuning parameter λ is sufficiently large.</li>
+<li>Hence, much like best subset selection, the lasso performs <strong>variable selection</strong></li>
+</ul>
+<blockquote>
+<p>lasso yields <strong>sparse</strong> models</p>
+</blockquote>
+<p><img src="./5.png" width="600"></p>
+<h3 id="comparing-the-lasso-and-ridge-regression">Comparing the Lasso and Ridge Regression</h3>
+<p><strong>SAME</strong>: Ridge &amp; Lasso all can yield a reduction in variance at the expense of a small increase in bias, and consequently can generate more accurate predictions.</p>
+<p><strong>DIFFERENCES</strong>:</p>
+<ul>
+<li>Unlike ridge regression, the <strong>lasso performs variable selection</strong>, and hence results in models that are easier to interpret.</li>
+<li>Ridge regression outperforms the lasso in terms of prediction error in this setting</li>
+</ul>
+<p><strong>Suitable setting</strong>:</p>
+<ul>
+<li><strong>Lasso</strong>: perform better in a setting where a relatively small number of predictors have substantial coefficients, and the remaining predictors have coefficients that are very small or that equal zero.</li>
+<li><strong>Ridge regression</strong>: perform better when the response is a function of many predictors, all with coefficients of roughly equal size.</li>
+<li>The number of predictors that is related to the response is never known a <strong>priori</strong> for real data sets. Cross-validation can be used in order to determine which approach is better on a particular data set.</li>
+</ul>
+<p><img src="./6.png" width="600"></p>
+<p>The L2 ridge penalty <span class="math inline">\(\sum_{j=1}^p\beta_j^2\)</span> is replaced by the L1 lasso penalty <span class="math inline">\(\sum_{j=1}^p|\beta_j|\)</span>. This latter constraint makes the solutions nonlinear in the <span class="math inline">\(y_i\)</span>, and there is no closed form expression as in ridge regression.</p>
+<blockquote>
+<p>t should be adaptively chosen to minimize an estimate of expected prediction error.</p>
+</blockquote>
+<ul>
+<li>if <span class="math inline">\(t&gt;t_0=\sum_{j=1}^p|\hat{\beta_j^{ls}}|\)</span>, then the lasso estimates are the <span class="math inline">\(\hat{\beta_j^{ls}}\)</span></li>
+<li>if <span class="math inline">\(t&gt;t_0/2\)</span>, the least squares coeﬃcients are shrunk by about 50% on average</li>
+</ul>
+<p>The standardized parameter: <span class="math inline">\(s=t/\sum_1^p|\hat{\beta_j}|\)</span></p>
+<ul>
+<li>s=1.0, the lasso coeﬃcients are the least squares estimates</li>
+<li>s-&gt;0, as the lasso coeﬃcients -&gt;0</li>
+</ul>
+<h2 id="shrinkage-methods-v.s.-subset-selection"><strong>Shrinkage Methods v.s. Subset Selection</strong>:</h2>
+<ul>
+<li><strong>Subset selection</strong>
+<ul>
+<li>described involve using least squares to fit a linear model that contains a subset of the predictors.</li>
+<li>are discrete process—variables are either retained or discarded—it often exhibits high variance,and so doesn’t reduce the prediction error of the full model.</li>
+</ul></li>
+<li><strong>Shrinkage Methods</strong>
+<ul>
+<li>fit a model containing all p predictors by constraining or regularizing the coefficient estimates, or equivalently, that shrinks the coefficient estimates towards zero.</li>
+<li>are more continuous, and don’t suﬀer as much from high variability.</li>
+</ul></li>
+</ul>
+<h2 id="discussion-subset-selection-ridge-regression-and-the-lasso">Discussion: Subset Selection, Ridge Regression and the Lasso</h2>
+<ul>
+<li>Ridge regression: does a proportional shrinkage</li>
+<li>Lasso: translates each coeﬃcient by a constant factor λ, truncating at zero --“soft thresholding,”</li>
+<li>Best-subset selection: drops all variables with coeﬃcients smaller than the Mth largest --“hard-thresholding.” <img src="./lass_ridge.png" width="550"></li>
+</ul>
+<h3 id="bayes-view">Bayes View</h3>
+<p>Consider the criterion <span class="math display">\[
+\begin{align}
+\tilde{\beta}&amp;=argmin_\beta\{ \sum_{i=1}^N(y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j)^2+\lambda\sum_{j=1}^p|\beta_j|^q \}
+\end{align}
+\]</span> for q ≥ 0. The contours of constant value of <span class="math inline">\(\sum_{j=1}^p|\beta_j|^q\)</span> are shown in Figure 3.12, for the case of two inputs. &lt;img src=&quot;./images/q.png&quot;,width=550&gt;</p>
+<p><font color="red">The lasso, ridge regression and best subset selection are Bayes estimates with diﬀerent priors:</font>Thinking of <span class="math inline">\(\sum_{j=1}^p|\beta_j|^q\)</span> as the log-prior density for βj , these are also the equi-contours of the prior distribution of the parameters.</p>
+<ul>
+<li>q = 0 :variable subset selection, as the penalty simply counts the number of nonzero parameters;</li>
+<li>q = 1 :the lasso, also Laplace distribution for each input, with density <span class="math inline">\(\frac{1}{2\tau}exp(-|\beta|/\tau)\)</span>, where <span class="math inline">\(\tau=1/\lambda\)</span></li>
+<li>q = 2 :the ridge</li>
+</ul>
+<h1 id="considerations-in-high-dimensions">Considerations In High Dimensions</h1>
+<h2 id="high-dimensional-data">High-Dimensional Data</h2>
+<p><strong>High-dimensional</strong>: Data sets containing more features than observations are often referred to as high-dimensional.</p>
+<ul>
+<li>Classical approaches such as least squares linear regression are not appropriate in this setting</li>
+</ul>
+<h2 id="what-goes-wrong-in-high-dimensions">What Goes Wrong in High Dimensions?</h2>
+<ol type="1">
+<li>When the number of features p is as large as, or &gt;n, least squares cannot be performed.</li>
+</ol>
+<p><strong>Reason</strong>: regardless of whether or not there truly is a relationship between the features and the response, least squares will yield a set of coefficient estimates that result in a perfect fit to the data, such that the residuals are zero.</p>
+<ul>
+<li>This perfect fit will almost certainly lead to overfitting of the data</li>
+<li>The problem is simple: when p &gt; n or p ≈ n, a simple least squares regression line is too <strong><em>flexible</em></strong> and hence overfits the data.</li>
+</ul>
+<ol start="2" type="1">
+<li>Examines only the R2 or the training set MSE might erroneously conclude that the model with the greatest number of variables is best. <img src="./12 2.png" width="650"></li>
+</ol>
+<ul>
+<li><strong>Cp, AIC, and BIC</strong> approaches are not appropriate in the high-dimensional setting, because estimating <span class="math inline">\(\hat{σ}^2\)</span> is problematic.(For instance, the formula for <span class="math inline">\(\hat{σ}^2\)</span> from Chapter 3 yields an estimate <span class="math inline">\(\hat{σ}^2\)</span> = 0 in this setting.)</li>
+<li><strong>Adjusted <span class="math inline">\(R^2\)</span> </strong> in the high-dimensional setting is problematic, since one can easily obtain a model with an adjusted <span class="math inline">\(R^2\)</span> value of 1.</li>
+</ul>
+<h2 id="regression-in-high-dimensions">Regression in High Dimensions</h2>
+<p><strong>Alternative approaches better-suited to the high-dimensional setting:</strong></p>
+<ul>
+<li>Forward stepwise selection</li>
+<li>Ridge regression</li>
+<li>The lasso</li>
+<li>Principal components regression</li>
+</ul>
+<p><strong>Reason:</strong> These approaches avoid overfitting by using a less flexible fitting approach than least squares.</p>
+<p><strong>Three important points:</strong> (1) Regularization or shrinkage plays a key role in high-dimensional problems,</p>
+<ol start="2" type="1">
+<li><p>Appropriate tuning parameter selection is crucial for good predictive performance, and</p></li>
+<li><p>The test error tends to increase as the dimensionality of the problem (i.e. the number of features or predictors) increases, unless the additional features are truly associated with the response.<span class="math inline">\(\Rightarrow\)</span> <strong>curse of dimensionality</strong></p></li>
+</ol>
+<h3 id="curse-of-dimensionality">Curse of dimensionality</h3>
+<p>Adding additional signal features that are truly associated with the response will improve the fitted model; However, adding noise features that are not truly associated with the response will lead to a deterioration in the fitted model.</p>
+<p><strong>Reason</strong>: This is because noise features increase the dimensionality of the problem, exacerbating the risk of overfitting (since noise features may be assigned nonzero coefficients due to chance associations with the response on the training set) without any potential upside in terms of improved test set error.</p>
+<h2 id="interpreting-results-in-high-dimensions">Interpreting Results in High Dimensions</h2>
+<ol type="1">
+<li>Be cautious in reporting the results obtained when we perform the lasso, ridge regression, or other regression procedures in the high-dimensional setting.</li>
+</ol>
+<ul>
+<li>In the high-dimensional setting, the <strong>multicollinearity</strong> problem is extreme: any variable in the model can be written as a linear combination of all of the other variables in the model. This means that we can never know exactly which variables (if any) truly are predictive of the outcome, and we can never identify the best coefficients for use in the regression.</li>
+</ul>
+<ol start="2" type="1">
+<li>Be cautious in reporting errors and measures of model fit in the high-dimensional setting</li>
+</ol>
+<ul>
+<li>e.g.: when p &gt; n, it is easy to obtain a useless model that has zero residuals.</li>
+<li><strong>One should never use sum of squared errors, p-values, R2 statistics, or other traditional measures of model fit on the training data as evidence of a good model fit in the high-dimensional setting</strong></li>
+<li>It is important to instead report results on an independent test set, or cross-validation errors. For instance, the MSE or R2 on an independent test set is a valid measure of model fit, but the MSE on the training set certainly is not.</li>
+</ul>
+<hr>
+<p><strong>Ref:</strong></p>
+<p>James, Gareth, et al. <em>An introduction to statistical learning</em>. Vol. 112. New York: springer, 2013.</p>
+<p>Hastie, Trevor, et al. &quot;The elements of statistical learning: data mining, inference and prediction.&quot; <em>The Mathematical Intelligencer</em> 27.2 (2005): 83-85</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/Model-Selection/" rel="tag"># Model Selection</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/6d11b2f4/" rel="next" title="Study Note: Resampling Methods - Cross Validation, Bootstrap">
+                <i class="fa fa-chevron-left"></i> Study Note: Resampling Methods - Cross Validation, Bootstrap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/6b588a86/" rel="prev" title="Study Note: Decision Trees, Random Forest, and Boosting">
+                Study Note: Decision Trees, Random Forest, and Boosting <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Nancy Yan</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/nancyyanyu" title="GitHub &rarr; https://github.com/nancyyanyu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction-to-model-selection"><span class="nav-number">1.</span> <span class="nav-text">Introduction to Model Selection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#subset-selection"><span class="nav-number">2.</span> <span class="nav-text">Subset Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#drawbacks-of-least-squares-estimates"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">Drawbacks of least squares estimates:</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#best-subset-selection"><span class="nav-number">2.1.</span> <span class="nav-text">Best Subset Selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stepwise-selection"><span class="nav-number">2.2.</span> <span class="nav-text">Stepwise Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#forward-stepwise-selection"><span class="nav-number">2.2.1.</span> <span class="nav-text">Forward Stepwise Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#advantages"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Advantages:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#backward-stepwise-selection"><span class="nav-number">2.2.2.</span> <span class="nav-text">Backward Stepwise Selection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hybrid-approaches"><span class="nav-number">2.2.3.</span> <span class="nav-text">Hybrid Approaches</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choosing-the-optimal-model"><span class="nav-number">2.3.</span> <span class="nav-text">Choosing the Optimal Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#c_p-aic-bic-adjusted-r2"><span class="nav-number">2.3.1.</span> <span class="nav-text">\(C_p\), \(AIC\), \(BIC\), Adjusted \(R^2\)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#c_p"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">\(C_p\)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#aic"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">AIC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bic"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">BIC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#adjusted-r2"><span class="nav-number">2.3.1.4.</span> <span class="nav-text">Adjusted \(R^2\)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#validation-and-cross-validation"><span class="nav-number">2.3.2.</span> <span class="nav-text">Validation and Cross-Validation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shrinage-methods"><span class="nav-number">3.</span> <span class="nav-text">Shrinage Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ridge-regression"><span class="nav-number">3.1.</span> <span class="nav-text">Ridge Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ridge-regression-improves-over-least-squares"><span class="nav-number">3.1.1.</span> <span class="nav-text">Ridge Regression Improves Over Least Squares</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#singular-value-decomposition-svd"><span class="nav-number">3.1.2.</span> <span class="nav-text">Singular value decomposition (SVD)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#what-does-a-small-value-of-d2_j-mean"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">What does a small value of \(d^2_j\) mean?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eﬀective-degrees-of-freedom"><span class="nav-number">3.1.3.</span> <span class="nav-text">Eﬀective degrees of freedom</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-lasso"><span class="nav-number">3.2.</span> <span class="nav-text">The Lasso</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number">3.2.0.1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#another-formulation-for-ridge-regression-and-the-lasso"><span class="nav-number">3.2.1.</span> <span class="nav-text">Another Formulation for Ridge Regression and the Lasso</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-variable-selection-property-of-the-lasso"><span class="nav-number">3.2.2.</span> <span class="nav-text">The Variable Selection Property of the Lasso</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comparing-the-lasso-and-ridge-regression"><span class="nav-number">3.2.3.</span> <span class="nav-text">Comparing the Lasso and Ridge Regression</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shrinkage-methods-v.s.-subset-selection"><span class="nav-number">3.3.</span> <span class="nav-text">Shrinkage Methods v.s. Subset Selection:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#discussion-subset-selection-ridge-regression-and-the-lasso"><span class="nav-number">3.4.</span> <span class="nav-text">Discussion: Subset Selection, Ridge Regression and the Lasso</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bayes-view"><span class="nav-number">3.4.1.</span> <span class="nav-text">Bayes View</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#considerations-in-high-dimensions"><span class="nav-number">4.</span> <span class="nav-text">Considerations In High Dimensions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#high-dimensional-data"><span class="nav-number">4.1.</span> <span class="nav-text">High-Dimensional Data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#what-goes-wrong-in-high-dimensions"><span class="nav-number">4.2.</span> <span class="nav-text">What Goes Wrong in High Dimensions?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#regression-in-high-dimensions"><span class="nav-number">4.3.</span> <span class="nav-text">Regression in High Dimensions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#curse-of-dimensionality"><span class="nav-number">4.3.1.</span> <span class="nav-text">Curse of dimensionality</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interpreting-results-in-high-dimensions"><span class="nav-number">4.4.</span> <span class="nav-text">Interpreting Results in High Dimensions</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nancy Yan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">518k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/three/three.min.js"></script>
+
+  
+  <script src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_lines.min.js"></script>
+
+  
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+<!-- LOCAL: You can save these files to your site and update links -->
+
+  
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'nancyyanyu',
+      repo: 'nancyyanyu.github.io',
+      
+      oauth: {
+      
+      
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+      
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+
