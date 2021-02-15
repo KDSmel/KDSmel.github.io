@@ -17,14 +17,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-  <link rel="stylesheet" href="/DS_Blog/lib/Han/dist/han.min.css?v=3.3">
-  <link rel="stylesheet" href="/DS_Blog/lib/fancybox/source/jquery.fancybox.css">
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/DS_Blog/css/main.css?v=7.1.2">
-  <link rel="apple-touch-icon" sizes="180x180" href="/DS_Blog/images/apple-touch-icon-next.png?v=7.1.2">
-  <link rel="icon" type="image/png" sizes="32x32" href="/DS_Blog/images/favicon-32x32-next.png?v=7.1.2">
-  <link rel="icon" type="image/png" sizes="16x16" href="/DS_Blog/images/favicon-16x16-next.png?v=7.1.2">
-  <link rel="mask-icon" href="/DS_Blog/images/logo.svg?v=7.1.2" color="#222">
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -57,34 +57,34 @@
 <meta name="keywords" content="Model Selection">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Study Note: Model Selection and Regularization (Ridge &amp; Lasso)">
-<meta property="og:url" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/index.html">
+<meta property="og:url" content="https://kdsmel.github.io/posts/a065f58f/index.html">
 <meta property="og:site_name" content="Kamel&#39;s Notes">
 <meta property="og:description" content="Introduction to Model Selection Setting:  In the regression setting, the standard linear model \(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\) In the chapters that follow, we consider some approaches">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/best_subset.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/1.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/2.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/3.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/4.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/5.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/6.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/lass_ridge.png">
-<meta property="og:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/12%202.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/best_subset.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/1.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/2.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/3.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/4.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/5.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/6.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/lass_ridge.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/a065f58f/12%202.png">
 <meta property="og:updated_time" content="2019-10-19T23:21:22.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Study Note: Model Selection and Regularization (Ridge &amp; Lasso)">
 <meta name="twitter:description" content="Introduction to Model Selection Setting:  In the regression setting, the standard linear model \(Y = β_0 + β_1X_1 + · · · + β_pX_p + \epsilon\) In the chapters that follow, we consider some approaches">
-<meta name="twitter:image" content="https://kdsmel.github.io/DS_Blog/posts/a065f58f/best_subset.png">
+<meta name="twitter:image" content="https://kdsmel.github.io/posts/a065f58f/best_subset.png">
 
 
 
-  <link rel="alternate" href="/DS_Blog/atom.xml" title="Kamel's Notes" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="Kamel's Notes" type="application/atom+xml">
 
 
 
   
   
-  <link rel="canonical" href="https://kdsmel.github.io/DS_Blog/posts/a065f58f/">
+  <link rel="canonical" href="https://kdsmel.github.io/posts/a065f58f/">
 
 
 
@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://kdsmel.github.io/DS_Blog/posts/a065f58f/">
+    <link itemprop="mainEntityOfPage" href="https://kdsmel.github.io/posts/a065f58f/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kamel Chehboun">
@@ -451,7 +451,7 @@
 <ol type="1">
 <li>Subset Selection</li>
 <li>Shrinkage</li>
-<li><a href="https://kdsmel.github.io/DS_Blog/posts/cac93a23/">Dimension Reduction</a></li>
+<li><a href="https://kdsmel.github.io/posts/cac93a23/">Dimension Reduction</a></li>
 </ol>
 <a id="more"></a>
 <h1 id="subset-selection">Subset Selection</h1>
@@ -898,7 +898,7 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
         
         <div class="post-tags">
           
-            <a href="/DS_Blog/tags/Model-Selection/" rel="tag"># Model Selection</a>
+            <a href="/tags/Model-Selection/" rel="tag"># Model Selection</a>
           
         </div>
       
@@ -911,7 +911,7 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/DS_Blog/posts/6d11b2f4/" rel="next" title="Study Note: Resampling Methods - Cross Validation, Bootstrap">
+              <a href="/posts/6d11b2f4/" rel="next" title="Study Note: Resampling Methods - Cross Validation, Bootstrap">
                 <i class="fa fa-chevron-left"></i> Study Note: Resampling Methods - Cross Validation, Bootstrap
               </a>
             
@@ -921,7 +921,7 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/DS_Blog/posts/6b588a86/" rel="prev" title="Study Note: Decision Trees, Random Forest, and Boosting">
+              <a href="/posts/6b588a86/" rel="prev" title="Study Note: Decision Trees, Random Forest, and Boosting">
                 Study Note: Decision Trees, Random Forest, and Boosting <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -1044,7 +1044,7 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
                 <div class="site-state-item site-state-tags">
                   
                     
-                      <a href="/DS_Blog/tags/">
+                      <a href="/tags/">
                     
                   
                     
@@ -1127,7 +1127,7 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
 
           
             <div class="feed-link motion-element">
-              <a href="/DS_Blog/atom.xml" rel="alternate">
+              <a href="/atom.xml" rel="alternate">
                 <i class="fa fa-rss"></i>
                 RSS
               </a>
@@ -1145,7 +1145,7 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
                   
                     
                   
-                  <a href="https://github.com/kdsmel/DS_Blog" title="GitHub &rarr; https://github.com/kdsmel/DS_Blog" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                  <a href="https://github.com/kdsmel" title="GitHub &rarr; https://github.com/kdsmel" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
                 </span>
               
             </div>
@@ -1222,23 +1222,23 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
   }
 </script>
   <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
-  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/DS_Blog/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
-  <script src="/DS_Blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  <script src="/DS_Blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  <script src="/DS_Blog/lib/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script src="/DS_Blog/lib/three/three.min.js"></script>
-  <script src="/DS_Blog/lib/three/three-waves.min.js"></script>
-  <script src="/DS_Blog/lib/three/canvas_lines.min.js"></script>
-  <script src="/DS_Blog/lib/three/canvas_sphere.min.js"></script>
-  <script src="/DS_Blog/js/utils.js?v=7.1.2"></script>
-  <script src="/DS_Blog/js/motion.js?v=7.1.2"></script>
-  <script src="/DS_Blog/js/schemes/muse.js?v=7.1.2"></script>
-  <script src="/DS_Blog/js/scrollspy.js?v=7.1.2"></script>
-<script src="/DS_Blog/js/post-details.js?v=7.1.2"></script>
-  <script src="/DS_Blog/js/next-boot.js?v=7.1.2"></script>  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/three/three.min.js"></script>
+  <script src="/lib/three/three-waves.min.js"></script>
+  <script src="/lib/three/canvas_lines.min.js"></script>
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+  <script src="/js/utils.js?v=7.1.2"></script>
+  <script src="/js/motion.js?v=7.1.2"></script>
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+  <script src="/js/next-boot.js?v=7.1.2"></script>  
 <!-- LOCAL: You can save these files to your site and update links -->
   <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
 <link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
@@ -1314,6 +1314,6 @@ minimize_{beta} \left\{\sum_{i=1}^n\left( y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j 
 </body>
 </html>
 
-<script type="text/javascript" src="/DS_Blog/js/src/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
 
     
