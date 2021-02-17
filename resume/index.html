@@ -1,8 +1,19 @@
+
 <!DOCTYPE html>
 <html class="theme-next mist use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
@@ -10,14 +21,10 @@
   <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/main.css?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next-.png?v=7.1.2">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next-.png?v=7.1.2">
-  <link rel="mask-icon" href="/images/logo-.svg?v=7.1.2" color="#222">
-  
-  
-  
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -112,8 +119,9 @@
 </div>
 
 
+
 <nav class="site-nav">
-  <img alt="" src="/images/Banner1_OrleansGIS.png">
+  
     <ul id="menu" class="menu">   
           <li class="menu-item menu-item-home">
     <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
@@ -121,23 +129,38 @@
           <li class="menu-item menu-item-ml">
     <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
   </li>  
-          <li class="menu-item menu-item-big-data">
+          <li class="menu-item menu-item-big-data menu-item-active">
 
     <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+
+  </li>
+     
+      
+      
+      
+                   <li class="menu-item menu-item-project">
+
+    <a href="/categories/Project" rel="section"><i class="menu-item-icon fa fa-fw fa-tasks"></i> <br>Projects</a>
 
   </li>
           <li class="menu-item menu-item-journal">
 
     <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
   </li>
+      <li class="menu-item menu-item-about">
+
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-address-card-o"></i> <br>About</a>
+  </li>
+      
+      
+      
+      
+      
     </ul>
 </nav>
 </div>
     </header>
-####################################################################
-####################################################################
-####################################################################
-####################################################################
+
       <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
@@ -182,10 +205,7 @@
         <div id="gitment-container"></div>
     </div>
  </div>
-########################################################################################
-########################################################################################
-########################################################################################
-########################################################################################
+
 
   <div class="sidebar-toggle">
     <div class="sidebar-toggle-line-wrap">
