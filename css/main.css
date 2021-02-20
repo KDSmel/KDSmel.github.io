@@ -460,10 +460,16 @@ body {
     width: 900px;
   }
 }
-.main-inner {
+.main {
+  margin-left: 110px; /* Same width as the sidebar + left position in px */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+/*.main-inner {
   margin: 0 auto;
   width: 700px;
-}
+}*/
 @media (min-width: 1200px) {
   .container .main-inner {
     width: 800px;
