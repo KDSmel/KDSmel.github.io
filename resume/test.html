@@ -81,7 +81,13 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
 
+* {
+  box-sizing: border-box;
+}
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 /* Create two columns/boxes that floats next to each other */
 navres {
   float: left;
@@ -95,13 +101,13 @@ navres ul {
   list-style-type: none;
   padding: 0;
 }
-article {
-  float: left;
-  padding: 20px;
-  width: 70%;
-  background-color: #f1f1f1;
-  height: 300px; /* only for demonstration, should be removed */
-}
+  article {
+    float: left;
+    padding: 20px;
+    width: 70%;
+    background-color: #f1f1f1;
+    height: 300px; /* only for demonstration, should be removed */
+  }
 /* Clear floats after the columns */
 main::after {
   content: "";
@@ -157,15 +163,8 @@ main::after {
 
 
 
-
-
-
-
-    <main>
-
-
+<main>
 <navres>
-
 <ul style="list-style-type:none;">
                                  <div class="LI-profile-badge"  data-version="v1" data-size="large" data-locale="en_US" data-type="horizontal" data-theme="light" data-vanity="ckmail"><a class="LI-simple-link" href='https://ca.linkedin.com/in/ckmail?trk=profile-badge'>Kamel Chehboun</a></div>
                                  <!-- <li><a href="https://www.linkedin.com/in/ckmail/" target="_blank" rel="noopener">LinkedIn</a></li>-->
@@ -173,23 +172,20 @@ main::after {
                                  <li><a><i class="menu-item-icon fa fa-fw fa-inbox"></i>k.chehboun@rgu.ac.uk</a></li>
                               </ul>
 </navres>	
-
 <article>
- 
-    
   
   juiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
   olopppppppppppppppppppppppppppp
   ,,kkkkkkkkkkkkkkkkkkkkkkkkkkkkl
   
-  </article>
+</article>
   
-  <nav class="pagination">
+<nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>        
+</nav>        
 
 
-    </main>
+   </main>
 
 
 
