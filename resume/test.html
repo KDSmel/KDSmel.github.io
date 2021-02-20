@@ -80,6 +80,31 @@
 
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
+
+
+/* Create two columns/boxes that floats next to each other */
+navres {
+  float: left;
+  width: 30%;
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+navres ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+
   </style>
 </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
@@ -131,19 +156,39 @@
 
 
 
-   <main id="main" class="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <main id="main" class="main">
       <div class="main-inner">
-<p> niuniniuninininuinunuin
-  
-  
-  
-  
-  
-  
-  
-  
-  
-        </p>
+        <div class="content-wrap">
+                <div id="content" class="content">
+          <section id="posts" class="posts-expand">
+
+<navres>
+
+<ul style="list-style-type:none;">
+                                 <div class="LI-profile-badge"  data-version="v1" data-size="large" data-locale="en_US" data-type="horizontal" data-theme="light" data-vanity="ckmail"><a class="LI-simple-link" href='https://ca.linkedin.com/in/ckmail?trk=profile-badge'>Kamel Chehboun</a></div>
+                                 <!-- <li><a href="https://www.linkedin.com/in/ckmail/" target="_blank" rel="noopener">LinkedIn</a></li>-->
+                                 <li><a href="https://github.com/kdsmel/mini_projects" target="_blank" rel="noopener"><i class="menu-item-icon fa fa-fw fa-github"></i>Github</a></li>
+                                 <li><a><i class="menu-item-icon fa fa-fw fa-inbox"></i>k.chehboun@rgu.ac.uk</a></li>
+                              </ul>
+</navres>	
+
+<article>
  
     
   
@@ -157,6 +202,7 @@
 
 
        </div>
+</article>
     </main>
 
 
@@ -212,6 +258,24 @@
 <script src="/js/post-details.js?v=7.1.2"></script>
   <script src="/js/next-boot.js?v=7.1.2"></script>  
 <!-- LOCAL: You can save these files to your site and update links -->
+  <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<!-- END LOCAL -->
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'kdsmel',
+      repo: 'kdsmel.github.io',
+      oauth: {
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }  
+    renderGitment();
+</script>
  <script type="text/x-mathjax-config">
    MathJax.Hub.Config({
     tex2jax: {
