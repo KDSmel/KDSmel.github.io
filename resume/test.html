@@ -95,7 +95,6 @@ navres ul {
   list-style-type: none;
   padding: 0;
 }
-
 article {
   float: left;
   padding: 20px;
@@ -103,7 +102,12 @@ article {
   background-color: #f1f1f1;
   height: 300px; /* only for demonstration, should be removed */
 }
-
+/* Clear floats after the columns */
+main::after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
   </style>
 </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
@@ -115,7 +119,7 @@ article {
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right ">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+<header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     <div class="custom-logo-site-title">
@@ -136,9 +140,6 @@ article {
     </button>
   </div>
 </div>
-
-
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">   
@@ -152,18 +153,6 @@ article {
 </nav>
 </div>
     </header>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
