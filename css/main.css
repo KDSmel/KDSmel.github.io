@@ -6,9 +6,7 @@ html {
 body {
   margin: 0;
 }
-main {
-  display: block;
-}
+
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
@@ -466,10 +464,14 @@ body {
   padding: 0px 10px;
 }
 
-/*.main-inner {
+/*
+main {
+  display: block;
+}
+.main-inner {
   margin: 0 auto;
   width: 700px;
-}*/
+}
 @media (min-width: 1200px) {
   .container .main-inner {
     width: 800px;
@@ -479,6 +481,7 @@ body {
   .container .main-inner {
     width: 900px;
   }
+*/
 }
 .footer {
   padding: 20px 0;
