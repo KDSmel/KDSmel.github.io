@@ -446,7 +446,34 @@ pyplot.show()
 
 This algorithm provides importance scores based on the reduction in the criterion used to split in each node such as entropy or Gini.
 
+```python
 
+from sklearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier()
+# fit the model
+model.fit(X, y)
+# get importance
+importance = model.feature_importances_
+# summarize feature importance
+for i,v in enumerate(importance):
+	print('Feature: %0d, Score: %.5f' % (i,v))
+# plot feature importance
+pyplot.bar([x for x in range(len(importance))], importance)
+pyplot.title('Decision tree classifier Feature Importance Scores')
+pyplot.show()
+
+#Feature: 0, Score: 0.17175
+#Feature: 1, Score: 0.10347
+#Feature: 2, Score: 0.10918
+#Feature: 3, Score: 0.08027
+#Feature: 4, Score: 0.09843
+#Feature: 5, Score: 0.10003
+#Feature: 6, Score: 0.17501
+#Feature: 7, Score: 0.11437
+#Feature: 8, Score: 0.04749
+```
+
+![image](./img7.png)
 
 1–3–3 Permutation feature importance
 
