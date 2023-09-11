@@ -8421,6 +8421,40 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 #################################################################################################################################################
+<h1 id="exploratory-geoscience-data-analysis-multi-class-classification-problem">Exploratory Geoscience Data Analysis: Multi-class Classification Problem</h1>
+<p>Although there are tons of great books and papers outside to practice machine learning, I always wanted to see something short, simple, and with a descriptive manuscript. I always wanted to see an example with an appropriate explanation of the procedure accompanied by detailed results interpretation. Model evaluation metrics should also need to be elaborated clearly.</p>
+<p>In this work, I will try to include all important steps of ML modeling (even though some are not necessary for this dataset) to make a consistent and tangible example, especially for geoscientists. Eight important ML algorithms will be examined and results will be compared. I will try to have an argumentative model evaluation discussion. I will not go deep into the algorithm’s fundamentals.</p>
+<p>The dataset ( <a href="https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/facies_vectors.csv">facies_vectors.csv</a>) for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are: </p>
+<ol>
+  <li>GR: this wireline logging tools measure gamma emission</li>
+  <li>ILD_log10: this is resistivity measurement</li>
+  <li>PE: photoelectric effect log</li>
+  <li>DeltaPHI: Phi is a porosity index in petrophysics.</li>
+  <li>PNHIND: Average of neutron and density log.</li>
+  <li>NM_M:nonmarine-marine indicator</li>
+  <li>RELPOS: relative position</li>
+</ol>
+<p>The nine discrete facies (classes of rocks) are:</p>
+<ol>
+  <li>(SS) Nonmarine sandstone</li>
+  <li>(CSiS) Nonmarine coarse siltstone</li>
+  <li>(FSiS) Nonmarine fine siltstone</li>
+  <li>(SiSH) Marine siltstone and shale</li>
+  <li>(MS) Mudstone (limestone)</li>
+  <li>(WS) Wackestone (limestone)</li>
+  <li>(D) Dolomite</li>
+  <li>(PS) Packstone-grainstone (limestone)</li>
+  <li>(BS) Phylloid-algal bafflestone (limestone)</li>
+</ol>
+<p>To access the dataset and jupyter notebook find out my <a href="https://github.com/KDSmel/mini_projects/tree/main/Practical_ML_Tutorial_Facies">Git</a>. </p>
+<p>
+  <strong>This tutorial has four parts:</strong>
+</p>
+<p>Part.1: Exploratory Data Analysis,</p>
+<p>Part.2: Build Model &amp; Validate,</p>
+<p>Part.3: Model Evaluation-1,</p>
+<p>Part.4: Model Evaluation-2</p>
+
 
 <h4 id="1--Data-Exploratory-Analysis"><strong>1- Data Exploratory Analysis</strong><a class="anchor-link" href="#1--Data-Exploratory-Analysis">&#182;</a></h4><blockquote><p>1-1 Data visualization</p>
 <blockquote><p>1-1-1 log-plot<br>
