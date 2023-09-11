@@ -44,51 +44,52 @@ Part.4: Model Evaluation-2
 
 **1. Exploratory Data Analysis**
 
-   1.1. Data visualization
+   1-1. Data visualization
       
-      1–1–1 log-plot
+      1–1–1. log-plot
       
-      1–1–2 Bar plot
+      1–1–2. Bar plot
       
-      1–1–3 Cross-plot
+      1–1–3. Cross-plot
       
-   1–2 Feature Engineering
+   1–2. Feature Engineering
    
-      1–2–1 NaN imputation
+      1–2–1. NaN imputation
       
-      1–2–2 Feature extraction
+      1–2–2. Feature extraction
       
-      1–2–3 Oversampling
+      1–2–3. Oversampling
       
-   1–3 Feature Importance
+   1–3. Feature Importance
    
-      1–3–1 Feature linear correlation
+      1–3–1. Feature linear correlation
       
-      1–3–2 Decision tree
+      1–3–2. Decision tree
       
-      1–3–3 Permutation feature importance
+      1–3–3. Permutation feature importance
 
-**2- Build Model & Validate**
+**2. Build Model & Validate**
 
-      2–1 Baseline Model
+      2–1. Baseline Model
       
-      2–2 Hyper-parameters
+      2–2. Hyper-parameters
       
-      2–2–1 Grid search
+      2–3. Grid search
 
-**3- Model Evaluation-1**
+**3. Model Evaluation-1**
 
-      3–1 Model metrics plot
+      3–1. Model metrics plot
       
-      3–2 Confusion matrix
+      3–2. Confusion matrix
 
-**4- Model Evaluation-2**
+**4. Model Evaluation-2**
 
-      4–1 Learning curves
+      4–1. Learning curves
       
-      4–2 ROC plot
+      4–2. ROC plot
       
-      4–3 Blind well prediction and evaluation
+      4–3. Blind well prediction and evaluation
+      
 
 You can find the jupyter notebook file for this tutorial [here](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb).
 
