@@ -96,7 +96,7 @@ The nine discrete facies (classes of rocks) are:
 8. (PS) Packstone-grainstone (limestone)
 9. (BS) Phylloid-algal bafflestone (limestone)
     
-# Part.1: Exploratory Data Analysis
+## Part.1: Exploratory Data Analysis
 After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.
 
 **1–1 Data visualization**
@@ -516,3 +516,65 @@ In all these feature importance plots we can see that predictor number 6 (PE log
 **Summary**
 
 Data preparation is one of the most important and time-consuming steps in machine learning. Data visualization can help us to understand data nature, borders, and distribution. Feature engineering is required especially if we have null and categorical values. In small datasets, feature extraction and oversampling can be helpful for model performances. Finally, we can analyze features in the dataset to see the importance of features for different model algorithms.
+
+## Part.2: Build Model & Validate
+In this part, we will build different models, validate them, and use the grid search approach to find out the optimum hyperparameters. This post is the second part of part1. You can find the jupyter notebook file of this part here.
+
+The concept of model building in ML projects of scikit-learn libraries is simple. First, you select what type of model you are comfortable with, second, fit the model to the data using target and predictors(features), and finally, predict the unknown labels using available feature data.
+
+In this project, we will use these classifiers to fit the feature data and then predict the facies classes. Here, we will not go into these algorithms' basic concepts. You may study on the scikit-learn website.
+
+1. Logistic Regression Classifier
+2. K Neighbors Classifier
+3. Decision Tree Classifier
+4. Random Forest Classifier
+5. Support Vector Classifier
+6. Gaussian Naive Bayes Classifier
+7. Gradient Boosting Classifier
+8. Extra Tree Classifier
+
+2–1 Baseline Model
+
+The philosophy of constructing a baseline model is simple: we need a basic and simple model to see how the adjustments on both data and model parameters can cause improvement in model performance. In fact, this is like a scale for comparison.
+
+In this code script, we first defined our favorite model classifiers. Then, established baseline_model function. In this function, we employed the Pipeline function to implement step wised operation of data standard scaling(facilitate model running more efficient) and model object calling for cross-validation. I like Pipeline because it makes the codes more tidy and readable.
+
+
+Cross-validation sometimes called rotation estimation or out-of-sample testing is any of the various similar model validation techniques for assessing how the results of a statistical analysis will generalize to an independent data set. Models usually are overfitting when the accuracy score on training data is much higher than testing data. One way to examine model performance is to keep randomly some part of the dataset hold-out. This can be a weakness for small datasets. Another way is to divide the dataset into splits and run it while each split has a different set of test folds like the picture below. In this approach, cross-validation, models can examine all data without overfitting. However, for this project, we will keep a single well as a hold-out to examine model performances after all optimizations.
+
+
+picture from scikit-learn
+We repeated 3 times each operation over a dataset that already divided into 10 equal parts(folds) in cross-validation. In fact, we intended to expose the model to all data with a different combination of train and test sets without overlap.
+
+Here, we used an average of accuracy as metrics for comparison of various model performances(accuracy and other evaluation metrics will be elaborated in the next post). It is used for simplicity, while for multi-class classification problems, accuracy is the weakest model evaluation approach. We will cover model evaluation metrics for multi-class classification problems in the next posts.
+
+The Extra tree and Random forest classifier showed the best accuracy score for the facies label prediction while the Gaussian Naive Bayes classifier performed poorly.
+
+2–2 Hyper-parameters
+In machine learning, model parameters can be divided into two main categories:
+A- Trainable parameters: such as weights in neural networks learned by training algorithms and the user does not interfere in the process,
+B- Hyper-parameters: users can set them before training operations such as learning rate or the number of dense layers in the model.
+
+Selecting the best hyper-parameters can be a tedious task if you try it by hand and it is almost impossible to find the best ones if you are dealing with more than two parameters.
+
+One way is a random search approach. In fact, instead of using organized parameter searching, it will go through a random combination of parameters and look for the optimized ones. You may estimate that chance of success decreases to zero for larger hyper-parameter tuning.
+
+Another way is to use skopt which is a scikit-learn library and uses Bayesian optimization that constructs another model of search-space for parameters. Gaussian Process is one kind of these models. This generates an estimate of how model performance varies with hyper-parameter changes. If you are interested in this approach, I have done an example for this data set, here. I will not repeat this process here because it is almost a big project.
+
+2–2–1 Grid Search
+
+This approach is to divide each parameter into a valid evenly range and then simply ask the computer to loop for the combination of parameters and calculate the results. The method is called Grid Search. Although it is done by machine, it will be a time-consuming process. Suppose you have 3 hyper-parameters with 10 possible values in each. In this approach, you will run 1⁰³ models (even with a reasonable training datasets size, this task is big).
+
+You may see in the block code below that Gaussian Naive Bays is not involved because this classifier does not have a hyper-parameter that can strongly affect the model performance.
+
+
+The run time for the code above is almost an hour(depending on your computer configuration). I did not expand the grid search size for operation time-saving. You may extend for more than 2 by 2 parameters to search but expect that running time will be exponentially increased.
+
+From line 69 in the code, you can see the best hyper-parameters that have been chosen for each classifier. Using these parameters, we can build these models with optimum hyper-parameters and run for the accuracy test.
+
+
+Comparing with baseline model performances(results of first block codes in this post), hyper-parameters adjustment could help model performance to improve. It seems that for ensemble models hyper-parameters are not as efficient as the rests. Some drawbacks in the hyper-parameterized models comparing to baseline mean that we did not properly design the search range.
+
+**Conclusion:**
+
+In this part, we constructed eight models with default parameters, ran cross-validation. Then, we looked for hyper-parameters using the grid search approach. The best hyper-parameters are employed to build the model again and comparing the basic model we can see improvement in model performances.
