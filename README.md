@@ -301,38 +301,146 @@ Predicted PE in well ALEXANDER D shows the normal range and variation. Predictio
 
 Having a limited set of features in this dataset can lead us to think about extracting some data from the existing dataset. First, we can convert the formation categorical data into numeric data. Our background knowledge can help us to guess that some facies are possibly present more in a specific formation rather than others. We can use the LabelEncoder function:
 
+```python
 data_fe[‘Formation_num’] = LabelEncoder().fit_transform(data_fe[‘Formation’].astype(‘str’)) + 1
+```
+
 We converted formation category data into numeric to use as a predictor and added 1 to start predictor from 1 instead of zero. To see if new feature extraction would assist prediction improvement, we should define a baseline model then compare it with the extracted feature model.
 
-Baseline Model Performance
+**Baseline Model Performance**
 
 For simplicity, we will use a logistic regression classifier as a baseline model and will examine model performance with a cross-validation concept. Data will be split into 10 subgroups and the process will be repeated 3 times.
 
+```python
+from numpy import mean
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LogisticRegression
+
+X = data_fe[['Depth', 'GR', 'ILD_log10','DeltaPHI', 'PHIND', 'PE', 'NM_M', 'RELPOS', 'Formation_num']]
+y = data_fe['Facies']
+
+model = LogisticRegression(solver='liblinear')
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+# evaluate model
+scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=-1)
+print('Accuracy: %.3f' % (mean(scores)))
+
+#Accuracy: 0.561
+```
 
 Here, we can explore whether feature extraction can improve model performance. There are many approaches while we will use some transforms for chaining the distribution of the input variables such as Quantile Transformer and KBins Discretizer. Then, will remove linear dependencies between the input variables using PCA and TruncatedSVD. To study more refer here.
+
 Using feature union class, we will define a list of transforms to perform results aggregated together. This will create a dataset with lots of feature columns while we need to reduce dimensionality to faster and better performance. Finally, Recursive Feature Elimination, or RFE, the technique can be used to select the most relevant features. We select 30 features.
 
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.pipeline import FeatureUnion
+from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import QuantileTransformer
+from sklearn.preprocessing import KBinsDiscretizer
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_selection import RFE
+from sklearn.decomposition import PCA
+#-------------------------------------------------- append transforms into a list
+transforms = list()
+transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
+transforms.append(('kbd', KBinsDiscretizer(n_bins=10, encode='ordinal', strategy='uniform')))
+transforms.append(('pca', PCA(n_components=7)))
+transforms.append(('svd', TruncatedSVD(n_components=7)))
+#-------------------------------------------------- initialize the feature union
+fu = FeatureUnion(transforms)
+#-------------------------------------------------- define the feature selection
+rfe = RFE(estimator=LogisticRegression(solver='liblinear'), n_features_to_select=30)
+#-------------------------------------------------- define the model
+model = LogisticRegression(solver='liblinear')
+#-------------------------------------------------- use pipeline to chain operation
+steps = list()
+steps.append(('fu', fu))
+steps.append(('rfe', rfe))
+steps.append(('ml', model))
+pipeline = Pipeline(steps=steps)
+# define the cross-validation procedure
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+# evaluate model
+scores = cross_val_score(pipeline, X, y, scoring='accuracy', cv=cv, n_jobs=-1)
+# report performance
+print('Accuracy: %.3f' % (mean(scores)))
+
+# Accuracy: 0.605
+```
 
 Accuracy improvement shows that feature extraction can be a useful approach when we are dealing with limited features in the dataset.
 
 1–2–3 Oversampling
 
 In imbalanced datasets, we can use the resampling technique to add some more data points to increase members of minority groups. This can be helpful whenever minority label targets have special importance such as credit card fraud detection. In that example, fraud can happen with less than 0.1 percent of transactions while it is important to detect fraud.
+
 In this work, we will add pseudo observation for the Dolomite class which has the lowest population
 
-Synthetic Minority Oversampling Technique, SMOTE: the technique is used to select nearest neighbors in the feature space, separate examples by adding a line, and producing new examples along the line. The method is not merely generating the duplicates from the outnumbered class but applied K-nearest neighbors to generate synthetic data.
+**Synthetic Minority Oversampling Technique, SMOTE:** the technique is used to select nearest neighbors in the feature space, separate examples by adding a line, and producing new examples along the line. The method is not merely generating the duplicates from the outnumbered class but applied K-nearest neighbors to generate synthetic data.
 
+```python
+from imblearn.over_sampling import SMOTE
+smote = SMOTE()
+
+X_sm , y_sm = smote.fit_sample(X,y)
+print("Before SMOTE: ", Counter(y))
+print("After SMOTE: ", Counter(y_sm))
+# Before SMOTE:  Counter({2: 851, 3: 663, 8: 646, 6: 511, 5: 277, 4: 264, 9: 185, 1: 179, 7: 124})
+# After SMOTE:  Counter({3: 851, 2: 851, 8: 851, 6: 851, 7: 851, 4: 851, 5: 851, 9: 851, 1: 851})
+
+model_bal = LogisticRegression(solver='liblinear')
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+# evaluate model
+scores = cross_val_score(model_bal, X_sm, y_sm, scoring='accuracy', cv=cv, n_jobs=-1)
+print('Accuracy: %.3f' % (mean(scores)))
+
+#Accuracy: 0.605
+```
 
 Accuracy improved by 3 percent but in multi-class classification, accuracy is not the best evaluation metric. We will cover others in the part.3.
 
-1–3 Feature Importance
+**1–3 Feature Importance**
+
 Some machine learning algorithms (not all) offer an importance score to help the user to select the most efficient features for prediction.
 
 1–3–1 Feature linear correlation
 
 The concept is simple: features have a higher correlation coefficient with target values are important for prediction. We can extract these coef’s like:
 
+```python
 
+# logistic regression for feature importance
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LinearRegression
+from matplotlib import pyplot
+# define dataset
+model = LinearRegression()
+# fit the model
+model.fit(X, y)
+# get importance
+importance = model.coef_
+# summarize feature importance
+for i,v in enumerate(importance):
+	print('Feature: %0d, Score: %.5f' % (i,v))
+# plot feature importance
+pyplot.bar([x for x in range(len(importance))], importance)
+pyplot.title('Logistic Regression Coefficients as Feature Importance Scores')
+pyplot.show()
+# Feature: 0, Score: 0.00099
+# Feature: 1, Score: -0.00662
+# Feature: 2, Score: -0.62498
+# Feature: 3, Score: -0.04762
+# Feature: 4, Score: 0.04542
+# Feature: 5, Score: 0.95451
+# Feature: 6, Score: 3.24906
+# Feature: 7, Score: 0.36231
+# Feature: 8, Score: -0.01491
+```
+
+![image](./img6.png)
 
 1–3–2 Decision tree
 
