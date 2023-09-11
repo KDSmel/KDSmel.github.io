@@ -5,7 +5,7 @@ Although there are tons of great books and papers outside to practice machine le
 
 In this work, I will try to include all important steps of ML modeling (even though some are not necessary for this dataset) to make a consistent and tangible example, especially for geoscientists. Eight important ML algorithms will be examined and results will be compared. I will try to have an argumentative model evaluation discussion. I will not go deep into the algorithm’s fundamentals.
 
-The dataset ([facies_vectors.csv](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/facies_vectors.csv))for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
+The dataset ([facies_vectors.csv](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/facies_vectors.csv)) for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
 
 1. GR: this wireline logging tools measure gamma emission
 2. ILD_log10: this is resistivity measurement
@@ -30,7 +30,7 @@ The nine discrete facies (classes of rocks) are:
 To access the dataset and jupyter notebook find out my [Git](https://github.com/KDSmel/mini_projects/tree/main/Practical_ML_Tutorial_Facies).
 
 
-This tutorial has four parts:
+**This tutorial has four parts:**
 
 Part.1: Exploratory Data Analysis,
 
