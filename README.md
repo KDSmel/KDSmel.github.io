@@ -74,7 +74,7 @@ If you are totally fresh with python and ML concepts, you will need to get famil
 
 **Data Summary**
 
-The dataset (facies_vectors.csv)for this study comes from Hugoton and Panoma Fields in North America which was used as class exercise at The University of Kansas (Dubois et. al, 2007). It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
+The dataset (facies_vectors.csv)for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
 
 1. GR: this wireline logging tools measure gamma emission
 2. ILD_log10: this is resistivity measurement
@@ -96,9 +96,10 @@ The nine discrete facies (classes of rocks) are:
 8. (PS) Packstone-grainstone (limestone)
 9. (BS) Phylloid-algal bafflestone (limestone)
     
+# Part.1: Exploratory Data Analysis
 After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.
 
-**1–1 Data visualization*
+**1–1 Data visualization**
 1–1–1 log-plot
 
 ```python
