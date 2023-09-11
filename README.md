@@ -27,7 +27,7 @@ The nine discrete facies (classes of rocks) are:
 8. (PS) Packstone-grainstone (limestone)
 9. (BS) Phylloid-algal bafflestone (limestone)
 
-To access the dataset and jupyter notebook find out my [Git]().
+To access the dataset and jupyter notebook find out my [Git](https://github.com/KDSmel/mini_projects/tree/main/Practical_ML_Tutorial_Facies).
 
 
 This tutorial has four parts:
