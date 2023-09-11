@@ -1,5 +1,3 @@
-# KDSmel.github.io
-
 # Exploratory Geoscience Data Analysis: Multi-class Classification Problem
 
 
