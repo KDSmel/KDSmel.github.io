@@ -244,7 +244,6 @@ sns_plot.savefig('cross_plots.png')
 
 ![image](./tab1.png)
 
-
 **1–2 Feature Engineering**
 
    1–2–1 NaN imputation
