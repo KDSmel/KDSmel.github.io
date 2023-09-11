@@ -8572,7 +8572,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </p>
 <p>1–1–1 log-plot</p>
 <pre>
-	<code class="lang-python">
+	<code class="brush: python">
 		<span class="hljs-keyword">import</span> pandas 
 		<span class="hljs-keyword">as</span> pd
 
@@ -10162,7 +10162,9 @@ plot_confusion_matrix(cnf_rtree, classes=np.asarray(facies_labels),
 </p>
 <p>Let’s create a function to plot the learning curve for our dataset. This function will generate 8 plots (each model algorithms) for test and training learning curve, samples vs fit time curve, and fit the time vs score curve. The function will receive these parameters: model estimator, the title for the chart, axes location for each model, ylim, cross-validation value, number of jobs that can be done in parallel, and train data size.</p>
 <pre>
-																		<code class="lang-python">from itertools import cycle
+																		
+	<code class="lang-python">
+	from itertools import cycle
 from sklearn import svm, datasets
 from sklearn.metrics import roc_curve, auc
 from sklearn.preprocessing import label_binarize
