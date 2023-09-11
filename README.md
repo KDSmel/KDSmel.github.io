@@ -533,24 +533,81 @@ In this project, we will use these classifiers to fit the feature data and then 
 7. Gradient Boosting Classifier
 8. Extra Tree Classifier
 
-2–1 Baseline Model
+**2–1 Baseline Model**
 
 The philosophy of constructing a baseline model is simple: we need a basic and simple model to see how the adjustments on both data and model parameters can cause improvement in model performance. In fact, this is like a scale for comparison.
 
 In this code script, we first defined our favorite model classifiers. Then, established baseline_model function. In this function, we employed the Pipeline function to implement step wised operation of data standard scaling(facilitate model running more efficient) and model object calling for cross-validation. I like Pipeline because it makes the codes more tidy and readable.
 
+```python
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+
+# define Classifiers
+log = LogisticRegression()
+knn = KNeighborsClassifier()
+dtree = DecisionTreeClassifier()
+rtree = RandomForestClassifier()
+svm = SVC()
+nb = GaussianNB()
+gbc = GradientBoostingClassifier()
+etree = ExtraTreesClassifier()
+
+# define a function that uses pipeline to impelement data transformation and fit with model then cross validate
+def baseline_model(model_name):
+
+    model = model_name
+    steps = list()
+    steps.append(('ss', StandardScaler() ))
+    steps.append(('ml', model))
+    pipeline = Pipeline(steps=steps)
+
+    cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+     # balanced X,y from SMOTE can also be used 
+    scores = cross_val_score(pipeline, X_sm, y_sm, scoring='accuracy', cv=cv, n_jobs=-1)
+
+    print(model,'Accuracy: %.3f' % (mean(scores)))
+ 
+#Run Function
+baseline_model(log)
+baseline_model(knn)
+baseline_model(dtree)
+baseline_model(rtree)
+baseline_model(svm)
+baseline_model(nb)
+baseline_model(gbc)
+baseline_model(etree)
+
+#LogisticRegression() Accuracy: 0.623
+#KNeighborsClassifier() Accuracy: 0.880
+#DecisionTreeClassifier() Accuracy: 0.845
+#RandomForestClassifier() Accuracy: 0.910
+#SVC() Accuracy: 0.777
+#GaussianNB() Accuracy: 0.357
+#GradientBoostingClassifier() Accuracy: 0.832
+#ExtraTreesClassifier() Accuracy: 0.934
+
+```
 
 Cross-validation sometimes called rotation estimation or out-of-sample testing is any of the various similar model validation techniques for assessing how the results of a statistical analysis will generalize to an independent data set. Models usually are overfitting when the accuracy score on training data is much higher than testing data. One way to examine model performance is to keep randomly some part of the dataset hold-out. This can be a weakness for small datasets. Another way is to divide the dataset into splits and run it while each split has a different set of test folds like the picture below. In this approach, cross-validation, models can examine all data without overfitting. However, for this project, we will keep a single well as a hold-out to examine model performances after all optimizations.
 
-
+![image](./img21.png)
 picture from scikit-learn
+
 We repeated 3 times each operation over a dataset that already divided into 10 equal parts(folds) in cross-validation. In fact, we intended to expose the model to all data with a different combination of train and test sets without overlap.
 
 Here, we used an average of accuracy as metrics for comparison of various model performances(accuracy and other evaluation metrics will be elaborated in the next post). It is used for simplicity, while for multi-class classification problems, accuracy is the weakest model evaluation approach. We will cover model evaluation metrics for multi-class classification problems in the next posts.
 
 The Extra tree and Random forest classifier showed the best accuracy score for the facies label prediction while the Gaussian Naive Bayes classifier performed poorly.
 
-2–2 Hyper-parameters
+**2–2 Hyper-parameters**
+
 In machine learning, model parameters can be divided into two main categories:
 A- Trainable parameters: such as weights in neural networks learned by training algorithms and the user does not interfere in the process,
 B- Hyper-parameters: users can set them before training operations such as learning rate or the number of dense layers in the model.
@@ -561,7 +618,7 @@ One way is a random search approach. In fact, instead of using organized paramet
 
 Another way is to use skopt which is a scikit-learn library and uses Bayesian optimization that constructs another model of search-space for parameters. Gaussian Process is one kind of these models. This generates an estimate of how model performance varies with hyper-parameter changes. If you are interested in this approach, I have done an example for this data set, here. I will not repeat this process here because it is almost a big project.
 
-2–2–1 Grid Search
+**2–2–1 Grid Search**
 
 This approach is to divide each parameter into a valid evenly range and then simply ask the computer to loop for the combination of parameters and calculate the results. The method is called Grid Search. Although it is done by machine, it will be a time-consuming process. Suppose you have 3 hyper-parameters with 10 possible values in each. In this approach, you will run 1⁰³ models (even with a reasonable training datasets size, this task is big).
 
