@@ -609,8 +609,9 @@ The Extra tree and Random forest classifier showed the best accuracy score for t
 **2–2 Hyper-parameters**
 
 In machine learning, model parameters can be divided into two main categories:
-A- Trainable parameters: such as weights in neural networks learned by training algorithms and the user does not interfere in the process,
-B- Hyper-parameters: users can set them before training operations such as learning rate or the number of dense layers in the model.
+**A- Trainable parameters:** such as weights in neural networks learned by training algorithms and the user does not interfere in the process,
+
+**B- Hyper-parameters:** users can set them before training operations such as learning rate or the number of dense layers in the model.
 
 Selecting the best hyper-parameters can be a tedious task if you try it by hand and it is almost impossible to find the best ones if you are dealing with more than two parameters.
 
@@ -624,11 +625,97 @@ This approach is to divide each parameter into a valid evenly range and then sim
 
 You may see in the block code below that Gaussian Naive Bays is not involved because this classifier does not have a hyper-parameter that can strongly affect the model performance.
 
+```python
+from sklearn.model_selection import GridSearchCV
+X_train, X_test, y_train, y_test = train_test_split(X_sm, y_sm, test_size=0.2, random_state=42)
+
+#----------------------------------------------------------------logistic regression classifier
+#define hyper parameters and ranges
+param_grid_log = [{'C': [0.1, 1, 10], 'solver': ['lbfgs', 'liblinear'], 
+                   'max_iter':[100, 300]}]
+#apply gridsearch
+grid_log  = GridSearchCV(log, param_grid=param_grid_log, cv=5)
+#fit model with grid search
+grid_log.fit(X_train, y_train)
+print('The best parameters for log classifier: ', grid_log.best_params_)
+
+#----------------------------------------------------------------kNN classifier
+#define hyper parameters and ranges
+#define hyper parameters and ranges
+param_grid_knn = [{'n_neighbors': [2, 3, 4, 6, 8, 10], 'weights': [ 'uniform', 'distance'], 
+                   'metric': ['euclidean', 'manhattan', 'minkowski']}]
+#apply gridsearch
+grid_knn  = GridSearchCV(knn, param_grid=param_grid_knn, cv=5)
+#fit model with grid search
+grid_knn.fit(X_train, y_train)
+print('The best parameters for knn classifier: ', grid_knn.best_params_)
+
+#--------------------------------------------------------------decision tree classifier
+#define hyper parameters and ranges
+param_grid_dtree = [{'max_depth': [ 15, 20, 25, 30], 'criterion': ['gini',  'entropy']}]
+#apply gridsearch
+grid_dtree  = GridSearchCV(dtree, param_grid=param_grid_dtree, cv=5)
+#fit model with grid search
+grid_dtree.fit(X_train, y_train)
+print('The best parameters for dtree classifier: ', grid_dtree.best_params_)
+
+#--------------------------------------------------------------random forest classifier
+#define hyper parameters and ranges
+param_grid_rtree = [{'max_depth': [5, 10, 15, 20], 'n_estimators':[100,300,500] ,
+                     'criterion': ['gini',  'entropy']}]
+#apply gridsearch
+grid_rtree  = GridSearchCV(rtree, param_grid=param_grid_rtree, cv=5)
+#fit model with grid search
+grid_rtree.fit(X_train, y_train)
+print('The best parameters for rtree classifier: ', grid_rtree.best_params_)
+
+#----------------------------------------------------------------SVM classifier
+#define hyper parameters and ranges
+param_grid_svm = [{'C': [100, 50, 10, 1.0, 0.1, 0.01], 'gamma': ['scale'], 
+                   'kernel': ['poly', 'rbf', 'sigmoid'] }]
+#apply gridsearch
+grid_svm  = GridSearchCV(svm, param_grid=param_grid_svm, cv=5)
+#fit model with grid search
+grid_svm.fit(X_train, y_train)
+print('The best parameters for svm classifier: ', grid_svm.best_params_)
+
+#-----------------------------------------------------------------gbc classifier
+#define hyper parameters and ranges
+param_grid_gbc = [{'learning_rate': [0.1, 1], 'n_estimators':[200,350,500]}]
+#apply gridsearch
+grid_gbc  = GridSearchCV(gbc, param_grid=param_grid_gbc, cv=5)
+#fit model with grid search
+grid_gbc.fit(X_train, y_train)
+print('The best parameters for gbc classifier: ', grid_gbc.best_params_)
+
+
+#--------------------------------------------------------------extra tree classifier
+#etree classifier
+#define hyper parameters and ranges
+param_grid_etree = [{'max_depth': [15, 20, 25, 30, 35], 'n_estimators':[200,350,500] , 
+                     'criterion': ['gini',  'entropy']}]
+#apply gridsearch
+grid_etree  = GridSearchCV(etree, param_grid=param_grid_etree, cv=5)
+#fit model with grid search
+grid_etree.fit(X_train, y_train)
+print('The best parameters for etree classifier: ', grid_etree.best_params_)
+
+# The best parameters for log classifier:  {'C': 10, 'max_iter': 200, 'solver': 'lbfgs'}
+# The best parameters for knn classifier:  {'metric': 'manhattan', 'n_neighbors': 2, 'weights': 'distance'}
+# The best parameters for dtree classifier:  {'criterion': 'entropy', 'max_depth': 20}
+# The best parameters for rtree classifier: {'criterion': 'entropy', 'max_depth': 20, 'n_estimators': 500}
+# The best parameters for svm classifier:  {'C': 100, 'gamma': 'scale', 'kernel': 'rbf'}
+#The best parameters for gbc classifier:  {'learning_rate': 0.1, 'n_estimators': 500}
+#The best parameters for extra tree classifier: {'criterion': 'gini', 'max_depth': 35, 'n_estimators': 350}
+
+```
+
 
 The run time for the code above is almost an hour(depending on your computer configuration). I did not expand the grid search size for operation time-saving. You may extend for more than 2 by 2 parameters to search but expect that running time will be exponentially increased.
 
 From line 69 in the code, you can see the best hyper-parameters that have been chosen for each classifier. Using these parameters, we can build these models with optimum hyper-parameters and run for the accuracy test.
 
+![image](tab21.png)
 
 Comparing with baseline model performances(results of first block codes in this post), hyper-parameters adjustment could help model performance to improve. It seems that for ensemble models hyper-parameters are not as efficient as the rests. Some drawbacks in the hyper-parameterized models comparing to baseline mean that we did not properly design the search range.
 
