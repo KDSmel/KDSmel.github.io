@@ -722,3 +722,243 @@ Comparing with baseline model performances(results of first block codes in this 
 **Conclusion:**
 
 In this part, we constructed eight models with default parameters, ran cross-validation. Then, we looked for hyper-parameters using the grid search approach. The best hyper-parameters are employed to build the model again and comparing the basic model we can see improvement in model performances.
+
+## Part.3: Model Evaluation-1
+In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem. This post is the third part of part1, part2. You can find the jupyter notebook file of this part here.
+
+When I was fresh in machine learning, I always considered constructing a model as the most important step of the ML tasks, while now, I have another concept; model evaluation skill is the fundamental key to modeling success. We need to make sure that our model is working well with new data. On the other hand, we have to be able to interpret various evaluation metrics to understand our model’s strengths and weaknesses leading us to model improvement hints. As we are dealing with the multi-class problem in this tutorial, we will focus on related evaluation metrics, but before that, we need to get familiar with some definitions.
+
+**3–1 Model Metrics**
+
+When we are working with classification problems, we will have 4 kinds of possibility with model outcomes:
+
+**A) True Positive(TP)** is the outcome of the model correctly predicts the positive class. In our dataset, a positive class is a label that we are looking for specifically for that label prediction. For example, if we are analyzing ‘Dolomite’ class prediction, TP is the number of truly predicted Dolomite samples of test data by the model.
+
+**B) True Negative(TN)** is an outcome where the model correctly predicts the negative class. Negative class in our dataset for Dolomite prediction are those facies classes that truly predicted as not Dolomite(predicted as the rest of classes and truly were not Dolomite).
+
+**C) False Positive(FP)** is an outcome where the model incorrectly predicts the positive class. In our dataset, all facies classes that incorrectly predicted as Dolomite when we are evaluating Dolomite class prediction.
+
+**D) False Negative(FN)** is an outcome where the model incorrectly predicts negative class. Again for Dolomite prediction, FN is the prediction of Dolomite as non-Dolomite classes.
+
+**1.Accuracy:** it is simply calculated as a fraction of correct predictions over the total number of predictions.
+
+Accuracy = (TP+TN) / (TP+TN+FP+FN)
+
+**2. Precision:** this metric answers this question: what proportion of positive predictions is totally correct?
+
+Precision = TP / (TP+FP)
+looking at the equation, we can see that if a model has zero False Positive prediction, the precision will be 1. Again, in Dolomite prediction, this index shows what proportion of predicted Dolomite is truly Dolomite (not other facies are classified as Dolomite).
+
+**3. Recall:** recall answer this question: what proportion of actual positives is classified correctly?
+
+Recall= TP / (TP+FN)
+looking at the equation, we can see that if a model has zero False Negative prediction, the recall will be 1. In our example, recall shows the proportion of Dolomite class that correctly identified by the model.
+
+Note: to evaluate the model efficiency, we need to consider both precision and recall together. Unfortunately, these two parameters act against each other, improving one leads to decreasing the other. The ideal case is that both of them show near 1 values.
+
+**4. f1_score:** The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and the worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:
+
+F1 = 2 * (precision * recall) / (precision + recall)
+
+Let’s see one example of Logistic Regression classifier performance:
+
+Run:
+```python
+from sklearn.metrics import precision_recall_fscore_support
+model_log=LogisticRegression(C = 10, solver = ‘lbfgs’, max_iter= 200 ) 
+model_log.fit(X_train, y_train)
+y_pred_log = model_log.predict(X_test)
+print(classification_report(y_test, y_pred_log, target_names= facies_labels))
+```
+![image](tab31.png)
+
+To evaluate the Logistic Regression classifier performance, let's look at the first facies class Sandstone(SS). When this model predicts a facies as SS, it is correct in 75% of the time(Precision). On the other hand, this model correctly identifies 89% of all SS facies members(Recall). We can guess that f1_score is somewhere between these two metrics. Support means the individual class members for the test.
+
+Let's have some block of codes to implement the above-mentioned procedure in order for all models and plot the result as an average. Up to line 15, we defined the model objects with hyper-parameters that we already obtained from the grid-search approach. Then(line 16 to 25) models are appended into a list to be iterable when we want to fit and cross-validate in order. After cross-validation, we stored metrics results in the list for each model. line 37 to 52, we established a for loop to calculate the average value of each of these metrics for each model. The rest of the code is a plotting task.
+
+```python
+from sklearn.metrics import classification_report
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_validate
+from sklearn.metrics import precision_recall_fscore_support
+
+# define Classifiers with optimum hyper_param
+log = LogisticRegression(C = 10, solver = 'lbfgs', max_iter= 200 ) 
+knn = KNeighborsClassifier(leaf_size = 10, n_neighbors=2)
+dtree = DecisionTreeClassifier(criterion = 'entropy', max_depth=15)
+rtree = RandomForestClassifier(criterion='entropy', max_depth=20, n_estimators=300)
+svm = SVC(C=100, gamma=0.001)
+nb = GaussianNB()
+gbc = GradientBoostingClassifier(learning_rate=0.1, n_estimators=100)
+etree = ExtraTreesClassifier(criterion='gini', max_depth=35, n_estimators=500)
+
+# append models and run in for loop for cv
+models = []
+models.append(('log' , log))
+models.append(('knn', knn))
+models.append(('dtree', dtree))
+models.append(('rtree', rtree))
+models.append(('svm', svm))
+models.append(('nb',  nb))
+models.append(('gbc', gbc))
+models.append(('etree', etree))
+results = []
+names = []
+scoring =  ['accuracy', 'precision_macro', 'recall_macro', 'f1_macro']
+for name, model in models:
+    cv = KFold(n_splits=10, shuffle=True , random_state=42)
+    cv_results = cross_validate(model, X_sm, y_sm, cv=cv, scoring=scoring)
+    results.append(cv_results)
+    names.append(name)
+    results.append(name)
+results =  results[::2] # use the numeric part
+
+#average of each metrics
+test_acc = []
+for i in range (len(names)):
+    test_acc.append(results[i]['test_accuracy'].mean())
+    
+test_f1 = []
+for i in range (len(names)):
+    test_f1.append(results[i]['test_f1_macro'].mean())  
+    
+test_pre = []
+for i in range (len(names)):
+    test_pre.append(results[i]['test_precision_macro'].mean())
+
+test_rec = []
+for i in range (len(names)):
+    test_rec.append(results[i]['test_recall_macro'].mean())
+    
+ #Model Merices plot
+category_names = names
+result_data = {"accuracy_score": test_acc, 'f1score':    test_f1, 'precision': test_pre, 'recall':    test_rec,  }
+
+def survey(result_data, category_names):
+    """
+    Parameters
+    ----------
+    results : dict
+        A mapping from question labels to a list of answers per category.
+        It is assumed all lists contain the same number of entries and that
+        it matches the length of *category_names*.
+    category_names : list of str
+        The category labels.
+    """
+    labels = list(result_data.keys())
+    data = np.array(list(result_data.values()))
+    data_cum = data.cumsum(axis=1)
+    category_colors = plt.get_cmap('RdYlGn')(
+        np.linspace(0, 1, data.shape[1]))
+
+    fig, ax = plt.subplots(figsize=(12, 3))
+    ax.invert_yaxis()
+    ax.xaxis.set_visible(False)
+    ax.set_xlim(0, np.sum(data, axis=1).max())
+   
+
+    for i, (colname, color) in enumerate(zip(category_names, category_colors)):
+        widths = data[:, i]
+        starts = data_cum[:, i] - widths
+        ax.barh(labels, widths, left=starts, height=0.7,
+                label=colname, color=color)
+        xcenters = starts + widths / 2
+
+        r, g, b, _ = color
+        text_color =  'k'
+        for y, (x, c) in enumerate(zip(xcenters, widths)):
+            ax.text(x, y, str(np.around(c,decimals = 2)), ha='center', va='center',
+                    color=text_color)
+    ax.legend(ncol=len(category_names), bbox_to_anchor=(0, -0.22),
+              loc='lower left', fontsize='large')
+    ax.set_title('Diffrent Metrics Average', loc='center')
+    fig.savefig('fname_macro', dpi=300)
+    return fig, ax
+
+
+survey(result_data, category_names)
+plt.show()
+
+```
+
+![image](img31.png)
+
+This is the plot that shows the average value of each of the evaluation metrics(y-axis) for individual employed models. Here, we wanted to compare all models performances overall. It seems that Extra tree and Random forest did the best prediction while Gaussian Naive Bays was not that much efficient predictor model.
+
+If we are concerned about an individual facies prediction, we should consider eliminating the rest of the metrics from the ‘results’ list and run the program again.
+
+**3–2 Confusion matrix**
+
+The confusion matrix shows predicted class labels against original true label data. This is a fantastic visualization tool that we can see each class of facies is predicted correctly or wrong into other classes.
+
+In the line of codes below, we first defined a function to make fancy use of the confusion matrix function developed by sklearn. After function definition, we fit and run the Logistic Regression classifier. Now we have predicted facies labels with true facies labels for test data. Calling the function with the required input parameters will create a plot of the confusion matrix.
+
+```python
+from sklearn.metrics import confusion_matrix
+import itertools
+
+# define function to implement confusion matrix with normalization capability
+def plot_confusion_matrix(cm, classes, normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Reds):
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=90)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    
+# create Logistic Reg model with optimom hyper-parameters
+model_log=LogisticRegression(C = 10, solver = 'lbfgs', max_iter= 500 ) 
+model_log.fit(X_train, y_train)
+# predict test labels
+y_pred_log = model_log.predict(X_test)
+#calculate confusion matrix
+cnf_rtree = confusion_matrix(y_test, y_pred_log)
+
+#Plot confusion matrix for RandomForest classifier
+fig = plt.figure()
+fig.set_size_inches(7, 6, forward=True)
+plot_confusion_matrix(cnf_rtree, classes=np.asarray(facies_labels),
+                      title='confusion matrix (Logistic Regression classifier)')
+
+```
+
+![image](img32.png)
+
+Taking a look at the plot(first row), we recognize that this algorithm could predict 151 SS class correctly while 18 true SS were classified as CSiS incorrectly. From the previous section, we are familiar with the recall concept. From all true class members of SS(169), the classifier could recognize 151 correctly; 151/169 is 89%(we have seen this number in the class report in the picture above). So, we can conclude that if we move our evaluation in the row direction(True labels) we are dealing with recall.
+You may guess that if we go in the column direction, we will deal with Precision. For SS precision is 75% as 149/201.
+
+In the picture below, we see how the Naive Bayes classifier poorly performed prediction. This classifier is totally overestimated BS class in prediction.
+
+![image](img33.png)
+
+
+Up to now, we have some metrics that helped us to evaluate the model performances but still, we can not guarantee that which one is the best. Because some models can memorize training data and follow data complexity severely and when it faces a new dataset, its performance will be poor. This is called over-fitting (model with high variance). A model with high variance will change a lot with small changes to the training dataset.
+On the other hand, when a model too generalizes prediction, it will not be able to capture the complexity of a dataset, this is called under-fitting(model with high bias).
+Our ideal model is something between these two models leaving us for bias-variance trade-off.
+
+The question is: how we can recognize that our model is over-fit or under-fit?
+We will cover in the next part of this tutorial.
+
+**Conclusion:**
+
+Model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model's strengths and weaknesses.
