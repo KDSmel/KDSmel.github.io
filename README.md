@@ -239,25 +239,61 @@ sns_plot.savefig('cross_plots.png')
 
 ![image](./tab1.png)
 
-1–2 Feature Engineering
-1–2–1 NaN imputation
+
+**1–2 Feature Engineering**
+
+   1–2–1 NaN imputation
 
 It is common to have missing value in the dataset. To see the sum of null values for each column of features:
 
+```python
 DataFrame.isna().sum()
 # to find out which wells do not have PE
 df_null = data_fe.loc[data_fe.PE.isna()]
 df_null['Well Name'].unique()
 #Categories (3, object): [ALEXANDER D, KIMZEY A, Recruit F9]
+```
+
+![image](./img4.png)
 
 Here, PE has 917 null values.
+
 There are several ways to deal with Null values in the dataset. The simplest approach is to drop the rows containing at least one null value. This can be logical with a bigger size dataset but in small data frames, single points are important. We can impute null values with mean or from adjacent data points in columns. Filling with mean value will not affect data variance and therefore will not have an impact on prediction accuracy, though can create data bias. Filling with the neighbor cells of column values can be appropriate if we have a geologically homogeneous medium like mass pure carbonate rocks.
 
 Another approach, that I will implement here, to employe machine learning models to predict missing values. This is the best way of dealing with this dataset because we have just a single feature missing from the dataset, PE. On the other hand, filling with ML prediction is much better than the single mean value because we are able to see ML correlation and accuracy by dividing data to train and test sets.
 
 Here, I will employ the Multi-Layer Perceptron Neural Network from scikit-learn to predict target value. I am not going to deep for this approach and use simply to predict missing values.
 
+```python
+from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+# select features and target log that has value
 
+set_PE = data_fe[['Facies','Depth', 'GR', 'ILD_log10',
+       'DeltaPHI', 'PHIND', 'PE', 'NM_M', 'RELPOS']].dropna()  
+X = set_PE[['Facies','Depth', 'GR', 'ILD_log10',
+       'DeltaPHI', 'PHIND', 'NM_M', 'RELPOS']]  # feature selection without null value
+XX = data_fe[['Facies','Depth', 'GR', 'ILD_log10',
+       'DeltaPHI', 'PHIND', 'NM_M', 'RELPOS']]
+y = set_PE['PE'] # target log
+
+# scaling
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+X_b = scaler.fit_transform(XX)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+MLP_pe = MLPRegressor(random_state=1, max_iter= 500).fit(X_train, y_train) #fit the model
+MLP_pe.score(X_test, y_test) # examine accuracy
+# accuracy: 0.7885539544025157
+
+data_fe['PE_pred'] = MLP_pe.predict(X_b)  # predict PE
+data_fe.PE.fillna(data_fe.PE_pred, inplace =True) # fill NaN vakues with predicted PE
+
+```
+
+![image](./img5.png)
 
 Predicted PE in well ALEXANDER D shows the normal range and variation. Prediction accuracy is 77%.
 
