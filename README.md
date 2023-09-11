@@ -89,13 +89,13 @@ Part.4: Model Evaluation-2
       
       4–3 Blind well prediction and evaluation
 
-If you are totally fresh with python and ML concepts, you will need to get familiar with the basics to get advantages of this tutorial. As the dataset that we will work on here is a tabular CSV file including well logs and facies class, my two previous posts (10 steps in Pandas, 5 steps in Pandas) can be helpful for well log data handling, processing, and plotting. All implementation is based on scikit-learn libraries.
+You can find the jupyter notebook file for this tutorial [here](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb).
 
     
 ## Part.1: Exploratory Data Analysis
 After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.
 
-Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the [jupyter notebook file](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Part1_practical_Tut_ML_facies.ipynb).
+Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the [jupyter notebook file](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb).
 
 Note2: shuffling data can cause differences between your runs and what appears here.
 
@@ -519,7 +519,7 @@ In all these feature importance plots we can see that predictor number 6 (PE log
 Data preparation is one of the most important and time-consuming steps in machine learning. Data visualization can help us to understand data nature, borders, and distribution. Feature engineering is required especially if we have null and categorical values. In small datasets, feature extraction and oversampling can be helpful for model performances. Finally, we can analyze features in the dataset to see the importance of features for different model algorithms.
 
 ## Part.2: Build Model & Validate
-In this part, we will build different models, validate them, and use the grid search approach to find out the optimum hyperparameters. You can find the jupyter notebook file of this part [here](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp/blob/main/part2_practical_Tut_ML_facies.ipynb).
+In this part, we will build different models, validate them, and use the grid search approach to find out the optimum hyperparameters. 
 
 The concept of model building in ML projects of scikit-learn libraries is simple. First, you select what type of model you are comfortable with, second, fit the model to the data using target and predictors(features), and finally, predict the unknown labels using available feature data.
 
@@ -725,7 +725,7 @@ Comparing with baseline model performances(results of first block codes in this 
 In this part, we constructed eight models with default parameters, ran cross-validation. Then, we looked for hyper-parameters using the grid search approach. The best hyper-parameters are employed to build the model again and comparing the basic model we can see improvement in model performances.
 
 ## Part.3: Model Evaluation-1
-In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem. You can find the jupyter notebook file of this part [here](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp).
+In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem. 
 
 When I was fresh in machine learning, I always considered constructing a model as the most important step of the ML tasks, while now, I have another concept; model evaluation skill is the fundamental key to modeling success. We need to make sure that our model is working well with new data. On the other hand, we have to be able to interpret various evaluation metrics to understand our model’s strengths and weaknesses leading us to model improvement hints. As we are dealing with the multi-class problem in this tutorial, we will focus on related evaluation metrics, but before that, we need to get familiar with some definitions.
 
@@ -965,7 +965,7 @@ We will cover in the next part of this tutorial.
 Model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model's strengths and weaknesses.
 
 ## Part.4: Model Evaluation-2
-In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now). You can find the jupyter notebook file of this part [here](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp).
+In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now). 
 
 ![image](img41.png)
 
