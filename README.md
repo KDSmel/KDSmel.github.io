@@ -43,29 +43,30 @@ Part.4: Model Evaluation-2
 
 
 **1. Exploratory Data Analysis**
-   1-1. Data visualization
+
+1-1. Data visualization
       
-      1–1–1. log-plot
+1–1–1. log-plot
       
-      1–1–2. Bar plot
+1–1–2. Bar plot
       
-      1–1–3. Cross-plot
+1–1–3. Cross-plot
       
-   1–2. Feature Engineering
-   
-      1–2–1. NaN imputation
-      
-      1–2–2. Feature extraction
-      
-      1–2–3. Oversampling
-      
-   1–3. Feature Importance
-   
-      1–3–1. Feature linear correlation
-      
-      1–3–2. Decision tree
-      
-      1–3–3. Permutation feature importance
+1–2. Feature Engineering
+
+1–2–1. NaN imputation
+
+1–2–2. Feature extraction
+
+1–2–3. Oversampling
+
+1–3. Feature Importance
+
+1–3–1. Feature linear correlation
+
+1–3–2. Decision tree
+
+1–3–3. Permutation feature importance
 
 **2. Build Model & Validate**
 
