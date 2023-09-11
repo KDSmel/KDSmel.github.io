@@ -18,8 +18,11 @@ Part.3: Model Evaluation-1,
 Part.4: Model Evaluation-2
 
 **1- Exploratory Data Analysis**
+
 1–1 Data visualization
+
 1–1–1 log-plot
+
 1–1–2 Bar plot
 1–1–3 Cross-plot
 1–2 Feature Engineering
