@@ -479,7 +479,34 @@ pyplot.show()
 
 Permutation feature importance is a model inspection technique that can be used for any fitted estimator when the data is tabular. This is especially useful for non-linear or opaque estimators. The permutation feature importance is defined to be the decrease in a model score when a single feature value is randomly shuffled.
 
+```python
 
+from sklearn.inspection import permutation_importance
+model = LogisticRegression(solver='liblinear')
+# fit the model
+model.fit(X, y)
+# perform permutation importance
+results = permutation_importance(model, X, y, scoring='accuracy')
+# get importance
+importance = results.importances_mean
+# summarize feature importance
+for i,v in enumerate(importance):
+	print('Feature: %0d, Score: %.5f' % (i,v))
+# plot feature importance
+pyplot.bar([x for x in range(len(importance))], importance)
+pyplot.title('Permutation Feature Importance Scores')
+pyplot.show()
+
+#Feature: 0, Score: -0.00130
+#Feature: 1, Score: 0.01514
+#Feature: 2, Score: 0.03400
+#Feature: 3, Score: 0.04205
+#Feature: 4, Score: 0.08692
+#Feature: 5, Score: 0.07124
+#Feature: 6, Score: 0.27622
+#Feature: 7, Score: 0.03832
+#Feature: 8, Score: 0.01811
+```
 
 In all these feature importance plots we can see that predictor number 6 (PE log) has the most importance in label prediction. Based on the model that we select to evaluate the result, we may choose features based on their importance and neglect the rest to speed up the training process. This is very common if we are rich in feature quantity, though in our example dataset here, we will use all features as predictors are limited.
 
