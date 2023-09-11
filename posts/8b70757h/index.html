@@ -1,1 +1,2655 @@
 
+
+
+
+
+
+<h1 id="exploratory-geoscience-data-analysis-multi-class-classification-problem">Exploratory Geoscience Data Analysis: Multi-class Classification Problem</h1>
+<p>Although there are tons of great books and papers outside to practice machine learning, I always wanted to see something short, simple, and with a descriptive manuscript. I always wanted to see an example with an appropriate explanation of the procedure accompanied by detailed results interpretation. Model evaluation metrics should also need to be elaborated clearly.</p>
+<p>In this work, I will try to include all important steps of ML modeling (even though some are not necessary for this dataset) to make a consistent and tangible example, especially for geoscientists. Eight important ML algorithms will be examined and results will be compared. I will try to have an argumentative model evaluation discussion. I will not go deep into the algorithm’s fundamentals.</p>
+<p>The dataset ( <a href="https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/facies_vectors.csv">facies_vectors.csv</a>) for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are: </p>
+<ol>
+  <li>GR: this wireline logging tools measure gamma emission</li>
+  <li>ILD_log10: this is resistivity measurement</li>
+  <li>PE: photoelectric effect log</li>
+  <li>DeltaPHI: Phi is a porosity index in petrophysics.</li>
+  <li>PNHIND: Average of neutron and density log.</li>
+  <li>NM_M:nonmarine-marine indicator</li>
+  <li>RELPOS: relative position</li>
+</ol>
+<p>The nine discrete facies (classes of rocks) are:</p>
+<ol>
+  <li>(SS) Nonmarine sandstone</li>
+  <li>(CSiS) Nonmarine coarse siltstone</li>
+  <li>(FSiS) Nonmarine fine siltstone</li>
+  <li>(SiSH) Marine siltstone and shale</li>
+  <li>(MS) Mudstone (limestone)</li>
+  <li>(WS) Wackestone (limestone)</li>
+  <li>(D) Dolomite</li>
+  <li>(PS) Packstone-grainstone (limestone)</li>
+  <li>(BS) Phylloid-algal bafflestone (limestone)</li>
+</ol>
+<p>To access the dataset and jupyter notebook find out my <a href="https://github.com/KDSmel/mini_projects/tree/main/Practical_ML_Tutorial_Facies">Git</a>. </p>
+<p>
+  <strong>This tutorial has four parts:</strong>
+</p>
+<p>Part.1: Exploratory Data Analysis,</p>
+<p>Part.2: Build Model &amp; Validate,</p>
+<p>Part.3: Model Evaluation-1,</p>
+<p>Part.4: Model Evaluation-2</p>
+<p>
+  <strong>1. Exploratory Data Analysis</strong>
+</p>
+<p>1-1. Data visualization</p>
+<pre>
+	<code>
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">1.</span> log-plot
+
+
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">2.</span> Bar plot
+
+
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">3.</span> Cross-plot
+
+	</code>
+</pre>
+<p>1–2. Feature Engineering</p>
+<pre>
+	<code>
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">2</span>–
+		<span class="hljs-number">1.</span> NaN imputation
+
+
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">2</span>–
+		<span class="hljs-number">2.</span> Feature extraction
+
+
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">2</span>–
+		<span class="hljs-number">3.</span> Oversampling
+
+	</code>
+</pre>
+<p>1–3. Feature Importance</p>
+<pre>
+	<code>
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">3</span>–
+		<span class="hljs-number">1.</span> Feature linear correlation
+
+
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">3</span>–
+		<span class="hljs-number">2.</span> Decision tree
+
+
+		<span class="hljs-number">1</span>–
+		<span class="hljs-number">3</span>–
+		<span class="hljs-number">3.</span> Permutation feature importance
+
+	</code>
+</pre>
+<p>
+  <strong>2. Build Model &amp; Validate</strong>
+</p>
+<pre>
+	<code>
+		<span class="hljs-number">2</span>–
+		<span class="hljs-number">1.</span> Baseline Model
+
+  
+		<span class="hljs-number">2</span>–
+		<span class="hljs-number">2.</span> Hyper-parameters
+
+  
+		<span class="hljs-number">2</span>–
+		<span class="hljs-number">3.</span> Grid search
+
+	</code>
+</pre>
+<p>
+  <strong>3. Model Evaluation-1</strong>
+</p>
+<pre>
+	<code>
+		<span class="hljs-number">3</span>–
+		<span class="hljs-number">1.</span> Model metrics plot
+
+  
+		<span class="hljs-number">3</span>–
+		<span class="hljs-number">2.</span> Confusion matrix
+
+	</code>
+</pre>
+<p>
+  <strong>4. Model Evaluation-2</strong>
+</p>
+<pre>
+	<code>
+		<span class="hljs-number">4</span>–
+		<span class="hljs-number">1.</span> Learning curves
+
+  
+		<span class="hljs-number">4</span>–
+		<span class="hljs-number">2.</span> ROC plot
+
+  
+		<span class="hljs-number">4</span>–
+		<span class="hljs-number">3.</span> Blind well prediction and evaluation
+
+	</code>
+</pre>
+<p>You can find the jupyter notebook file for this tutorial <a href="https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb">here</a>. </p>
+<h2 id="part-1-exploratory-data-analysis">Part.1: Exploratory Data Analysis</h2>
+<p>After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.</p>
+<p>Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the <a href="https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb">jupyter notebook file</a>. </p>
+<p>Note2: shuffling data can cause differences between your runs and what appears here.</p>
+<p>
+  <strong>1–1 Data visualization</strong>
+</p>
+<p>1–1–1 log-plot</p>
+<pre>
+	<code class="lang-python">
+		<span class="hljs-keyword">import</span> pandas 
+		<span class="hljs-keyword">as</span> pd
+
+		<span class="hljs-keyword">import</span> matplotlib.colors 
+		<span class="hljs-keyword">as</span> colors
+
+		<span class="hljs-keyword">import</span> matplotlib.pyplot 
+		<span class="hljs-keyword">as</span> plt
+
+		<span class="hljs-keyword">from</span> mpl_toolkits.axes_grid1 
+		<span class="hljs-keyword">import</span> make_axes_locatable
+
+		<span class="hljs-keyword">from</span> sklearn.preprocessing 
+		<span class="hljs-keyword">import</span> LabelEncoder
+
+		<span class="hljs-keyword">from</span> collections 
+		<span class="hljs-keyword">import</span> Counter
+pd.set_option(
+		<span class="hljs-string">'display.max_rows'</span>, 
+		<span class="hljs-number">30</span>)
+
+		<span class="hljs-keyword">import</span> numpy 
+		<span class="hljs-keyword">as</span> np
+
+		<span class="hljs-keyword">import</span> seaborn 
+		<span class="hljs-keyword">as</span> sns
+
+df = pd.read_csv(
+		<span class="hljs-string">'facies_vectors.csv'</span>)
+
+
+		<span class="hljs-comment"># colors </span>
+facies_colors = [
+		<span class="hljs-string">'xkcd:goldenrod'</span>, 
+		<span class="hljs-string">'xkcd:orange'</span>,
+		<span class="hljs-string">'xkcd:sienna'</span>,
+		<span class="hljs-string">'xkcd:violet'</span>,
+       
+		<span class="hljs-string">'xkcd:olive'</span>,
+		<span class="hljs-string">'xkcd:turquoise'</span>, 
+		<span class="hljs-string">"xkcd:yellowgreen"</span>, 
+		<span class="hljs-string">'xkcd:indigo'</span>, 
+		<span class="hljs-string">'xkcd:blue'</span>]
+
+facies_labels = [
+		<span class="hljs-string">'SS'</span>, 
+		<span class="hljs-string">'CSiS'</span>, 
+		<span class="hljs-string">'FSiS'</span>, 
+		<span class="hljs-string">'SiSh'</span>, 
+                 
+		<span class="hljs-string">'MS'</span>,  
+		<span class="hljs-string">'WS'</span>, 
+		<span class="hljs-string">'D'</span>,
+		<span class="hljs-string">'PS'</span>, 
+		<span class="hljs-string">'BS'</span>]
+
+		<span class="hljs-comment">#facies_color_map is a dictionary that maps facies labels to their respective colors</span>
+facies_color_map = {}
+
+		<span class="hljs-keyword">for</span> ind, label 
+		<span class="hljs-keyword">in</span> enumerate(facies_labels):
+    facies_color_map[label] = facies_colors[ind]
+
+
+		<span class="hljs-function">
+			<span class="hljs-keyword">def</span>
+			<span class="hljs-title">label_facies</span>
+			<span class="hljs-params">(row, labels)</span>:
+		</span>
+		<span class="hljs-keyword">return</span> labels[ row[
+		<span class="hljs-string">'Facies'</span>] 
+		<span class="hljs-number">-1</span>]
+
+		<span class="hljs-comment">#establish facies label str    </span>
+df.loc[:,
+		<span class="hljs-string">'FaciesLabels'</span>] = df.apply(
+		<span class="hljs-keyword">lambda</span> row: label_facies(row, facies_labels), axis=
+		<span class="hljs-number">1</span>)
+
+	</code>
+</pre>
+<p>This is a function to create a plot.</p>
+<pre>
+	<code class="lang-python">def make_facies_log_plot(logs, facies_colors):
+    #make sure logs are sorted by depth
+    logs = logs.sort_values(by=
+		<span class="hljs-string">'Depth'</span>)
+    cmap_facies = colors.
+		<span class="hljs-symbol">ListedColormap</span>(
+            facies_colors[
+		<span class="hljs-number">0</span>:len(facies_colors)], 
+		<span class="hljs-string">'indexed'</span>)
+
+    ztop=logs.
+		<span class="hljs-symbol">Depth</span>.min(); zbot=logs.
+		<span class="hljs-symbol">Depth</span>.max()
+
+    cluster=np.repeat(np.expand_dims(logs[
+		<span class="hljs-string">'Facies'</span>].values,
+		<span class="hljs-number">1</span>), 
+		<span class="hljs-number">100</span>, 
+		<span class="hljs-number">1</span>)
+
+    f, ax = plt.subplots(nrows=
+		<span class="hljs-number">1</span>, ncols=
+		<span class="hljs-number">6</span>, figsize=(
+		<span class="hljs-number">12</span>, 
+		<span class="hljs-number">6</span>))
+    ax[
+		<span class="hljs-number">0</span>].plot(logs.
+		<span class="hljs-symbol">GR</span>, logs.
+		<span class="hljs-symbol">Depth</span>, 
+		<span class="hljs-string">'-g'</span>,  alpha=
+		<span class="hljs-number">0.8</span>, lw = 
+		<span class="hljs-number">0.9</span>)
+    ax[
+		<span class="hljs-number">1</span>].plot(logs.
+		<span class="hljs-symbol">ILD_log10</span>, logs.
+		<span class="hljs-symbol">Depth</span>, 
+		<span class="hljs-string">'-b'</span>,  alpha=
+		<span class="hljs-number">0.8</span>, lw = 
+		<span class="hljs-number">0.9</span>)
+    ax[
+		<span class="hljs-number">2</span>].plot(logs.
+		<span class="hljs-symbol">DeltaPHI</span>, logs.
+		<span class="hljs-symbol">Depth</span>, 
+		<span class="hljs-string">'-k'</span>,  alpha=
+		<span class="hljs-number">0.8</span>, lw = 
+		<span class="hljs-number">0.9</span>)
+    ax[
+		<span class="hljs-number">3</span>].plot(logs.
+		<span class="hljs-symbol">PHIND</span>, logs.
+		<span class="hljs-symbol">Depth</span>, 
+		<span class="hljs-string">'-r'</span>,  alpha=
+		<span class="hljs-number">0.8</span>, lw = 
+		<span class="hljs-number">0.9</span>)
+    ax[
+		<span class="hljs-number">4</span>].plot(logs.
+		<span class="hljs-symbol">PE</span>, logs.
+		<span class="hljs-symbol">Depth</span>, 
+		<span class="hljs-string">'-c'</span>,  alpha=
+		<span class="hljs-number">0.8</span>, lw = 
+		<span class="hljs-number">0.9</span>)
+    im=ax[
+		<span class="hljs-number">5</span>].imshow(cluster, interpolation=
+		<span class="hljs-string">'none'</span>, aspect=
+		<span class="hljs-string">'auto'</span>,
+                    cmap=cmap_facies,vmin=
+		<span class="hljs-number">1</span>,vmax=
+		<span class="hljs-number">9</span>)
+
+    divider = make_axes_locatable(ax[
+		<span class="hljs-number">5</span>])
+    cax = divider.append_axes(
+		<span class="hljs-string">"right"</span>, size=
+		<span class="hljs-string">"20%"</span>, pad=
+		<span class="hljs-number">0.05</span>)
+    cbar=plt.colorbar(im, cax=cax)
+    cbar.set_label((
+		<span class="hljs-number">5</span>*
+		<span class="hljs-string">' '</span>).join([
+		<span class="hljs-string">' SS '</span>, 
+		<span class="hljs-string">'CSiS'</span>, 
+		<span class="hljs-string">'FSiS'</span>, 
+                                
+		<span class="hljs-string">'SiSh'</span>, 
+		<span class="hljs-string">' MS '</span>, 
+		<span class="hljs-string">' WS '</span>, 
+		<span class="hljs-string">' D  '</span>, 
+                                
+		<span class="hljs-string">' PS '</span>, 
+		<span class="hljs-string">' BS '</span>]))
+    cbar.set_ticks(range(
+		<span class="hljs-number">0</span>,
+		<span class="hljs-number">1</span>)); cbar.set_ticklabels(
+		<span class="hljs-string">''</span>)
+
+    for i in range(len(ax)
+		<span class="hljs-number">-1</span>):
+        ax[i].set_ylim(ztop,zbot)
+        ax[i].invert_yaxis()
+        ax[i].grid()
+        ax[i].locator_params(axis=
+		<span class="hljs-string">'x'</span>, nbins=
+		<span class="hljs-number">3</span>)
+
+    ax[
+		<span class="hljs-number">0</span>].set_xlabel(
+		<span class="hljs-string">"GR"</span>)
+    ax[
+		<span class="hljs-number">0</span>].set_xlim(logs.
+		<span class="hljs-symbol">GR</span>.min(),logs.
+		<span class="hljs-symbol">GR</span>.max())
+    ax[
+		<span class="hljs-number">1</span>].set_xlabel(
+		<span class="hljs-string">"ILD_log10"</span>)
+    ax[
+		<span class="hljs-number">1</span>].set_xlim(logs.
+		<span class="hljs-symbol">ILD_log10</span>.min(),logs.
+		<span class="hljs-symbol">ILD_log10</span>.max())
+    ax[
+		<span class="hljs-number">2</span>].set_xlabel(
+		<span class="hljs-string">"DeltaPHI"</span>)
+    ax[
+		<span class="hljs-number">2</span>].set_xlim(logs.
+		<span class="hljs-symbol">DeltaPHI</span>.min(),logs.
+		<span class="hljs-symbol">DeltaPHI</span>.max())
+    ax[
+		<span class="hljs-number">3</span>].set_xlabel(
+		<span class="hljs-string">"PHIND"</span>)
+    ax[
+		<span class="hljs-number">3</span>].set_xlim(logs.
+		<span class="hljs-symbol">PHIND</span>.min(),logs.
+		<span class="hljs-symbol">PHIND</span>.max())
+    ax[
+		<span class="hljs-number">4</span>].set_xlabel(
+		<span class="hljs-string">"PE"</span>)
+    ax[
+		<span class="hljs-number">4</span>].set_xlim(logs.
+		<span class="hljs-symbol">PE</span>.min(),logs.
+		<span class="hljs-symbol">PE</span>.max())
+    ax[
+		<span class="hljs-number">5</span>].set_xlabel(
+		<span class="hljs-string">'Facies'</span>)
+
+    ax[
+		<span class="hljs-number">1</span>].set_yticklabels([]); ax[
+		<span class="hljs-number">2</span>].set_yticklabels([]); ax[
+		<span class="hljs-number">3</span>].set_yticklabels([])
+    ax[
+		<span class="hljs-number">4</span>].set_yticklabels([]); ax[
+		<span class="hljs-number">5</span>].set_yticklabels([])
+    ax[
+		<span class="hljs-number">5</span>].set_xticklabels([])
+    f.suptitle(
+		<span class="hljs-string">'Well: %s'</span>
+		<span class="hljs-comment">%logs.iloc[0]['Well Name'], fontsize=14,y=0.94)</span>
+# call function to plot
+make_facies_log_plot(
+    data[data[
+		<span class="hljs-string">'Well Name'</span>] == 
+		<span class="hljs-string">'SHRIMPLIN'</span>],
+    facies_colors)
+
+	</code>
+</pre>
+<p>And the plot of the well SHRIMPLIN:</p>
+<p>
+  <img src="./img1.png" alt="image">
+</p>
+<p>1–1–2 Bar plot</p>
+<p>We can use the Counter function to evaluate each class contribution quantitatively. To see facies frequency distribution we can use a bar plot as:</p>
+<pre>
+		<code class="lang-python">cn = Counter(data.FaciesLabels)
+
+			<span class="hljs-keyword">for</span> i,j 
+			<span class="hljs-keyword">in</span> cn.items():
+    percent = j / len(data) * 100
+    
+			<span class="hljs-keyword">print</span>('
+			<span class="hljs-keyword">Class</span>=%s, 
+			<span class="hljs-keyword">Count</span>=%
+			<span class="hljs-keyword">d</span>, Percentage=%.3f%%' % (i, j, percent))
+# 
+			<span class="hljs-keyword">Class</span>=FSiS, 
+			<span class="hljs-keyword">Count</span>=663, Percentage=17.919%
+# 
+			<span class="hljs-keyword">Class</span>=CSiS, 
+			<span class="hljs-keyword">Count</span>=851, Percentage=23.000%
+# 
+			<span class="hljs-keyword">Class</span>=PS, 
+			<span class="hljs-keyword">Count</span>=646, Percentage=17.459%
+# 
+			<span class="hljs-keyword">Class</span>=WS, 
+			<span class="hljs-keyword">Count</span>=511, Percentage=13.811%
+# 
+			<span class="hljs-keyword">Class</span>=
+			<span class="hljs-keyword">D</span>, 
+			<span class="hljs-keyword">Count</span>=124, Percentage=3.351%
+# 
+			<span class="hljs-keyword">Class</span>=SiSh, 
+			<span class="hljs-keyword">Count</span>=264, Percentage=7.135%
+# 
+			<span class="hljs-keyword">Class</span>=MS, 
+			<span class="hljs-keyword">Count</span>=277, Percentage=7.486%
+# 
+			<span class="hljs-keyword">Class</span>=
+			<span class="hljs-keyword">BS</span>, 
+			<span class="hljs-keyword">Count</span>=185, Percentage=5.000%
+# 
+			<span class="hljs-keyword">Class</span>=SS, 
+			<span class="hljs-keyword">Count</span>=179, Percentage=4.838%
+
+plt.bar(cn.keys(), cn.values(), color=facies_colors )
+plt.title('Facies Distribution')
+plt.ylabel('Frequency')
+
+		</code>
+	</pre>
+<p>
+  <img src="./img2.png" alt="image">
+</p>
+<p>This is an imbalanced dataset. Dolomite has the lowest member participation. Comparing coarse siltstone, dolomite appears 8 times less than that.</p>
+<p>1–1–3 Cross plot</p>
+<p>To visualize multiple pairwise bivariate distributions in a dataset, we may use the pairplot() function from the seaborn library. It shows the relationship for the combination of variables in the dataset in the matrix format with a univariate distribution plot in diagonal. It is clear that PE log has a non-linear relationship with average porosity. Other pairs do not show a clear pattern. The distribution pattern in diagonal shows that each label class (facies) with respect to each feature has acceptable separation although there is a strong overlap for various classes. The ideal pattern can be assumed as a clear separation of distribution plots in tall bell shape normal distribution graph.</p>
+<pre>
+			<code class="lang-python">
+				<span class="hljs-title">sns_plot</span> = sns.pairplot(
+				<span class="hljs-class">
+					<span class="hljs-keyword">data</span>.drop(['
+					<span class="hljs-type">Well</span>
+					<span class="hljs-type">Name</span>','
+					<span class="hljs-type">Facies</span>','
+					<span class="hljs-type">Formation</span>','
+					<span class="hljs-type">Depth</span>','
+					<span class="hljs-type">NM_M</span>','
+					<span class="hljs-type">RELPOS</span>'],
+                                  
+					<span class="hljs-title">axis</span>=1),
+				</span>
+             hue='
+				<span class="hljs-type">FaciesLabels'</span>, palette=facies_color_map,
+             hue_order=list(reversed(facies_labels)))
+
+				<span class="hljs-title">sns_plot</span>.savefig('cross_plots.png')
+
+			</code>
+		</pre>
+<p>
+  <img src="./img3.png" alt="image">
+</p>
+<p>
+  <strong>Highlight:</strong> Collinear features are features that are highly correlated with each other. In machine learning, these lead to decreased generalization performance on the test set due to high variance and less model interpretability. In this dataset, we are not facing with collinearity. Using data.corr() command:
+</p>
+<p>
+  <img src="./tab1.png" alt="image">
+</p>
+<p>
+  <strong>1–2 Feature Engineering</strong>
+</p>
+<p> 1–2–1 NaN imputation</p>
+<p>It is common to have missing value in the dataset. To see the sum of null values for each column of features:</p>
+<pre>
+					<code class="lang-python">DataFrame.isna().sum()
+# 
+						<span class="hljs-keyword">to</span> find 
+						<span class="hljs-keyword">out</span> which wells 
+						<span class="hljs-keyword">do</span>
+						<span class="hljs-keyword">not</span> have PE
+df_null = data_fe.loc[data_fe.PE.isna()]
+df_null[
+						<span class="hljs-string">'Well Name'</span>].unique()
+#Categories (
+						<span class="hljs-number">3</span>, 
+						<span class="hljs-keyword">object</span>): [ALEXANDER D, KIMZEY A, Recruit F9]
+
+					</code>
+				</pre>
+<p>
+  <img src="./img4.png" alt="image">
+</p>
+<p>Here, PE has 917 null values.</p>
+<p>There are several ways to deal with Null values in the dataset. The simplest approach is to drop the rows containing at least one null value. This can be logical with a bigger size dataset but in small data frames, single points are important. We can impute null values with mean or from adjacent data points in columns. Filling with mean value will not affect data variance and therefore will not have an impact on prediction accuracy, though can create data bias. Filling with the neighbor cells of column values can be appropriate if we have a geologically homogeneous medium like mass pure carbonate rocks.</p>
+<p>Another approach, that I will implement here, to employe machine learning models to predict missing values. This is the best way of dealing with this dataset because we have just a single feature missing from the dataset, PE. On the other hand, filling with ML prediction is much better than the single mean value because we are able to see ML correlation and accuracy by dividing data to train and test sets.</p>
+<p>Here, I will employ the Multi-Layer Perceptron Neural Network from scikit-learn to predict target value. I am not going to deep for this approach and use simply to predict missing values.</p>
+<pre>
+						<code class="lang-python">
+							<span class="hljs-keyword">from</span> sklearn.neural_network 
+							<span class="hljs-keyword">import</span> MLPRegressor
+
+							<span class="hljs-keyword">from</span> sklearn.model_selection 
+							<span class="hljs-keyword">import</span> train_test_split
+
+							<span class="hljs-keyword">from</span> sklearn.preprocessing 
+							<span class="hljs-keyword">import</span> StandardScaler
+# select features and target log that has value
+
+set_PE = data_fe[[
+							<span class="hljs-string">'Facies'</span>,
+							<span class="hljs-string">'Depth'</span>, 
+							<span class="hljs-string">'GR'</span>, 
+							<span class="hljs-string">'ILD_log10'</span>,
+       
+							<span class="hljs-string">'DeltaPHI'</span>, 
+							<span class="hljs-string">'PHIND'</span>, 
+							<span class="hljs-string">'PE'</span>, 
+							<span class="hljs-string">'NM_M'</span>, 
+							<span class="hljs-string">'RELPOS'</span>]].dropna()  
+X = set_PE[[
+							<span class="hljs-string">'Facies'</span>,
+							<span class="hljs-string">'Depth'</span>, 
+							<span class="hljs-string">'GR'</span>, 
+							<span class="hljs-string">'ILD_log10'</span>,
+       
+							<span class="hljs-string">'DeltaPHI'</span>, 
+							<span class="hljs-string">'PHIND'</span>, 
+							<span class="hljs-string">'NM_M'</span>, 
+							<span class="hljs-string">'RELPOS'</span>]]  # feature selection without null value
+XX = data_fe[[
+							<span class="hljs-string">'Facies'</span>,
+							<span class="hljs-string">'Depth'</span>, 
+							<span class="hljs-string">'GR'</span>, 
+							<span class="hljs-string">'ILD_log10'</span>,
+       
+							<span class="hljs-string">'DeltaPHI'</span>, 
+							<span class="hljs-string">'PHIND'</span>, 
+							<span class="hljs-string">'NM_M'</span>, 
+							<span class="hljs-string">'RELPOS'</span>]]
+y = set_PE[
+							<span class="hljs-string">'PE'</span>] # target log
+
+# scaling
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+X_b = scaler.fit_transform(XX)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=
+							<span class="hljs-number">0.2</span>, random_state=
+							<span class="hljs-number">42</span>)
+
+MLP_pe = MLPRegressor(random_state=
+							<span class="hljs-number">1</span>, max_iter= 
+							<span class="hljs-number">500</span>).fit(X_train, y_train) #fit the model
+MLP_pe.score(X_test, y_test) # examine accuracy
+# accuracy: 
+							<span class="hljs-number">0.7885539544025157</span>
+
+data_fe[
+							<span class="hljs-string">'PE_pred'</span>] = MLP_pe.predict(X_b)  # predict PE
+data_fe.PE.fillna(data_fe.PE_pred, inplace =
+							<span class="hljs-literal">True</span>) # fill NaN vakues 
+							<span class="hljs-keyword">with</span> predicted PE
+
+						</code>
+					</pre>
+<p>
+  <img src="./img5.png" alt="image">
+</p>
+<p>Predicted PE in well ALEXANDER D shows the normal range and variation. Prediction accuracy is 77%.</p>
+<p>1–2–2 Feature Extraction</p>
+<p>Having a limited set of features in this dataset can lead us to think about extracting some data from the existing dataset. First, we can convert the formation categorical data into numeric data. Our background knowledge can help us to guess that some facies are possibly present more in a specific formation rather than others. We can use the LabelEncoder function:</p>
+<pre>
+							<code class="lang-python">
+								<span class="hljs-title">data_fe</span>[‘
+								<span class="hljs-type">Formation_num</span>’] = 
+								<span class="hljs-type">LabelEncoder</span>().fit_transform(data_fe[‘
+								<span class="hljs-type">Formation</span>’].
+								<span class="hljs-keyword">as</span>
+								<span class="hljs-keyword">type</span>(‘str’)) + 1
+
+							</code>
+						</pre>
+<p>We converted formation category data into numeric to use as a predictor and added 1 to start predictor from 1 instead of zero. To see if new feature extraction would assist prediction improvement, we should define a baseline model then compare it with the extracted feature model.</p>
+<p>
+  <strong>Baseline Model Performance</strong>
+</p>
+<p>For simplicity, we will use a logistic regression classifier as a baseline model and will examine model performance with a cross-validation concept. Data will be split into 10 subgroups and the process will be repeated 3 times.</p>
+<pre>
+							<code class="lang-python">
+								<span class="hljs-keyword">from</span> numpy 
+								<span class="hljs-keyword">import</span> mean
+
+								<span class="hljs-keyword">from</span> sklearn.preprocessing 
+								<span class="hljs-keyword">import</span> LabelEncoder
+
+								<span class="hljs-keyword">from</span> sklearn.model_selection 
+								<span class="hljs-keyword">import</span> RepeatedStratifiedKFold
+
+								<span class="hljs-keyword">from</span> sklearn.model_selection 
+								<span class="hljs-keyword">import</span> cross_val_score
+
+								<span class="hljs-keyword">from</span> sklearn.linear_model 
+								<span class="hljs-keyword">import</span> LogisticRegression
+
+X = data_fe[[
+								<span class="hljs-string">'Depth'</span>, 
+								<span class="hljs-string">'GR'</span>, 
+								<span class="hljs-string">'ILD_log10'</span>,
+								<span class="hljs-string">'DeltaPHI'</span>, 
+								<span class="hljs-string">'PHIND'</span>, 
+								<span class="hljs-string">'PE'</span>, 
+								<span class="hljs-string">'NM_M'</span>, 
+								<span class="hljs-string">'RELPOS'</span>, 
+								<span class="hljs-string">'Formation_num'</span>]]
+y = data_fe[
+								<span class="hljs-string">'Facies'</span>]
+
+model = LogisticRegression(solver=
+								<span class="hljs-string">'liblinear'</span>)
+cv = RepeatedStratifiedKFold(n_splits=
+								<span class="hljs-number">10</span>, n_repeats=
+								<span class="hljs-number">3</span>, random_state=
+								<span class="hljs-number">1</span>)
+
+								<span class="hljs-comment"># evaluate model</span>
+scores = cross_val_score(model, X, y, scoring=
+								<span class="hljs-string">'accuracy'</span>, cv=cv, n_jobs=-
+								<span class="hljs-number">1</span>)
+
+								<span class="hljs-built_in">print</span>(
+								<span class="hljs-string">'Accuracy: %.3f'</span> % (mean(scores)))
+
+
+								<span class="hljs-comment">#Accuracy: 0.561</span>
+							</code>
+						</pre>
+<p>Here, we can explore whether feature extraction can improve model performance. There are many approaches while we will use some transforms for chaining the distribution of the input variables such as Quantile Transformer and KBins Discretizer. Then, will remove linear dependencies between the input variables using PCA and TruncatedSVD. To study more refer <a href="https://machinelearningmastery.com/quantile-transforms-for-machine-learning/">here</a>. </p>
+<p>Using feature union class, we will define a list of transforms to perform results aggregated together. This will create a dataset with lots of feature columns while we need to reduce dimensionality to faster and better performance. Finally, Recursive Feature Elimination, or RFE, the technique can be used to select the most relevant features. We select 30 features.</p>
+<pre>
+							<code class="lang-python">from sklearn.pipeline 
+								<span class="hljs-built_in">import</span> Pipeline
+from sklearn.pipeline 
+								<span class="hljs-built_in">import</span> FeatureUnion
+from sklearn.preprocessing 
+								<span class="hljs-built_in">import</span> RobustScaler
+from sklearn.preprocessing 
+								<span class="hljs-built_in">import</span> QuantileTransformer
+from sklearn.preprocessing 
+								<span class="hljs-built_in">import</span> KBinsDiscretizer
+from sklearn.decomposition 
+								<span class="hljs-built_in">import</span> TruncatedSVD
+from sklearn.feature_selection 
+								<span class="hljs-built_in">import</span> RFE
+from sklearn.decomposition 
+								<span class="hljs-built_in">import</span> PCA
+
+								<span class="hljs-comment">#-------------------------------------------------- append transforms into a list</span>
+								<span class="hljs-attr">transforms</span> = list()
+transforms.append(('qt', QuantileTransformer(
+								<span class="hljs-attr">n_quantiles=100,</span>
+								<span class="hljs-attr">output_distribution='normal')))</span>
+transforms.append(('kbd', KBinsDiscretizer(
+								<span class="hljs-attr">n_bins=10,</span>
+								<span class="hljs-attr">encode='ordinal',</span>
+								<span class="hljs-attr">strategy='uniform')))</span>
+transforms.append(('pca', PCA(
+								<span class="hljs-attr">n_components=7)))</span>
+transforms.append(('svd', TruncatedSVD(
+								<span class="hljs-attr">n_components=7)))</span>
+								<span class="hljs-comment">#-------------------------------------------------- initialize the feature union</span>
+								<span class="hljs-attr">fu</span> = FeatureUnion(transforms)
+
+								<span class="hljs-comment">#-------------------------------------------------- define the feature selection</span>
+								<span class="hljs-attr">rfe</span> = RFE(
+								<span class="hljs-attr">estimator=LogisticRegression(solver='liblinear'),</span>
+								<span class="hljs-attr">n_features_to_select=30)</span>
+								<span class="hljs-comment">#-------------------------------------------------- define the model</span>
+								<span class="hljs-attr">model</span> = LogisticRegression(
+								<span class="hljs-attr">solver='liblinear')</span>
+								<span class="hljs-comment">#-------------------------------------------------- use pipeline to chain operation</span>
+								<span class="hljs-attr">steps</span> = list()
+steps.append(('fu', fu))
+steps.append(('rfe', rfe))
+steps.append(('ml', model))
+
+								<span class="hljs-attr">pipeline</span> = Pipeline(
+								<span class="hljs-attr">steps=steps)</span>
+								<span class="hljs-comment"># define the cross-validation procedure</span>
+								<span class="hljs-attr">cv</span> = RepeatedStratifiedKFold(
+								<span class="hljs-attr">n_splits=10,</span>
+								<span class="hljs-attr">n_repeats=3,</span>
+								<span class="hljs-attr">random_state=1)</span>
+								<span class="hljs-comment"># evaluate model</span>
+								<span class="hljs-attr">scores</span> = cross_val_score(pipeline, X, y, 
+								<span class="hljs-attr">scoring='accuracy',</span>
+								<span class="hljs-attr">cv=cv,</span>
+								<span class="hljs-attr">n_jobs=-1)</span>
+								<span class="hljs-comment"># report performance</span>
+print('Accuracy: %.
+								<span class="hljs-number">3</span>f' % (mean(scores)))
+
+
+								<span class="hljs-comment"># Accuracy: 0.605</span>
+							</code>
+						</pre>
+<p>Accuracy improvement shows that feature extraction can be a useful approach when we are dealing with limited features in the dataset.</p>
+<p>1–2–3 Oversampling</p>
+<p>In imbalanced datasets, we can use the resampling technique to add some more data points to increase members of minority groups. This can be helpful whenever minority label targets have special importance such as credit card fraud detection. In that example, fraud can happen with less than 0.1 percent of transactions while it is important to detect fraud.</p>
+<p>In this work, we will add pseudo observation for the Dolomite class which has the lowest population</p>
+<p>
+  <strong>Synthetic Minority Oversampling Technique, SMOTE:</strong> the technique is used to select nearest neighbors in the feature space, separate examples by adding a line, and producing new examples along the line. The method is not merely generating the duplicates from the outnumbered class but applied K-nearest neighbors to generate synthetic data.
+</p>
+<pre>
+							<code class="lang-python">from imblearn.over_sampling 
+								<span class="hljs-built_in">import</span> SMOTE
+
+								<span class="hljs-attr">smote</span> = SMOTE()
+
+X_sm , 
+								<span class="hljs-attr">y_sm</span> = smote.fit_sample(X,y)
+print(
+								<span class="hljs-string">"Before SMOTE: "</span>, Counter(y))
+print(
+								<span class="hljs-string">"After SMOTE: "</span>, Counter(y_sm))
+
+								<span class="hljs-comment"># Before SMOTE:  Counter({2: 851, 3: 663, 8: 646, 6: 511, 5: 277, 4: 264, 9: 185, 1: 179, 7: 124})</span>
+								<span class="hljs-comment"># After SMOTE:  Counter({3: 851, 2: 851, 8: 851, 6: 851, 7: 851, 4: 851, 5: 851, 9: 851, 1: 851})</span>
+								<span class="hljs-attr">model_bal</span> = LogisticRegression(
+								<span class="hljs-attr">solver='liblinear')</span>
+								<span class="hljs-attr">cv</span> = RepeatedStratifiedKFold(
+								<span class="hljs-attr">n_splits=10,</span>
+								<span class="hljs-attr">n_repeats=3,</span>
+								<span class="hljs-attr">random_state=1)</span>
+								<span class="hljs-comment"># evaluate model</span>
+								<span class="hljs-attr">scores</span> = cross_val_score(model_bal, X_sm, y_sm, 
+								<span class="hljs-attr">scoring='accuracy',</span>
+								<span class="hljs-attr">cv=cv,</span>
+								<span class="hljs-attr">n_jobs=-1)</span>
+print('Accuracy: %.
+								<span class="hljs-number">3</span>f' % (mean(scores)))
+
+
+								<span class="hljs-comment">#Accuracy: 0.605</span>
+							</code>
+						</pre>
+<p>Accuracy improved by 3 percent but in multi-class classification, accuracy is not the best evaluation metric. We will cover others in the part.3.</p>
+<p>
+  <strong>1–3 Feature Importance</strong>
+</p>
+<p>Some machine learning algorithms (not all) offer an importance score to help the user to select the most efficient features for prediction.</p>
+<p>1–3–1 Feature linear correlation</p>
+<p>The concept is simple: features have a higher correlation coefficient with target values are important for prediction. We can extract these coef’s like:</p>
+<pre>
+							<code class="lang-python">
+								<span class="hljs-meta"># logistic regression for feature importance</span>
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LinearRegression
+from matplotlib import pyplot
+
+								<span class="hljs-meta"># define dataset</span>
+model = LinearRegression()
+
+								<span class="hljs-meta"># fit the model</span>
+model.fit(X, y)
+
+								<span class="hljs-meta"># get importance</span>
+importance = model.coef_
+
+								<span class="hljs-meta"># summarize feature importance</span>
+								<span class="hljs-keyword">for</span> i,v in enumerate(importance):
+    print(
+								<span class="hljs-string">'Feature: %0d, Score: %.5f'</span> % (i,v))
+
+								<span class="hljs-meta"># plot feature importance</span>
+pyplot.bar([x 
+								<span class="hljs-keyword">for</span> x in range(len(importance))], importance)
+pyplot.title(
+								<span class="hljs-string">'Logistic Regression Coefficients as Feature Importance Scores'</span>)
+pyplot.show()
+
+								<span class="hljs-meta"># Feature: 0, Score: 0.00099</span>
+								<span class="hljs-meta"># Feature: 1, Score: -0.00662</span>
+								<span class="hljs-meta"># Feature: 2, Score: -0.62498</span>
+								<span class="hljs-meta"># Feature: 3, Score: -0.04762</span>
+								<span class="hljs-meta"># Feature: 4, Score: 0.04542</span>
+								<span class="hljs-meta"># Feature: 5, Score: 0.95451</span>
+								<span class="hljs-meta"># Feature: 6, Score: 3.24906</span>
+								<span class="hljs-meta"># Feature: 7, Score: 0.36231</span>
+								<span class="hljs-meta"># Feature: 8, Score: -0.01491</span>
+							</code>
+						</pre>
+<p>
+  <img src="./img6.png" alt="image">
+</p>
+<p>1–3–2 Decision tree</p>
+<p>This algorithm provides importance scores based on the reduction in the criterion used to split in each node such as entropy or Gini.</p>
+<pre>
+								<code class="lang-python">
+from sklearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier()
+
+									<span class="hljs-meta"># fit the model</span>
+model.fit(X, y)
+
+									<span class="hljs-meta"># get importance</span>
+importance = model.feature_importances_
+
+									<span class="hljs-meta"># summarize feature importance</span>
+									<span class="hljs-keyword">for</span> i,v in enumerate(importance):
+    print(
+									<span class="hljs-string">'Feature: %0d, Score: %.5f'</span> % (i,v))
+
+									<span class="hljs-meta"># plot feature importance</span>
+pyplot.bar([x 
+									<span class="hljs-keyword">for</span> x in range(len(importance))], importance)
+pyplot.title(
+									<span class="hljs-string">'Decision tree classifier Feature Importance Scores'</span>)
+pyplot.show()
+
+
+									<span class="hljs-meta">#Feature: 0, Score: 0.17175</span>
+									<span class="hljs-meta">#Feature: 1, Score: 0.10347</span>
+									<span class="hljs-meta">#Feature: 2, Score: 0.10918</span>
+									<span class="hljs-meta">#Feature: 3, Score: 0.08027</span>
+									<span class="hljs-meta">#Feature: 4, Score: 0.09843</span>
+									<span class="hljs-meta">#Feature: 5, Score: 0.10003</span>
+									<span class="hljs-meta">#Feature: 6, Score: 0.17501</span>
+									<span class="hljs-meta">#Feature: 7, Score: 0.11437</span>
+									<span class="hljs-meta">#Feature: 8, Score: 0.04749</span>
+								</code>
+							</pre>
+<p>
+  <img src="./img7.png" alt="image">
+</p>
+<p>1–3–3 Permutation feature importance</p>
+<p>
+  <a href="https://scikit-learn.org/stable/modules/permutation_importance.html">Permutation feature importance</a> is a model inspection technique that can be used for any fitted estimator when the data is tabular. This is especially useful for non-linear or opaque estimators. The permutation feature importance is defined to be the decrease in a model score when a single feature value is randomly shuffled.
+</p>
+<pre>
+									<code class="lang-python">
+from sklearn.inspection import permutation_importance
+model = LogisticRegression(solver=
+										<span class="hljs-string">'liblinear'</span>)
+
+										<span class="hljs-meta"># fit the model</span>
+model.fit(X, y)
+
+										<span class="hljs-meta"># perform permutation importance</span>
+results = permutation_importance(model, X, y, scoring=
+										<span class="hljs-string">'accuracy'</span>)
+
+										<span class="hljs-meta"># get importance</span>
+importance = results.importances_mean
+
+										<span class="hljs-meta"># summarize feature importance</span>
+										<span class="hljs-keyword">for</span> i,v in enumerate(importance):
+    print(
+										<span class="hljs-string">'Feature: %0d, Score: %.5f'</span> % (i,v))
+
+										<span class="hljs-meta"># plot feature importance</span>
+pyplot.bar([x 
+										<span class="hljs-keyword">for</span> x in range(len(importance))], importance)
+pyplot.title(
+										<span class="hljs-string">'Permutation Feature Importance Scores'</span>)
+pyplot.show()
+
+
+										<span class="hljs-meta">#Feature: 0, Score: -0.00130</span>
+										<span class="hljs-meta">#Feature: 1, Score: 0.01514</span>
+										<span class="hljs-meta">#Feature: 2, Score: 0.03400</span>
+										<span class="hljs-meta">#Feature: 3, Score: 0.04205</span>
+										<span class="hljs-meta">#Feature: 4, Score: 0.08692</span>
+										<span class="hljs-meta">#Feature: 5, Score: 0.07124</span>
+										<span class="hljs-meta">#Feature: 6, Score: 0.27622</span>
+										<span class="hljs-meta">#Feature: 7, Score: 0.03832</span>
+										<span class="hljs-meta">#Feature: 8, Score: 0.01811</span>
+									</code>
+								</pre>
+<p>
+  <img src="./img8.png" alt="image">
+</p>
+<p>In all these feature importance plots we can see that predictor number 6 (PE log) has the most importance in label prediction. Based on the model that we select to evaluate the result, we may choose features based on their importance and neglect the rest to speed up the training process. This is very common if we are rich in feature quantity, though in our example dataset here, we will use all features as predictors are limited.</p>
+<p>
+  <strong>Summary</strong>
+</p>
+<p>Data preparation is one of the most important and time-consuming steps in machine learning. Data visualization can help us to understand data nature, borders, and distribution. Feature engineering is required especially if we have null and categorical values. In small datasets, feature extraction and oversampling can be helpful for model performances. Finally, we can analyze features in the dataset to see the importance of features for different model algorithms.</p>
+<h2 id="part-2-build-model-validate">Part.2: Build Model &amp; Validate</h2>
+<p>In this part, we will build different models, validate them, and use the grid search approach to find out the optimum hyperparameters. </p>
+<p>The concept of model building in ML projects of scikit-learn libraries is simple. First, you select what type of model you are comfortable with, second, fit the model to the data using target and predictors(features), and finally, predict the unknown labels using available feature data.</p>
+<p>In this project, we will use these classifiers to fit the feature data and then predict the facies classes. Here, we will not go into these algorithms&#39; basic concepts. You may study on the scikit-learn website.</p>
+<ol>
+  <li>Logistic Regression Classifier</li>
+  <li>K Neighbors Classifier</li>
+  <li>Decision Tree Classifier</li>
+  <li>Random Forest Classifier</li>
+  <li>Support Vector Classifier</li>
+  <li>Gaussian Naive Bayes Classifier</li>
+  <li>Gradient Boosting Classifier</li>
+  <li>Extra Tree Classifier</li>
+</ol>
+<p>
+  <strong>2–1 Baseline Model</strong>
+</p>
+<p>The philosophy of constructing a baseline model is simple: we need a basic and simple model to see how the adjustments on both data and model parameters can cause improvement in model performance. In fact, this is like a scale for comparison.</p>
+<p>In this code script, we first defined our favorite model classifiers. Then, established baseline_model function. In this function, we employed the Pipeline function to implement step wised operation of data standard scaling(facilitate model running more efficient) and model object calling for cross-validation. I like Pipeline because it makes the codes more tidy and readable.</p>
+<pre>
+										<code class="lang-python">from sklearn.linear_model 
+											<span class="hljs-built_in">import</span> LogisticRegression
+from sklearn.neighbors 
+											<span class="hljs-built_in">import</span> KNeighborsClassifier
+from sklearn.tree 
+											<span class="hljs-built_in">import</span> DecisionTreeClassifier
+from sklearn.ensemble 
+											<span class="hljs-built_in">import</span> RandomForestClassifier
+from sklearn.svm 
+											<span class="hljs-built_in">import</span> SVC
+from sklearn.naive_bayes 
+											<span class="hljs-built_in">import</span> GaussianNB
+from sklearn.ensemble 
+											<span class="hljs-built_in">import</span> GradientBoostingClassifier
+from sklearn.ensemble 
+											<span class="hljs-built_in">import</span> ExtraTreesClassifier
+
+
+											<span class="hljs-comment"># define Classifiers</span>
+											<span class="hljs-attr">log</span> = LogisticRegression()
+
+											<span class="hljs-attr">knn</span> = KNeighborsClassifier()
+
+											<span class="hljs-attr">dtree</span> = DecisionTreeClassifier()
+
+											<span class="hljs-attr">rtree</span> = RandomForestClassifier()
+
+											<span class="hljs-attr">svm</span> = SVC()
+
+											<span class="hljs-attr">nb</span> = GaussianNB()
+
+											<span class="hljs-attr">gbc</span> = GradientBoostingClassifier()
+
+											<span class="hljs-attr">etree</span> = ExtraTreesClassifier()
+
+
+											<span class="hljs-comment"># define a function that uses pipeline to impelement data transformation and fit with model then cross validate</span>
+def baseline_model(model_name):
+
+    
+											<span class="hljs-attr">model</span> = model_name
+    
+											<span class="hljs-attr">steps</span> = list()
+    steps.append(('ss', StandardScaler() ))
+    steps.append(('ml', model))
+    
+											<span class="hljs-attr">pipeline</span> = Pipeline(
+											<span class="hljs-attr">steps=steps)</span>
+											<span class="hljs-attr">cv</span> = RepeatedStratifiedKFold(
+											<span class="hljs-attr">n_splits=10,</span>
+											<span class="hljs-attr">n_repeats=3,</span>
+											<span class="hljs-attr">random_state=1)</span>
+											<span class="hljs-comment"># balanced X,y from SMOTE can also be used </span>
+											<span class="hljs-attr">scores</span> = cross_val_score(pipeline, X_sm, y_sm, 
+											<span class="hljs-attr">scoring='accuracy',</span>
+											<span class="hljs-attr">cv=cv,</span>
+											<span class="hljs-attr">n_jobs=-1)</span>
+
+    print(model,'Accuracy: %.
+											<span class="hljs-number">3</span>f' % (mean(scores)))
+
+
+											<span class="hljs-comment">#Run Function</span>
+baseline_model(log)
+baseline_model(knn)
+baseline_model(dtree)
+baseline_model(rtree)
+baseline_model(svm)
+baseline_model(nb)
+baseline_model(gbc)
+baseline_model(etree)
+
+
+											<span class="hljs-comment">#LogisticRegression() Accuracy: 0.623</span>
+											<span class="hljs-comment">#KNeighborsClassifier() Accuracy: 0.880</span>
+											<span class="hljs-comment">#DecisionTreeClassifier() Accuracy: 0.845</span>
+											<span class="hljs-comment">#RandomForestClassifier() Accuracy: 0.910</span>
+											<span class="hljs-comment">#SVC() Accuracy: 0.777</span>
+											<span class="hljs-comment">#GaussianNB() Accuracy: 0.357</span>
+											<span class="hljs-comment">#GradientBoostingClassifier() Accuracy: 0.832</span>
+											<span class="hljs-comment">#ExtraTreesClassifier() Accuracy: 0.934</span>
+										</code>
+									</pre>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics">Cross-validation</a>#:~:text=Cross%2Dvalidation%2C%20sometimes%20called%20rotation,to%20an%20independent%20data%20set.) sometimes called rotation estimation or out-of-sample testing is any of the various similar model validation techniques for assessing how the results of a statistical analysis will generalize to an independent data set. Models usually are overfitting when the accuracy score on training data is much higher than testing data. One way to examine model performance is to keep randomly some part of the dataset hold-out. This can be a weakness for small datasets. Another way is to divide the dataset into splits and run it while each split has a different set of test folds like the picture below. In this approach, cross-validation, models can examine all data without overfitting. However, for this project, we will keep a single well as a hold-out to examine model performances after all optimizations.
+</p>
+<p>
+  <img src="./img21.png" alt="image"> picture from scikit-learn
+</p>
+<p>We repeated 3 times each operation over a dataset that already divided into 10 equal parts(folds) in cross-validation. In fact, we intended to expose the model to all data with a different combination of train and test sets without overlap.</p>
+<p>Here, we used an average of accuracy as metrics for comparison of various model performances(accuracy and other evaluation metrics will be elaborated in the next post). It is used for simplicity, while for multi-class classification problems, accuracy is the weakest model evaluation approach. We will cover model evaluation metrics for multi-class classification problems in the next posts.</p>
+<p>The Extra tree and Random forest classifier showed the best accuracy score for the facies label prediction while the Gaussian Naive Bayes classifier performed poorly.</p>
+<p>
+  <strong>2–2 Hyper-parameters</strong>
+</p>
+<p>In machine learning, model parameters can be divided into two main categories: <strong>A- Trainable parameters:</strong> such as weights in neural networks learned by training algorithms and the user does not interfere in the process, </p>
+<p>
+  <strong>B- Hyper-parameters:</strong> users can set them before training operations such as learning rate or the number of dense layers in the model.
+</p>
+<p>Selecting the best hyper-parameters can be a tedious task if you try it by hand and it is almost impossible to find the best ones if you are dealing with more than two parameters.</p>
+<p>One way is a random search approach. In fact, instead of using organized parameter searching, it will go through a random combination of parameters and look for the optimized ones. You may estimate that chance of success decreases to zero for larger hyper-parameter tuning.</p>
+<p>Another way is to use skopt which is a scikit-learn library and uses Bayesian optimization that constructs another model of search-space for parameters. Gaussian Process is one kind of these models. This generates an estimate of how model performance varies with hyper-parameter changes. If you are interested in this approach, I have done an example for this data set, here. I will not repeat this process here because it is almost a big project.</p>
+<p>
+  <strong>2–2–1 Grid Search</strong>
+</p>
+<p>This approach is to divide each parameter into a valid evenly range and then simply ask the computer to loop for the combination of parameters and calculate the results. The method is called Grid Search. Although it is done by machine, it will be a time-consuming process. Suppose you have 3 hyper-parameters with 10 possible values in each. In this approach, you will run 1⁰³ models (even with a reasonable training datasets size, this task is big).</p>
+<p>You may see in the block code below that Gaussian Naive Bays is not involved because this classifier does not have a hyper-parameter that can strongly affect the model performance.</p>
+<pre>
+											<code class="lang-python">from sklearn.model_selection import GridSearchCV
+X_train, X_test, y_train, y_test = train_test_split(X_sm, y_sm, test_size=
+												<span class="hljs-number">0.2</span>, random_state=
+												<span class="hljs-number">42</span>)
+
+#----------------------------------------------------------------logistic regression classifier
+#define hyper 
+												<span class="hljs-keyword">parameters</span> and 
+												<span class="hljs-comment">ranges</span>
+param_grid_log 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'C'</span>
+												<span class="hljs-comment">: [0.1, 1, 10],</span>
+												<span class="hljs-comment">'solver'</span>
+												<span class="hljs-comment">: [</span>
+												<span class="hljs-comment">'lbfgs'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'liblinear'</span>
+												<span class="hljs-comment">],</span>
+												<span class="hljs-string">'max_iter'</span>:[100, 300]}]
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_log  
+												<span class="hljs-comment">= GridSearchCV(log, param_grid=param_grid_log, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_log.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for log classifier: '</span>, grid_log.best_params_)
+
+#----------------------------------------------------------------kNN 
+												<span class="hljs-comment">classifier</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+param_grid_knn 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'n_neighbors'</span>
+												<span class="hljs-comment">: [2, 3, 4, 6, 8, 10],</span>
+												<span class="hljs-comment">'weights'</span>
+												<span class="hljs-comment">: [</span>
+												<span class="hljs-comment">'uniform'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'distance'</span>
+												<span class="hljs-comment">],</span>
+												<span class="hljs-string">'metric'</span>: [
+												<span class="hljs-string">'euclidean'</span>, 
+												<span class="hljs-string">'manhattan'</span>, 
+												<span class="hljs-string">'minkowski'</span>]}]
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_knn  
+												<span class="hljs-comment">= GridSearchCV(knn, param_grid=param_grid_knn, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_knn.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for knn classifier: '</span>, grid_knn.best_params_)
+
+#--------------------------------------------------------------decision 
+												<span class="hljs-comment">tree classifier</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+param_grid_dtree 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'max_depth'</span>
+												<span class="hljs-comment">: [ 15, 20, 25, 30],</span>
+												<span class="hljs-comment">'criterion'</span>
+												<span class="hljs-comment">: [</span>
+												<span class="hljs-comment">'gini'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'entropy'</span>
+												<span class="hljs-comment">]}]</span>
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_dtree  
+												<span class="hljs-comment">= GridSearchCV(dtree, param_grid=param_grid_dtree, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_dtree.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for dtree classifier: '</span>, grid_dtree.best_params_)
+
+#--------------------------------------------------------------random 
+												<span class="hljs-comment">forest classifier</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+param_grid_rtree 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'max_depth'</span>
+												<span class="hljs-comment">: [5, 10, 15, 20],</span>
+												<span class="hljs-comment">'n_estimators'</span>
+												<span class="hljs-comment">:[100,300,500] ,</span>
+												<span class="hljs-string">'criterion'</span>: [
+												<span class="hljs-string">'gini'</span>,  
+												<span class="hljs-string">'entropy'</span>]}]
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_rtree  
+												<span class="hljs-comment">= GridSearchCV(rtree, param_grid=param_grid_rtree, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_rtree.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for rtree classifier: '</span>, grid_rtree.best_params_)
+
+#----------------------------------------------------------------SVM 
+												<span class="hljs-comment">classifier</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+param_grid_svm 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'C'</span>
+												<span class="hljs-comment">: [100, 50, 10, 1.0, 0.1, 0.01],</span>
+												<span class="hljs-comment">'gamma'</span>
+												<span class="hljs-comment">: [</span>
+												<span class="hljs-comment">'scale'</span>
+												<span class="hljs-comment">],</span>
+												<span class="hljs-string">'kernel'</span>: [
+												<span class="hljs-string">'poly'</span>, 
+												<span class="hljs-string">'rbf'</span>, 
+												<span class="hljs-string">'sigmoid'</span>] }]
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_svm  
+												<span class="hljs-comment">= GridSearchCV(svm, param_grid=param_grid_svm, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_svm.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for svm classifier: '</span>, grid_svm.best_params_)
+
+#-----------------------------------------------------------------gbc 
+												<span class="hljs-comment">classifier</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+param_grid_gbc 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'learning_rate'</span>
+												<span class="hljs-comment">: [0.1, 1],</span>
+												<span class="hljs-comment">'n_estimators'</span>
+												<span class="hljs-comment">:[200,350,500]}]</span>
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_gbc  
+												<span class="hljs-comment">= GridSearchCV(gbc, param_grid=param_grid_gbc, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_gbc.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for gbc classifier: '</span>, grid_gbc.best_params_)
+
+
+#--------------------------------------------------------------extra 
+												<span class="hljs-comment">tree classifier</span>
+#etree 
+												<span class="hljs-comment">classifier</span>
+#define 
+												<span class="hljs-comment">hyper parameters and ranges</span>
+param_grid_etree 
+												<span class="hljs-comment">= [{</span>
+												<span class="hljs-comment">'max_depth'</span>
+												<span class="hljs-comment">: [15, 20, 25, 30, 35],</span>
+												<span class="hljs-comment">'n_estimators'</span>
+												<span class="hljs-comment">:[200,350,500] ,</span>
+												<span class="hljs-string">'criterion'</span>: [
+												<span class="hljs-string">'gini'</span>,  
+												<span class="hljs-string">'entropy'</span>]}]
+#apply 
+												<span class="hljs-comment">gridsearch</span>
+grid_etree  
+												<span class="hljs-comment">= GridSearchCV(etree, param_grid=param_grid_etree, cv=5)</span>
+#fit 
+												<span class="hljs-comment">model with grid search</span>
+grid_etree.fit(X_train, y_train)
+print(
+												<span class="hljs-string">'The best parameters for etree classifier: '</span>, grid_etree.best_params_)
+
+# The 
+												<span class="hljs-comment">best parameters for log classifier:  {</span>
+												<span class="hljs-comment">'C'</span>
+												<span class="hljs-comment">: 10,</span>
+												<span class="hljs-comment">'max_iter'</span>
+												<span class="hljs-comment">: 200,</span>
+												<span class="hljs-comment">'solver'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'lbfgs'</span>
+												<span class="hljs-comment">}</span>
+# The 
+												<span class="hljs-comment">best parameters for knn classifier:  {</span>
+												<span class="hljs-comment">'metric'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'manhattan'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'n_neighbors'</span>
+												<span class="hljs-comment">: 2,</span>
+												<span class="hljs-comment">'weights'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'distance'</span>
+												<span class="hljs-comment">}</span>
+# The 
+												<span class="hljs-comment">best parameters for dtree classifier:  {</span>
+												<span class="hljs-comment">'criterion'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'entropy'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'max_depth'</span>
+												<span class="hljs-comment">: 20}</span>
+# The 
+												<span class="hljs-comment">best parameters for rtree classifier: {</span>
+												<span class="hljs-comment">'criterion'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'entropy'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'max_depth'</span>
+												<span class="hljs-comment">: 20,</span>
+												<span class="hljs-comment">'n_estimators'</span>
+												<span class="hljs-comment">: 500}</span>
+# The 
+												<span class="hljs-comment">best parameters for svm classifier:  {</span>
+												<span class="hljs-comment">'C'</span>
+												<span class="hljs-comment">: 100,</span>
+												<span class="hljs-comment">'gamma'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'scale'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'kernel'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'rbf'</span>
+												<span class="hljs-comment">}</span>
+#The 
+												<span class="hljs-comment">best parameters for gbc classifier:  {</span>
+												<span class="hljs-comment">'learning_rate'</span>
+												<span class="hljs-comment">: 0.1,</span>
+												<span class="hljs-comment">'n_estimators'</span>
+												<span class="hljs-comment">: 500}</span>
+#The 
+												<span class="hljs-comment">best parameters for extra tree classifier: {</span>
+												<span class="hljs-comment">'criterion'</span>
+												<span class="hljs-comment">:</span>
+												<span class="hljs-comment">'gini'</span>
+												<span class="hljs-comment">,</span>
+												<span class="hljs-comment">'max_depth'</span>
+												<span class="hljs-comment">: 35,</span>
+												<span class="hljs-comment">'n_estimators'</span>
+												<span class="hljs-comment">: 350}</span>
+											</code>
+										</pre>
+<p>The run time for the code above is almost an hour(depending on your computer configuration). I did not expand the grid search size for operation time-saving. You may extend for more than 2 by 2 parameters to search but expect that running time will be exponentially increased.</p>
+<p>From the code, you can see the best hyper-parameters that have been chosen for each classifier. Using these parameters, we can build these models with optimum hyper-parameters and run for the accuracy test.</p>
+<p>
+  <img src="tab21.png" alt="image">
+</p>
+<p>Comparing with baseline model performances(results of first block codes in this post), hyper-parameters adjustment could help model performance to improve. It seems that for ensemble models hyper-parameters are not as efficient as the rests. Some drawbacks in the hyper-parameterized models comparing to baseline mean that we did not properly design the search range.</p>
+<p>
+  <strong>Summary:</strong>
+</p>
+<p>In this part, we constructed eight models with default parameters, ran cross-validation. Then, we looked for hyper-parameters using the grid search approach. The best hyper-parameters are employed to build the model again and comparing the basic model we can see improvement in model performances.</p>
+<h2 id="part-3-model-evaluation-1">Part.3: Model Evaluation-1</h2>
+<p>In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem. </p>
+<p>When I was fresh in machine learning, I always considered constructing a model as the most important step of the ML tasks, while now, I have another concept; model evaluation skill is the fundamental key to modeling success. We need to make sure that our model is working well with new data. On the other hand, we have to be able to interpret various evaluation metrics to understand our model’s strengths and weaknesses leading us to model improvement hints. As we are dealing with the multi-class problem in this tutorial, we will focus on related evaluation metrics, but before that, we need to get familiar with some definitions.</p>
+<p>
+  <strong>3–1 Model Metrics</strong>
+</p>
+<p>When we are working with classification problems, we will have 4 kinds of possibility with model outcomes:</p>
+<p>
+  <strong>A) True Positive(TP)</strong> is the outcome of the model correctly predicts the positive class. In our dataset, a positive class is a label that we are looking for specifically for that label prediction. For example, if we are analyzing ‘Dolomite’ class prediction, TP is the number of truly predicted Dolomite samples of test data by the model.
+</p>
+<p>
+  <strong>B) True Negative(TN)</strong> is an outcome where the model correctly predicts the negative class. Negative class in our dataset for Dolomite prediction are those facies classes that truly predicted as not Dolomite(predicted as the rest of classes and truly were not Dolomite).
+</p>
+<p>
+  <strong>C) False Positive(FP)</strong> is an outcome where the model incorrectly predicts the positive class. In our dataset, all facies classes that incorrectly predicted as Dolomite when we are evaluating Dolomite class prediction.
+</p>
+<p>
+  <strong>D) False Negative(FN)</strong> is an outcome where the model incorrectly predicts negative class. Again for Dolomite prediction, FN is the prediction of Dolomite as non-Dolomite classes.
+</p>
+<p>
+  <strong>1.Accuracy:</strong> it is simply calculated as a fraction of correct predictions over the total number of predictions.
+</p>
+<p>Accuracy = (TP+TN) / (TP+TN+FP+FN)</p>
+<p>
+  <strong>2. Precision:</strong> this metric answers this question: what proportion of positive predictions is totally correct?
+</p>
+<p>Precision = TP / (TP+FP) looking at the equation, we can see that if a model has zero False Positive prediction, the precision will be 1. Again, in Dolomite prediction, this index shows what proportion of predicted Dolomite is truly Dolomite (not other facies are classified as Dolomite).</p>
+<p>
+  <strong>3. Recall:</strong> recall answer this question: what proportion of actual positives is classified correctly?
+</p>
+<p>Recall= TP / (TP+FN) looking at the equation, we can see that if a model has zero False Negative prediction, the recall will be 1. In our example, recall shows the proportion of Dolomite class that correctly identified by the model.</p>
+<p>Note: to evaluate the model efficiency, we need to consider both precision and recall together. Unfortunately, these two parameters act against each other, improving one leads to decreasing the other. The ideal case is that both of them show near 1 values.</p>
+<p>
+  <strong>4. f1_score:</strong> The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and the worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:
+</p>
+<p>F1 = 2 <em> (precision </em> recall) / (precision + recall) </p>
+<p>Let’s see one example of Logistic Regression classifier performance:</p>
+<p>Run:</p>
+<pre>
+												<code class="lang-python">from sklearn.metrics 
+													<span class="hljs-built_in">import</span> precision_recall_fscore_support
+
+													<span class="hljs-attr">model_log=LogisticRegression(C</span> = 
+													<span class="hljs-number">10</span>, 
+													<span class="hljs-attr">solver</span> = ‘lbfgs’, 
+													<span class="hljs-attr">max_iter=</span>
+													<span class="hljs-number">200</span> ) 
+model_log.fit(X_train, y_train)
+
+													<span class="hljs-attr">y_pred_log</span> = model_log.predict(X_test)
+print(classification_report(y_test, y_pred_log, 
+													<span class="hljs-attr">target_names=</span> facies_labels))
+
+												</code>
+											</pre>
+<p>
+  <img src="tab31.png" alt="image">
+</p>
+<p>To evaluate the Logistic Regression classifier performance, let&#39;s look at the first facies class Sandstone(SS). When this model predicts a facies as SS, it is correct in 75% of the time(Precision). On the other hand, this model correctly identifies 89% of all SS facies members(Recall). We can guess that f1_score is somewhere between these two metrics. Support means the individual class members for the test.</p>
+<p>Let&#39;s have some block of codes to implement the above-mentioned procedure in order for all models and plot the result as an average. Up to line 15, we defined the model objects with hyper-parameters that we already obtained from the grid-search approach. Then(line 16 to 25) models are appended into a list to be iterable when we want to fit and cross-validate in order. After cross-validation, we stored metrics results in the list for each model.We established a for loop to calculate the average value of each of these metrics for each model. The rest of the code is a plotting task.</p>
+<pre>
+													<code class="lang-python">from sklearn.metrics import classification_report
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_validate
+from sklearn.metrics import precision_recall_fscore_support
+
+# define Classifiers with optimum hyper_param
+
+														<span class="hljs-built_in">log</span> = LogisticRegression(C = 
+														<span class="hljs-number">10</span>, solver = 
+														<span class="hljs-string">'lbfgs'</span>, max_iter= 
+														<span class="hljs-number">200</span> ) 
+knn = KNeighborsClassifier(leaf_size = 
+														<span class="hljs-number">10</span>, n_neighbors=
+														<span class="hljs-number">2</span>)
+dtree = DecisionTreeClassifier(criterion = 
+														<span class="hljs-string">'entropy'</span>, max_depth=
+														<span class="hljs-number">15</span>)
+rtree = RandomForestClassifier(criterion=
+														<span class="hljs-string">'entropy'</span>, max_depth=
+														<span class="hljs-number">20</span>, n_estimators=
+														<span class="hljs-number">300</span>)
+svm = SVC(C=
+														<span class="hljs-number">100</span>, gamma=
+														<span class="hljs-number">0.001</span>)
+
+														<span class="hljs-keyword">nb</span> = GaussianNB()
+gbc = GradientBoostingClassifier(learning_rate=
+														<span class="hljs-number">0.1</span>, n_estimators=
+														<span class="hljs-number">100</span>)
+etree = ExtraTreesClassifier(criterion=
+														<span class="hljs-string">'gini'</span>, max_depth=
+														<span class="hljs-number">35</span>, n_estimators=
+														<span class="hljs-number">500</span>)
+
+# 
+														<span class="hljs-keyword">append</span> models 
+														<span class="hljs-built_in">and</span> run in 
+														<span class="hljs-keyword">for</span> loop 
+														<span class="hljs-keyword">for</span> cv
+models = []
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'log'</span> , 
+														<span class="hljs-built_in">log</span>))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'knn'</span>, knn))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'dtree'</span>, dtree))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'rtree'</span>, rtree))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'svm'</span>, svm))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'nb'</span>,  
+														<span class="hljs-keyword">nb</span>))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'gbc'</span>, gbc))
+models.
+														<span class="hljs-keyword">append</span>((
+														<span class="hljs-string">'etree'</span>, etree))
+results = []
+names = []
+scoring =  [
+														<span class="hljs-string">'accuracy'</span>, 
+														<span class="hljs-string">'precision_macro'</span>, 
+														<span class="hljs-string">'recall_macro'</span>, 
+														<span class="hljs-string">'f1_macro'</span>]
+
+														<span class="hljs-keyword">for</span> name, model in model
+														<span class="hljs-variable">s:</span>
+    cv = KFold(n_splits=
+														<span class="hljs-number">10</span>, shuffle=True , random_state=
+														<span class="hljs-number">42</span>)
+    cv_results = cross_validate(model, X_sm, y_sm, cv=cv, scoring=scoring)
+    results.
+														<span class="hljs-keyword">append</span>(cv_results)
+    names.
+														<span class="hljs-keyword">append</span>(name)
+    results.
+														<span class="hljs-keyword">append</span>(name)
+results =  results[::
+														<span class="hljs-number">2</span>] # use the numeric part
+
+#average of each metrics
+test_acc = []
+
+														<span class="hljs-keyword">for</span> i in 
+														<span class="hljs-built_in">range</span> (
+														<span class="hljs-built_in">len</span>(names)):
+    test_acc.
+														<span class="hljs-keyword">append</span>(results[i][
+														<span class="hljs-string">'test_accuracy'</span>].mean())
+
+test_f1 = []
+
+														<span class="hljs-keyword">for</span> i in 
+														<span class="hljs-built_in">range</span> (
+														<span class="hljs-built_in">len</span>(names)):
+    test_f1.
+														<span class="hljs-keyword">append</span>(results[i][
+														<span class="hljs-string">'test_f1_macro'</span>].mean())  
+
+test_pre = []
+
+														<span class="hljs-keyword">for</span> i in 
+														<span class="hljs-built_in">range</span> (
+														<span class="hljs-built_in">len</span>(names)):
+    test_pre.
+														<span class="hljs-keyword">append</span>(results[i][
+														<span class="hljs-string">'test_precision_macro'</span>].mean())
+
+test_rec = []
+
+														<span class="hljs-keyword">for</span> i in 
+														<span class="hljs-built_in">range</span> (
+														<span class="hljs-built_in">len</span>(names)):
+    test_rec.
+														<span class="hljs-keyword">append</span>(results[i][
+														<span class="hljs-string">'test_recall_macro'</span>].mean())
+
+ #Model Merices plot
+category_names = names
+result_data = {
+														<span class="hljs-string">"accuracy_score"</span>: test_acc, 
+														<span class="hljs-string">'f1score'</span>:    test_f1, 
+														<span class="hljs-string">'precision'</span>: test_pre, 
+														<span class="hljs-string">'recall'</span>:    test_rec,  }
+
+def survey(result_data, category_names):
+    
+														<span class="hljs-string">""</span>
+														<span class="hljs-comment">"</span>
+    Parameters
+    ----------
+    results : dict
+        A mapping from question labels 
+														<span class="hljs-keyword">to</span>
+														<span class="hljs-keyword">a</span>
+														<span class="hljs-keyword">list</span> of answers per category.
+        It 
+														<span class="hljs-keyword">is</span> assumed 
+														<span class="hljs-keyword">all</span> lists contain the same 
+														<span class="hljs-keyword">number</span> of entries 
+														<span class="hljs-built_in">and</span> that
+        it matches the length of *category_names*.
+    category_names : 
+														<span class="hljs-keyword">list</span> of str
+        The category labels.
+    
+														<span class="hljs-string">""</span>
+														<span class="hljs-comment">"</span>
+    labels = 
+														<span class="hljs-keyword">list</span>(result_data.
+														<span class="hljs-built_in">keys</span>())
+    data = np.array(
+														<span class="hljs-keyword">list</span>(result_data.
+														<span class="hljs-built_in">values</span>()))
+    data_cum = data.cumsum(axis=
+														<span class="hljs-number">1</span>)
+    category_colors = plt.get_cmap(
+														<span class="hljs-string">'RdYlGn'</span>)(
+        np.linspace(
+														<span class="hljs-number">0</span>, 
+														<span class="hljs-number">1</span>, data.shape[
+														<span class="hljs-number">1</span>]))
+
+    fig, ax = plt.subplots(figsize=(
+														<span class="hljs-number">12</span>, 
+														<span class="hljs-number">3</span>))
+    ax.invert_yaxis()
+    ax.xaxis.set_visible(False)
+    ax.set_xlim(
+														<span class="hljs-number">0</span>, np.sum(data, axis=
+														<span class="hljs-number">1</span>).
+														<span class="hljs-built_in">max</span>())
+
+
+    
+														<span class="hljs-keyword">for</span> i, (colname, color) in enumerate(zip(category_names, category_colors)):
+        widths = data[:, i]
+        starts = data_cum[:, i] - widths
+        ax.barh(labels, widths, 
+														<span class="hljs-keyword">left</span>=starts, height=
+														<span class="hljs-number">0.7</span>,
+                label=colname, color=color)
+        xcenters = starts + widths / 
+														<span class="hljs-number">2</span>
+
+        r, g, 
+														<span class="hljs-keyword">b</span>, _ = color
+        text_color =  
+														<span class="hljs-string">'k'</span>
+														<span class="hljs-keyword">for</span>
+														<span class="hljs-keyword">y</span>, (
+														<span class="hljs-keyword">x</span>, 
+														<span class="hljs-keyword">c</span>) in enumerate(zip(xcenters, widths)):
+            ax.text(
+														<span class="hljs-keyword">x</span>, 
+														<span class="hljs-keyword">y</span>, str(np.around(
+														<span class="hljs-keyword">c</span>,decimals = 
+														<span class="hljs-number">2</span>)), 
+														<span class="hljs-keyword">ha</span>=
+														<span class="hljs-string">'center'</span>, va=
+														<span class="hljs-string">'center'</span>,
+                    color=text_color)
+    ax.legend(ncol=
+														<span class="hljs-built_in">len</span>(category_names), bbox_to_anchor=(
+														<span class="hljs-number">0</span>, -
+														<span class="hljs-number">0.22</span>),
+              
+														<span class="hljs-keyword">loc</span>=
+														<span class="hljs-string">'lower left'</span>, fontsize=
+														<span class="hljs-string">'large'</span>)
+    ax.set_title(
+														<span class="hljs-string">'Diffrent Metrics Average'</span>, 
+														<span class="hljs-keyword">loc</span>=
+														<span class="hljs-string">'center'</span>)
+    fig.savefig(
+														<span class="hljs-string">'fname_macro'</span>, dpi=
+														<span class="hljs-number">300</span>)
+    
+														<span class="hljs-keyword">return</span> fig, ax
+
+
+survey(result_data, category_names)
+plt.show()
+
+													</code>
+												</pre>
+<p>
+  <img src="img31.png" alt="image">
+</p>
+<p>This is the plot that shows the average value of each of the evaluation metrics(y-axis) for individual employed models. Here, we wanted to compare all models performances overall. It seems that Extra tree and Random forest did the best prediction while Gaussian Naive Bays was not that much efficient predictor model.</p>
+<p>If we are concerned about an individual facies prediction, we should consider eliminating the rest of the metrics from the ‘results’ list and run the program again.</p>
+<p>
+  <strong>3–2 Confusion matrix</strong>
+</p>
+<p>The confusion matrix shows predicted class labels against original true label data. This is a fantastic visualization tool that we can see each class of facies is predicted correctly or wrong into other classes.</p>
+<p>In the line of codes below, we first defined a function to make fancy use of the confusion matrix function developed by sklearn. After function definition, we fit and run the Logistic Regression classifier. Now we have predicted facies labels with true facies labels for test data. Calling the function with the required input parameters will create a plot of the confusion matrix.</p>
+<pre>
+														<code class="lang-python">from sklearn.metrics import confusion_matrix
+import itertools
+
+# define 
+															<span class="hljs-function">
+																<span class="hljs-keyword">function</span>
+																<span class="hljs-title">to</span>
+																<span class="hljs-title">implement</span>
+																<span class="hljs-title">confusion</span>
+																<span class="hljs-title">matrix</span>
+																<span class="hljs-title">with</span>
+																<span class="hljs-title">normalization</span>
+																<span class="hljs-title">capability</span>
+															</span>
+def plot_confusion_matrix(
+															<span class="hljs-keyword">cm</span>, classes, normalize=False,
+                          title=
+															<span class="hljs-string">'Confusion matrix'</span>,
+                          
+															<span class="hljs-keyword">cmap</span>=plt.
+															<span class="hljs-keyword">cm</span>.Reds):
+
+    
+															<span class="hljs-keyword">if</span> normalize:
+        
+															<span class="hljs-keyword">cm</span> = 
+															<span class="hljs-keyword">cm</span>.astype(
+															<span class="hljs-string">'float'</span>) / 
+															<span class="hljs-keyword">cm</span>.sum(axis=
+															<span class="hljs-number">1</span>)[:, np.newaxis]
+        
+															<span class="hljs-keyword">print</span>(
+															<span class="hljs-string">"Normalized confusion matrix"</span>)
+    
+															<span class="hljs-keyword">else</span>:
+        
+															<span class="hljs-keyword">print</span>(
+															<span class="hljs-string">'Confusion matrix, without normalization'</span>)
+
+    plt.imshow(
+															<span class="hljs-keyword">cm</span>, interpolation=
+															<span class="hljs-string">'nearest'</span>, 
+															<span class="hljs-keyword">cmap</span>=
+															<span class="hljs-keyword">cmap</span>)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(
+															<span class="hljs-built_in">len</span>(classes))
+    plt.xticks(tick_marks, classes, rotation=
+															<span class="hljs-number">90</span>)
+    plt.yticks(tick_marks, classes)
+
+    fmt = 
+															<span class="hljs-string">'.2f'</span>
+															<span class="hljs-keyword">if</span> normalize 
+															<span class="hljs-keyword">else</span>
+															<span class="hljs-string">'d'</span>
+    thresh = 
+															<span class="hljs-keyword">cm</span>.
+															<span class="hljs-built_in">max</span>() / 
+															<span class="hljs-number">2</span>.
+    
+															<span class="hljs-keyword">for</span> i, 
+															<span class="hljs-keyword">j</span> in itertools.product(
+															<span class="hljs-built_in">range</span>(
+															<span class="hljs-keyword">cm</span>.shape[
+															<span class="hljs-number">0</span>]), 
+															<span class="hljs-built_in">range</span>(
+															<span class="hljs-keyword">cm</span>.shape[
+															<span class="hljs-number">1</span>])):
+        plt.text(
+															<span class="hljs-keyword">j</span>, i, format(
+															<span class="hljs-keyword">cm</span>[i, 
+															<span class="hljs-keyword">j</span>], fmt),
+                 horizontalalignment=
+															<span class="hljs-string">"center"</span>,
+                 color=
+															<span class="hljs-string">"white"</span>
+															<span class="hljs-keyword">if</span>
+															<span class="hljs-keyword">cm</span>[i, 
+															<span class="hljs-keyword">j</span>] &gt; thresh 
+															<span class="hljs-keyword">else</span>
+															<span class="hljs-string">"black"</span>)
+
+    plt.tight_layout()
+    plt.ylabel(
+															<span class="hljs-string">'True label'</span>)
+    plt.xlabel(
+															<span class="hljs-string">'Predicted label'</span>)
+
+# create Logistic Reg model with optimom hyper-parameters
+model_log=LogisticRegression(C = 
+															<span class="hljs-number">10</span>, solver = 
+															<span class="hljs-string">'lbfgs'</span>, max_iter= 
+															<span class="hljs-number">500</span> ) 
+model_log.fit(X_train, y_train)
+# predict test labels
+y_pred_log = model_log.predict(X_test)
+#calculate confusion matrix
+cnf_rtree = confusion_matrix(y_test, y_pred_log)
+
+#Plot confusion matrix 
+															<span class="hljs-keyword">for</span> RandomForest classifier
+fig = plt.figure()
+fig.set_size_inches(
+															<span class="hljs-number">7</span>, 
+															<span class="hljs-number">6</span>, forward=True)
+plot_confusion_matrix(cnf_rtree, classes=np.asarray(facies_labels),
+                      title=
+															<span class="hljs-string">'confusion matrix (Logistic Regression classifier)'</span>)
+
+														</code>
+													</pre>
+<p>
+  <img src="img32.png" alt="image">
+</p>
+<p>Taking a look at the plot(first row), we recognize that this algorithm could predict 151 SS class correctly while 18 true SS were classified as CSiS incorrectly. From the previous section, we are familiar with the recall concept. From all true class members of SS(169), the classifier could recognize 151 correctly; 151/169 is 89%(we have seen this number in the class report in the picture above). So, we can conclude that if we move our evaluation in the row direction(True labels) we are dealing with recall. You may guess that if we go in the column direction, we will deal with Precision. For SS precision is 75% as 149/201.</p>
+<p>In the picture below, we see how the Naive Bayes classifier poorly performed prediction. This classifier is totally overestimated BS class in prediction.</p>
+<p>
+  <img src="img33.png" alt="image">
+</p>
+<p>Up to now, we have some metrics that helped us to evaluate the model performances but still, we can not guarantee that which one is the best. Because some models can memorize training data and follow data complexity severely and when it faces a new dataset, its performance will be poor. This is called over-fitting (model with high variance). A model with high variance will change a lot with small changes to the training dataset. On the other hand, when a model too generalizes prediction, it will not be able to capture the complexity of a dataset, this is called under-fitting(model with high bias). Our ideal model is something between these two models leaving us for bias-variance trade-off.</p>
+<p>The question is: how we can recognize that our model is over-fit or under-fit? We will cover in the next part of this tutorial.</p>
+<p>
+  <strong>Summary:</strong>
+</p>
+<p>Model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model&#39;s strengths and weaknesses.</p>
+<h2 id="part-4-model-evaluation-2">Part.4: Model Evaluation-2</h2>
+<p>In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now). </p>
+<p>
+  <img src="img41.png" alt="image">
+</p>
+<p>
+  <strong>4–1 Learning Curves</strong> Let’s look at the schematic graph of the validation curve. As the model complexity increases, the training score increases as well but at some point, the validation(or test data) score starts to decrease. Increasing model complexity will lead to high variance or over-fitting. When the model is too simple, it can not capture all aspects of data mapping complexity leaving a high bias model. The best model is located between these two conditions, where it is complicated enough to have the highest validation score while not too complicated to capture every detail of training data.
+</p>
+<p>
+  <img src="img42.png" alt="image"> figure from: jakevdp.github.io
+</p>
+<p>Let’s create a function to plot the learning curve for our dataset. This function will generate 8 plots (each model algorithms) for test and training learning curve, samples vs fit time curve, and fit the time vs score curve. The function will receive these parameters: model estimator, the title for the chart, axes location for each model, ylim, cross-validation value, number of jobs that can be done in parallel, and train data size.</p>
+<pre>
+																		<code class="lang-python">from itertools import cycle
+from sklearn import svm, datasets
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import label_binarize
+from sklearn.multiclass import OneVsRestClassifier
+from scipy import interp
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import learning_curve
+from sklearn.model_selection import ShuffleSplit
+
+def plot_learning_curve(estimator, 
+																			<span class="hljs-built_in">title</span>, X, y, 
+																			<span class="hljs-built_in">axes</span>=None, ylim=None, 
+																			<span class="hljs-built_in">cv</span>=None,
+                        n_jobs=None, train_sizes=
+																			<span class="hljs-built_in">np</span>.linspace(.
+																			<span class="hljs-number">1</span>, 
+																			<span class="hljs-number">1.0</span>, 
+																			<span class="hljs-number">10</span>)):
+
+    
+																			<span class="hljs-keyword">if</span>
+																			<span class="hljs-built_in">axes</span>
+																			<span class="hljs-built_in">is</span> None:
+        
+																			<span class="hljs-symbol">_</span>, 
+																			<span class="hljs-built_in">axes</span> = plt.subplots(
+																			<span class="hljs-number">1</span>, 
+																			<span class="hljs-number">3</span>, figsize=(
+																			<span class="hljs-number">20</span>, 
+																			<span class="hljs-number">5</span>))
+
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].set_title(
+																			<span class="hljs-built_in">title</span>)
+    
+																			<span class="hljs-keyword">if</span> ylim 
+																			<span class="hljs-built_in">is</span>
+																			<span class="hljs-keyword">not</span> None:
+        
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].set_ylim(*ylim)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].set_xlabel(
+																			<span class="hljs-string">"Training examples"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].set_ylabel(
+																			<span class="hljs-string">"Score"</span>)
+
+    train_sizes, train_scores, test_scores, fit_times, 
+																			<span class="hljs-symbol">_</span> = \
+        learning_curve(estimator, X, y, 
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=n_jobs,
+                       train_sizes=train_sizes,
+                       return_times=True)
+    train_scores_mean = 
+																			<span class="hljs-built_in">np</span>.
+																			<span class="hljs-built_in">mean</span>(train_scores, axis=
+																			<span class="hljs-number">1</span>)
+    train_scores_std = 
+																			<span class="hljs-built_in">np</span>.
+																			<span class="hljs-built_in">std</span>(train_scores, axis=
+																			<span class="hljs-number">1</span>)
+    test_scores_mean = 
+																			<span class="hljs-built_in">np</span>.
+																			<span class="hljs-built_in">mean</span>(test_scores, axis=
+																			<span class="hljs-number">1</span>)
+    test_scores_std = 
+																			<span class="hljs-built_in">np</span>.
+																			<span class="hljs-built_in">std</span>(test_scores, axis=
+																			<span class="hljs-number">1</span>)
+    fit_times_mean = 
+																			<span class="hljs-built_in">np</span>.
+																			<span class="hljs-built_in">mean</span>(fit_times, axis=
+																			<span class="hljs-number">1</span>)
+    fit_times_std = 
+																			<span class="hljs-built_in">np</span>.
+																			<span class="hljs-built_in">std</span>(fit_times, axis=
+																			<span class="hljs-number">1</span>)
+
+    # Plot learning curve
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].
+																			<span class="hljs-built_in">grid</span>()
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].fill_between(train_sizes, train_scores_mean - train_scores_std,
+                         train_scores_mean + train_scores_std, alpha=
+																			<span class="hljs-number">0.1</span>,
+                         
+																			<span class="hljs-built_in">color</span>=
+																			<span class="hljs-string">"r"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].fill_between(train_sizes, test_scores_mean - test_scores_std,
+                         test_scores_mean + test_scores_std, alpha=
+																			<span class="hljs-number">0.1</span>,
+                         
+																			<span class="hljs-built_in">color</span>=
+																			<span class="hljs-string">"g"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].plot(train_sizes, train_scores_mean, 'o-', 
+																			<span class="hljs-built_in">color</span>=
+																			<span class="hljs-string">"r"</span>,
+                 
+																			<span class="hljs-built_in">label</span>=
+																			<span class="hljs-string">"Training score"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].plot(train_sizes, test_scores_mean, 'o-', 
+																			<span class="hljs-built_in">color</span>=
+																			<span class="hljs-string">"g"</span>,
+                 
+																			<span class="hljs-built_in">label</span>=
+																			<span class="hljs-string">"Cross-validation score"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>].
+																			<span class="hljs-built_in">legend</span>(loc=
+																			<span class="hljs-string">"best"</span>)
+
+    # Plot n_samples vs fit_times
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">1</span>].
+																			<span class="hljs-built_in">grid</span>()
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">1</span>].plot(train_sizes, fit_times_mean, 'o-')
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">1</span>].fill_between(train_sizes, fit_times_mean - fit_times_std,
+                         fit_times_mean + fit_times_std, alpha=
+																			<span class="hljs-number">0.1</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">1</span>].set_xlabel(
+																			<span class="hljs-string">"Training examples"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">1</span>].set_ylabel(
+																			<span class="hljs-string">"fit_times"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">1</span>].set_title(
+																			<span class="hljs-string">"Scalability of the model"</span>)
+
+    # Plot fit_time vs score
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">2</span>].
+																			<span class="hljs-built_in">grid</span>()
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">2</span>].plot(fit_times_mean, test_scores_mean, 'o-')
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">2</span>].fill_between(fit_times_mean, test_scores_mean - test_scores_std,
+                         test_scores_mean + test_scores_std, alpha=
+																			<span class="hljs-number">0.1</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">2</span>].set_xlabel(
+																			<span class="hljs-string">"fit_times"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">2</span>].set_ylabel(
+																			<span class="hljs-string">"Score"</span>)
+    
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">2</span>].set_title(
+																			<span class="hljs-string">"Performance of the model"</span>)
+
+    
+																			<span class="hljs-built_in">return</span> plt
+
+fig, 
+																			<span class="hljs-built_in">axes</span> = plt.subplots(
+																			<span class="hljs-number">6</span>, 
+																			<span class="hljs-number">4</span>, figsize=(
+																			<span class="hljs-number">15</span>, 
+																			<span class="hljs-number">30</span>))
+
+																			<span class="hljs-built_in">cv</span> = 
+																			<span class="hljs-number">5</span>
+# use models tuple which already made with optimized hyper-parameters
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves (Logistic Reg.)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">0</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>,  X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>:
+																			<span class="hljs-number">3</span>, 
+																			<span class="hljs-number">0</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>), 
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(KNN)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">1</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>,  X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>:
+																			<span class="hljs-number">3</span>, 
+																			<span class="hljs-number">1</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>), 
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(Decision tree)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">2</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>,  X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>:
+																			<span class="hljs-number">3</span>, 
+																			<span class="hljs-number">2</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>), 
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(Random Forest)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">3</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>,  X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">0</span>:
+																			<span class="hljs-number">3</span>, 
+																			<span class="hljs-number">3</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>),  
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-number">5</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(Support Vector)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">4</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>, X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">3</span>:
+																			<span class="hljs-number">7</span>, 
+																			<span class="hljs-number">0</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>),  
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(Naive Bayes)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">5</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>, X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">3</span>:
+																			<span class="hljs-number">7</span>, 
+																			<span class="hljs-number">1</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>),  
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(Gradient Boosting)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">6</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>, X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">3</span>:
+																			<span class="hljs-number">7</span>, 
+																			<span class="hljs-number">2</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>),   
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+
+
+																			<span class="hljs-built_in">title</span> = 
+																			<span class="hljs-string">"Learning Curves(Extra Tree)"</span>
+plot_learning_curve(models[
+																			<span class="hljs-number">7</span>][
+																			<span class="hljs-number">1</span>], 
+																			<span class="hljs-built_in">title</span>, X_sm, y_sm, 
+																			<span class="hljs-built_in">axes</span>=
+																			<span class="hljs-built_in">axes</span>[
+																			<span class="hljs-number">3</span>:
+																			<span class="hljs-number">7</span>, 
+																			<span class="hljs-number">3</span>], ylim=(
+																			<span class="hljs-number">0.1</span>, 
+																			<span class="hljs-number">1.01</span>),   
+																			<span class="hljs-built_in">cv</span>=
+																			<span class="hljs-built_in">cv</span>, n_jobs=
+																			<span class="hljs-number">4</span>)
+plt.savefig('Models10003.png', dpi=
+																			<span class="hljs-number">300</span>)
+plt.
+																			<span class="hljs-built_in">show</span>()
+
+																		</code>
+																	</pre>
+<p>If you refer to the code above, you may notice that this figure consists of two sets of rows of graphs. The first row in each set belongs to the learning curve of the first four models, then in the second row, fitting time is plotted as a function of training sample sizes and in the third row, the score is plotted as the function of fitting time. The second set of rows is the same as above but for different models.</p>
+<p>
+  <img src="img43.png" alt="image">
+</p>
+<p>There are some important points to consider:</p>
+<ol>
+  <li>For all algorithms, you may notice that training scores are always higher than tests or cross-validation scores(this is almost standard of ML).</li>
+  <li>For logistic regression, SVM, and Naive Bays we see a specific pattern. The Traning data score decreases as examples increase in the training dataset and the validation score is very low(high bias) at the beginning and increases. This pattern can be found in more complex datasets very often.</li>
+  <li>For the rest of the classifiers, we can see that the training score is still around the maximum, and validation could be increased with more new data samples. Comparing with the schematic chart above, we do not see the turning point for the validation curve in these plots meaning we are not in the area of over-fitting at the end of the training. We also can not claim that these classifiers(such as the random forest algorithm) have the highest performance because non of the validation curves did not flatten at the end of the training process.</li>
+</ol>
+<p>The plots in the second row show the times required by the models to train with various sizes of training datasets. The plots in the third row show how much time was required to train the models for each training size.</p>
+<p>
+  <strong>4–2 ROC Curves</strong>
+</p>
+<p>Receiver Operating Characteristic (ROC) is a metric to evaluate classifier output quality. To calculate and plot:</p>
+<pre>
+																			<code class="lang-python">from itertools 
+																				<span class="hljs-keyword">import</span> cycle
+from sklearn 
+																				<span class="hljs-keyword">import</span> svm, datasets
+from sklearn.metrics 
+																				<span class="hljs-keyword">import</span> roc_curve, auc
+from sklearn.preprocessing 
+																				<span class="hljs-keyword">import</span> label_binarize
+from sklearn.multiclass 
+																				<span class="hljs-keyword">import</span> OneVsRestClassifier
+from scipy 
+																				<span class="hljs-keyword">import</span> interp
+from sklearn.metrics 
+																				<span class="hljs-keyword">import</span> roc_auc_score
+
+# Binarize the output
+yy = label_binarize(y_sm, classes=[ 
+																				<span class="hljs-number">1</span>, 
+																				<span class="hljs-number">2</span>, 
+																				<span class="hljs-number">3</span>, 
+																				<span class="hljs-number">4</span>, 
+																				<span class="hljs-number">5</span>, 
+																				<span class="hljs-number">6</span>, 
+																				<span class="hljs-number">7</span>, 
+																				<span class="hljs-number">8</span>, 
+																				<span class="hljs-number">9</span>])
+# y = label_binarize(y, classes=np.asarray(facies_labels))
+n_classes = yy.shape[
+																				<span class="hljs-number">1</span>]
+# shuffle 
+																				<span class="hljs-built_in">and</span> split training 
+																				<span class="hljs-built_in">and</span> test sets
+X_train, X_test, y_train, y_test = train_test_split(X_sm, yy, test_size=.
+																				<span class="hljs-number">3</span>,  random_state=
+																				<span class="hljs-number">0</span>)
+random_state = np.random.RandomState(
+																				<span class="hljs-number">0</span>)
+classifier = OneVsRestClassifier(
+																				<span class="hljs-built_in">log</span>)
+# y_score = classifier.fit(X_train, y_train).decision_function(X_test)
+y_score = classifier.fit(X_train, y_train).predict_proba(X_test)
+
+# Compute ROC curve 
+																				<span class="hljs-built_in">and</span> ROC area 
+																				<span class="hljs-keyword">for</span> each class
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+
+																				<span class="hljs-keyword">for</span> i 
+																				<span class="hljs-built_in">in</span> range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Compute micro-average ROC curve 
+																				<span class="hljs-built_in">and</span> ROC area
+fpr[
+																				<span class="hljs-string">"micro"</span>], tpr[
+																				<span class="hljs-string">"micro"</span>], _ = roc_curve(y_test.ravel(), y_score.ravel())
+roc_auc[
+																				<span class="hljs-string">"micro"</span>] = auc(fpr[
+																				<span class="hljs-string">"micro"</span>], tpr[
+																				<span class="hljs-string">"micro"</span>])
+
+
+lw=
+																				<span class="hljs-number">1</span>
+all_fpr = np.unique(np.concatenate([fpr[i] 
+																				<span class="hljs-keyword">for</span> i 
+																				<span class="hljs-built_in">in</span> range(n_classes)]))
+
+# Then interpolate all ROC curves 
+																				<span class="hljs-built_in">at</span> this points
+mean_tpr = np.zeros_like(all_fpr)
+
+																				<span class="hljs-keyword">for</span> i 
+																				<span class="hljs-built_in">in</span> range(n_classes):
+    mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+
+# Finally average it 
+																				<span class="hljs-built_in">and</span> compute AUC
+mean_tpr /= n_classes
+
+fpr[
+																				<span class="hljs-string">"macro"</span>] = all_fpr
+tpr[
+																				<span class="hljs-string">"macro"</span>] = mean_tpr
+roc_auc[
+																				<span class="hljs-string">"macro"</span>] = auc(fpr[
+																				<span class="hljs-string">"macro"</span>], tpr[
+																				<span class="hljs-string">"macro"</span>])
+
+# Plot all ROC curves
+plt.figure()
+
+colors = cycle([
+																				<span class="hljs-string">'b'</span>, 
+																				<span class="hljs-string">'y'</span>, 
+																				<span class="hljs-string">'g'</span>,
+																				<span class="hljs-string">'r'</span>,
+																				<span class="hljs-string">'k'</span>,
+																				<span class="hljs-string">'c'</span>,
+																				<span class="hljs-string">'m'</span>])
+
+																				<span class="hljs-keyword">for</span> i, 
+																				<span class="hljs-built_in">color</span>
+																				<span class="hljs-built_in">in</span> zip(range(n_classes), colors):
+    plt.plot(fpr[i], tpr[i], 
+																				<span class="hljs-built_in">color</span>=
+																				<span class="hljs-built_in">color</span>, lw=lw,
+             label=
+																				<span class="hljs-string">'ROC curve of class {0} (area = {1:0.2f})'</span>
+																				<span class="hljs-string">''</span>.format(i, roc_auc[i]))
+
+plt.plot([
+																				<span class="hljs-number">0</span>, 
+																				<span class="hljs-number">1</span>], [
+																				<span class="hljs-number">0</span>, 
+																				<span class="hljs-number">1</span>], 
+																				<span class="hljs-string">'k--'</span>, lw=lw)
+plt.xlim([
+																				<span class="hljs-number">0.0</span>, 
+																				<span class="hljs-number">1.0</span>])
+plt.ylim([
+																				<span class="hljs-number">0.0</span>, 
+																				<span class="hljs-number">1.05</span>])
+plt.xlabel(
+																				<span class="hljs-string">'False Positive Rate'</span>)
+plt.ylabel(
+																				<span class="hljs-string">'True Positive Rate'</span>)
+plt.
+																				<span class="hljs-built_in">title</span>(
+																				<span class="hljs-string">'Logestic Regression Classifier'</span>)
+plt.legend(loc=
+																				<span class="hljs-string">"lower right"</span>)
+plt.savefig(
+																				<span class="hljs-string">'ROC_log.png'</span>, dpi=
+																				<span class="hljs-number">300</span>)
+plt.show()
+
+																			</code>
+																		</pre>
+<p>ROC curves typically consist of true positive rates on the y-axis and false positive rates on the x-axis. This means that the top left corner of the graph area is the ideal point as the true positive is maximum and the false positive is zero. As always not only we do not have a perfect dataset but also datasets are contaminated by some noise levels, which is not very realistic. However, it is always good to have a larger area under the curve(in the figure below, the first and last classes are the greatest). If we go back to the precision-recall report showed at the start of this post, we see that precision and recall(and f-score of course) for the first and last classes were the highest among others.</p>
+<p>
+  <img src="img432.png" alt="image">
+</p>
+<p>ROC curves can be plotted for other model algorithms as well.</p>
+<p>
+  <strong>4-3 Blind Well Prediction</strong> This is the final step of this project. We will see how the constructed models can predict with real data that already have not been seen during the training and test process. We have kept well ‘KIMZEY A’ as blind well out of the process because it has all facies class. In this set of codes below, first defined X and y array data for blind well, then copied optimized model objects from the previous section and fit the models with all available data expect blind well data. Then predict blind labels and stored accuracy score. We defined a function to plot all prediction results juxtaposed by original true labels.
+</p>
+<pre>
+																				<code class="lang-python">
+																					<span class="hljs-symbol">X_blind</span> = blind[[
+																					<span class="hljs-string">'Depth'</span>, 
+																					<span class="hljs-string">'GR'</span>, 
+																					<span class="hljs-string">'ILD_log10'</span>,
+																					<span class="hljs-string">'DeltaPHI'</span>, 
+																					<span class="hljs-string">'PHIND'</span>, 
+																					<span class="hljs-string">'PE'</span>, 
+																					<span class="hljs-string">'NM_M'</span>, 
+																					<span class="hljs-string">'RELPOS'</span>, 
+																					<span class="hljs-string">'Formation_num'</span>]]
+y_blind = blind[
+																					<span class="hljs-string">'Facies'</span>]
+# scale
+scaler = 
+																					<span class="hljs-symbol">StandardScaler</span>()
+
+																					<span class="hljs-symbol">X_blind</span> = scaler.fit_transform(
+																					<span class="hljs-symbol">X_blind</span>)
+
+
+# define 
+																					<span class="hljs-symbol">Classifiers</span>
+log = 
+																					<span class="hljs-symbol">LogisticRegression</span>(
+																					<span class="hljs-symbol">C</span> = 
+																					<span class="hljs-number">10</span>, solver = 
+																					<span class="hljs-string">'lbfgs'</span>, max_iter= 
+																					<span class="hljs-number">300</span> ) 
+knn = 
+																					<span class="hljs-symbol">KNeighborsClassifier</span>(leaf_size = 
+																					<span class="hljs-number">10</span>, n_neighbors=
+																					<span class="hljs-number">2</span>)
+dtree = 
+																					<span class="hljs-symbol">DecisionTreeClassifier</span>(criterion = 
+																					<span class="hljs-string">'entropy'</span>, max_depth=
+																					<span class="hljs-number">15</span>)
+rtree = 
+																					<span class="hljs-symbol">RandomForestClassifier</span>(criterion=
+																					<span class="hljs-string">'entropy'</span>, max_depth=
+																					<span class="hljs-number">20</span>, n_estimators=
+																					<span class="hljs-number">300</span>)
+svm = 
+																					<span class="hljs-symbol">SVC</span>(
+																					<span class="hljs-symbol">C</span>=
+																					<span class="hljs-number">100</span>, gamma=
+																					<span class="hljs-number">0.001</span>)
+nb = 
+																					<span class="hljs-symbol">GaussianNB</span>()
+gbc = 
+																					<span class="hljs-symbol">GradientBoostingClassifier</span>(learning_rate=
+																					<span class="hljs-number">0.1</span>, n_estimators=
+																					<span class="hljs-number">100</span>)
+etree = 
+																					<span class="hljs-symbol">ExtraTreesClassifier</span>(criterion=
+																					<span class="hljs-string">'entropy'</span>, max_depth=
+																					<span class="hljs-number">50</span>, n_estimators=
+																					<span class="hljs-number">500</span>)
+
+
+
+																					<span class="hljs-comment">%%time</span>
+log.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_log = log.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'log_Pred'</span>] = y_hat_log   #add to df
+acc_log = (accuracy_score(y_blind, y_hat_log ))
+
+knn.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_knn = knn.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'knn_Pred'</span>] = y_hat_knn   #add to df
+acc_knn = (accuracy_score(y_blind, y_hat_knn ))
+
+dtree.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_dtree = dtree.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'dtree_Pred'</span>] = y_hat_dtree   #add to df
+acc_dtree = (accuracy_score(y_blind, y_hat_dtree ))
+
+rtree.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_rtree = rtree.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'rtree_Pred'</span>] = y_hat_rtree   #add to df
+acc_rtree = (accuracy_score(y_blind, y_hat_rtree ))
+
+svm.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_svm = svm.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'svm_Pred'</span>] = y_hat_svm   #add to df
+acc_svm = (accuracy_score(y_blind, y_hat_svm ))
+
+gbc.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_gbc = gbc.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'gbc_Pred'</span>] = y_hat_gbc   #add to df
+acc_gbc = (accuracy_score(y_blind, y_hat_gbc ))
+
+etree.fit(
+																					<span class="hljs-symbol">X_sm</span>,y_sm)
+y_hat_etree = etree.predict(
+																					<span class="hljs-symbol">X_blind</span>)
+blind[
+																					<span class="hljs-string">'etree_Pred'</span>] = y_hat_etree   #add to df
+acc_etree = (accuracy_score(y_blind, y_hat_etree ))
+
+
+#create dataframe to compare accuracy results
+#create dataframe to compare accuracy results
+d = { 
+																					<span class="hljs-string">'model'</span>:[
+																					<span class="hljs-string">'log'</span> , 
+																					<span class="hljs-string">'knn'</span>,  
+																					<span class="hljs-string">'dtree'</span>, 
+																					<span class="hljs-string">'rtree'</span>, 
+																					<span class="hljs-string">'svm'</span>, 
+																					<span class="hljs-string">'gbc'</span>, 
+																					<span class="hljs-string">'etree'</span>],
+      
+																					<span class="hljs-string">'test_score'</span>:[test_acc[
+																					<span class="hljs-number">0</span>], test_acc[
+																					<span class="hljs-number">1</span>],test_acc[
+																					<span class="hljs-number">2</span>], test_acc[
+																					<span class="hljs-number">3</span>],test_acc[
+																					<span class="hljs-number">4</span>], test_acc[
+																					<span class="hljs-number">6</span>], test_acc[
+																					<span class="hljs-number">7</span>]],
+      
+																					<span class="hljs-string">'blind_score'</span>: [acc_log, acc_knn, acc_dtree, acc_rtree, acc_svm, acc_gbc, acc_etree ]}
+
+df_comp = pd.
+																					<span class="hljs-symbol">DataFrame</span>(d) 
+
+#
+																					<span class="hljs-symbol">Create</span> a section to compare various model performance in facies prediction
+
+def compare_all_facies(logs, 
+																					<span class="hljs-symbol">Pred1</span>, 
+																					<span class="hljs-symbol">Pred2</span>, 
+																					<span class="hljs-symbol">Pred3</span>, 
+																					<span class="hljs-symbol">Pred4</span>, 
+																					<span class="hljs-symbol">Pred5</span>, 
+																					<span class="hljs-symbol">Pred6</span>, 
+																					<span class="hljs-symbol">Pred7</span>, facies_colors):
+    #make sure logs are sorted by depth
+    logs = logs.sort_values(by=
+																					<span class="hljs-string">'Depth'</span>)
+    cmap_facies = colors.
+																					<span class="hljs-symbol">ListedColormap</span>(facies_colors[
+																					<span class="hljs-number">0</span>:len(facies_colors)], 
+																					<span class="hljs-string">'indexed'</span>)
+    ztop=logs.
+																					<span class="hljs-symbol">Depth</span>.min(); zbot=logs.
+																					<span class="hljs-symbol">Depth</span>.max()
+
+    cluster1 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-string">'Facies'</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster2 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-symbol">Pred1</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster3 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-symbol">Pred2</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster4 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-symbol">Pred3</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster5 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-symbol">Pred4</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster6 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-symbol">Pred5</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster7 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-symbol">Pred6</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+    cluster8 = np.repeat(np.expand_dims(logs[
+																					<span class="hljs-string">'Facies'</span>].values,
+																					<span class="hljs-number">1</span>), 
+																					<span class="hljs-number">100</span>, 
+																					<span class="hljs-number">1</span>)
+
+
+    f, ax = plt.subplots(nrows=
+																					<span class="hljs-number">1</span>, ncols=
+																					<span class="hljs-number">8</span>, figsize=(
+																					<span class="hljs-number">12</span>, 
+																					<span class="hljs-number">6</span>))
+
+    im1 = ax[
+																					<span class="hljs-number">0</span>].imshow(cluster1, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im2 = ax[
+																					<span class="hljs-number">1</span>].imshow(cluster2, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im3 = ax[
+																					<span class="hljs-number">2</span>].imshow(cluster3, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im4 = ax[
+																					<span class="hljs-number">3</span>].imshow(cluster4, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im5 = ax[
+																					<span class="hljs-number">4</span>].imshow(cluster5, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im6 = ax[
+																					<span class="hljs-number">5</span>].imshow(cluster6, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im7 = ax[
+																					<span class="hljs-number">6</span>].imshow(cluster7, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+    im8 = ax[
+																					<span class="hljs-number">7</span>].imshow(cluster8, interpolation=
+																					<span class="hljs-string">'none'</span>, aspect=
+																					<span class="hljs-string">'auto'</span>,
+                       cmap=cmap_facies,vmin=
+																					<span class="hljs-number">1</span>,vmax=
+																					<span class="hljs-number">9</span>)
+
+
+    divider = make_axes_locatable(ax[
+																					<span class="hljs-number">7</span>])
+    cax = divider.append_axes(
+																					<span class="hljs-string">"right"</span>, size=
+																					<span class="hljs-string">"10%"</span>, pad=
+																					<span class="hljs-number">0.05</span>)
+    cbar=plt.colorbar(im8, cax=cax)
+    cbar.set_label((
+																					<span class="hljs-number">5</span>*
+																					<span class="hljs-string">' '</span>).join([
+																					<span class="hljs-string">' SS '</span>, 
+																					<span class="hljs-string">'CSiS'</span>, 
+																					<span class="hljs-string">'FSiS'</span>, 
+                                
+																					<span class="hljs-string">'SiSh'</span>, 
+																					<span class="hljs-string">' MS '</span>, 
+																					<span class="hljs-string">' WS '</span>, 
+																					<span class="hljs-string">' D  '</span>, 
+                                
+																					<span class="hljs-string">' PS '</span>, 
+																					<span class="hljs-string">' BS '</span>]))
+    cbar.set_ticks(range(
+																					<span class="hljs-number">0</span>,
+																					<span class="hljs-number">1</span>)); cbar.set_ticklabels(
+																					<span class="hljs-string">''</span>)
+
+    for i in range(len(ax)
+																					<span class="hljs-number">-8</span>):
+        ax[i].set_ylim(ztop,zbot)
+        ax[i].invert_yaxis()
+        ax[i].grid()
+        ax[i].locator_params(axis=
+																					<span class="hljs-string">'x'</span>, nbins=
+																					<span class="hljs-number">2</span>)
+
+    ax[
+																					<span class="hljs-number">0</span>].set_xlabel(
+																					<span class="hljs-string">'True_Facies'</span>); ax[
+																					<span class="hljs-number">1</span>].set_xlabel(
+																					<span class="hljs-symbol">Pred1</span>); ax[
+																					<span class="hljs-number">2</span>].set_xlabel(
+																					<span class="hljs-symbol">Pred2</span>)
+    ax[
+																					<span class="hljs-number">3</span>].set_xlabel(
+																					<span class="hljs-symbol">Pred3</span>); ax[
+																					<span class="hljs-number">4</span>].set_xlabel(
+																					<span class="hljs-symbol">Pred4</span>); ax[
+																					<span class="hljs-number">5</span>].set_xlabel(
+																					<span class="hljs-symbol">Pred5</span>)
+    ax[
+																					<span class="hljs-number">6</span>].set_xlabel(
+																					<span class="hljs-symbol">Pred6</span>); ax[
+																					<span class="hljs-number">7</span>].set_xlabel(
+																					<span class="hljs-string">'True_Facies'</span>)
+
+    #ax[
+																					<span class="hljs-number">0</span>].set_yticklabels([]) ;
+    ax[
+																					<span class="hljs-number">1</span>].set_yticklabels([]); ax[
+																					<span class="hljs-number">2</span>].set_yticklabels([]); ax[
+																					<span class="hljs-number">3</span>].set_yticklabels([]) 
+    ax[
+																					<span class="hljs-number">4</span>].set_yticklabels([]); ax[
+																					<span class="hljs-number">5</span>].set_yticklabels([]); ax[
+																					<span class="hljs-number">6</span>].set_yticklabels([])
+    ax[
+																					<span class="hljs-number">7</span>].set_yticklabels([])
+
+    ax[
+																					<span class="hljs-number">0</span>].set_xticklabels([]); ax[
+																					<span class="hljs-number">1</span>].set_xticklabels([]); ax[
+																					<span class="hljs-number">2</span>].set_xticklabels([])
+    ax[
+																					<span class="hljs-number">3</span>].set_xticklabels([]); ax[
+																					<span class="hljs-number">4</span>].set_xticklabels([]); ax[
+																					<span class="hljs-number">5</span>].set_xticklabels([])
+    ax[
+																					<span class="hljs-number">6</span>].set_xticklabels([]); ax[
+																					<span class="hljs-number">7</span>].set_xticklabels([])
+
+    f.suptitle(
+																					<span class="hljs-string">'Various model predictions in well: %s'</span>
+																					<span class="hljs-comment">%logs.iloc[0]['Well Name'], fontsize=14,y=0.94)</span>
+
+compare_all_facies(blind,
+																					<span class="hljs-string">'log_Pred'</span>,
+																					<span class="hljs-string">'knn_Pred'</span>,
+																					<span class="hljs-string">'dtree_Pred'</span>, 
+																					<span class="hljs-string">'rtree_Pred'</span>,
+																					<span class="hljs-string">'svm_Pred'</span>,
+																					<span class="hljs-string">'gbc_Pred'</span>, 
+                   
+																					<span class="hljs-string">'gbc_Pred'</span>,
+																					<span class="hljs-string">'etree_Pred'</span>, facies_colors)
+# plt.savefig(
+																					<span class="hljs-string">"Compo.png"</span>, dpi=
+																					<span class="hljs-number">400</span>)
+
+																				</code>
+																			</pre>
+<p>The blind data model accuracy reveals that the best accuracy belongs to the extra tree classifier(ensemble in total). We see that although prediction accuracy for the training-test dataset is high for all models it decreases in blind well validation. We can conclude that the number of data samples and presumably amount of features are not high enough for models to capture all aspects of data complexity. In fact, more samples and more data features can help to improve model prediction accuracy.</p>
+<p>
+  <img src="img44.png" alt="image">
+</p>
+<p>Classification report below for Extras Tree Classifier: Facies SS was failed in prediction while BS with 7 members could have been recognized by the extra tree model. Mudstone(MS) showed weak prediction results.</p>
+<p>
+  <img src="tab41.png" alt="image">
+</p>
+<p>Confusion matrix, Extras Tree Classifier: confusion matrix shows us the extra tree model capability to predict facies labels. We see that MS true labels are predicted as WS and PS by the model.</p>
+<p>
+  <img src="img45.png" alt="image">
+</p>
+<p>Finally, the true facies labels(left track) is plotted as a criterion to compare with different model prediction results in the blind well. Visually, extras tree and random forest model prediction seem better than the rest of the models. One important point that we can see is that classifiers try to detect thin layers inside thick layers.</p>
+<p>
+  <img src="img46.png" alt="image">
+</p>
+<p>As a final point, selecting the best model can be a subjective topic depending on your expectancy from a model. For example, if you are looking for a specific thin layer in geological succession, and a model could predict that layer very well while did poor prediction for other layers, we can employ that model, though we are aware that its evaluation metrics are not good enough altogether.</p>
+<p>
+  <strong>Conclusion:</strong>
+</p>
+<p>To build a machine learning model the first step is to prepare the dataset. Data visualization, feature engineering, and extracting important features can be an important part of data preparation. Null values management is also a very crucial step specifically in the small datasets. We imputed missing data in this dataset using ML prediction to save more data. The second main important step is to build a model and validate it. Hyper-parameters are also important to be chosen carefully for efficient model performances. We employed a grid search to find out the optimized parameters. Finally, model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model’s strengths and weaknesses.</p>
+
+
+
