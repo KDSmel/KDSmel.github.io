@@ -716,7 +716,7 @@ print('The best parameters for etree classifier: ', grid_etree.best_params_)
 
 The run time for the code above is almost an hour(depending on your computer configuration). I did not expand the grid search size for operation time-saving. You may extend for more than 2 by 2 parameters to search but expect that running time will be exponentially increased.
 
-From line 69 in the code, you can see the best hyper-parameters that have been chosen for each classifier. Using these parameters, we can build these models with optimum hyper-parameters and run for the accuracy test.
+From the code, you can see the best hyper-parameters that have been chosen for each classifier. Using these parameters, we can build these models with optimum hyper-parameters and run for the accuracy test.
 
 ![image](tab21.png)
 
@@ -777,7 +777,7 @@ print(classification_report(y_test, y_pred_log, target_names= facies_labels))
 
 To evaluate the Logistic Regression classifier performance, let's look at the first facies class Sandstone(SS). When this model predicts a facies as SS, it is correct in 75% of the time(Precision). On the other hand, this model correctly identifies 89% of all SS facies members(Recall). We can guess that f1_score is somewhere between these two metrics. Support means the individual class members for the test.
 
-Let's have some block of codes to implement the above-mentioned procedure in order for all models and plot the result as an average. Up to line 15, we defined the model objects with hyper-parameters that we already obtained from the grid-search approach. Then(line 16 to 25) models are appended into a list to be iterable when we want to fit and cross-validate in order. After cross-validation, we stored metrics results in the list for each model. line 37 to 52, we established a for loop to calculate the average value of each of these metrics for each model. The rest of the code is a plotting task.
+Let's have some block of codes to implement the above-mentioned procedure in order for all models and plot the result as an average. Up to line 15, we defined the model objects with hyper-parameters that we already obtained from the grid-search approach. Then(line 16 to 25) models are appended into a list to be iterable when we want to fit and cross-validate in order. After cross-validation, we stored metrics results in the list for each model.We established a for loop to calculate the average value of each of these metrics for each model. The rest of the code is a plotting task.
 
 ```python
 from sklearn.metrics import classification_report
