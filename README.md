@@ -21,6 +21,7 @@ Part.3: Model Evaluation-1,
 
 Part.4: Model Evaluation-2
 
+
 **1. Exploratory Data Analysis**
 
    1.1. Data visualization
@@ -189,13 +190,34 @@ make_facies_log_plot(
 ```
 
 And the plot of the well SHRIMPLIN:
+
 ![image](./img1.png)
 
 1–1–2 Bar plot
 
 We can use the Counter function to evaluate each class contribution quantitatively. To see facies frequency distribution we can use a bar plot as:
 
+```python
+cn = Counter(data.FaciesLabels)
+for i,j in cn.items():
+    percent = j / len(data) * 100
+    print('Class=%s, Count=%d, Percentage=%.3f%%' % (i, j, percent))
+# Class=FSiS, Count=663, Percentage=17.919%
+# Class=CSiS, Count=851, Percentage=23.000%
+# Class=PS, Count=646, Percentage=17.459%
+# Class=WS, Count=511, Percentage=13.811%
+# Class=D, Count=124, Percentage=3.351%
+# Class=SiSh, Count=264, Percentage=7.135%
+# Class=MS, Count=277, Percentage=7.486%
+# Class=BS, Count=185, Percentage=5.000%
+# Class=SS, Count=179, Percentage=4.838%
 
+plt.bar(cn.keys(), cn.values(), color=facies_colors )
+plt.title('Facies Distribution')
+plt.ylabel('Frequency')
+```
+
+![image](./img2.png)
 
 This is an imbalanced dataset. Dolomite has the lowest member participation. Comparing coarse siltstone, dolomite appears 8 times less than that.
 
@@ -203,10 +225,19 @@ This is an imbalanced dataset. Dolomite has the lowest member participation. Com
 
 To visualize multiple pairwise bivariate distributions in a dataset, we may use the pairplot() function from the seaborn library. It shows the relationship for the combination of variables in the dataset in the matrix format with a univariate distribution plot in diagonal. It is clear that PE log has a non-linear relationship with average porosity. Other pairs do not show a clear pattern. The distribution pattern in diagonal shows that each label class (facies) with respect to each feature has acceptable separation although there is a strong overlap for various classes. The ideal pattern can be assumed as a clear separation of distribution plots in tall bell shape normal distribution graph.
 
+```python
+sns_plot = sns.pairplot(data.drop(['Well Name','Facies','Formation','Depth','NM_M','RELPOS'],
+                                  axis=1),
+             hue='FaciesLabels', palette=facies_color_map,
+             hue_order=list(reversed(facies_labels)))
+sns_plot.savefig('cross_plots.png')
+```
 
+![image](./img3.png)
 
-Highlight: Collinear features are features that are highly correlated with each other. In machine learning, these lead to decreased generalization performance on the test set due to high variance and less model interpretability. In this dataset, we are not facing with collinearity. Using data.corr() command:
+**Highlight:** Collinear features are features that are highly correlated with each other. In machine learning, these lead to decreased generalization performance on the test set due to high variance and less model interpretability. In this dataset, we are not facing with collinearity. Using data.corr() command:
 
+![image](./tab1.png)
 
 1–2 Feature Engineering
 1–2–1 NaN imputation
