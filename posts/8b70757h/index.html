@@ -1,5 +1,207 @@
 
+<!DOCTYPE html>
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+<meta name="keywords" content="Facies prediction,Neural Network,TensorFlow,Bayesian ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bayesian Hyper-Parameter Optimization: Neural Network Model in TensorFlow, Facies Prediction Example">
+<meta property="og:url" content="https://kdsmel.github.io/posts/8b70757f/index.html">
+<meta property="og:site_name" content="Kamel&#39;s Notes">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://kdsmel.github.io/posts/8b70757f/Bays_Opt.png">
+
+<meta property="og:updated_time" content="2019-10-20T01:56:49.312Z">
+  <link rel="alternate" href="/atom.xml" title="Kamel's Notes" type="application/atom+xml">
+
+  <link rel="canonical" href="https://kdsmel.github.io/posts/8b70757f/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Bayesian Hyper-Parameter Optimization: Neural Network Model in TensorFlow, Facies Prediction Example | Kamel's Notes</title>
+  
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+}
+
+.highlight  {
+  margin: 0.4em;
+}
+
+/* Input area styling */
+.jp-InputArea {
+  overflow: hidden;
+}
+
+.jp-InputArea-editor {
+  overflow: hidden;
+}
+
+.CodeMirror pre {
+  margin: 0;
+  padding: 0;
+}
+
+/* Using table instead of flexbox so that we can use break-inside property */
+/* CSS rules under this comment should not be required anymore after we move to the JupyterLab 4.0 CSS */
+
+
+.jp-CodeCell.jp-mod-outputsScrolled .jp-OutputArea-prompt {
+  min-width: calc(
+    var(--jp-cell-prompt-width) - var(--jp-private-cell-scrolling-output-offset)
+  );
+}
+
+.jp-OutputArea-child {
+  display: table;
+  width: 100%;
+}
+
+.jp-OutputPrompt {
+  display: table-cell;
+  vertical-align: top;
+  min-width: var(--jp-cell-prompt-width);
+}
+
+body[data-format='mobile'] .jp-OutputPrompt {
+  display: table-row;
+}
+
+.jp-OutputArea-output {
+  display: table-cell;
+  width: 100%;
+}
+
+body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
+  display: table-row;
+}
+
+.jp-OutputArea-output.jp-OutputArea-executeResult {
+  width: 100%;
+}
+
+/* Hiding the collapser by default */
+.jp-Collapser {
+  display: none;
+}
+
+@media print {
+  .jp-Cell-inputWrapper,
+  .jp-Cell-outputWrapper {
+    display: block;
+  }
+
+  .jp-OutputArea-child {
+    break-inside: avoid-page;
+  }
+}
+</style>
+
+<!-- Load mathjax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe"> </script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+    </script>
+    <!-- End of mathjax configuration --></head>
+<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
+
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
 
 
 
@@ -2652,4 +2854,140 @@ compare_all_facies(blind,
 <p>To build a machine learning model the first step is to prepare the dataset. Data visualization, feature engineering, and extracting important features can be an important part of data preparation. Null values management is also a very crucial step specifically in the small datasets. We imputed missing data in this dataset using ML prediction to save more data. The second main important step is to build a model and validate it. Hyper-parameters are also important to be chosen carefully for efficient model performances. We employed a grid search to find out the optimized parameters. Finally, model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model’s strengths and weaknesses.</p>
 
 
+           
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stock-streaming-fundamental"><span class="nav-number">2.1.</span> <span class="nav-text">1 Stock: Streaming &amp; Fundamental</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-source"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etl"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 ETL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#historical-data"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">1. Historical data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#realtime-data"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">2. Realtime data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fundatmental-data"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">3. Fundatmental data</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stock-comparison"><span class="nav-number">2.2.</span> <span class="nav-text">2 Stock: Comparison</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#economy"><span class="nav-number">2.3.</span> <span class="nav-text">3 Economy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-source-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etl-1"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2 ETL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#economy-data"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">1. Economy data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#business-news"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">2. Business news</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          </div>
+        </div>
+      <!--/noindex-->
+    </div>
+  </aside>
+      </div>
+    </main>
 
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kamel Chehboun</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">518k</span>
+</div>
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+  </div>
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/three/three.min.js"></script>
+  <script src="/lib/three/three-waves.min.js"></script>
+  <script src="/lib/three/canvas_lines.min.js"></script>
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+  <script src="/js/utils.js?v=7.1.2"></script>
+  <script src="/js/motion.js?v=7.1.2"></script>
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+    
+
+
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'kdsmel',
+      repo: 'kdsmel.github.io',
+      oauth: {
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+
+  
+    renderGitment();
+  
+</script>
+ 
+ <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+KDSmel.github.io/posts/8b70757f/index.html at main · KDSmel/KDSmel.github.io
