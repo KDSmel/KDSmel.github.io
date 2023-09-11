@@ -5,9 +5,30 @@ Although there are tons of great books and papers outside to practice machine le
 
 In this work, I will try to include all important steps of ML modeling (even though some are not necessary for this dataset) to make a consistent and tangible example, especially for geoscientists. Eight important ML algorithms will be examined and results will be compared. I will try to have an argumentative model evaluation discussion. I will not go deep into the algorithm’s fundamentals.
 
-To access the dataset and jupyter notebook find out my Git.
-Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the [jupyter notebook file]([https://write.geeksforgeeks.org/](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp/blob/main/Part1_practical_Tut_ML_facies.ipynb)).
-Note2: shuffling data can cause differences between your runs and what appears here.
+The dataset (facies_vectors.csv)for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
+
+1. GR: this wireline logging tools measure gamma emission
+2. ILD_log10: this is resistivity measurement
+3. PE: photoelectric effect log
+4. DeltaPHI: Phi is a porosity index in petrophysics.
+5. PNHIND: Average of neutron and density log.
+6. NM_M:nonmarine-marine indicator
+7. RELPOS: relative position
+   
+The nine discrete facies (classes of rocks) are:
+
+1. (SS) Nonmarine sandstone
+2. (CSiS) Nonmarine coarse siltstone
+3. (FSiS) Nonmarine fine siltstone
+4. (SiSH) Marine siltstone and shale
+5. (MS) Mudstone (limestone)
+6. (WS) Wackestone (limestone)
+7. (D) Dolomite
+8. (PS) Packstone-grainstone (limestone)
+9. (BS) Phylloid-algal bafflestone (limestone)
+
+To access the dataset and jupyter notebook find out my [Git]().
+
 
 This tutorial has four parts:
 
@@ -70,32 +91,14 @@ Part.4: Model Evaluation-2
 
 If you are totally fresh with python and ML concepts, you will need to get familiar with the basics to get advantages of this tutorial. As the dataset that we will work on here is a tabular CSV file including well logs and facies class, my two previous posts (10 steps in Pandas, 5 steps in Pandas) can be helpful for well log data handling, processing, and plotting. All implementation is based on scikit-learn libraries.
 
-**Data Summary**
-
-The dataset (facies_vectors.csv)for this study comes from Hugoton and Panoma Fields in North America. It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
-
-1. GR: this wireline logging tools measure gamma emission
-2. ILD_log10: this is resistivity measurement
-3. PE: photoelectric effect log
-4. DeltaPHI: Phi is a porosity index in petrophysics.
-5. PNHIND: Average of neutron and density log.
-6. NM_M:nonmarine-marine indicator
-7. RELPOS: relative position
-   
-The nine discrete facies (classes of rocks) are:
-
-1. (SS) Nonmarine sandstone
-2. (CSiS) Nonmarine coarse siltstone
-3. (FSiS) Nonmarine fine siltstone
-4. (SiSH) Marine siltstone and shale
-5. (MS) Mudstone (limestone)
-6. (WS) Wackestone (limestone)
-7. (D) Dolomite
-8. (PS) Packstone-grainstone (limestone)
-9. (BS) Phylloid-algal bafflestone (limestone)
     
 ## Part.1: Exploratory Data Analysis
 After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.
+
+Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the [jupyter notebook file]([https://write.geeksforgeeks.org/](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp/blob/main/Part1_practical_Tut_ML_facies.ipynb)).
+
+Note2: shuffling data can cause differences between your runs and what appears here.
+
 
 **1–1 Data visualization**
 1–1–1 log-plot
