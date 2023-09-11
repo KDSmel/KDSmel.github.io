@@ -103,6 +103,7 @@ Note2: shuffling data can cause differences between your runs and what appears h
 
 
 **1–1 Data visualization**
+
 1–1–1 log-plot
 
 ```python
