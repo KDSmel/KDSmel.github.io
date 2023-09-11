@@ -331,7 +331,7 @@ print('Accuracy: %.3f' % (mean(scores)))
 #Accuracy: 0.561
 ```
 
-Here, we can explore whether feature extraction can improve model performance. There are many approaches while we will use some transforms for chaining the distribution of the input variables such as Quantile Transformer and KBins Discretizer. Then, will remove linear dependencies between the input variables using PCA and TruncatedSVD. To study more refer here.
+Here, we can explore whether feature extraction can improve model performance. There are many approaches while we will use some transforms for chaining the distribution of the input variables such as Quantile Transformer and KBins Discretizer. Then, will remove linear dependencies between the input variables using PCA and TruncatedSVD. To study more refer [here](https://machinelearningmastery.com/quantile-transforms-for-machine-learning/).
 
 Using feature union class, we will define a list of transforms to perform results aggregated together. This will create a dataset with lots of feature columns while we need to reduce dimensionality to faster and better performance. Finally, Recursive Feature Elimination, or RFE, the technique can be used to select the most relevant features. We select 30 features.
 
@@ -478,7 +478,7 @@ pyplot.show()
 
 1–3–3 Permutation feature importance
 
-Permutation feature importance is a model inspection technique that can be used for any fitted estimator when the data is tabular. This is especially useful for non-linear or opaque estimators. The permutation feature importance is defined to be the decrease in a model score when a single feature value is randomly shuffled.
+[Permutation feature importance](https://scikit-learn.org/stable/modules/permutation_importance.html) is a model inspection technique that can be used for any fitted estimator when the data is tabular. This is especially useful for non-linear or opaque estimators. The permutation feature importance is defined to be the decrease in a model score when a single feature value is randomly shuffled.
 
 ```python
 
@@ -518,7 +518,7 @@ In all these feature importance plots we can see that predictor number 6 (PE log
 Data preparation is one of the most important and time-consuming steps in machine learning. Data visualization can help us to understand data nature, borders, and distribution. Feature engineering is required especially if we have null and categorical values. In small datasets, feature extraction and oversampling can be helpful for model performances. Finally, we can analyze features in the dataset to see the importance of features for different model algorithms.
 
 ## Part.2: Build Model & Validate
-In this part, we will build different models, validate them, and use the grid search approach to find out the optimum hyperparameters. This post is the second part of part1. You can find the jupyter notebook file of this part here.
+In this part, we will build different models, validate them, and use the grid search approach to find out the optimum hyperparameters. You can find the jupyter notebook file of this part [here](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp/blob/main/part2_practical_Tut_ML_facies.ipynb).
 
 The concept of model building in ML projects of scikit-learn libraries is simple. First, you select what type of model you are comfortable with, second, fit the model to the data using target and predictors(features), and finally, predict the unknown labels using available feature data.
 
@@ -595,7 +595,7 @@ baseline_model(etree)
 
 ```
 
-Cross-validation sometimes called rotation estimation or out-of-sample testing is any of the various similar model validation techniques for assessing how the results of a statistical analysis will generalize to an independent data set. Models usually are overfitting when the accuracy score on training data is much higher than testing data. One way to examine model performance is to keep randomly some part of the dataset hold-out. This can be a weakness for small datasets. Another way is to divide the dataset into splits and run it while each split has a different set of test folds like the picture below. In this approach, cross-validation, models can examine all data without overfitting. However, for this project, we will keep a single well as a hold-out to examine model performances after all optimizations.
+[Cross-validation](https://en.wikipedia.org/wiki/Cross-validation_(statistics)#:~:text=Cross%2Dvalidation%2C%20sometimes%20called%20rotation,to%20an%20independent%20data%20set.) sometimes called rotation estimation or out-of-sample testing is any of the various similar model validation techniques for assessing how the results of a statistical analysis will generalize to an independent data set. Models usually are overfitting when the accuracy score on training data is much higher than testing data. One way to examine model performance is to keep randomly some part of the dataset hold-out. This can be a weakness for small datasets. Another way is to divide the dataset into splits and run it while each split has a different set of test folds like the picture below. In this approach, cross-validation, models can examine all data without overfitting. However, for this project, we will keep a single well as a hold-out to examine model performances after all optimizations.
 
 ![image](./img21.png)
 picture from scikit-learn
@@ -719,12 +719,12 @@ From line 69 in the code, you can see the best hyper-parameters that have been c
 
 Comparing with baseline model performances(results of first block codes in this post), hyper-parameters adjustment could help model performance to improve. It seems that for ensemble models hyper-parameters are not as efficient as the rests. Some drawbacks in the hyper-parameterized models comparing to baseline mean that we did not properly design the search range.
 
-**Conclusion:**
+**Summary:**
 
 In this part, we constructed eight models with default parameters, ran cross-validation. Then, we looked for hyper-parameters using the grid search approach. The best hyper-parameters are employed to build the model again and comparing the basic model we can see improvement in model performances.
 
 ## Part.3: Model Evaluation-1
-In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem. This post is the third part of part1, part2. You can find the jupyter notebook file of this part here.
+In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem. You can find the jupyter notebook file of this part [here](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp).
 
 When I was fresh in machine learning, I always considered constructing a model as the most important step of the ML tasks, while now, I have another concept; model evaluation skill is the fundamental key to modeling success. We need to make sure that our model is working well with new data. On the other hand, we have to be able to interpret various evaluation metrics to understand our model’s strengths and weaknesses leading us to model improvement hints. As we are dealing with the multi-class problem in this tutorial, we will focus on related evaluation metrics, but before that, we need to get familiar with some definitions.
 
@@ -959,12 +959,12 @@ Our ideal model is something between these two models leaving us for bias-varian
 The question is: how we can recognize that our model is over-fit or under-fit?
 We will cover in the next part of this tutorial.
 
-**Conclusion:**
+**Summary:**
 
 Model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model's strengths and weaknesses.
 
 ## Part.4: Model Evaluation-2
-In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now). This post is the fourth part(final) of part1, part2, part3. You can find the jupyter notebook file of this part here.
+In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now). You can find the jupyter notebook file of this part [here](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp).
 
 ![image](img41.png)
 
@@ -1090,9 +1090,6 @@ The plots in the second row show the times required by the models to train with 
 
 Receiver Operating Characteristic (ROC) is a metric to evaluate classifier output quality. To calculate and plot:
 
-
-ROC curves typically consist of true positive rates on the y-axis and false positive rates on the x-axis. This means that the top left corner of the graph area is the ideal point as the true positive is maximum and the false positive is zero. As always not only we do not have a perfect dataset but also datasets are contaminated by some noise levels, which is not very realistic. However, it is always good to have a larger area under the curve(in the figure below, the first and last classes are the greatest). If we go back to the precision-recall report showed at the start of this post, we see that precision and recall(and f-score of course) for the first and last classes were the highest among others.
-
 ```python
 from itertools import cycle
 from sklearn import svm, datasets
@@ -1161,6 +1158,11 @@ plt.savefig('ROC_log.png', dpi=300)
 plt.show()
 
 ```
+
+ROC curves typically consist of true positive rates on the y-axis and false positive rates on the x-axis. This means that the top left corner of the graph area is the ideal point as the true positive is maximum and the false positive is zero. As always not only we do not have a perfect dataset but also datasets are contaminated by some noise levels, which is not very realistic. However, it is always good to have a larger area under the curve(in the figure below, the first and last classes are the greatest). If we go back to the precision-recall report showed at the start of this post, we see that precision and recall(and f-score of course) for the first and last classes were the highest among others.
+
+![image](img432.png)
+
 ROC curves can be plotted for other model algorithms as well.
 
 **4-3 Blind Well Prediction**
@@ -1315,6 +1317,7 @@ Classification report below for Extras Tree Classifier: Facies SS was failed in 
 Confusion matrix, Extras Tree Classifier: confusion matrix shows us the extra tree model capability to predict facies labels. We see that MS true labels are predicted as WS and PS by the model.
 
 ![image](img45.png)
+
 Finally, the true facies labels(left track) is plotted as a criterion to compare with different model prediction results in the blind well. Visually, extras tree and random forest model prediction seem better than the rest of the models. One important point that we can see is that classifiers try to detect thin layers inside thick layers.
 
 ![image](img46.png)
