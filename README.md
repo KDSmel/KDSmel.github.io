@@ -45,25 +45,25 @@ Part.4: Model Evaluation-2
 
 **2- Build Model & Validate**
 
-   2–1 Baseline Model
-   
-   2–2 Hyper-parameters
-   
-   2–2–1 Grid search
+      2–1 Baseline Model
+      
+      2–2 Hyper-parameters
+      
+      2–2–1 Grid search
 
 **3- Model Evaluation-1**
 
-   3–1 Model metrics plot
-   
-   3–2 Confusion matrix
+      3–1 Model metrics plot
+      
+      3–2 Confusion matrix
 
 **4- Model Evaluation-2**
 
-   4–1 Learning curves
-   
-   4–2 ROC plot
-   
-   4–3 Blind well prediction and evaluation
+      4–1 Learning curves
+      
+      4–2 ROC plot
+      
+      4–3 Blind well prediction and evaluation
 
 If you are totally fresh with python and ML concepts, you will need to get familiar with the basics to get advantages of this tutorial. As the dataset that we will work on here is a tabular CSV file including well logs and facies class, my two previous posts (10 steps in Pandas, 5 steps in Pandas) can be helpful for well log data handling, processing, and plotting. All implementation is based on scikit-learn libraries.
 
