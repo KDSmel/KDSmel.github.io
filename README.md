@@ -12,9 +12,13 @@ Note1: codes embedded in this manuscript are presented to understand the work pr
 Note2: shuffling data can cause differences between your runs and what appears here.
 
 This tutorial has four parts:
+
 Part.1: Exploratory Data Analysis,
+
 Part.2: Build Model & Validate,
+
 Part.3: Model Evaluation-1,
+
 Part.4: Model Evaluation-2
 
 **1. Exploratory Data Analysis**
@@ -68,6 +72,7 @@ Part.4: Model Evaluation-2
 If you are totally fresh with python and ML concepts, you will need to get familiar with the basics to get advantages of this tutorial. As the dataset that we will work on here is a tabular CSV file including well logs and facies class, my two previous posts (10 steps in Pandas, 5 steps in Pandas) can be helpful for well log data handling, processing, and plotting. All implementation is based on scikit-learn libraries.
 
 **Data Summary**
+
 The dataset (facies_vectors.csv)for this study comes from Hugoton and Panoma Fields in North America which was used as class exercise at The University of Kansas (Dubois et. al, 2007). It consists of log data(the measurement of physical properties of rocks) of nine wells. We will use these log data to train supervised classifiers in order to predict discrete facies groups. For more detail, you may take a look here. The seven features are:
 
 1. GR: this wireline logging tools measure gamma emission
