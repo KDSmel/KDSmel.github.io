@@ -95,7 +95,7 @@ If you are totally fresh with python and ML concepts, you will need to get famil
 ## Part.1: Exploratory Data Analysis
 After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.
 
-Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the [jupyter notebook file]([https://write.geeksforgeeks.org/](https://github.com/mardani72/Practical_ML_Tutorial_Facies_examp/blob/main/Part1_practical_Tut_ML_facies.ipynb)).
+Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the [jupyter notebook file](https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Part1_practical_Tut_ML_facies.ipynb).
 
 Note2: shuffling data can cause differences between your runs and what appears here.
 
