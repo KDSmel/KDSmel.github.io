@@ -962,3 +962,364 @@ We will cover in the next part of this tutorial.
 **Conclusion:**
 
 Model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model's strengths and weaknesses.
+
+## Part.4: Model Evaluation-2
+In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now). This post is the fourth part(final) of part1, part2, part3. You can find the jupyter notebook file of this part here.
+
+![image](img41.png)
+
+**4–1 Learning Curves**
+Let’s look at the schematic graph of the validation curve. As the model complexity increases, the training score increases as well but at some point, the validation(or test data) score starts to decrease. Increasing model complexity will lead to high variance or over-fitting. When the model is too simple, it can not capture all aspects of data mapping complexity leaving a high bias model. The best model is located between these two conditions, where it is complicated enough to have the highest validation score while not too complicated to capture every detail of training data.
+
+![image](img42.png)
+figure from: jakevdp.github.io
+
+Let’s create a function to plot the learning curve for our dataset. This function will generate 8 plots (each model algorithms) for test and training learning curve, samples vs fit time curve, and fit the time vs score curve. The function will receive these parameters: model estimator, the title for the chart, axes location for each model, ylim, cross-validation value, number of jobs that can be done in parallel, and train data size.
+
+```python
+from itertools import cycle
+from sklearn import svm, datasets
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import label_binarize
+from sklearn.multiclass import OneVsRestClassifier
+from scipy import interp
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import learning_curve
+from sklearn.model_selection import ShuffleSplit
+
+def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
+                        n_jobs=None, train_sizes=np.linspace(.1, 1.0, 10)):
+    
+    if axes is None:
+        _, axes = plt.subplots(1, 3, figsize=(20, 5))
+
+    axes[0].set_title(title)
+    if ylim is not None:
+        axes[0].set_ylim(*ylim)
+    axes[0].set_xlabel("Training examples")
+    axes[0].set_ylabel("Score")
+
+    train_sizes, train_scores, test_scores, fit_times, _ = \
+        learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs,
+                       train_sizes=train_sizes,
+                       return_times=True)
+    train_scores_mean = np.mean(train_scores, axis=1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+    fit_times_mean = np.mean(fit_times, axis=1)
+    fit_times_std = np.std(fit_times, axis=1)
+
+    # Plot learning curve
+    axes[0].grid()
+    axes[0].fill_between(train_sizes, train_scores_mean - train_scores_std,
+                         train_scores_mean + train_scores_std, alpha=0.1,
+                         color="r")
+    axes[0].fill_between(train_sizes, test_scores_mean - test_scores_std,
+                         test_scores_mean + test_scores_std, alpha=0.1,
+                         color="g")
+    axes[0].plot(train_sizes, train_scores_mean, 'o-', color="r",
+                 label="Training score")
+    axes[0].plot(train_sizes, test_scores_mean, 'o-', color="g",
+                 label="Cross-validation score")
+    axes[0].legend(loc="best")
+
+    # Plot n_samples vs fit_times
+    axes[1].grid()
+    axes[1].plot(train_sizes, fit_times_mean, 'o-')
+    axes[1].fill_between(train_sizes, fit_times_mean - fit_times_std,
+                         fit_times_mean + fit_times_std, alpha=0.1)
+    axes[1].set_xlabel("Training examples")
+    axes[1].set_ylabel("fit_times")
+    axes[1].set_title("Scalability of the model")
+
+    # Plot fit_time vs score
+    axes[2].grid()
+    axes[2].plot(fit_times_mean, test_scores_mean, 'o-')
+    axes[2].fill_between(fit_times_mean, test_scores_mean - test_scores_std,
+                         test_scores_mean + test_scores_std, alpha=0.1)
+    axes[2].set_xlabel("fit_times")
+    axes[2].set_ylabel("Score")
+    axes[2].set_title("Performance of the model")
+
+    return plt
+
+fig, axes = plt.subplots(6, 4, figsize=(15, 30))
+cv = 5
+# use models tuple which already made with optimized hyper-parameters
+title = "Learning Curves (Logistic Reg.)"
+plot_learning_curve(models[0][1], title,  X_sm, y_sm, axes=axes[0:3, 0], ylim=(0.1, 1.01), cv=cv, n_jobs=4)
+
+title = "Learning Curves(KNN)"
+plot_learning_curve(models[1][1], title,  X_sm, y_sm, axes=axes[0:3, 1], ylim=(0.1, 1.01), cv=cv, n_jobs=4)
+
+title = "Learning Curves(Decision tree)"
+plot_learning_curve(models[2][1], title,  X_sm, y_sm, axes=axes[0:3, 2], ylim=(0.1, 1.01), cv=cv, n_jobs=4)
+
+title = "Learning Curves(Random Forest)"
+plot_learning_curve(models[3][1], title,  X_sm, y_sm, axes=axes[0:3, 3], ylim=(0.1, 1.01),  cv=5, n_jobs=4)
+
+title = "Learning Curves(Support Vector)"
+plot_learning_curve(models[4][1], title, X_sm, y_sm, axes=axes[3:7, 0], ylim=(0.1, 1.01),  cv=cv, n_jobs=4)
+
+title = "Learning Curves(Naive Bayes)"
+plot_learning_curve(models[5][1], title, X_sm, y_sm, axes=axes[3:7, 1], ylim=(0.1, 1.01),  cv=cv, n_jobs=4)
+
+title = "Learning Curves(Gradient Boosting)"
+plot_learning_curve(models[6][1], title, X_sm, y_sm, axes=axes[3:7, 2], ylim=(0.1, 1.01),   cv=cv, n_jobs=4)
+
+title = "Learning Curves(Extra Tree)"
+plot_learning_curve(models[7][1], title, X_sm, y_sm, axes=axes[3:7, 3], ylim=(0.1, 1.01),   cv=cv, n_jobs=4)
+plt.savefig('Models10003.png', dpi=300)
+plt.show()
+
+```
+
+If you refer to the code above, you may notice that this figure consists of two sets of rows of graphs. The first row in each set belongs to the learning curve of the first four models, then in the second row, fitting time is plotted as a function of training sample sizes and in the third row, the score is plotted as the function of fitting time. The second set of rows is the same as above but for different models.
+
+![image](img43.png)
+
+There are some important points to consider:
+1. For all algorithms, you may notice that training scores are always higher than tests or cross-validation scores(this is almost standard of ML).
+2. For logistic regression, SVM, and Naive Bays we see a specific pattern. The Traning data score decreases as examples increase in the training dataset and the validation score is very low(high bias) at the beginning and increases. This pattern can be found in more complex datasets very often.
+3. For the rest of the classifiers, we can see that the training score is still around the maximum, and validation could be increased with more new data samples. Comparing with the schematic chart above, we do not see the turning point for the validation curve in these plots meaning we are not in the area of over-fitting at the end of the training. We also can not claim that these classifiers(such as the random forest algorithm) have the highest performance because non of the validation curves did not flatten at the end of the training process.
+
+The plots in the second row show the times required by the models to train with various sizes of training datasets. The plots in the third row show how much time was required to train the models for each training size.
+
+**4–2 ROC Curves**
+
+Receiver Operating Characteristic (ROC) is a metric to evaluate classifier output quality. To calculate and plot:
+
+
+ROC curves typically consist of true positive rates on the y-axis and false positive rates on the x-axis. This means that the top left corner of the graph area is the ideal point as the true positive is maximum and the false positive is zero. As always not only we do not have a perfect dataset but also datasets are contaminated by some noise levels, which is not very realistic. However, it is always good to have a larger area under the curve(in the figure below, the first and last classes are the greatest). If we go back to the precision-recall report showed at the start of this post, we see that precision and recall(and f-score of course) for the first and last classes were the highest among others.
+
+```python
+from itertools import cycle
+from sklearn import svm, datasets
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import label_binarize
+from sklearn.multiclass import OneVsRestClassifier
+from scipy import interp
+from sklearn.metrics import roc_auc_score
+
+# Binarize the output
+yy = label_binarize(y_sm, classes=[ 1, 2, 3, 4, 5, 6, 7, 8, 9])
+# y = label_binarize(y, classes=np.asarray(facies_labels))
+n_classes = yy.shape[1]
+# shuffle and split training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X_sm, yy, test_size=.3,  random_state=0)
+random_state = np.random.RandomState(0)
+classifier = OneVsRestClassifier(log)
+# y_score = classifier.fit(X_train, y_train).decision_function(X_test)
+y_score = classifier.fit(X_train, y_train).predict_proba(X_test)
+
+# Compute ROC curve and ROC area for each class
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+for i in range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Compute micro-average ROC curve and ROC area
+fpr["micro"], tpr["micro"], _ = roc_curve(y_test.ravel(), y_score.ravel())
+roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+
+
+lw=1
+all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
+
+# Then interpolate all ROC curves at this points
+mean_tpr = np.zeros_like(all_fpr)
+for i in range(n_classes):
+    mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+
+# Finally average it and compute AUC
+mean_tpr /= n_classes
+
+fpr["macro"] = all_fpr
+tpr["macro"] = mean_tpr
+roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+
+# Plot all ROC curves
+plt.figure()
+
+colors = cycle(['b', 'y', 'g','r','k','c','m'])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(fpr[i], tpr[i], color=color, lw=lw,
+             label='ROC curve of class {0} (area = {1:0.2f})'
+             ''.format(i, roc_auc[i]))
+
+plt.plot([0, 1], [0, 1], 'k--', lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Logestic Regression Classifier')
+plt.legend(loc="lower right")
+plt.savefig('ROC_log.png', dpi=300)
+plt.show()
+
+```
+ROC curves can be plotted for other model algorithms as well.
+
+**4-3 Blind Well Prediction**
+This is the final step of this project. We will see how the constructed models can predict with real data that already have not been seen during the training and test process. We have kept well ‘KIMZEY A’ as blind well out of the process because it has all facies class. In this set of codes below, first defined X and y array data for blind well, then copied optimized model objects from the previous section and fit the models with all available data expect blind well data. Then predict blind labels and stored accuracy score.
+We defined a function to plot all prediction results juxtaposed by original true labels.
+
+```python
+X_blind = blind[['Depth', 'GR', 'ILD_log10','DeltaPHI', 'PHIND', 'PE', 'NM_M', 'RELPOS', 'Formation_num']]
+y_blind = blind['Facies']
+# scale
+scaler = StandardScaler()
+X_blind = scaler.fit_transform(X_blind)
+
+
+# define Classifiers
+log = LogisticRegression(C = 10, solver = 'lbfgs', max_iter= 300 ) 
+knn = KNeighborsClassifier(leaf_size = 10, n_neighbors=2)
+dtree = DecisionTreeClassifier(criterion = 'entropy', max_depth=15)
+rtree = RandomForestClassifier(criterion='entropy', max_depth=20, n_estimators=300)
+svm = SVC(C=100, gamma=0.001)
+nb = GaussianNB()
+gbc = GradientBoostingClassifier(learning_rate=0.1, n_estimators=100)
+etree = ExtraTreesClassifier(criterion='entropy', max_depth=50, n_estimators=500)
+
+
+%%time
+log.fit(X_sm,y_sm)
+y_hat_log = log.predict(X_blind)
+blind['log_Pred'] = y_hat_log   #add to df
+acc_log = (accuracy_score(y_blind, y_hat_log ))
+
+knn.fit(X_sm,y_sm)
+y_hat_knn = knn.predict(X_blind)
+blind['knn_Pred'] = y_hat_knn   #add to df
+acc_knn = (accuracy_score(y_blind, y_hat_knn ))
+
+dtree.fit(X_sm,y_sm)
+y_hat_dtree = dtree.predict(X_blind)
+blind['dtree_Pred'] = y_hat_dtree   #add to df
+acc_dtree = (accuracy_score(y_blind, y_hat_dtree ))
+
+rtree.fit(X_sm,y_sm)
+y_hat_rtree = rtree.predict(X_blind)
+blind['rtree_Pred'] = y_hat_rtree   #add to df
+acc_rtree = (accuracy_score(y_blind, y_hat_rtree ))
+
+svm.fit(X_sm,y_sm)
+y_hat_svm = svm.predict(X_blind)
+blind['svm_Pred'] = y_hat_svm   #add to df
+acc_svm = (accuracy_score(y_blind, y_hat_svm ))
+
+gbc.fit(X_sm,y_sm)
+y_hat_gbc = gbc.predict(X_blind)
+blind['gbc_Pred'] = y_hat_gbc   #add to df
+acc_gbc = (accuracy_score(y_blind, y_hat_gbc ))
+
+etree.fit(X_sm,y_sm)
+y_hat_etree = etree.predict(X_blind)
+blind['etree_Pred'] = y_hat_etree   #add to df
+acc_etree = (accuracy_score(y_blind, y_hat_etree ))
+
+
+#create dataframe to compare accuracy results
+#create dataframe to compare accuracy results
+d = { 'model':['log' , 'knn',  'dtree', 'rtree', 'svm', 'gbc', 'etree'],
+      'test_score':[test_acc[0], test_acc[1],test_acc[2], test_acc[3],test_acc[4], test_acc[6], test_acc[7]],
+      'blind_score': [acc_log, acc_knn, acc_dtree, acc_rtree, acc_svm, acc_gbc, acc_etree ]}
+
+df_comp = pd.DataFrame(d) 
+
+#Create a section to compare various model performance in facies prediction
+
+def compare_all_facies(logs, Pred1, Pred2, Pred3, Pred4, Pred5, Pred6, Pred7, facies_colors):
+    #make sure logs are sorted by depth
+    logs = logs.sort_values(by='Depth')
+    cmap_facies = colors.ListedColormap(facies_colors[0:len(facies_colors)], 'indexed')
+    ztop=logs.Depth.min(); zbot=logs.Depth.max()
+    
+    cluster1 = np.repeat(np.expand_dims(logs['Facies'].values,1), 100, 1)
+    cluster2 = np.repeat(np.expand_dims(logs[Pred1].values,1), 100, 1)
+    cluster3 = np.repeat(np.expand_dims(logs[Pred2].values,1), 100, 1)
+    cluster4 = np.repeat(np.expand_dims(logs[Pred3].values,1), 100, 1)
+    cluster5 = np.repeat(np.expand_dims(logs[Pred4].values,1), 100, 1)
+    cluster6 = np.repeat(np.expand_dims(logs[Pred5].values,1), 100, 1)
+    cluster7 = np.repeat(np.expand_dims(logs[Pred6].values,1), 100, 1)
+    cluster8 = np.repeat(np.expand_dims(logs['Facies'].values,1), 100, 1)
+
+   
+    f, ax = plt.subplots(nrows=1, ncols=8, figsize=(12, 6))
+
+    im1 = ax[0].imshow(cluster1, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im2 = ax[1].imshow(cluster2, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im3 = ax[2].imshow(cluster3, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im4 = ax[3].imshow(cluster4, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im5 = ax[4].imshow(cluster5, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im6 = ax[5].imshow(cluster6, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im7 = ax[6].imshow(cluster7, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+    im8 = ax[7].imshow(cluster8, interpolation='none', aspect='auto',
+                       cmap=cmap_facies,vmin=1,vmax=9)
+       
+    
+    divider = make_axes_locatable(ax[7])
+    cax = divider.append_axes("right", size="10%", pad=0.05)
+    cbar=plt.colorbar(im8, cax=cax)
+    cbar.set_label((5*' ').join([' SS ', 'CSiS', 'FSiS', 
+                                'SiSh', ' MS ', ' WS ', ' D  ', 
+                                ' PS ', ' BS ']))
+    cbar.set_ticks(range(0,1)); cbar.set_ticklabels('')
+    
+    for i in range(len(ax)-8):
+        ax[i].set_ylim(ztop,zbot)
+        ax[i].invert_yaxis()
+        ax[i].grid()
+        ax[i].locator_params(axis='x', nbins=2)
+    
+    ax[0].set_xlabel('True_Facies'); ax[1].set_xlabel(Pred1); ax[2].set_xlabel(Pred2)
+    ax[3].set_xlabel(Pred3); ax[4].set_xlabel(Pred4); ax[5].set_xlabel(Pred5)
+    ax[6].set_xlabel(Pred6); ax[7].set_xlabel('True_Facies')
+    
+    #ax[0].set_yticklabels([]) ;
+    ax[1].set_yticklabels([]); ax[2].set_yticklabels([]); ax[3].set_yticklabels([]) 
+    ax[4].set_yticklabels([]); ax[5].set_yticklabels([]); ax[6].set_yticklabels([])
+    ax[7].set_yticklabels([])
+    
+    ax[0].set_xticklabels([]); ax[1].set_xticklabels([]); ax[2].set_xticklabels([])
+    ax[3].set_xticklabels([]); ax[4].set_xticklabels([]); ax[5].set_xticklabels([])
+    ax[6].set_xticklabels([]); ax[7].set_xticklabels([])
+
+    f.suptitle('Various model predictions in well: %s'%logs.iloc[0]['Well Name'], fontsize=14,y=0.94)
+    
+compare_all_facies(blind,'log_Pred','knn_Pred','dtree_Pred', 'rtree_Pred','svm_Pred','gbc_Pred', 
+                   'gbc_Pred','etree_Pred', facies_colors)
+# plt.savefig("Compo.png", dpi=400)
+
+```
+
+The blind data model accuracy reveals that the best accuracy belongs to the extra tree classifier(ensemble in total). We see that although prediction accuracy for the training-test dataset is high for all models it decreases in blind well validation. We can conclude that the number of data samples and presumably amount of features are not high enough for models to capture all aspects of data complexity. In fact, more samples and more data features can help to improve model prediction accuracy.
+
+![image](img44.png)
+
+Classification report below for Extras Tree Classifier: Facies SS was failed in prediction while BS with 7 members could have been recognized by the extra tree model. Mudstone(MS) showed weak prediction results.
+
+![image](tab41.png)
+
+Confusion matrix, Extras Tree Classifier: confusion matrix shows us the extra tree model capability to predict facies labels. We see that MS true labels are predicted as WS and PS by the model.
+
+![image](img45.png)
+Finally, the true facies labels(left track) is plotted as a criterion to compare with different model prediction results in the blind well. Visually, extras tree and random forest model prediction seem better than the rest of the models. One important point that we can see is that classifiers try to detect thin layers inside thick layers.
+
+![image](img46.png)
+
+As a final point, selecting the best model can be a subjective topic depending on your expectancy from a model. For example, if you are looking for a specific thin layer in geological succession, and a model could predict that layer very well while did poor prediction for other layers, we can employ that model, though we are aware that its evaluation metrics are not good enough altogether.
+
+*Conclusion:*
+To build a machine learning model the first step is to prepare the dataset. Data visualization, feature engineering, and extracting important features can be an important part of data preparation. Null values management is also a very crucial step specifically in the small datasets. We imputed missing data in this dataset using ML prediction to save more data. The second main important step is to build a model and validate it. Hyper-parameters are also important to be chosen carefully for efficient model performances. We employed a grid search to find out the optimized parameters. Finally, model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model’s strengths and weaknesses.
