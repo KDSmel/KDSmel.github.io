@@ -1324,5 +1324,6 @@ Finally, the true facies labels(left track) is plotted as a criterion to compare
 
 As a final point, selecting the best model can be a subjective topic depending on your expectancy from a model. For example, if you are looking for a specific thin layer in geological succession, and a model could predict that layer very well while did poor prediction for other layers, we can employ that model, though we are aware that its evaluation metrics are not good enough altogether.
 
-*Conclusion:*
+**Conclusion:**
+
 To build a machine learning model the first step is to prepare the dataset. Data visualization, feature engineering, and extracting important features can be an important part of data preparation. Null values management is also a very crucial step specifically in the small datasets. We imputed missing data in this dataset using ML prediction to save more data. The second main important step is to build a model and validate it. Hyper-parameters are also important to be chosen carefully for efficient model performances. We employed a grid search to find out the optimized parameters. Finally, model evaluation is the most important task in ML model production. We mainly start with simple evaluation metrics and then narrow down to specific and more detailed metrics to understand our model’s strengths and weaknesses.
