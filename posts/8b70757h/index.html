@@ -8501,13 +8501,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-			<h4 id="1--Data-Exploratory-Analysis"><strong>1 Data Exploratory Analysis</strong></h4>	
-	</div></div></div>
+###############################################################################################################################################
+	<h3 id="1-Data-Exploratory-Analysis"><strong>1</strong> Data Exploratory Analysis<a class="anchor-link" href="#1-Data-Exploratory-Analysis">&#182;</a></h3><p>After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.</p>
+<p>Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the <a href="https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb">jupyter notebook file</a>.</p>
+<p>Note2: shuffling data can cause differences between your runs and what appears here.</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
-
-
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -8881,6 +8888,18 @@ Categories (10, object): [&#39;SHRIMPLIN&#39;, &#39;ALEXANDER D&#39;, &#39;SHANK
 
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Call function to plot</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8948,7 +8967,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Let's facies percentages first:</p>
+<p>We can use the Counter function to evaluate each class contribution quantitatively. To see facies frequency distribution we can use a bar plot as:</p>
 
 </div>
 </div>
@@ -9086,6 +9105,18 @@ jp-needs-light-background
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="1-1-3-Cross-plot">1-1-3 Cross-plot<a class="anchor-link" href="#1-1-3-Cross-plot">&#182;</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To visualize multiple pairwise bivariate distributions in a dataset, we may use the pairplot() function from the seaborn library. It shows the relationship for the combination of variables in the dataset in the matrix format with a univariate distribution plot in diagonal. It is clear that PE log has a non-linear relationship with average porosity. Other pairs do not show a clear pattern. The distribution pattern in diagonal shows that each label class (facies) with respect to each feature has acceptable separation although there is a strong overlap for various classes. The ideal pattern can be assumed as a clear separation of distribution plots in tall bell shape normal distribution graph.</p>
+
 </div>
 </div>
 </div>
@@ -9281,7 +9312,9 @@ Categories (3, object): [&#39;ALEXANDER D&#39;, &#39;KIMZEY A&#39;, &#39;Recruit
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>There are sevral way to deal with Null values in dataset. The simplest approach is to drop the rows containing at least one null value. This can be logical with bigger size dataset but with small sized dataframes single points are important. We can impute null values with mean or from adjecent data points in columns. Filling with mean value will not affect data variance and therefore will not have impact on pediction accuracy, though can create data bias. Another approach, which I will implement here, to employe machine learning models to predict missing values. This is the best way of dealing with this dataset becuase we have just single feature missing from dataset, PE. There is meaningful corrolation between this feature with others.</p>
+<p>Here, PE has 917 null values.</p>
+<p>There are several ways to deal with Null values in the dataset. The simplest approach is to drop the rows containing at least one null value. This can be logical with a bigger size dataset but in small data frames, single points are important. We can impute null values with mean or from adjacent data points in columns. Filling with mean value will not affect data variance and therefore will not have an impact on prediction accuracy, though can create data bias. Filling with the neighbor cells of column values can be appropriate if we have a geologically homogeneous medium like mass pure carbonate rocks.</p>
+<p>Another approach, that I will implement here, to employe machine learning models to predict missing values. This is the best way of dealing with this dataset because we have just a single feature missing from the dataset, PE. On the other hand, filling with ML prediction is much better than the single mean value because we are able to see ML correlation and accuracy by dividing data to train and test sets.</p>
 
 </div>
 </div>
@@ -9810,6 +9843,18 @@ jp-needs-light-background
 
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Predicted PE in well ALEXANDER D shows the normal range and variation. Prediction accuracy is 77%.</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -9859,6 +9904,7 @@ jp-needs-light-background
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>First, we can convert formation categorical data into numeric data. Our background knowledge can help us to predict that some facies are possibly presnet more in a specififc formation rather than others.</p>
+<p>We can use the LabelEncoder function:</p>
 
 </div>
 </div>
@@ -9871,8 +9917,7 @@ jp-needs-light-background
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># convert formation category data into numeric to use as predictor, add 1 starting from 1</span>
-<span class="c1"># data_fe['Formation_num'] = LabelEncoder().fit_transform(data_fe['Formation'].astype('str')) + 1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_fe</span><span class="p">[</span><span class="s1">'Formation_num'</span><span class="p">]</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data_fe</span><span class="p">[</span><span class="s1">'Formation'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'str'</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
 
      </div>
@@ -9897,22 +9942,18 @@ jp-needs-light-background
 </div>
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We converted formation category data into numeric to use as a predictor and added 1 to start predictor from 1 instead of zero. To see if new feature extraction would assist prediction improvement, we should define a baseline model then compare it with the extracted feature model.</p>
 
-     </div>
 </div>
 </div>
 </div>
-
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -10228,6 +10269,18 @@ Categories (10, object): [&#39;SHRIMPLIN&#39;, &#39;ALEXANDER D&#39;, &#39;SHANK
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>To see if new feature extraction would assisst prediction improvment, we should define a baseline model then compare with extracted feature model.</p>
 <h5 id="Baseline-Model-Performance">Baseline Model Performance<a class="anchor-link" href="#Baseline-Model-Performance">&#182;</a></h5>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For simplicity, we will use a logistic regression classifier as a baseline model and will examine model performance with a cross-validation concept. Data will be split into 10 subgroups and the process will be repeated 3 times.</p>
+
 </div>
 </div>
 </div>
@@ -11099,8 +11152,19 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="2-Build-Model-&amp;%C2%A0Validate"><strong>2</strong> Build Model &amp;&#160;Validate<a class="anchor-link" href="#2-Build-Model-&amp;%C2%A0Validate">&#182;</a></h3>
-	<h4 id="2-1-Baseline-Model">2-1 Baseline Model<a class="anchor-link" href="#2-1-Baseline-Model">&#182;</a></h4>
+<p>In all these feature importance plots we can see that predictor number 6 (PE log) has the most importance in label prediction. Based on the model that we select to evaluate the result, we may choose features based on their importance and neglect the rest to speed up the training process. This is very common if we are rich in feature quantity, though in our example dataset here, we will use all features as predictors are limited.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="2-Build-Model-&amp;%C2%A0Validate"><strong>2</strong> Build Model &amp;&#160;Validate<a class="anchor-link" href="#2-Build-Model-&amp;%C2%A0Validate">&#182;</a></h3><h4 id="2-1-Baseline-Model">2-1 Baseline Model<a class="anchor-link" href="#2-1-Baseline-Model">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -11112,6 +11176,7 @@ jp-needs-light-background
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The philosophy of constructing a baseline model is simple: we need a basic and simple model to see how the adjustments on both data and model parameters can cause improvement in model performance. In fact, this is like a scale for comparison.</p>
+<p>In this code script, we first defined our favorite model classifiers. Then, established baseline_model function. In this function, we employed the Pipeline function to implement step wised operation of data standard scaling(facilitate model running more efficient) and model object calling for cross-validation. I like Pipeline because it makes the codes more tidy and readable.</p>
 
 </div>
 </div>
@@ -11163,6 +11228,18 @@ jp-needs-light-background
 </div>
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Define a function that uses pipeline to impelement data transformation and fit with model then cross validate</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -11171,8 +11248,7 @@ jp-needs-light-background
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># define a function that uses pipeline to impelement data transformation and fit with model then cross validate</span>
-<span class="k">def</span> <span class="nf">baseline_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">baseline_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">model_name</span>
     <span class="n">steps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -11192,6 +11268,18 @@ jp-needs-light-background
 </div>
 </div>
 
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Run functions</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -11254,6 +11342,34 @@ Wall time: 49.6 s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics">Cross-validation</a>#:~:text=Cross%2Dvalidation%2C%20sometimes%20called%20rotation,to%20an%20independent%20data%20set.) sometimes called rotation estimation or out-of-sample testing is any of the various similar model validation techniques for assessing how the results of a statistical analysis will generalize to an independent data set. Models usually are overfitting when the accuracy score on training data is much higher than testing data. One way to examine model performance is to keep randomly some part of the dataset hold-out. This can be a weakness for small datasets. Another way is to divide the dataset into splits and run it while each split has a different set of test folds like the picture below. In this approach, cross-validation, models can examine all data without overfitting. However, for this project, we will keep a single well as a hold-out to examine model performances after all optimizations.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="https://www.kamelchehboun.me/img21.png" alt="image">
+picture from scikit-learn</p>
+<p>We repeated 3 times each operation over a dataset that already divided into 10 equal parts(folds) in cross-validation. In fact, we intended to expose the model to all data with a different combination of train and test sets without overlap.</p>
+<p>Here, we used an average of accuracy as metrics for comparison of various model performances(accuracy and other evaluation metrics will be elaborated in the next post). It is used for simplicity, while for multi-class classification problems, accuracy is the weakest model evaluation approach. We will cover model evaluation metrics for multi-class classification problems in the next posts.</p>
+<p>The Extra tree and Random forest classifier showed the best accuracy score for the facies label prediction while the Gaussian Naive Bayes classifier performed poorly.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="2-2-Hyper-parameters">2-2 Hyper-parameters<a class="anchor-link" href="#2-2-Hyper-parameters">&#182;</a></h4><h5 id="2-2-1-Grid-search">2-2-1 Grid search<a class="anchor-link" href="#2-2-1-Grid-search">&#182;</a></h5>
 </div>
 </div>
@@ -11265,7 +11381,7 @@ Wall time: 49.6 s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We created a baseline model in the previous section without adjucting hyper-parameters (parameters that are adjustable by user). Sometimes, careful selection if these parameters can improve model results noticeably. Grid search is designed to employe nymeric/string range for specific hyper parameter without haveing to code loop function.</p>
+<p>We created a baseline model in the previous section without adjucting hyper-parameters (parameters that are adjustable by user). Sometimes, careful selection of these parameters can improve model results noticeably. Grid search is designed to employ numeric/string range for specific hyper parameter without having to code loop functions.</p>
 
 </div>
 </div>
@@ -12022,22 +12138,6 @@ Wall time: 4min 18s
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -12045,7 +12145,51 @@ Wall time: 4min 18s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="3--Model-Evaluation-1"><strong>3- Model Evaluation-1</strong><a class="anchor-link" href="#3--Model-Evaluation-1">&#182;</a></h4>
+<p>Comparing with baseline model performances (results of first block codes in this post), hyper-parameters adjustment could help model performance to improve.</p>
+<p>It seems that for ensemble models hyper-parameters are not as efficient as the rests. Some drawbacks in the hyper-parameterized models comparing to baseline mean that we did not properly design the search range.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="3--Model-Evaluation-1"><strong>3- Model Evaluation-1</strong><a class="anchor-link" href="#3--Model-Evaluation-1">&#182;</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>In this part, we will elaborate on some model evaluation metrics specifically for multi-class classification problems. Accuracy, precision, recall, and confusion matrix are discussed below for our facies problem.</p>
+<p>When I was fresh in machine learning, I always considered constructing a model as the most important step of the ML tasks, while now, I have another concept; model evaluation skill is the fundamental key to modeling success. We need to make sure that our model is working well with new data. On the other hand, we have to be able to interpret various evaluation metrics to understand our model’s strengths and weaknesses leading us to model improvement hints. As we are dealing with the multi-class problem in this tutorial, we will focus on related evaluation metrics, but before that, we need to get familiar with some definitions.</p>
+<p><strong>3–1 Model Metrics</strong></p>
+<p>When we are working with classification problems, we will have 4 kinds of possibility with model outcomes:</p>
+<p><strong>A) True Positive(TP)</strong> is the outcome of the model correctly predicts the positive class. In our dataset, a positive class is a label that we are looking for specifically for that label prediction. For example, if we are analyzing ‘Dolomite’ class prediction, TP is the number of truly predicted Dolomite samples of test data by the model.</p>
+<p><strong>B) True Negative(TN)</strong> is an outcome where the model correctly predicts the negative class. Negative class in our dataset for Dolomite prediction are those facies classes that truly predicted as not Dolomite(predicted as the rest of classes and truly were not Dolomite).</p>
+<p><strong>C) False Positive(FP)</strong> is an outcome where the model incorrectly predicts the positive class. In our dataset, all facies classes that incorrectly predicted as Dolomite when we are evaluating Dolomite class prediction.</p>
+<p><strong>D) False Negative(FN)</strong> is an outcome where the model incorrectly predicts negative class. Again for Dolomite prediction, FN is the prediction of Dolomite as non-Dolomite classes.</p>
+<p><strong>1.Accuracy:</strong> it is simply calculated as a fraction of correct predictions over the total number of predictions.</p>
+<p>Accuracy = (TP+TN) / (TP+TN+FP+FN)</p>
+<p><strong>2. Precision:</strong> this metric answers this question: what proportion of positive predictions is totally correct?</p>
+<p>Precision = TP / (TP+FP)
+looking at the equation, we can see that if a model has zero False Positive prediction, the precision will be 1. Again, in Dolomite prediction, this index shows what proportion of predicted Dolomite is truly Dolomite (not other facies are classified as Dolomite).</p>
+<p><strong>3. Recall:</strong> recall answer this question: what proportion of actual positives is classified correctly?</p>
+<p>Recall= TP / (TP+FN)
+looking at the equation, we can see that if a model has zero False Negative prediction, the recall will be 1. In our example, recall shows the proportion of Dolomite class that correctly identified by the model.</p>
+<p>Note: to evaluate the model efficiency, we need to consider both precision and recall together. Unfortunately, these two parameters act against each other, improving one leads to decreasing the other. The ideal case is that both of them show near 1 values.</p>
+<p><strong>4. f1_score:</strong> The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and the worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is:</p>
+<p>F1 = 2 <em> (precision </em> recall) / (precision + recall)</p>
+<p>Let’s see one example of Logistic Regression classifier performance:</p>
+
 </div>
 </div>
 </div>
@@ -12178,6 +12322,8 @@ weighted avg       0.65      0.65      0.65      1539
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To evaluate the Logistic Regression classifier performance, let's look at the first facies class Sandstone(SS). When this model predicts a facies as SS, it is correct in 75% of the time(Precision). On the other hand, this model correctly identifies 89% of all SS facies members(Recall). We can guess that f1_score is somewhere between these two metrics. Support means the individual class members for the test.</p>
+<p>Let's have some block of codes to implement the above-mentioned procedure in order for all models and plot the result as an average. Up to line 15, we defined the model objects with hyper-parameters that we already obtained from the grid-search approach. Then(line 16 to 25) models are appended into a list to be iterable when we want to fit and cross-validate in order. After cross-validation, we stored metrics results in the list for each model.We established a for loop to calculate the average value of each of these metrics for each model. The rest of the code is a plotting task.</p>
 <p>First, let's build all models with optimized hyper-parameters:</p>
 
 </div>
@@ -12544,6 +12690,19 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This is the plot that shows the average value of each of the evaluation metrics(y-axis) for individual employed models. Here, we wanted to compare all models performances overall. It seems that Extra tree and Random forest did the best prediction while Gaussian Naive Bays was not that much efficient predictor model.</p>
+<p>If we are concerned about an individual facies prediction, we should consider eliminating the rest of the metrics from the ‘results’ list and run the program again.</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h5 id="3-2-Confusion-matrix">3-2 Confusion matrix<a class="anchor-link" href="#3-2-Confusion-matrix">&#182;</a></h5>
 </div>
 </div>
@@ -12555,8 +12714,8 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>To evaluate the model performance quality, there are several metrics for both regression and classification broblems. In this example that we are dealing with multi-class classification problem, we will calculate some of metrics to evaluate model accuracy. To begin, confusion metrix can be appropriate selection.<br>
-Confusion matrix shows predicted class labels against original true label data.</p>
+<p>The confusion matrix shows predicted class labels against original true label data. This is a fantastic visualization tool that we can see each class of facies is predicted correctly or wrong into other classes.</p>
+<p>In the line of codes below, we first defined a function to make fancy use of the confusion matrix function developed by sklearn. After function definition, we fit and run the Logistic Regression classifier. Now we have predicted facies labels with true facies labels for test data. Calling the function with the required input parameters will create a plot of the confusion matrix.</p>
 
 </div>
 </div>
@@ -12920,6 +13079,11 @@ jp-needs-light-background
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>In the picture below, we see how the Naive Bayes classifier poorly performed prediction. This classifier is totally overestimated BS class in prediction.</p>
+<p>Up to now, we have some metrics that helped us to evaluate the model performances but still, we can not guarantee that which one is the best. Because some models can memorize training data and follow data complexity severely and when it faces a new dataset, its performance will be poor. This is called over-fitting (model with high variance). A model with high variance will change a lot with small changes to the training dataset.</p>
+<p>On the other hand, when a model too generalizes prediction, it will not be able to capture the complexity of a dataset, this is called under-fitting(model with high bias).</p>
+<p>Our ideal model is something between these two models leaving us for bias-variance trade-off.</p>
+<p>The question is: how we can recognize that our model is over-fit or under-fit?
+We will cover in the next part of this tutorial.</p>
 
 </div>
 </div>
@@ -12931,7 +13095,12 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="4--Model-Evaluation-2"><strong>4- Model Evaluation-2</strong><a class="anchor-link" href="#4--Model-Evaluation-2">&#182;</a></h4><h5 id="4-1-Learning-Curves">4-1 Learning Curves<a class="anchor-link" href="#4-1-Learning-Curves">&#182;</a></h5>
+<h3 id="4--Model-Evaluation-2"><strong>4- Model Evaluation-2</strong><a class="anchor-link" href="#4--Model-Evaluation-2">&#182;</a></h3><p>In this part, we will elaborate on more model evaluation metrics specifically for multi-class classification problems. Learning curves will be discussed as a tool to come up with an idea of how to trade-off between bias and variance in the model parameter selection. ROC curves for all classes in a specific model will be shown to see how false and true positive rate varies through the modeling process. Finally, we will select the best model and examine its performance on blind well data(data that was not involved in any of the processes up to now).</p>
+<h5 id="4-1-Learning-Curves">4-1 Learning Curves<a class="anchor-link" href="#4-1-Learning-Curves">&#182;</a></h5><p>Let’s look at the schematic graph of the validation curve. As the model complexity increases, the training score increases as well but at some point, the validation(or test data) score starts to decrease. Increasing model complexity will lead to high variance or over-fitting. When the model is too simple, it can not capture all aspects of data mapping complexity leaving a high bias model. The best model is located between these two conditions, where it is complicated enough to have the highest validation score while not too complicated to capture every detail of training data.</p>
+<p><img src="https://www.kamelchehboun.me/img42.png" alt="image"></p>
+<p>Let’s create a function to plot the learning curve for our dataset. This function will generate 8 plots (each model algorithms) for test and training learning curve, samples vs fit time curve, and fit the time vs score curve. The function will receive these parameters: model estimator, the title for the chart, axes location for each model, ylim, cross-validation value, number of jobs that can be done in parallel, and train data size.</p>
+<p>If you refer to the code above, you may notice that this figure consists of two sets of rows of graphs. The first row in each set belongs to the learning curve of the first four models, then in the second row, fitting time is plotted as a function of training sample sizes and in the third row, the score is plotted as the function of fitting time. The second set of rows is the same as above but for different models.</p>
+
 </div>
 </div>
 </div>
@@ -13198,7 +13367,9 @@ The plots in the second row show the times required by the models to train with 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h5 id="4-2---ROC-curve">4-2 - ROC curve<a class="anchor-link" href="#4-2---ROC-curve">&#182;</a></h5>
+<h5 id="4-2---ROC-curve">4-2 - ROC curve<a class="anchor-link" href="#4-2---ROC-curve">&#182;</a></h5><p>Receiver Operating Characteristic (ROC) is a metric to evaluate classifier output quality.</p>
+<p>To calculate and plot use this line of codes.</p>
+
 </div>
 </div>
 </div>
@@ -13382,7 +13553,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>To narrow down models to select the most effective ones, considering all evaluation paramters, we can dismiss the weak model: Navie Bayes. We will model the rest with hyper-parameters and without dividing data into test and train dataset to get maximum use of dataset (here blind well will be our test dataset)</p>
+<p>We will see how the constructed models can predict with real data that already have not been seen during the training and test process. We have kept well ‘KIMZEY A’ as blind well out of the process because it has all facies class.</p>
 
 </div>
 </div>
@@ -13628,6 +13799,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>In this set of codes, first defined X and y array data for blind well, then copied optimized model objects from the previous section and fit the models with all available data expect blind well data. Then predict blind labels and stored accuracy score.</p>
 <h6 id="Blind-well-prepration">Blind well prepration<a class="anchor-link" href="#Blind-well-prepration">&#182;</a></h6>
 </div>
 </div>
@@ -13945,6 +14117,10 @@ Please also refer to the documentation for alternative solver options:
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The blind well data model accuracy reveals that the best accuracy belongs to extra tree classifier(ensemble in total). We see that although prediction accuracy for the training-test dataset is high for all models it decreases in blind well validation. We can conclude that the number of data samples and presumably amount of features are not high enough for models to capture all aspects of data complexity. In fact, more samples and more data features can help to improve model prediction accuracy.</p>
+<h4 id="Classification-report-below-for-Extras-Tree-Classifier:">Classification report below for Extras Tree Classifier:<a class="anchor-link" href="#Classification-report-below-for-Extras-Tree-Classifier:">&#182;</a></h4><p>Facies SS was failed in prediction while BS with 7 members could have been recognized by the extra tree model. Mudstone(MS) showed weak prediction results.
+<img src="https://www.kamelchehboun.me/tab41.png" alt="image"></p>
+<h4 id="Confusion-matrix,-Extras-Tree-Classifier:">Confusion matrix, Extras Tree Classifier:<a class="anchor-link" href="#Confusion-matrix,-Extras-Tree-Classifier:">&#182;</a></h4><p>Confusion matrix shows us the extra tree model capability to predict facies labels. We see that MS true labels are predicted as WS and PS by the model.
+<img src="https://www.kamelchehboun.me/img45.png" alt="image"></p>
 
 </div>
 </div>
@@ -13956,7 +14132,8 @@ Please also refer to the documentation for alternative solver options:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Create-a-section-to-compare-various-model-performance-in-facies-prediction">Create a section to compare various model performance in facies prediction<a class="anchor-link" href="#Create-a-section-to-compare-various-model-performance-in-facies-prediction">&#182;</a></h4>
+<h4 id="Create-a-section-to-compare-various-model-performance-in-facies-prediction">Create a section to compare various model performance in facies prediction<a class="anchor-link" href="#Create-a-section-to-compare-various-model-performance-in-facies-prediction">&#182;</a></h4><p>Finally, the true facies labels(left track) is plotted as a criterion to compare with different model prediction results in the blind well.</p>
+
 </div>
 </div>
 </div>
@@ -14094,7 +14271,7 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Finally, the true facies labels(left track) is plotted as a criterion to compare with different model prediction results in the blind well. Visually, extras tree and random forest model prediction seem better than the rest of the models. One important point that we can see is that classifiers try to detect thin layers inside thick layers.</p>
+<p>Visually, extras tree and random forest model prediction seem better than the rest of the models. One important point that we can see is that classifiers try to detect thin layers inside thick layers.</p>
 
 </div>
 </div>
@@ -14123,7 +14300,7 @@ jp-needs-light-background
 </div>
 </div>
 </div>
-	
+
 #################################################################################################################################################
 
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
