@@ -1,27 +1,494 @@
-
-<p><img src="./Rig_Galveston.JPG" alt="oilrig"></p>
-<h1 id="machine_learning_for_lithology_prediction_from_well_logs">Machine Learning for Lithology Prediction from Well Logs</h1>
-<p>Using geophysical well logs to predict lithology</p>
-<p><strong>Author</strong>: <a href="mailto:smngeo@gmail.com">Suman Gautam</a></p>
-<h2 id="overview">Overview</h2>
-<p>This is an ongoing project on building a machine learning model to accurately predict lithology from the Geophysical Well logs.</p>
-<h2 id="data">Data</h2>
-<p>The well logs are provided by XEEK.ai To get more information follow the link below:
-(<a href="https://xeek.ai/challenges/force-well-logs/overview">https://xeek.ai/challenges/force-well-logs/overview</a>)</p>
-<h2 id="content">Content</h2>
-<p>The introductory data exploration is provided in a separate notebook while the machine learning models are provided under each type of the machine learning framework name.
-The introductory data exploration was created with the help of few notebooks kindly provided by Brendon Hall:
-<img src="https://github.com/brendonhall/FORCE-2020-Lithology/blob/master/notebooks/01-Log-Plot-MPL.ipynb" alt="Visualiaztion">
-<img src="https://github.com/brendonhall/FORCE-2020-Lithology/blob/master/notebooks/03-Map-Dash.ipynb" alt="dashboard"></p>
-<h2 id="for-more-information">For More Information</h2>
-<p>See the data exploration in the <a href="./Data_exploration_visualization.ipynb">Jupyter Notebook</a>, Ensemble based prediction model <a href="./Random_Forest_XG_Boost.ipynb">Jupyter Notebook</a></p>
-<h2 id="repository-structure">Repository Structure</h2>
-<pre><code>├── Overview
-├── images
-├── notebook_versions
-├── Data_exploration_visualization<span class="hljs-selector-class">.ipynb</span>
-├── Random_Forest_XG_Boost<span class="hljs-selector-class">.ipynb</span>
-├── helper_functions
-├── miscellaneous_data
-└── README.md
-</code></pre>
+<!DOCTYPE html>
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<script>
+    (function(){
+        if(''){
+            if (prompt('Show me your password') !== ''){
+                alert('Blah, wrong.');
+                history.back();
+            }
+        }
+    })();
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+  <meta name="description" content="Introduction In this project, I developed a financial data processing and visualization platform using Apache Kafka, Apache Cassandra, and Bokeh. I used Kafka for realtime stock price and market news">
+<meta name="keywords" content="Bokeh,Kafka,Cassandra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Realtime Financial Market Data Visualization and Analysis">
+<meta property="og:url" content="https://kdsmel.github.io/posts/109fc1d1/index.html">
+<meta property="og:site_name" content="Kamel&#39;s Notes">
+<meta property="og:description" content="Introduction In this project, I developed a financial data processing and visualization platform using Apache Kafka, Apache Cassandra, and Bokeh. I used Kafka for realtime stock price and market news">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/kafka_stock.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/tab1.gif">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/tab2.gif">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/tab3.gif">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/stream1.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/fundamental.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/click.png">
+<meta property="og:image" content="https://kdsmel.github.io/posts/109fc1d1/news.png">
+<meta property="og:updated_time" content="2019-10-20T01:56:49.312Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Realtime Financial Market Data Visualization and Analysis">
+<meta name="twitter:description" content="Introduction In this project, I developed a financial data processing and visualization platform using Apache Kafka, Apache Cassandra, and Bokeh. I used Kafka for realtime stock price and market news">
+<meta name="twitter:image" content="https://kdsmel.github.io/posts/109fc1d1/kafka_stock.png">
+  <link rel="alternate" href="/atom.xml" title="Kamel's Notes" type="application/atom+xml">
+  <link rel="canonical" href="https://kdsmel.github.io/posts/109fc1d1/">
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Transfer Learning to predict realistic subsurface velocity models | Kamel's Notes</title>
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kamel's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code changes world!</p>
+  </div>
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<nav class="site-nav">
+    <ul id="menu" class="menu">
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+          <li class="menu-item menu-item-ml">
+    <a href="/categories/Machine-Learning" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>ML</a>
+  </li>
+          <li class="menu-item menu-item-big-data">
+    <a href="/categories/Big-Data" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Big Data</a>
+  </li>
+             <li class="menu-item menu-item-big-projects menu-item-active">
+    <a href="/categories/Project" rel="section"><i class="menu-item-icon fa fa-fw fa-tasks"></i> <br>Projects</a>
+  </li>
+          <li class="menu-item menu-item-journal">
+    <a href="/categories/Journal/" rel="section"><i class="menu-item-icon fa fa-fw fa-coffee"></i> <br>Journal</a>
+  </li>
+      <li class="menu-item menu-item-about">
+    <a href="/resume/" rel="section"><i class="menu-item-icon fa fa-fw fa-address-card-o"></i> <br>About</a>
+  </li>      
+    </ul>
+</nav>
+</div>
+    </header>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+  <div id="posts" class="posts-expand">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kdsmel.github.io/posts/109fc1d1/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kamel Chehboun">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kamel's Notes">
+    </span>
+      <header class="post-header">
+          <h1 class="post-title" itemprop="name headline">Transfer Learning to predict realistic subsurface velocity models
+          </h1>
+        <div class="post-meta">
+          <span class="post-time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+                <span class="post-meta-item-text">Posted on</span>
+              <time title="Created: 2019-10-19 20:51:45 / Modified: 20:56:49" itemprop="dateCreated datePublished" datetime="2019-10-19T20:51:45-05:00">2019-10-19</time>
+          </span>
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+                <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a></span>
+            </span>
+            <div class="post-symbolscount">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                <span title="Symbols count in article">5.9k</span>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                <span title="Reading time">5 mins.</span>
+            </div>
+        </div>
+      </header>
+    <div class="post-body han-init-context" itemprop="articleBody">
+<h2 id="abstract">Abstract</h2>
+<p>Understanding of velocity distribution is crucial to image the subsurface in all its complexity. In existing practice, majority processing of the seismic data using conventional and computational intensive algorithms with simplistic assumptions about the wave propagation still leaves out a number of uncertainties in the heterogeneous subsurface depositions. The alternative is to create multiple realization of the velocity model and iterate till the error minimizes in imaging the strati-structural feature of the subsurface as is the case with the high resolution technique of Full Waveform Inversion (FWI). Therefore, fundamentally, it is the initial Velocity Model Building (VMB) that controls the success of the entire process of seismic exploration. Full Waveform Inversion (FWI) can give high resolution subsurface velocity models however, there is a heavy reliance on a good initial model, otherwise, cycle-skipping problems will trap the algorithm in a local minimum. Deep Neural Networks (CNN) can predict velocity models from raw seismic traces, which are fairly close to the ground truth velocity models, but when the required velocity models are from a different distribution as compared to training velocity models, CNN struggles. Techniques like, Transfer Learning can then help mitigate this problem, and we can get velocity models which are very close to ground truth models. Sometimes, it’s hard to get large amount of training data, so we’ve also demonstrated the use of (VAE) to generate realistic subsurface velocity models. This work uses 20 layered CNN with around 30 million trainable parameters. It was initially trained on around 14000 velocity models, and the final mean squared error (MSE) on test velocity models was around 0.03. This CNN was then fine-tuned on randomly picked 304 velocity models from SEG/EAGE salt and was able to achieve the MSE of around 0.0232 on the remaining velocity models.</p>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>The objective of this work was to show that we can extend the modern algorithms of Machine Learning to seismic velocity modeling effectively. Primarily, we were trying to predict velocity models from SEG/EAGE Salt Body dataset (Aminzadeh, et al., 1997), hence we needed a CNN which understood the mapping between raw seismic traces and corresponding velocity models. To train the CNN, we created velocity models using Netherlands F3 Interpretation Dataset (Silva, et al., 2019). Once the CNN was trained, we tried to predict SEG/EAGE salt models but the results were not satisfactory. To improve the results, we used Transfer Learning (Tan, et al., 2018), and fine-tuned CNN using a subset of SEG/EAGE salt body dataset. </p>
+<h2 id="results">Results</h2>
+<p>The sequence of all the various tests were put in place such that we increased the complexity of various step by step. At first, we split ‘Synthetic Velocity Models’ generated using Netherlands F3 Interpretation into Training (~14000), Validation (~1700) and Testing (~2600) sets. Then CNN was trained on this training set and predictions were analysed on corresponding test set to see if CNN could understand the features in a raw seismic trace and map those to accurate velocity models.</p>
+<p>After getting promising results, we took our testing to SEG/EAGE salt models. Here, at first we predicted all of the SEG/EAGE salt models using the CNN trained on ‘Synthetic Velocity Models’ only and this test revealed the limitations of our method. However, Transfer Learning (Tan, et al., 2018), helped us mitigate these limitations, and we demonstrated that with various tests. </p>
+<h3 id="synthetic-velocity-models">Synthetic Velocity Models</h3>
+<p>As the dataset was quite large, we split the dataset into 4 subsets with an approximate of total 4000 training and 800 validation models in each subset. After training was completed on all four subsets, trained CNN was evaluated on 2600 test examples, metrics for each steps avaible in <a href="https://github.com/tgautam03/SVMB_TL/tree/master/trained_nets/DI_DC/metrics">trained_nets</a>. Training curve for each subset is shown below, followed by predictions.</p>
+<h5 id="loss-curves">Loss curves</h5>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/loss_curves/DI_DC/images/NN3_set1_16bit.png" alt="subset 1">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/loss_curves/DI_DC/images/NN3_set2_16bit.png" alt="subset 2">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/loss_curves/DI_DC/images/NN3_set3_16bit.png" alt="subset 3">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/loss_curves/DI_DC/images/NN3_set4_16bit.png" alt="subset 4"></p>
+<h5 id="predictions">Predictions</h5>
+<p>Velocity models are plotted followed by the vertical velocity profile for the same.
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/1110.png" alt="ex1">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/1110_vellogs.png" alt="log1"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/1573.png" alt="ex2">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/1573_vellogs.png" alt="log2"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/210.png" alt="ex3">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/210_vellogs.png" alt="log3"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/2319.png" alt="ex4">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/DI_DC/set4/2319_vellogs.png" alt="log4"></p>
+<h3 id="seg-eage-salt-body-models">SEG/EAGE Salt Body Models</h3>
+<p>After training the CNN on ‘Synthetic Velocity Models’ described in the previously, we saved that CNN with its trained weights and used that to perform various tests on &#39;SEG/EAGE salt models&#39;. First, we predicted all the SEG/EAGE salt models with the CNN trained on &#39;Synthetic Velocity Models&#39; only (described next) and then we fine-tuned the CNN with a small subset of &#39;SEG/EAGE Salt models&#39; before predicting rest of the &#39;SEG/EAGE Salt models&#39;.</p>
+<h4 id="predicting-with-cnn-trained-on-synthetic-velocity-models-only">Predicting with CNN trained on ‘Synthetic Velocity Models’ only</h4>
+<p>The results where we directly used the CNN trained on Complex Models to predict &#39;SEG/EAGE salt models&#39;, which were from a completely different distribution as compared to the models which the CNN had seen previously .</p>
+<h5 id="predictions">Predictions</h5>
+<p>Velocity models are plotted followed by the vertical velocity profile for the same.
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/allPred/1181.png" alt="ex1">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/allPred/1181_vellogs.png" alt="log1"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/allPred/330.png" alt="ex2">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/allPred/330_vellogs.png" alt="log2"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/allPred/920.png" alt="ex3">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/allPred/920_vellogs.png" alt="log3"></p>
+<h4 id="predicting-after-fine-tuning-cnn">Predicting after fine-tuning CNN</h4>
+<p>The approach of Transfer Learning, where we fine-tuned our CNN using a subset of SEG/EAGE salt models. We divided this test into three parts where in each part we used different size of the subset for fine-tuning the CNN. First, we randomly picked 304 velocity models (subset 1) out of total 2028 SEG/EAGE salt models, fine-tuned the CNN and kept rest of the velocity models for testing. After this, we increased the size of training data from 304 to 608 (subset 2) and 1014 (subset 3). After fine-tuning in all three scenarios we compared the accuracy of the CNN for various cases. Alongside fine-tuning, we also trained the same CNN from scratch (Fresh CNN Training) and compared the results.</p>
+<h5 id="predictions">Predictions</h5>
+<p>Velocity models are plotted followed by the vertical velocity profile for the same.</p>
+<h6 id="subset-1">Subset 1</h6>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set304/1198_models.png" alt="ex1">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set304/1198_vellogs.png" alt="log1"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set304/347_models.png" alt="ex2">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set304/347_vellogs.png" alt="log2"></p>
+<h6 id="subset-2">Subset 2</h6>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set608/1102_models.png" alt="ex1">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set608/1102_vellogs.png" alt="log1"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set608/250_models.png" alt="ex2">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set608/250_vellogs.png" alt="log2"></p>
+<h6 id="subset-3">Subset 3</h6>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set1014/225_models.png" alt="ex1">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set1014/225_vellogs.png" alt="log1"></p>
+<p><img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set1014/900_models.png" alt="ex2">
+<img src="https://github.com/tgautam03/SVMB_TL/blob/master/Images/predictions/segsalt/set1014/900_vellogs.png" alt="log2"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Prediction of Velocity Models using CNN, heavily relies on the distribution of training and testing dataset. Results are quite good if the training and the testing data sets have similar settings but the accuracy takes a hit when the two settings are different. However, if we use fine-tuning on a very small subset, we get exponentially better results.</p>
+<h2 id="code-description">Code Description</h2>
+<p>Contents of the repository are described as follows:</p>
+<ul>
+<li>Images folder contains the figures (both training curves and predictions) shown in this work. </li>
+<li>Trained_nets folder contains the final trained CNNs used for predictions.</li>
+<li>DI_DC_tiles.zip contains the ‘Synthetic Velocity Models’</li>
+<li>All the other python files (*.py) has the code used to produce the results shown in this work.</li>
+</ul>
+<p>The code was written in python 3 (<a href="https://www.python.org/download/releases/3.0/">https://www.python.org/download/releases/3.0/</a>) and the list of libraries used in this work are as follows:</p>
+<ul>
+<li>Numpy (<a href="https://numpy.org/">https://numpy.org/</a>)</li>
+<li>Matplotlib (<a href="https://matplotlib.org/">https://matplotlib.org/</a>)</li>
+<li>Scikit-learn (<a href="https://scikit-learn.org/">https://scikit-learn.org/</a>)</li>
+<li>Tensorflow 2.1 (<a href="https://www.tensorflow.org/">https://www.tensorflow.org/</a>)</li>
+<li>Pandas (<a href="https://pandas.pydata.org/">https://pandas.pydata.org/</a>)</li>
+<li>Devito (<a href="https://github.com/devitocodes/devito">https://github.com/devitocodes/devito</a>)</li>
+<li>Keras (<a href="https://keras.io/">https://keras.io/</a>)</li>
+<li>Scipy (<a href="https://www.scipy.org/">https://www.scipy.org/</a>)</li>
+</ul>
+<p>All the libraries described above are open-source.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Aminzadeh, F., Brac, J. &amp; Kunz, T., 1997. 3D Salt and Overthrust models: Presented at the SEG. s.l., s.n.</li>
+<li>Louboutin, M. et al., 2018. Devito: an embedded domain-specific language for finite differences and geophysical exploration. arXiv preprint arXiv:1808.01995.</li>
+<li>Oliphant, T., 2006. A guide to Numpy. USA, Trelgol Publishing.</li>
+<li>Silva, R. M. et al., 2019. Netherlands dataset: A new public dataset for machine learning in seismic interpretation. arXiv preprint arXiv:1904.00770.</li>
+<li>Tan, C. et al., 2018. A survey on deep transfer learning. Cham, Springer, pp. pp. 270-279.</li>
+<li>Wu, Y. and Lin, Y., 2019. InversionNet: An Efficient and Accurate Data-Driven Full Waveform Inversion. IEEE Transactions on Computational Imaging , Volume 6, pp. 419-433.</li>
+<li>Yang, F. and Ma, J., 2019. Deep-learning inversion: A next-generation seismic velocity model building method. Geophysics , 84(4), pp. R583-R599.</li>
+<li>Maitre, J., Bouchard, K. &amp; Bédard, L., 2019. Mineral grains recognition using computer vision and machine learning. Computers &amp; Geosciences, Volume 130, pp. 84-93.</li>
+<li>Fang, Z., Wang, Y., Peng, L. &amp; Hong, H., 2020. Integration of convolutional neural network and conventional machine learning classifiers for landslide susceptibility mapping. Computers &amp; Geosciences, Volume 139, p. 104470.</li>
+<li>Cunha, A., Pochet, A., Lopes, H. &amp; Gattass, M., 2020. Seismic fault detection in real data using transfer learning from a convolutional neural network pre-trained with synthetic seismic data. Computers &amp; Geosciences, 135(104344).</li>
+</ul>
+<h2 id="note">Note</h2>
+<p>For additional information on plots and metrics, visit <a href="https://github.com/tgautam03/SVMB_TL/tree/master/Images">trained_nets</a>.</p>
+<p>Contact : <a href="mailto:tushariitr3@gmail.com?subject=[GitHub]%20Source%20Han%20Sans">Tushar Gautam</a></p>
+    <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Bokeh/" rel="tag"># Bokeh</a>
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+            <a href="/tags/Cassandra/" rel="tag"># Cassandra</a>
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/posts/63adf3bb/" rel="next" title="Data Analysis of K-POP: Playing with Spotify API">
+                <i class="fa fa-chevron-left"></i> Data Analysis of K-POP: Playing with Spotify API
+              </a>
+          </div>
+          <span class="post-nav-divider"></span>
+          <div class="post-nav-prev post-nav-item">
+              <a href="/posts/9b3e7e9e/" rel="prev" title="CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models">
+                CS229 Note: Linear Regression, Logistic regression, Generalized Linear Models <i class="fa fa-chevron-right"></i>
+              </a>
+          </div>
+        </div>
+    </footer>
+  </div>
+  </article>
+  </div>
+          </div>
+    <div class="comments" id="comments">
+        <div id="gitment-container"></div>
+    </div>
+        </div>
+<div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <p class="site-author-name" itemprop="name">Kamel Chehboun</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+            <nav class="site-state motion-element">
+                <div class="site-state-item site-state-posts">
+                  <a href="/archives">
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+                <div class="site-state-item site-state-categories">
+                                        <a href="/categories/">
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+                <div class="site-state-item site-state-tags">
+                      <a href="/tags/">
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+            </nav>
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+            <div class="links-of-author motion-element">
+                <span class="links-of-author-item">
+                  <a href="https://github.com/kdsmel" title="GitHub &rarr; https://github.com/kdsmel" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+            </div>
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#stock-streaming-fundamental"><span class="nav-number">2.1.</span> <span class="nav-text">1 Stock: Streaming &amp; Fundamental</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-source"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etl"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 ETL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#historical-data"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">1. Historical data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#realtime-data"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">2. Realtime data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fundatmental-data"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">3. Fundatmental data</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stock-comparison"><span class="nav-number">2.2.</span> <span class="nav-text">2 Stock: Comparison</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#economy"><span class="nav-number">2.3.</span> <span class="nav-text">3 Economy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data-source-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etl-1"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2 ETL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#economy-data"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">1. Economy data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#business-news"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">2. Business news</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          </div>
+        </div>
+      <!--/noindex-->
+    </div>
+  </aside>
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kamel Chehboun</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">518k</span>
+</div>
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+  </div>
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+  <script id="ribbon" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery-lazyload@1/jquery.lazyload.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/three/three.min.js"></script>
+  <script src="/lib/three/three-waves.min.js"></script>
+  <script src="/lib/three/canvas_lines.min.js"></script>
+  <script src="/lib/three/canvas_sphere.min.js"></script>
+  <script src="/js/utils.js?v=7.1.2"></script>
+  <script src="/js/motion.js?v=7.1.2"></script>
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+<script>
+  function renderGitment() {
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'kdsmel',
+      repo: 'kdsmel.github.io',
+      oauth: {
+        client_secret: '75adc257166813deff478053f3f05133285d6cf0',
+        client_id: '90ddd3d00d8930cb0d84'
+      }
+    });
+    gitment.render('gitment-container');
+  }
+    renderGitment();
+</script>
+ <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
