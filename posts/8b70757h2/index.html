@@ -144,14 +144,6 @@
           
           <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
     <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
 
   </li>
@@ -199,20 +191,8 @@
             
 
   <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://kdsmel.github.io/posts/109fc1d1/">
 
@@ -227,108 +207,7 @@
     </span>
 
     
-      <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">Facies Prediction from Well Logs - Neural Network Model Hyper-Parameters Optimisation          </h1>
-        
-
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2019-10-19 20:51:45 / Modified: 20:56:49" itemprop="dateCreated datePublished" datetime="2019-10-19T20:51:45-05:00">2019-10-19</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Symbols count in article: </span>
-                
-                <span title="Symbols count in article">5.9k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">5 mins.</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header> 
 
 
 
@@ -23042,6 +22921,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="1-Data-Exploratory-Analysis"><strong>1</strong> Data Exploratory Analysis<a class="anchor-link" href="#1-Data-Exploratory-Analysis">&#182;</a></h3><p>After data reading into python using Pandas, we can visualize it to understand data better. Before plotting, we need to define a color map(this step deserves to be in the Feature engineering part but we need here to plot color for facies classes) and devote color code for each facies.</p>
+<p>Note1: codes embedded in this manuscript are presented to understand the work procedure. If you want to exercise by yourself, I highly recommend using the <a href="https://github.com/KDSmel/mini_projects/blob/main/Practical_ML_Tutorial_Facies/Practical_Tutorial_ML_Facies.ipynb">jupyter notebook file</a>.</p>
+<p>Note2: shuffling data can cause differences between your runs and what appears here.</p>
 
 </div>
 </div>
@@ -24254,52 +24135,24 @@ Categories (3, object): [&#39;ALEXANDER D&#39;, &#39;KIMZEY A&#39;, &#39;Recruit
 </div>
 
 <div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
+    <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser"></div>
 
+    <div class="jp-OutputArea jp-Cell-outputArea">
+        <div class="jp-OutputArea-child">
+            <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+            <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+                    <pre>Wall time: 3.1 s
+                </pre>
+            </div>
+        </div>
 
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Wall time: 3.1 s
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\neural_network\_multilayer_perceptron.py:614: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (500) reached and the optimization hasn&#39;t converged yet.
-  warnings.warn(
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.776094801295609</pre>
-</div>
-
-</div>
-
-</div>
+        <div class="jp-OutputArea-child">
+            <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+            <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+                <pre>0.776094801295609</pre>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -25489,67 +25342,11 @@ jp-needs-light-background
 </div>
 
 <div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
 <div class="jp-OutputArea-child">
-
-    
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\xgboost\sklearn.py:1146: UserWarning: The use of label encoder in XGBClassifier is deprecated and will be removed in a future release. To remove this warning, do the following: 1) Pass option use_label_encoder=False when constructing XGBClassifier object; and 2) Encode your labels (y) as integers starting with 0, i.e. 0, 1, 2, ..., [num_class - 1].
-  warnings.warn(label_encoder_deprecation_msg, UserWarning)
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[14:00:09] WARNING: C:/Users/Administrator/workspace/xgboost-win64_release_1.4.0/src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective &#39;multi:softprob&#39; was changed from &#39;merror&#39; to &#39;mlogloss&#39;. Explicitly set eval_metric if you&#39;d like to restore the old behavior.
-Feature: 0, Score: 0.01948
-Feature: 1, Score: 0.02150
-Feature: 2, Score: 0.01546
-Feature: 3, Score: 0.01368
-Feature: 4, Score: 0.02368
-Feature: 5, Score: 0.02427
-Feature: 6, Score: 0.41440
-Feature: 7, Score: 0.01698
-Feature: 8, Score: 0.05301
-Feature: 9, Score: 0.02064
-Feature: 10, Score: 0.01350
-Feature: 11, Score: 0.01859
-Feature: 12, Score: 0.03271
-Feature: 13, Score: 0.01822
-Feature: 14, Score: 0.01287
-Feature: 15, Score: 0.02104
-Feature: 16, Score: 0.01180
-Feature: 17, Score: 0.03978
-Feature: 18, Score: 0.04295
-Feature: 19, Score: 0.04968
-Feature: 20, Score: 0.07017
-Feature: 21, Score: 0.04560
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-
-
 <div class="jp-RenderedImage jp-OutputArea-output ">
 <img src="data:image/png;base64,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
 "
@@ -25626,38 +25423,7 @@ jp-needs-light-background
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
-<div class="jp-OutputArea-child">
 
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Feature: 0, Score: 0.00027
-Feature: 1, Score: 0.04571
-Feature: 2, Score: 0.03380
-Feature: 3, Score: 0.01849
-Feature: 4, Score: 0.08248
-Feature: 5, Score: 0.08081
-Feature: 6, Score: 0.23348
-Feature: 7, Score: 0.03283
-Feature: 8, Score: 0.02426
-Feature: 9, Score: 0.01930
-Feature: 10, Score: 0.00038
-Feature: 11, Score: 0.00340
-Feature: 12, Score: 0.00205
-Feature: 13, Score: 0.00146
-Feature: 14, Score: 0.00275
-Feature: 15, Score: 0.00426
-Feature: 16, Score: 0.00102
-Feature: 17, Score: 0.01784
-Feature: 18, Score: 0.01612
-Feature: 19, Score: 0.00474
-Feature: 20, Score: 0.01429
-Feature: 21, Score: 0.00027
-</pre>
-</div>
-</div>
 
 <div class="jp-OutputArea-child">
 
@@ -25981,143 +25747,6 @@ picture from scikit-learn</p>
 </div>
 </div>
 
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-</pre>
-</div>
-</div>
 
 <div class="jp-OutputArea-child">
 
@@ -26132,24 +25761,6 @@ Wall time: 12.5 s
 </div>
 </div>
 
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-</pre>
-</div>
-</div>
 
 </div>
 
@@ -26773,28 +26384,7 @@ looking at the equation, we can see that if a model has zero False Negative pred
 </div>
 
 
-<div class="jp-OutputArea jp-Cell-outputArea">
 
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-</pre>
-</div>
-</div>
-
-</div>
 
 </div>
 
@@ -26925,145 +26515,29 @@ weighted avg       0.65      0.65      0.65      1539
 </div>
 
 <div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\metrics\_classification.py:1248: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Wall time: 10min 35s
-</pre>
-</div>
-</div>
-
-</div>
-
+    <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser"></div>
+    <div class="jp-OutputArea jp-Cell-outputArea">
+        <div class="jp-OutputArea-child">
+            <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+        </div>
+        <div class="jp-OutputArea-child">
+            <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+            <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+                <pre>Wall time: 10min 35s
+                </pre>
+            </div>
+        </div>
+    </div>
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"></div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[63]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
+
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span>  <span class="n">results</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 
@@ -27370,30 +26844,8 @@ jp-needs-light-background
 </div>
 </div>
 
-<div class="jp-OutputArea-child">
 
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -28020,22 +27472,8 @@ The plots in the second row show the times required by the models to train with 
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-
-
 <div class="jp-OutputArea jp-Cell-outputArea">
 
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>&lt;ipython-input-79-013d7671f0e8&gt;:7: DeprecationWarning: scipy.interp is deprecated and will be removed in SciPy 2.0.0, use numpy.interp instead
-  mean_tpr += interp(all_fpr, fpr[i], tpr[i])
-</pre>
-</div>
-</div>
 
 <div class="jp-OutputArea-child">
 
@@ -28476,48 +27914,22 @@ jp-needs-light-background
 </div>
 
 <div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
+    <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser"></div>
+    <div class="jp-OutputArea jp-Cell-outputArea">
 
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\marda\miniconda3\envs\tensorflow-cpu\lib\site-packages\sklearn\linear_model\_logistic.py:763: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  n_iter_i = _check_optimize_result(
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Wall time: 20.2 s
-</pre>
-</div>
+        <div class="jp-OutputArea-child">
+            <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+            <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+                <pre>Wall time: 20.2 s
+                </pre>
+            </div>
+        </div>
+    </div>
 </div>
 
 </div>
 
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -29138,6 +28550,5 @@ jp-needs-light-background
 </body>
 </html>
 
-<script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
 
              
