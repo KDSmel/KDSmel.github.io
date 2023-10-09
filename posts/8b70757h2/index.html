@@ -25244,42 +25244,9 @@ jp-needs-light-background
 
 <div class="jp-OutputArea jp-Cell-outputArea">
 
-<div class="jp-OutputArea-child">
 
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Feature: 0, Score: 0.17418
-Feature: 1, Score: 0.10916
-Feature: 2, Score: 0.11044
-Feature: 3, Score: 0.06508
-Feature: 4, Score: 0.09952
-Feature: 5, Score: 0.08489
-Feature: 6, Score: 0.17064
-Feature: 7, Score: 0.11701
-Feature: 8, Score: 0.00440
-Feature: 9, Score: 0.00242
-Feature: 10, Score: 0.00394
-Feature: 11, Score: 0.00224
-Feature: 12, Score: 0.00579
-Feature: 13, Score: 0.00604
-Feature: 14, Score: 0.00187
-Feature: 15, Score: 0.00227
-Feature: 16, Score: 0.00258
-Feature: 17, Score: 0.01181
-Feature: 18, Score: 0.00349
-Feature: 19, Score: 0.00509
-Feature: 20, Score: 0.01007
-Feature: 21, Score: 0.00706
-</pre>
-</div>
-</div>
 
 <div class="jp-OutputArea-child">
-
-    
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
@@ -27127,64 +27094,7 @@ We will cover in the next part of this tutorial.</p>
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_learning_curve</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">train_sizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)):</span>
-    <span class="sd">"""</span>
-<span class="sd">    Generate 3 plots: the test and training learning curve, the training</span>
-<span class="sd">    samples vs fit times curve, the fit times vs score curve.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    estimator : object type that implements the "fit" and "predict" methods</span>
-<span class="sd">        An object of that type which is cloned for each validation.</span>
-
-<span class="sd">    title : string</span>
-<span class="sd">        Title for the chart.</span>
-
-<span class="sd">    X : array-like, shape (n_samples, n_features)</span>
-<span class="sd">        Training vector, where n_samples is the number of samples and</span>
-<span class="sd">        n_features is the number of features.</span>
-
-<span class="sd">    y : array-like, shape (n_samples) or (n_samples, n_features), optional</span>
-<span class="sd">        Target relative to X for classification or regression;</span>
-<span class="sd">        None for unsupervised learning.</span>
-
-<span class="sd">    axes : array of 3 axes, optional (default=None)</span>
-<span class="sd">        Axes to use for plotting the curves.</span>
-
-<span class="sd">    ylim : tuple, shape (ymin, ymax), optional</span>
-<span class="sd">        Defines minimum and maximum yvalues plotted.</span>
-
-<span class="sd">    cv : int, cross-validation generator or an iterable, optional</span>
-<span class="sd">        Determines the cross-validation splitting strategy.</span>
-<span class="sd">        Possible inputs for cv are:</span>
-
-<span class="sd">          - None, to use the default 5-fold cross-validation,</span>
-<span class="sd">          - integer, to specify the number of folds.</span>
-<span class="sd">          - :term:`CV splitter`,</span>
-<span class="sd">          - An iterable yielding (train, test) splits as arrays of indices.</span>
-
-<span class="sd">        For integer/None inputs, if ``y`` is binary or multiclass,</span>
-<span class="sd">        :class:`StratifiedKFold` used. If the estimator is not a classifier</span>
-<span class="sd">        or if ``y`` is neither binary nor multiclass, :class:`KFold` is used.</span>
-
-<span class="sd">        Refer :ref:`User Guide &lt;cross_validation&gt;` for the various</span>
-<span class="sd">        cross-validators that can be used here.</span>
-
-<span class="sd">    n_jobs : int or None, optional (default=None)</span>
-<span class="sd">        Number of jobs to run in parallel.</span>
-<span class="sd">        ``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.</span>
-<span class="sd">        ``-1`` means using all processors. See :term:`Glossary &lt;n_jobs&gt;`</span>
-<span class="sd">        for more details.</span>
-
-<span class="sd">    train_sizes : array-like, shape (n_ticks,), dtype float or int</span>
-<span class="sd">        Relative or absolute numbers of training examples that will be used to</span>
-<span class="sd">        generate the learning curve. If the dtype is float, it is regarded as a</span>
-<span class="sd">        fraction of the maximum size of the training set (that is determined</span>
-<span class="sd">        by the selected validation method), i.e. it has to be within (0, 1].</span>
-<span class="sd">        Otherwise it is interpreted as absolute sizes of the training sets.</span>
-<span class="sd">        Note that for classification the number of samples usually have to</span>
-<span class="sd">        be big enough to contain at least one sample from each class.</span>
-<span class="sd">        (default: np.linspace(0.1, 1.0, 5))</span>
-<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
