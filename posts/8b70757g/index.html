@@ -41,6 +41,9 @@
   };
 </script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.61.0/lib/codemirror.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.61.0/addon/runmode/runmode-standalone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.61.0/mode/python/python.min.js"></script>
 
 
 
@@ -22889,6 +22892,8 @@ Source: Author
 
 An example of seismic image (Source: Force Competition, see Reference)
 
+    
+
 <h2>So whose fault is it?</h2>
 <p>Faults are geological structures created by a combination of numerous physical processes such as pressures, gravity, plate tectonics etc. These are the cracks or planes along which block of rocks slips across. Faults comes in all kind of sizes, from few meters to miles. The San Andreas Fault is an example of very large scale strike-slip faulting (also called Transform Fault).</p> 
 <p>There are three major types of faults as shown in below:</p>
@@ -22932,6 +22937,63 @@ U-Net Framework (Image by Rachel Zhiquing Zheng, see Reference)
 <p>ii) a reverse path of expansion involving several upsampling steps. This is the decoder section consisting of an upsampling of feature map, a 3x3 convolution and a concatenation of a feature map from the previous contracting block followed by 3x3 convolutions each with ReLU activation.</p>
 
 <p>The code snippets for these two steps are below:</p>
+<pre><code id="python_code">
+		class ContractingBlock(nn.Module):
+			'''    
+			Performs two convolutions followed by a max pool operation.
+			'''
+			def __init__(self, input_channels):
+				super(ContractingBlock, self).__init__()        
+			   
+				self.conv1 = nn.Conv2d(input_channels, 2*input_channels, kernel_size=3, padding=(1,1))
+				self.conv2 = nn.Conv2d(2*input_channels, 2*input_channels, kernel_size=3, padding=(1,1))
+				self.activation = nn.ReLU(inplace=True)
+				self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
+			   
+			def forward(self, x):
+				'''
+				Function for completing a forward pass of ContractingBlock: 
+				Given an image tensor, completes a contracting block and returns the transformed tensor.
+				'''
+				x = self.conv1(x)
+				x = self.activation(x)
+				x = self.conv2(x)
+				x = self.activation(x)
+				x = self.maxpool(x)
+				return x
+	</code></pre>
+	
+	<pre><code id="python_code">
+		class ExpandingBlock(nn.Module):
+			'''
+			Performs an upsampling, a convolution, a concatenation of its two inputs,
+			followed by two more convolutions.
+			'''
+			def __init__(self, input_channels):
+				super(ExpandingBlock, self).__init__()
+				
+				# "Every step in the expanding path consists of an upsampling of the feature map"
+				self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)      
+				self.conv1 = nn.Conv2d(input_channels, input_channels//2, kernel_size=3, padding=(1,1))
+				self.conv2 = nn.Conv2d(input_channels, input_channels//2, kernel_size=3, padding=(1,1))
+				self.conv3 = nn.Conv2d(input_channels//2, input_channels//2, kernel_size=3, padding=(1,1))
+				
+				self.activation = nn.ReLU() # "each followed by a ReLU"
+		 
+			def forward(self, x, skip_con_x):
+				'''
+				Function for completing a forward pass of ExpandingBlock: 
+				Given an image tensor, completes an expanding block and returns the transformed tensor.        
+				'''
+				x = self.upsample(x)
+				x = self.conv1(x)        
+				x = torch.cat([x, skip_con_x], axis=1)
+				x = self.conv2(x)
+				x = self.activation(x)
+				x = self.conv3(x)
+				x = self.activation(x)
+				return x
+	</code></pre>
 
 
 
@@ -23258,6 +23320,24 @@ Github Link: https://github.com/sgautam666
 
 <script type="text/javascript" src="custom_mathjax_source">
 </script>
+
+    <script type="text/javascript">
+        window.onload = function(){
+            var codeElement = document.getElementById('python_code');
+            // Add code mirror class for coloring (default is the theme)
+            codeElement.classList.add( 'cm-s-default' );
+            var code = codeElement.innerText;
+
+            codeElement.innerHTML = "";
+
+            CodeMirror.runMode(
+              code,
+              'python',
+              codeElement
+            );
+        };
+    </script>
+
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 </body>
