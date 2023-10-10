@@ -93,6 +93,9 @@
 
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
+  
+  
+  
   </style>
 </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
@@ -7807,6 +7810,17 @@ div.jp-Cell-Placeholder-content-3 {
   top: 140px;
 }
 
+figure {
+  padding: 4px;
+  margin: auto;
+}
+
+figcaption {
+
+  font-style: italic;
+  padding: 2px;
+  text-align: center;
+}
 </style>
 
     <style type="text/css">
@@ -22887,25 +22901,31 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 -->
 <p>Seismic image gives a structural snapshot of the Earth’s subsurface at a time. A sound wave is sent to the subsurface from a ‘source’, which travels through the Earth’s layer at different velocity and gets reflected, refracted or diffracted along its way. In seismic imaging, we record the waves that are reflected back from different geological layers and stack them to create a 2D or 3D image. Because different geological layers have different physical properties, at the boundary between layers, the waves are reflected due to density contrast. There are different kinds of waves, but in imaging we are mostly focused on P-waves (compressional waves). The cartoon below gives you an example of seismic acquisition and actual image after collecting all the waves.</p>
 
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/Seis_Vessel.png" width="900" >
-</p>
-Source: Author
 
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/Seis_Example.png" width="900">
-</p>
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/Seis_Vessel.png"  width="900">
+  <figcaption>Source: Author</figcaption>
+</figure>
 
-An example of seismic image (Source: Force Competition, see Reference)
+<br>
+
+
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/Seis_Example.png" width="900">
+  <figcaption>An example of seismic image (Source: Force Competition, see Reference)r</figcaption>
+</figure>
 
     
 
 <h2>So whose fault is it?</h2>
 <p>Faults are geological structures created by a combination of numerous physical processes such as pressures, gravity, plate tectonics etc. These are the cracks or planes along which block of rocks slips across. Faults comes in all kind of sizes, from few meters to miles. The San Andreas Fault is an example of very large scale strike-slip faulting (also called Transform Fault).</p> 
 <p>There are three major types of faults as shown in below:</p>
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/Faults_Types.png" width="900" ></p>
 
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/Faults_Types.png" width="900">
+  <figcaption>“Fault Types” by the National Park Service. Adapted by Steven Earle. Public domain (https://opentextbc.ca/physicalgeology2ed/chapter/12-3-fracturing-and-faulting/)</figcaption>
+</figure>
 
-
-“Fault Types” by the National Park Service. Adapted by Steven Earle. Public domain (https://opentextbc.ca/physicalgeology2ed/chapter/12-3-fracturing-and-faulting/)
 <h2>Significance of Fault Mapping in seismic data</h2>
 <p>Fault mapping is one of the important aspects of seismic exploration as the careful analysis of faults may help in understanding if there is likelihood of finding oil/gas reservoir in the subsurface. In the early exploration phase, two points are critical:</p>
 
@@ -22929,15 +22949,20 @@ An example of seismic image (Source: Force Competition, see Reference)
 <h2>Data Exploration</h2>
 <p>The data for this study comes in a SEG-Y format which is industry standard for seismic data (SEG stands for Society of Exploration Geophysicists). This is specialized data format and I used a python library called ‘segyio’ designed to read this type of data. Since I am using a 3D dataset, the segyio can readily convert the data into a 3D NumPy array. An example of 3D grid structure is shown below which also shows three planar surfaces: inline, crossline & z-slice. These are the 2D surfaces commonly used in seismic industries to visualize the data. A link to my github page will be provided at the end of this article for the full notebook.</p>
 
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/3DGrid.png" width="900" ></p>
 
-A 3D seismic grid with an example of 2D seismic display along the Inline direction with Fault overlay (Image by Author)
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/3DGrid.png" width="900">
+  <figcaption>A 3D seismic grid with an example of 2D seismic display along the Inline direction with Fault overlay (Image by Author)</figcaption>
+</figure>
+
 <h2>Deep Convolution Network</h2>
 <p>The fault mapping can be categorized as a type of image segmentation task. Since, we want the output of the neural network to be full resolution image, a U-Net framework is suitable for this type of task. The U-Net framework was originally developed for image segmentation task in the field of Biomedical technology. A general schematics of the U-Net framework is shown below:</p>
 
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/U_Net _framework.png" width="900" </p>
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/U_Net _framework.png" width="900">
+  <figcaption>U-Net Framework (Image by Rachel Zhiquing Zheng, see Reference)</figcaption>
+</figure>
 
-U-Net Framework (Image by Rachel Zhiquing Zheng, see Reference)
 <p>The U-Net has two distinct flow paths:</p>
 
 <p>i) a forward path of contraction involving several downsampling steps. This is the encoder section of the U-Net which involves two 3x3 convolutions followed by a ReLU, a 2x2 max pooling and a stride of 2 for downsampling. The original U-Net implementation uses an ‘unpadded’ convolutions which result into reduced size of the final output.</p>
@@ -22969,9 +22994,12 @@ skip_con_x: the image tensor from the contracting path</p>
 <h2>Training Data</h2>
 <p>I will be using two volumes of data for this study: a seismic cube and fault cube, where the seismic cube will be a training data and fault cube will be a label data. The fault data has a series of manually mapped surfaces which has been 0 and 1. The image on the left is a 2D seismic display in the inline direction where as on the right is the same display overlain with faults.</p>
 
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/Fault_overlay.PNG" width="900" ></p>
 
-A seismic example with fault overlay
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/Fault_overlay.PNG" width="900">
+  <figcaption>A seismic example with fault overlay</figcaption>
+</figure>
+
 <p>Can you notice the actual appearance of faults on the left image?
 
 <p>The original input data provided has the shape of (101, 589, 751). This means there are 101 inlines, 589 crosslines and 751 samples. Note that the seismic images are not RGB images, therefore they can be treated as a single channel grayscale images. The number of inlines can be treated as batch size, and along the inline we will have 2D image of shape 589 x 751 pixels.</p>
@@ -22986,7 +23014,11 @@ So, our input tensors is of shape (101, 1, 589, 751), where 1 is for single chan
 
 <h2>Result</h2>
 <p>The images below are collected randomly at 3 different epochs. Notice, at Epoch of 4, the model is already starting to get a sense of faults and by Epoch of 19, it has managed to map the fault very closely.</p>
-<p><img src="https://www.kamelchehboun.me/posts/8b70757g/Results.PNG" width="900" ></p>
+
+<figure>
+  <img src="https://www.kamelchehboun.me/posts/8b70757g/Results.PNG" width="900">
+
+</figure>
 
 
 <p>If we look at the model performance, the loss function drops dramatically within the 5 Epochs and remains stable about 15 Epochs. Such quick drop in model loss is probably because of the clean synthetic data used for training.</p>
